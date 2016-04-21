@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/~finkr/svn/physikda/!svn/ver/5/code/sim/quad-edge/svl-1.5/makefiles
+END
+config-sunos-gcc.mf
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/~finkr/svn/physikda/!svn/ver/4/code/sim/quad-edge/svl-1.5/makefiles/config-sunos-gcc.mf
+END
+svl.mf
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/~finkr/svn/physikda/!svn/ver/4/code/sim/quad-edge/svl-1.5/makefiles/svl.mf
+END
+config-sgi-n32.mf
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/~finkr/svn/physikda/!svn/ver/4/code/sim/quad-edge/svl-1.5/makefiles/config-sgi-n32.mf
+END
+config.mf
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/~finkr/svn/physikda/!svn/ver/5/code/sim/quad-edge/svl-1.5/makefiles/config.mf
+END
+config-sgi-o32.mf
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/~finkr/svn/physikda/!svn/ver/4/code/sim/quad-edge/svl-1.5/makefiles/config-sgi-o32.mf
+END
+lib.mf
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/~finkr/svn/physikda/!svn/ver/4/code/sim/quad-edge/svl-1.5/makefiles/lib.mf
+END
+prog.mf
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/~finkr/svn/physikda/!svn/ver/4/code/sim/quad-edge/svl-1.5/makefiles/prog.mf
+END
+config-alpha.mf
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/~finkr/svn/physikda/!svn/ver/4/code/sim/quad-edge/svl-1.5/makefiles/config-alpha.mf
+END
+config-solaris-gcc.mf
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/~finkr/svn/physikda/!svn/ver/4/code/sim/quad-edge/svl-1.5/makefiles/config-solaris-gcc.mf
+END
+config-sgi-n64.mf
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/~finkr/svn/physikda/!svn/ver/4/code/sim/quad-edge/svl-1.5/makefiles/config-sgi-n64.mf
+END
+config-linux_RH.mf
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/~finkr/svn/physikda/!svn/ver/4/code/sim/quad-edge/svl-1.5/makefiles/config-linux_RH.mf
+END
+config-OSX.mf
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/~finkr/svn/physikda/!svn/ver/4/code/sim/quad-edge/svl-1.5/makefiles/config-OSX.mf
+END

@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/~finkr/svn/physikda/!svn/ver/37/code/sim/quad-edge/svl-1.5/test
+END
+out.ref
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/~finkr/svn/physikda/!svn/ver/4/code/sim/quad-edge/svl-1.5/test/out.ref
+END
+SVLTest.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/~finkr/svn/physikda/!svn/ver/37/code/sim/quad-edge/svl-1.5/test/SVLTest.cpp
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/~finkr/svn/physikda/!svn/ver/4/code/sim/quad-edge/svl-1.5/test/Makefile
+END

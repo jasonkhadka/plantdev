@@ -1,0 +1,85 @@
+8
+
+dir
+56
+https://finkr@svn.cip.ifi.lmu.de/~finkr/svn/physikda/code/sim/quad-edge/svl-1.5
+https://finkr@svn.cip.ifi.lmu.de/~finkr/svn/physikda
+
+
+
+2009-05-25T12:10:42.261422Z
+49
+finkr
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+f205af54-cc28-4d2c-849c-8f9318908340
+
+test
+dir
+
+makefiles
+dir
+
+LICENSE
+file
+
+
+
+
+2009-06-08T10:01:03.000000Z
+0e1961e45d1dc6e95c87dab213c46ab4
+2008-12-16T17:52:19.250904Z
+4
+finkr
+
+include
+dir
+
+doc
+dir
+
+lib
+dir
+
+src
+dir
+
+Makefile
+file
+
+
+
+
+2009-06-08T10:01:03.000000Z
+537230ad10bdc65a9d7c375779425260
+2008-12-16T17:52:19.250904Z
+4
+finkr
+
+README
+file
+
+
+
+
+2009-06-08T10:01:03.000000Z
+c855f16a3f13830cba726a89900a239f
+2008-12-16T17:52:19.250904Z
+4
+finkr
+
+packages
+dir
+
