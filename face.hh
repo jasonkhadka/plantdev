@@ -7,6 +7,7 @@
 #define faceINCLUDED
 
 #include "edge.hh"
+#include "vertex.hh"
 
 class Cell;
 
@@ -100,7 +101,36 @@ class Face
    *         must be nonnull
    */
   void removeEdge(Edge *edge);
-    
+  
+  //********************added features ****************************//
+  /*
+   * Return the first vertex of this face.
+   * <- a vertex that is adjacent to this face;
+   *    null if degenerate
+   */
+  Vertex *getVertex();
+  /**
+   * Return the ith vertex of this face. 
+   * <- ith vertex on this face
+   */
+   Vertex *getIthVertex(unsigned int position);
+  /**
+   * Add a given vertex to this face
+   * vertex -> a vertex to be added to this face
+   *           is one of the vertex forming the face
+   *           must be nonnull
+   */
+   void addVertex(Vertex *vertex);
+
+   /**
+   * Remove a given vertex from this face
+   * vertex -> a vertex to be removed to this face
+   *           is one of the vertex forming the face
+   *           must be nonnull
+   */
+   
+   void removeVertex(Vertex *vertex);
+   //********************end added features ****************************//
   /* -- protected instance methods ----------------------------------------- */
 
   protected:
@@ -159,6 +189,7 @@ class Face
     * this function returns the value of area
     */
     double getAreaOfFace();
+  //***************added features*******************************************//
    /**
     * The vertices in this face
     * nonnull
@@ -175,6 +206,7 @@ class Face
      * Greater than or equal to _vertexCount_.
      */
     unsigned int vertexSize;
+  //***************end added features****************************************//
   /* ----------Public instance methods ---------*/
   public:
 
@@ -184,21 +216,6 @@ class Face
    */
   unsigned int countVertices();
 
-  /*
-   * Add a given vertex to this cell.
-   * vertex -> the vertex to add;
-   *           must be nonnull;
-   *           must not be in the cell
-   */
-  //void addVertex(Vertex *vertex);
-
-  /*
-   * Remove a given vertex from this cell.
-   * vertex -> the vertex to remove;
-   *           must be nonnull;
-   *           must be in the cell
-   */
-  //void removeVertex(Vertex *vertex);
 };
 /* ----- inline instance methods --------------------------------*/
 inline unsigned int Face::countVertices()
@@ -222,7 +239,16 @@ inline Edge *Face::getEdge()
 {
   return edge;
 }
-
+//************added features***************************************//
+inline Vertex *Face::getVertex()
+{
+  return vertices[0];
+}
+inline Vertex *Face::getIthVertex(unsigned int position)
+{
+  return vertices[position];
+}
+//************ end added features **********************************//
 /* ----------------------------------------------------------------------------
  * FaceEdgeIterator
  * ------------------------------------------------------------------------- */

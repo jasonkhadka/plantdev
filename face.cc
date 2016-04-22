@@ -10,6 +10,7 @@
 #include "cell.hh"
 #include "edge.hh"
 #include "face.hh"
+#include "vertex.hh"
 
 /* ----------------------------------------------------------------------------
  * Face
@@ -20,7 +21,6 @@
 Face *Face::make(Cell *cell)
 {
   assert(cell!=0);
-
   return new Face(cell);
 }
 
@@ -76,6 +76,48 @@ void Face::setAreaOfFace(){
 	}
 	this->areaOfFace = 0.5*areasum;//storing the area of the face in areaOfFace variable
 }
+//******************added features********************************//
+ void Face::addVertex(Vertex *vertex)
+   {
+    assert(vertex!=0);
+
+  // expand the vertex array, if necessary
+
+  if (vertexCount>=vertexSize)
+  {
+    unsigned int vertexSizeNew = vertexSize*2;
+    Vertex     **verticesNew   = new Vertex*[vertexSizeNew];
+
+    for (unsigned int i = 0; i<vertexCount; i++)
+      verticesNew[i] = vertices[i];
+
+    delete[] vertices;
+
+    vertices   = verticesNew;
+    vertexSize = vertexSizeNew;
+  }
+
+
+void Face::removeVertex(Vertex *vertex)
+{
+  assert(vertex!=0);
+
+  // locate the vertex in the array and replace it with the current last vertex
+  // if already the last vertex, just overwrite it
+  // slow: should make this a doubly-linked list ???
+
+  for (unsigned int i = vertexCount; i>0; i--)
+    if (vertices[i-1]==vertex)
+    {
+      vertices[i-1] = vertices[--vertexCount];
+      return;
+    }
+
+  assert(0);
+}
+
+
+  //****************** end added features********************************//
 /* -- protected instance methods ------------------------------------------- */
 
 Face::Face(Cell *cell)
@@ -86,12 +128,23 @@ Face::Face(Cell *cell)
   this->id   = cell->makeFaceID();
   this->data = 0;
   this->edge = 0;
-
+  //***************added features*******************************************//
+  this->vertices = new Vertex*[8];
+  this->vertexCount = 0;
+  this->vertexSize = 8;
+  //***************end added features*******************************************//
   cell->addFace(this);
 }
 
 Face::~Face()
 {
+  //***************added features***************************************//
+  {
+    for (unsigned int i = vertexCount; i>0; i--)
+      Vertex::kill(vertices[i-1]);
+  }
+  delete[] vertices;
+  //***************end added features*************************************//
   cell->removeFace(this);
 }
 
