@@ -242,6 +242,18 @@ class Face(_object):
     def removeEdge(self, edge):
         return _quadedge.Face_removeEdge(self, edge)
 
+    def getVertex(self):
+        return _quadedge.Face_getVertex(self)
+
+    def getIthVertex(self, position):
+        return _quadedge.Face_getIthVertex(self, position)
+
+    def addVertex(self, vertex):
+        return _quadedge.Face_addVertex(self, vertex)
+
+    def removeVertex(self, vertex):
+        return _quadedge.Face_removeVertex(self, vertex)
+
     def countVertices(self):
         return _quadedge.Face_countVertices(self)
 Face_swigregister = _quadedge.Face_swigregister

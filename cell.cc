@@ -1,4 +1,3 @@
-yiu
 /* ============================================================================
  * p2/cell/cell.cc
  * ========================================================================= */
@@ -34,7 +33,12 @@ Cell *Cell::make()
   edge->setDest(vertex);
   edge->setLeft(left);
   edge->setRight(right);
-
+//********************* added features *****************************************//
+  //adding vertex to left and right face
+  left->addVertex(vertex);
+  right->addVertex(vertex);
+//********************* end added features *****************************************//
+  
   return cell;
 }
 
@@ -142,7 +146,11 @@ Edge *Cell::makeVertexEdge(Vertex *vertex, Face *left, Face *right)
 
   // all edges leaving the destination orbit of the new edge now have the new
   // vertex as their vertex of origin
-
+//********************* added features *****************************************//
+  //adding vertex to left and right face
+  left->addVertex(vertex);
+  right->addVertex(vertex);
+//********************* end added features *****************************************//
   setOrbitOrg(edgeNew->Sym(), vertexNew);
 
   return edgeNew;

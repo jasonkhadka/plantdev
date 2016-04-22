@@ -68,7 +68,7 @@ double Face::getAreaOfFace(){
 void Face::setAreaOfFace(){
 	FaceEdgeIterator edges(this);//iterator to iterate through the face
 	Edge *newedge;//a pointer to keep track of current edge
-	double areasum;//variable to store the area of the face
+	double areasum = 0;//variable to store the area of the face
 	unsigned int faceid = this->id;//getting the faceid
 	//looping through all the edges in the face until exhausted
 	while ((newedge = edges.next())!=0){
@@ -96,10 +96,14 @@ void Face::setAreaOfFace(){
     vertices   = verticesNew;
     vertexSize = vertexSizeNew;
   }
+  
+  // add the vertex to the end of the array
 
+  vertices[vertexCount++] = vertex;
+  }
 
-void Face::removeVertex(Vertex *vertex)
-{
+  void Face::removeVertex(Vertex *vertex)
+  {
   assert(vertex!=0);
 
   // locate the vertex in the array and replace it with the current last vertex
@@ -114,7 +118,7 @@ void Face::removeVertex(Vertex *vertex)
     }
 
   assert(0);
-}
+  }
 
 
   //****************** end added features********************************//
