@@ -148,8 +148,8 @@ Edge *Cell::makeVertexEdge(Vertex *vertex, Face *left, Face *right)
   // vertex as their vertex of origin
 //********************* added features *****************************************//
   //adding vertex to left and right face
-  left->addVertex(vertex);
-  right->addVertex(vertex);
+  left->addVertex(vertexNew);
+  right->addVertex(vertexNew);
 //********************* end added features *****************************************//
   setOrbitOrg(edgeNew->Sym(), vertexNew);
 
@@ -298,7 +298,7 @@ void Cell::addVertex(Vertex *vertex)
   if (vertexCount>=vertexSize)
   {
     unsigned int vertexSizeNew = vertexSize*2;
-    Vertex     **verticesNew   = new Vertex*[vertexSizeNew];
+    Vertex **verticesNew   = new Vertex*[vertexSizeNew];
 
     for (unsigned int i = 0; i<vertexCount; i++)
       verticesNew[i] = vertices[i];
