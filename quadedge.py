@@ -124,6 +124,9 @@ class Cell(_object):
     def countVertices(self):
         return _quadedge.Cell_countVertices(self)
 
+    def getIthVertex(self, position):
+        return _quadedge.Cell_getIthVertex(self, position)
+
     def addVertex(self, vertex):
         return _quadedge.Cell_addVertex(self, vertex)
 

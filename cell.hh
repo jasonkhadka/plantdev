@@ -130,6 +130,11 @@ class Cell
    * <- the number of vertices
    */
   unsigned int countVertices();
+  /**
+   * Return the ith vertex of this face. 
+   * <- ith vertex on this face
+   */
+   Vertex *getIthVertex(unsigned int position);
 
   /*
    * Add a given vertex to this cell.
@@ -330,7 +335,10 @@ inline unsigned int Cell::totalVertexSize()
 {
   return vertexSize;
 }
-
+inline Vertex *Cell::getIthVertex(unsigned int position)
+{
+  return vertices[position];
+}
 /* ----------------------------------------------------------------------------
  * CellVertexIterator
  * ------------------------------------------------------------------------- */

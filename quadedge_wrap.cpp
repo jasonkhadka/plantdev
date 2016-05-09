@@ -3095,12 +3095,6 @@ SWIGINTERNINLINE PyObject*
 }
 
 
-#include "list.hh"
-
-
-#include "face.hh"
-
-
 #include <limits.h>
 #if !defined(SWIG_NO_LLONG_MAX)
 # if !defined(LLONG_MAX) && defined(__GNUC__) && defined (__LONG_LONG_MAX__)
@@ -3264,6 +3258,12 @@ SWIG_AsVal_unsigned_SS_int (PyObject * obj, unsigned int *val)
   }  
   return res;
 }
+
+
+#include "list.hh"
+
+
+#include "face.hh"
 
 
 #include "edge.hh"
@@ -3596,6 +3596,37 @@ SWIGINTERN PyObject *_wrap_Cell_countVertices(PyObject *SWIGUNUSEDPARM(self), Py
   arg1 = reinterpret_cast< Cell * >(argp1);
   result = (unsigned int)(arg1)->countVertices();
   resultobj = SWIG_From_unsigned_SS_int(static_cast< unsigned int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getIthVertex(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  Vertex *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Cell_getIthVertex",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getIthVertex" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Cell_getIthVertex" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (Vertex *)(arg1)->getIthVertex(arg2);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Vertex, 0 |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -6217,6 +6248,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_makeFaceEdge", _wrap_Cell_makeFaceEdge, METH_VARARGS, NULL},
 	 { (char *)"Cell_killFaceEdge", _wrap_Cell_killFaceEdge, METH_VARARGS, NULL},
 	 { (char *)"Cell_countVertices", _wrap_Cell_countVertices, METH_VARARGS, NULL},
+	 { (char *)"Cell_getIthVertex", _wrap_Cell_getIthVertex, METH_VARARGS, NULL},
 	 { (char *)"Cell_addVertex", _wrap_Cell_addVertex, METH_VARARGS, NULL},
 	 { (char *)"Cell_removeVertex", _wrap_Cell_removeVertex, METH_VARARGS, NULL},
 	 { (char *)"Cell_totalVertexSize", _wrap_Cell_totalVertexSize, METH_VARARGS, NULL},
