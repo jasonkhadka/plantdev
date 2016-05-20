@@ -3266,6 +3266,9 @@ SWIG_AsVal_unsigned_SS_int (PyObject * obj, unsigned int *val)
 #include "face.hh"
 
 
+  #define SWIG_From_double   PyFloat_FromDouble 
+
+
 #include "edge.hh"
 
 
@@ -3368,9 +3371,6 @@ SWIG_AsCharPtrAndSize(PyObject *obj, char** cptr, size_t* psize, int *alloc)
 
 
 #include "vertex.hh"
-
-
-  #define SWIG_From_double   PyFloat_FromDouble 
 
 #ifdef __cplusplus
 extern "C" {
@@ -4348,6 +4348,114 @@ SWIGINTERN PyObject *_wrap_Face_removeVertex(PyObject *SWIGUNUSEDPARM(self), PyO
   arg2 = reinterpret_cast< Vertex * >(argp2);
   (arg1)->removeVertex(arg2);
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setCentralisedCoordinate(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_setCentralisedCoordinate",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setCentralisedCoordinate" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->setCentralisedCoordinate();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getXCentralised(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getXCentralised",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getXCentralised" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getXCentralised();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getYCentralised(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getYCentralised",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getYCentralised" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getYCentralised();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setAreaOfFace(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_setAreaOfFace",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setAreaOfFace" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->setAreaOfFace();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getAreaOfFace(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getAreaOfFace",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getAreaOfFace" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getAreaOfFace();
+  resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
   return NULL;
@@ -6280,6 +6388,11 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getIthVertex", _wrap_Face_getIthVertex, METH_VARARGS, NULL},
 	 { (char *)"Face_addVertex", _wrap_Face_addVertex, METH_VARARGS, NULL},
 	 { (char *)"Face_removeVertex", _wrap_Face_removeVertex, METH_VARARGS, NULL},
+	 { (char *)"Face_setCentralisedCoordinate", _wrap_Face_setCentralisedCoordinate, METH_VARARGS, NULL},
+	 { (char *)"Face_getXCentralised", _wrap_Face_getXCentralised, METH_VARARGS, NULL},
+	 { (char *)"Face_getYCentralised", _wrap_Face_getYCentralised, METH_VARARGS, NULL},
+	 { (char *)"Face_setAreaOfFace", _wrap_Face_setAreaOfFace, METH_VARARGS, NULL},
+	 { (char *)"Face_getAreaOfFace", _wrap_Face_getAreaOfFace, METH_VARARGS, NULL},
 	 { (char *)"Face_countVertices", _wrap_Face_countVertices, METH_VARARGS, NULL},
 	 { (char *)"Face_swigregister", Face_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_FaceEdgeIterator", _wrap_new_FaceEdgeIterator, METH_VARARGS, NULL},

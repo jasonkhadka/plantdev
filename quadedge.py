@@ -257,6 +257,21 @@ class Face(_object):
     def removeVertex(self, vertex):
         return _quadedge.Face_removeVertex(self, vertex)
 
+    def setCentralisedCoordinate(self):
+        return _quadedge.Face_setCentralisedCoordinate(self)
+
+    def getXCentralised(self):
+        return _quadedge.Face_getXCentralised(self)
+
+    def getYCentralised(self):
+        return _quadedge.Face_getYCentralised(self)
+
+    def setAreaOfFace(self):
+        return _quadedge.Face_setAreaOfFace(self)
+
+    def getAreaOfFace(self):
+        return _quadedge.Face_getAreaOfFace(self)
+
     def countVertices(self):
         return _quadedge.Face_countVertices(self)
 Face_swigregister = _quadedge.Face_swigregister

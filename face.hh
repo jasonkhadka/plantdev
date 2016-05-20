@@ -169,26 +169,25 @@ class Face
    * Null if degenerate.
    */
   Edge *edge;
+  /**
+   * x centralised coordinate 
+   * of this face or (cell in biology) goes through all the vertices in 
+   * the face and calculates the centralised cordinates
+   */
+  double xCentralised;
+  /**
+   * y centralised coordinate 
+   * of this face or (cell in biology) goes through all the vertices in 
+   * the face and calculates the centralised cordinates
+   */
+  double yCentralised;
   /*
    * Area of face
    * Positive
    * stored as Area = 1/2* \sum_{edges} A_k
    */
    double areaOfFace;
- /* -- public instance methods ----------------------------------------- */
-  /*
-   * set area of face 
-   * areaOfFace
-   * no need for input as this function directly goes through all edges
-   * and sums up the Ak values
-   * and assigns the area value to areaOfFace variable
-   */
-   void setAreaOfFace();
-   /*
-    * get area of face
-    * this function returns the value of area
-    */
-    double getAreaOfFace();
+
   //***************added features*******************************************//
    /**
     * The vertices in this face
@@ -209,12 +208,41 @@ class Face
   //***************end added features****************************************//
   /* ----------Public instance methods ---------*/
   public:
-
+ /* -- public instance methods ----------------------------------------- */
+  /**
+   * set centralised Coordinates of this face
+   */
+   void setCentralisedCoordinate();
+  /**
+   * get x centralised coordiante of this face
+   */
+   double getXCentralised();
+   /**
+   * set y centralised coordiante of this face
+   */
+   double getYCentralised();
+  /*
+   * set area of face 
+   * areaOfFace
+   * no need for input as this function directly goes through all edges
+   * and sums up the Ak values
+   * and assigns the area value to areaOfFace variable
+   */
+  void setAreaOfFace();
+   /*
+    * get area of face
+    * this function returns the value of area
+    */
+  double getAreaOfFace();
   /*
    * Return the number of vertices in this cell.
    * <- the number of vertices
    */
   unsigned int countVertices();
+  /**
+   * Set the centralised coordinate for this face
+   * using centralised coordinat
+   */
 
 };
 /* ----- inline instance methods --------------------------------*/
@@ -247,6 +275,14 @@ inline Vertex *Face::getVertex()
 inline Vertex *Face::getIthVertex(unsigned int position)
 {
   return vertices[position];
+}
+inline double Face::getXCentralised()
+{
+  return xCentralised;
+}
+inline double Face::getYCentralised()
+{
+  return yCentralised;
 }
 //************ end added features **********************************//
 /* ----------------------------------------------------------------------------

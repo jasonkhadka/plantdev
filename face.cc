@@ -38,7 +38,7 @@ void Face::setID(unsigned int id)
 
   this->id = id;
 }
-
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
 void Face::addEdge(Edge *edge)
 {
   assert(edge!=0);
@@ -47,7 +47,7 @@ void Face::addEdge(Edge *edge)
 
   this->edge = edge;
 }
-
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
 void Face::removeEdge(Edge *edge)
 {
   assert(edge!=0);
@@ -60,11 +60,35 @@ void Face::removeEdge(Edge *edge)
 
   this->edge = next!=edge ? next : 0;
 }
-
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+void Face::setCentralisedCoordinate(){
+  FaceEdgeIterator edges(this);//iterator to iterate through the face
+  Edge *newedge;//a pointer to keep current edge
+  double area = this->areaOfFace;//area of face
+  unsigned int faceid = this->id;//getting the face id
+  //temporary variables to calculate centralised Coordinates
+  double xTemp = 0;
+  double yTemp = 0;
+  //temporary vertex pointer
+  Vertex *vertexOrg;
+  Vertex *vertexDest;
+  //now looping through all the edges of this face and calculating the cnetralised coordinate
+  while ((newedge = edges.next())!=0){//until exhausted
+    vertexOrg = newedge->Org();
+    vertexDest = newedge->Dest();
+    xTemp += (vertexOrg->getProjectedXcoordinate(id)+vertexDest->getProjectedXcoordinate(id))*
+              newedge->Ak[faceid];//summing (x_i + x_i+1)*Ak
+    yTemp += (vertexOrg->getProjectedYcoordinate(id)+vertexDest->getProjectedYcoordinate(id))*
+              newedge->Ak[faceid];//summing (y_i + y_i+1)*Ak
+  }
+  this->xCentralised = xTemp/(6*area);
+  this->yCentralised = yTemp/(6*area); 
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
 double Face::getAreaOfFace(){
 	return this->areaOfFace;
 }
-
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
 void Face::setAreaOfFace(){
 	FaceEdgeIterator edges(this);//iterator to iterate through the face
 	Edge *newedge;//a pointer to keep track of current edge
