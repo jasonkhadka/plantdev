@@ -52,9 +52,69 @@ class Vertex
     * ProjectedYcoordinate -> the projected Y coordinate of this vertex
     */
    std::map<unsigned int, double> ProjectedYcoordinate;
+   //========================Derivatives===============================//
+   /**
+    * X derivative of area of face with respect to this vertex
+    */
+    std::map<unsigned int, double> areaXDerivative;
+    /**
+    * Y derivative of area of face with respect to this vertex
+    */
+    std::map<unsigned int, double> areaYDerivative;
+    /**
+    * X derivative of Ak of face with respect to this vertex
+    */
+    std::map<unsigned int, double> AkXDerivative;
+    /**
+    * Y derivative of Ak of face with respect to this vertex
+    */
+    std::map<unsigned int, double> AkYDerivative;
+    /**
+     * X derivative of mu1_squared
+     */
+     std::map<unsigned int, double>mu1SquaredXDerivative;
+     /**
+     * X derivative of mu2_squared
+     */
+     std::map<unsigned int, double>mu2SquaredXDerivative;
+     /**
+     * X derivative of mu3_squared
+     */
+     std::map<unsigned int, double>mu3SquaredXDerivative;
+     
+    //========================AK and Functions===============================//
+/*
+    * Associative array for storing the value of function1 [f1(k)]
+    * Key : Face ID -- unsigned int
+    * Value : function1 valued at origin and destination of this edge -- double
+    * Function1 [f1(k)] -> y_k^2 + y_k y_{k+1} + y_{k+1}^2 
+    */
+   std::map<unsigned int, double> Function1;
+   /*
+    * Associative array for storing the value of function2 [f2(k)]
+    * Key : Face ID -- unsigned int
+    * Value : function2 valued at origin and destination of this edge -- double
+    * Function2 [f2(k)] ->  x_k*y_{k+1}+2x_k*y_k+2x_{k+1}*y_{k+1}+x_{k+1}y_k
+    */
+   std::map<unsigned int, double> Function2;
+   /*
+    * Associative array for storing the value of function3 [f3(k)]
+    * Key : Face ID -- unsigned int
+    * Value : function3 valued at origin and destination of this edge -- double
+    * Function3 [f3(k)] -> x_k^2 + x_k x_{k+1} + x_{k+1}^2 
+    */
+   std::map<unsigned int, double> Function3;
+   // *************************************************************//
+   /*
+    * Associative array for storing the value of Ak [Ak(k)]
+    * Key : Face ID -- unsigned int
+    * Value : Ak valued at origin and destination of this edge -- double
+    * Ak[ak(k)] -> x_k*y_{k+1} - x_{k+1}*y_k 
+    */
+   std::map<unsigned int, double> Ak;
+
   /* -- public class methods ----------------------------------------------- */
   public:
-
   /*
    * Return a new vertex at the origin with no outgoing edges.
    * cell -> the cell that the vertex belongs to;
@@ -135,7 +195,6 @@ class Vertex
    *    will be positive
    */
   unsigned int getID();
-
   /*
    * Change the ID of this vertex.
    * id -> the new id for this vertex;
@@ -172,6 +231,85 @@ class Vertex
    * return - double
    */
    double getProjectedYcoordinate(unsigned int faceid);
+   //========================Derivatives===============================//
+   /**
+    * Function to set the areaDerivative with respect to x and y given vertex
+    */
+    void setAreaDerivative();
+    /**
+    * Function to get the area Derivative with respect to X for the given vertex
+    * faceid : the id of the face on which the derivative is to be returned
+    */
+    double getAreaXDerivative(unsigned int faceid);
+    /**
+    * Function to get the area Derivative with respect to Y for the given vertex
+    * faceid : the id of the face on which the derivative is to be returned
+    */
+    double getAreaYDerivative(unsigned int faceid);
+    /*
+    * Function to set the areaXDerivative with respect to x and y for the given vertex
+    */
+    void setAkDerivative();
+    /**
+    * Function to get the AkXDerivative with respect to X for the given vertex
+    * faceid : the id of the face on which the derivative is to be returned
+    */
+    double getAkXDerivative(unsigned int faceid);
+    /**
+    * Function to get the AkXDerivative with respect to Y for the given vertex
+    * faceid : the id of the face on which the derivative is to be returned
+    */
+    double getAkYDerivative(unsigned int faceid);
+     // *************************************************************//
+   /*
+    * Set function to set the value of function1
+    * faceid : id of the face to set the key
+    * edge* : the pointer to the edge, of which origin and destination is used to calculate function1
+    * 
+    */
+    void setFunction1();
+    /*
+    * Set function to set the value of function2
+    * faceid : id of the face to set the key
+    * edge* : the pointer to the edge, of which origin and destination is used to calculate function2
+    * 
+    */
+    void setFunction2();
+    /*
+    * Set function to set the value of function3
+    * faceid : id of the face to set the key
+    * edge* : the pointer to the edge, of which origin and destination is used to calculate function3
+    * 
+    */
+    void setFunction3();
+   /*
+    * Set function to set the value of Ak
+    * will set the value of Ak for both Right and Left face of this current edge
+    */
+    void setAk();
+    //*****************************************************************//
+    /**
+     * function to get the value of Ak
+     * faceid: face id of the face on which the value of Ak is to be returned
+     */
+    double getAk(unsigned int faceid);
+  /**
+     * function to get the value of function1
+     * faceid: face id of the face on which the value of function1 is to be returned
+     */
+    double getFunction1(unsigned int faceid);
+  /**
+     * function to get the value of function2
+     * faceid: face id of the face on which the value of function2 is to be returned
+     */
+    double getFunction2(unsigned int faceid);
+  /**
+     * function to get the value of function3
+     * faceid: face id of the face on which the value of function3 is to be returned
+     */
+    double getFunction3(unsigned int faceid);
+
+
 ///////////////////////////////////////////////////////////////////////
   /*
    * Return an arbitrary outgoing edge from this vertex.
@@ -193,11 +331,9 @@ class Vertex
    *         must be nonnull
    */
   void removeEdge(Edge *edge);
-    
   /* -- protected instance methods ----------------------------------------- */
 
   protected:
-
   /*
    * Initialize this vertex at the origin with no outgoing edges.
    * cell -> the cell that this vertex belongs to;
@@ -250,7 +386,22 @@ inline Edge *Vertex::getEdge()
 {
   return edge;
 }
-
+inline double Vertex::getAk(unsigned int faceid)
+{
+  return this->Ak[faceid];
+}
+inline double Vertex::getFunction1(unsigned int faceid)
+{
+  return this->Function1[faceid];
+}
+inline double Vertex::getFunction2(unsigned int faceid)
+{
+  return this->Function2[faceid];
+}
+inline double Vertex::getFunction3(unsigned int faceid)
+{
+  return this->Function3[faceid];
+}
 /* ----------------------------------------------------------------------------
  * VertexEdgeIterator
  * ------------------------------------------------------------------------- */

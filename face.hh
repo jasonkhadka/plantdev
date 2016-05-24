@@ -113,7 +113,7 @@ class Face
    * Return the ith vertex of this face. 
    * <- ith vertex on this face
    */
-   Vertex *getIthVertex(unsigned int position);
+  Vertex *getIthVertex(unsigned int position);
   /**
    * Add a given vertex to this face
    * vertex -> a vertex to be added to this face
@@ -205,10 +205,30 @@ class Face
      * Greater than or equal to _vertexCount_.
      */
     unsigned int vertexSize;
+   /**
+    * targetFormMatrix of this face (or cell in biological terms)
+    * **for now this is jsut the form matrix of current shape
+    */
+    double targetFormMatrix[2][2];
+    /**
+     * values of mu1, mu2, mu3, mu4
+     * Needed to calculate the analytic jacobian
+     */
+     double mu1, mu2, mu3, mu4;
   //***************end added features****************************************//
   /* ----------Public instance methods ---------*/
   public:
  /* -- public instance methods ----------------------------------------- */
+  /**
+   * function to set the value of mu1, mu2, mu3, mu4
+   */
+   void setMu();
+  /**
+   * the function to set the targetFormMatrix
+   * right now just the form matrix of current shape
+   * in Future : this should include the time update at each growth step
+   */
+  void setTargetFormMatrix();
   /**
    * set centralised Coordinates of this face
    */

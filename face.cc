@@ -77,9 +77,9 @@ void Face::setCentralisedCoordinate(){
     vertexOrg = newedge->Org();
     vertexDest = newedge->Dest();
     xTemp += (vertexOrg->getProjectedXcoordinate(id)+vertexDest->getProjectedXcoordinate(id))*
-              newedge->Ak[faceid];//summing (x_i + x_i+1)*Ak
+              vertexOrg->getAk(faceid);//summing (x_i + x_i+1)*Ak
     yTemp += (vertexOrg->getProjectedYcoordinate(id)+vertexDest->getProjectedYcoordinate(id))*
-              newedge->Ak[faceid];//summing (y_i + y_i+1)*Ak
+              vertexOrg->getAk(faceid);//summing (y_i + y_i+1)*Ak
   }
   this->xCentralised = xTemp/(6*area);
   this->yCentralised = yTemp/(6*area); 
@@ -94,9 +94,11 @@ void Face::setAreaOfFace(){
 	Edge *newedge;//a pointer to keep track of current edge
 	double areasum = 0;//variable to store the area of the face
 	unsigned int faceid = this->id;//getting the faceid
+  Vertex *vertexOrg;
 	//looping through all the edges in the face until exhausted
 	while ((newedge = edges.next())!=0){
-		areasum += newedge->Ak[faceid];//summing up all the Ak values for this face
+    vertexOrg = newedge->Org();
+		areasum += vertexOrg->getAk(faceid);//summing up all the Ak values for this face
 	}
 	this->areaOfFace = 0.5*areasum;//storing the area of the face in areaOfFace variable
 }
@@ -143,7 +145,63 @@ void Face::setAreaOfFace(){
 
   assert(0);
   }
-
+  void Face::setMu(){
+      //setting the values of TargetFormMatrix first, to calculate the value of Mu
+      this->setTargetFormMatrix();
+      unsigned int faceid = this->getID();//id of this face
+      //iterating this face for the vertices
+      FaceEdgeIterator faceIterator(this);
+      Edge *currentEdge;//to keep the current edge
+      Vertex *vertOrg;//to keep the current vertex
+      double ak,f1,f2,f3;//to store the values of functions
+      double term11, term12, term22; // to store the values of summing terms to calculate mu
+      //iterating through all the edges
+      while ((currentEdge = faceIterator.next())!=0){
+            vertOrg = currentEdge->Org();
+            ak = vertOrg->getAk(faceid);
+            f1 = vertOrg->getFunction1(faceid);
+            f2 = vertOrg->getFunction2(faceid);
+            f3 = vertOrg->getFunction3(faceid);
+            //calculating the sumterms
+            term11 += (1./12.)*ak*f1;
+            term12 += (1./24.)*ak*f2;
+            term22 += (1./12.)*ak*f3;
+      }
+      this->mu1 = term11 - targetFormMatrix[0][0];
+      this->mu2 = term11 - targetFormMatrix[1][0];
+      this->mu3 = this->mu2;//as mu2 and mu3 are equal
+      this->mu4 = term11 - targetFormMatrix[1][1];
+  }
+  void Face::setTargetFormMatrix(){
+    //*******************************************//
+    // this should be edited to include time update
+    // at each growth step
+    //*******************************************//
+     //iterating this face for the vertices
+    unsigned int faceid = this->getID();//id of this face
+    FaceEdgeIterator faceIterator(this);
+    Edge *currentEdge;//to keep the current edge
+    Vertex *vertOrg;//to keep the current vertex
+    double ak,f1,f2,f3;//to store the values of functions
+    double term11, term12, term22; // to store the values of matrix element
+    //iterating through all the edges
+    while ((currentEdge = faceIterator.next())!=0){
+          vertOrg = currentEdge->Org();
+          ak = vertOrg->getAk(faceid);
+          f1 = vertOrg->getFunction1(faceid);
+          f2 = vertOrg->getFunction2(faceid);
+          f3 = vertOrg->getFunction3(faceid);
+          //calculating the terms of the form matrix
+          term11 += (1./12.)*ak*f1;
+          term12 += (1./24.)*ak*f2;
+          term22 += (1./12.)*ak*f3;
+    }
+    //putting the values in the formatrix
+    this->targetFormMatrix[0][0] = term11;
+    this->targetFormMatrix[1][0] = term12;
+    this->targetFormMatrix[0][1] = term12;
+    this->targetFormMatrix[1][1] = term22;
+  }
 
   //****************** end added features********************************//
 /* -- protected instance methods ------------------------------------------- */

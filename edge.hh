@@ -286,65 +286,6 @@ class Edge
    */
   Face *face;
   // **********************************************************************// 
-  public: 
-   /*
-    * Associative array for storing the value of function1 [f1(k)]
-    * Key : Face ID -- unsigned int
-    * Value : function1 valued at origin and destination of this edge -- double
-    * Function1 [f1(k)] -> y_k^2 + y_k y_{k+1} + y_{k+1}^2 
-    */
-   std::map<unsigned int, double> Function1;
-   /*
-    * Associative array for storing the value of function2 [f2(k)]
-    * Key : Face ID -- unsigned int
-    * Value : function2 valued at origin and destination of this edge -- double
-    * Function2 [f2(k)] ->  x_k*y_{k+1}+2x_k*y_k+2x_{k+1}*y_{k+1}+x_{k+1}y_k
-    */
-   std::map<unsigned int, double> Function2;
-   /*
-    * Associative array for storing the value of function3 [f3(k)]
-    * Key : Face ID -- unsigned int
-    * Value : function3 valued at origin and destination of this edge -- double
-    * Function3 [f3(k)] -> x_k^2 + x_k x_{k+1} + x_{k+1}^2 
-    */
-   std::map<unsigned int, double> Function3;
-   // *************************************************************//
-   /*
-    * Associative array for storing the value of Ak [Ak(k)]
-    * Key : Face ID -- unsigned int
-    * Value : Ak valued at origin and destination of this edge -- double
-    * Ak[ak(k)] -> x_k*y_{k+1} - x_{k+1}*y_k 
-    */
-   std::map<unsigned int, double> Ak;
-   // *************************************************************//
-   /*
-    * Set function to set the value of function1
-    * faceid : id of the face to set the key
-    * edge* : the pointer to the edge, of which origin and destination is used to calculate function1
-    * 
-    */
-    void setFunction1(unsigned int, Edge*);
-    /*
-    * Set function to set the value of function2
-    * faceid : id of the face to set the key
-    * edge* : the pointer to the edge, of which origin and destination is used to calculate function2
-    * 
-    */
-    void setFunction2(unsigned int, Edge*);
-    /*
-    * Set function to set the value of function3
-    * faceid : id of the face to set the key
-    * edge* : the pointer to the edge, of which origin and destination is used to calculate function3
-    * 
-    */
-    void setFunction3(unsigned int, Edge*);
-   /*
-    * Set function to set the value of Ak
-    * faceid : id of the face to set the key
-    * edge* : the pointer to the edge, of which origin and destination is used to calculate function3
-    * 
-    */
-    void setAk(unsigned int, Edge*);
   /* -- friend classes ----------------------------------------------------- */
 
   friend QuadEdge;
