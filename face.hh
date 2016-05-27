@@ -211,6 +211,11 @@ class Face
     */
     double targetFormMatrix[2][2];
     /**
+     * trace of targetFormMatrix : will be updated as soon as
+     *  new targetFormMatrix is calculated
+     */
+     double traceSquaredTargetFormMatrix;
+    /**
      * values of mu1, mu2, mu3, mu4
      * Needed to calculate the analytic jacobian
      */
@@ -223,12 +228,35 @@ class Face
    * function to set the value of mu1, mu2, mu3, mu4
    */
    void setMu();
+   /**
+    * get mu1
+    */
+  double getMu1();
+    /**
+    * get mu2
+    */
+  double getMu2();
+    /**
+    * get mu3
+    */
+  double getMu3();
+    /**
+    * get mu4
+    */
+  double getMu4();
   /**
    * the function to set the targetFormMatrix
    * right now just the form matrix of current shape
    * in Future : this should include the time update at each growth step
    */
   void setTargetFormMatrix();
+  /**function to set the trace of targetformmatrix
+  */
+  void setTraceSquaredTargetFormMatrix();
+  /**
+   * getTraceTargetFormMatrix
+   */
+  double getTraceSquaredTargetFormMatrix();
   /**
    * set centralised Coordinates of this face
    */
@@ -303,6 +331,26 @@ inline double Face::getXCentralised()
 inline double Face::getYCentralised()
 {
   return yCentralised;
+}
+inline double Face::getMu1()
+{
+  return mu1;
+}
+inline double Face::getMu2()
+{
+  return mu2;
+}
+inline double Face::getMu3()
+{
+  return mu3;
+}
+inline double Face::getMu4()
+{
+  return mu4;
+}
+inline double Face::getTraceSquaredTargetFormMatrix()
+{
+  return traceSquaredTargetFormMatrix;
 }
 //************ end added features **********************************//
 /* ----------------------------------------------------------------------------

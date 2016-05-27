@@ -13,7 +13,10 @@
 /* ----------------------------------------------------------------------------
  * Cell
  * ------------------------------------------------------------------------- */
-
+// added features //
+ void Cell::setPressure(double inputpressure){
+      this->pressure = inputpressure;
+ }
 /* -- public class methods ------------------------------------------------- */
 
 Cell *Cell::make()

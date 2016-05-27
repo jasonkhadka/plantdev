@@ -252,9 +252,7 @@ class Cell
    *         must be nonnull
    */
   void setOrbitLeft(Edge *edge, Face *left);
-
   /* -- private instance variables ----------------------------------------- */
-
   private:
 
   /*
@@ -302,7 +300,22 @@ class Cell
    * The next unused face ID.
    */
   unsigned int faceID;
-
+  /**
+   * Pressure of cells (faces) on this tissue
+   */
+  double pressure;
+  // **************************************************************** //
+  // Public instance method //
+public:
+  /**
+   * setting the pressure acting on the cells of this tissue
+   * in the faces in quadedge 
+   */
+  void setPressure(double );
+  /**
+   * function to get the pressure of the cell
+   */
+  double getPressure();
   /* -- friend classes ----------------------------------------------------- */
 
   friend CellVertexIterator;
@@ -311,6 +324,10 @@ class Cell
 };
 
 /* -- inline instance methods ---------------------------------------------- */
+inline double Cell::getPressure()
+{
+  return pressure;
+}
 
 inline unsigned int Cell::countVertices()
 {

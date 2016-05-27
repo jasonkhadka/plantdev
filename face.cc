@@ -154,7 +154,7 @@ void Face::setAreaOfFace(){
       Edge *currentEdge;//to keep the current edge
       Vertex *vertOrg;//to keep the current vertex
       double ak,f1,f2,f3;//to store the values of functions
-      double term11, term12, term22; // to store the values of summing terms to calculate mu
+      double term11(0), term12(0), term22(0); // to store the values of summing terms to calculate mu
       //iterating through all the edges
       while ((currentEdge = faceIterator.next())!=0){
             vertOrg = currentEdge->Org();
@@ -183,7 +183,7 @@ void Face::setAreaOfFace(){
     Edge *currentEdge;//to keep the current edge
     Vertex *vertOrg;//to keep the current vertex
     double ak,f1,f2,f3;//to store the values of functions
-    double term11, term12, term22; // to store the values of matrix element
+    double term11(0), term12(0), term22(0); // to store the values of matrix element
     //iterating through all the edges
     while ((currentEdge = faceIterator.next())!=0){
           vertOrg = currentEdge->Org();
@@ -201,8 +201,14 @@ void Face::setAreaOfFace(){
     this->targetFormMatrix[1][0] = term12;
     this->targetFormMatrix[0][1] = term12;
     this->targetFormMatrix[1][1] = term22;
+    this->setTraceSquaredTargetFormMatrix();
   }
-
+ void Face::setTraceSquaredTargetFormMatrix(){
+    double lambda1 = this->targetFormMatrix[0][0];
+    double lambda2 = this->targetFormMatrix[1][1];
+    double trace =  (lambda1+lambda2)*(lambda1+lambda2);
+    this->traceSquaredTargetFormMatrix = trace;
+ }
   //****************** end added features********************************//
 /* -- protected instance methods ------------------------------------------- */
 

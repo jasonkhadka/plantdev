@@ -113,7 +113,9 @@ Vertex::Vertex(Cell *cell)
   this->id     = cell->makeVertexID();
   this->data   = 0;
   this->edge   = 0;
-
+  this->Xcoordinate = 0.0;
+  this->Ycoordinate = 0.0;
+  this->Zcoordinate = 0.0;
   cell->addVertex(this);
 }
 
@@ -121,7 +123,29 @@ Vertex::~Vertex()
 {
   cell->removeVertex(this);
 }
-
+// ******************************************************* //
+void Vertex::setAk(){
+  VertexEdgeIterator vertEdges(this);//iterator to iterate through the vertex for outgoign edge
+  double functionvalue, xk, xk1, yk, yk1; //variable to store function value
+    Edge *currentEdge;//pointer to keep track of a edge that is iterated 
+    while ((currentEdge = vertEdges.next())!=0){//iterating till exhausted
+        Face *left = currentEdge->Left();//grabbing the inner face of the edge
+        unsigned int innerid = left->getID();//id of inner face
+        //Edge *prevEdge = currentEdge->Lprev();//edge that is previous on the same left face
+        //grabbing j+1 and j-1 vertex
+        //Vertex *vertex1 = prevEdge->Org();//j-1
+        Vertex *vertex2 = currentEdge->Org();//j
+        Vertex *vertex3 = currentEdge->Dest();//j+1
+        xk = vertex2->getProjectedXcoordinate(innerid);
+        xk1 = vertex3->getProjectedXcoordinate(innerid);
+        yk = vertex2->getProjectedYcoordinate(innerid);
+        yk1 = vertex3->getProjectedYcoordinate(innerid);
+        //calculating the fucntion
+        functionvalue = xk*yk1 - xk1*yk;
+        //putting function1 value in the array
+        this->Ak[innerid] = functionvalue;
+  }
+}
 //========================Derivatives===============================//
 void Vertex::setAreaDerivative(){
     VertexEdgeIterator vertEdges(this);//iterator to iterate through the vertex for outgoign edge
@@ -154,7 +178,7 @@ void Vertex::setAkDerivative(){
         this->AkYDerivative[innerid] = vertex1->getProjectedXcoordinate(innerid)-vertex2->getProjectedXcoordinate(innerid);//x_{j-1}-x_{j+1}
     }
 }
-
+//***************************************************************************************//
 double Vertex::getAreaXDerivative(unsigned int faceid){
     return this->areaXDerivative[faceid];
 }
@@ -168,7 +192,160 @@ double Vertex::getAkXDerivative(unsigned int faceid){
 double Vertex::getAkYDerivative(unsigned int faceid){
     return this->AkYDerivative[faceid];
 }
+//***************************************************************************************//
+void Vertex::setMuXDerivative(){
+    VertexEdgeIterator vertEdges(this);//iterator to iterate through the vertex for outgoign edge
+    double temp1, temp3; //variable to store value of mu1squared, m2squared, mu4 sqaured derivative
+    double xk_1,yk_1,xk,yk,xk1,yk1; // varibales to store the coordinates of the vertices
+    Edge *currentEdge;//pointer to keep track of a edge that is iterated 
+    Edge *prevEdge;//edge that is previous on the same left face
+    Face *left;//inner face (left) of the currentEdge
+    unsigned int innerid; //id of inner face
+    while ((currentEdge = vertEdges.next())!=0){//iterating till exhausted
+        left = currentEdge->Left();//grabbing the inner face of the edge
+        innerid = left->getID();//id of inner face
+        prevEdge = currentEdge->Lprev();//edge that is previous on the same left face, ccw previous
+        //grabbing j+1 and j-1 vertex
+        Vertex *vertex1 = prevEdge->Org();//j-1
+        Vertex *vertex2 = currentEdge->Org();//j
+        Vertex *vertex3 = currentEdge->Dest();//j+1
+        //getting the vertices of the above vertex
+        //j-1 vertex
+        xk_1 = vertex1->getProjectedXcoordinate(innerid);
+        yk_1 = vertex1->getProjectedYcoordinate(innerid);
+        //j vertex
+        xk = vertex2->getProjectedXcoordinate(innerid);
+        yk = vertex2->getProjectedYcoordinate(innerid);
+        //j+1 vertex
+        xk1 = vertex3->getProjectedXcoordinate(innerid);
+        yk1 = vertex3->getProjectedYcoordinate(innerid);
+        //calculating xderivative of mu1squared, mu2sq, mu4sq
+        temp1 = 1./12.*((vertex2->getFunction1(innerid))*yk1-(vertex1->getFunction1(innerid))*yk_1);
+        temp3 =1./12.*((vertex2->getFunction3(innerid))*yk1-(vertex1->getFunction3(innerid))*yk_1 +
+                (vertex2->getAk(innerid))*2*xk+(vertex1->getAk(innerid))*xk_1 + 
+                (vertex2->getAk(innerid))*xk1+(vertex1->getAk(innerid))*2*xk);
+        this->mu1XDerivative[innerid] = temp1;
+        this->mu4XDerivative[innerid] = temp3;
+    }
+}
+//***************************************************************************************//
+void Vertex::setMuYDerivative(){
+    VertexEdgeIterator vertEdges(this);//iterator to iterate through the vertex for outgoign edge
+    double temp1, temp3; //variable to store value of mu1squared, m2squared, mu4 sqaured derivative
+    double xk_1,yk_1,xk,yk,xk1,yk1; // varibales to store the coordinates of the vertices
+    Edge *currentEdge;//pointer to keep track of a edge that is iterated 
+    Edge *prevEdge;//edge that is previous on the same left face
+    Face *left;//inner face (left) of the currentEdge
+    unsigned int innerid; //id of inner face
+    while ((currentEdge = vertEdges.next())!=0){//iterating till exhausted
+        left = currentEdge->Left();//grabbing the inner face of the edge
+        innerid = left->getID();//id of inner face
+        prevEdge = currentEdge->Lprev();//edge that is previous on the same left face, ccw previous
+        //grabbing j+1 and j-1 vertex
+        Vertex *vertex1 = prevEdge->Org();//j-1
+        Vertex *vertex2 = currentEdge->Org();//j
+        Vertex *vertex3 = currentEdge->Dest();//j+1
+        //getting the vertices of the above vertex
+        //j-1 vertex
+        xk_1 = vertex1->getProjectedXcoordinate(innerid);
+        yk_1 = vertex1->getProjectedYcoordinate(innerid);
+        //j vertex
+        xk = vertex2->getProjectedXcoordinate(innerid);
+        yk = vertex2->getProjectedYcoordinate(innerid);
+        //j+1 vertex
+        xk1 = vertex3->getProjectedXcoordinate(innerid);
+        yk1 = vertex3->getProjectedYcoordinate(innerid);
+        //calculating xderivative of mu1squared, mu2sq, mu4sq
+        temp1 = 1./12.*((vertex1->getFunction1(innerid))*xk_1-(vertex2->getFunction1(innerid))*xk1 +
+                (vertex2->getAk(innerid))*2*yk+(vertex1->getAk(innerid))*yk_1 + 
+                (vertex2->getAk(innerid))*yk1+(vertex1->getAk(innerid))*2*yk);
+        temp3 = 1./12.*((vertex1->getFunction3(innerid))*xk_1-(vertex2->getFunction3(innerid))*xk);
+        this->mu1YDerivative[innerid] = temp1;
+        this->mu4YDerivative[innerid] = temp3;
+    }
+}
+//***************************************************************************************//
+void Vertex::setMuSquaredXDerivative(){
+    VertexEdgeIterator vertEdges(this);//iterator to iterate through the vertex for outgoign edge
+    double temp1, temp2, temp3; //variable to store value of mu1squared, m2squared, mu4 sqaured derivative
+    double xk_1,yk_1,xk,yk,xk1,yk1; // varibales to store the coordinates of the vertices
+    Edge *currentEdge;//pointer to keep track of a edge that is iterated 
+    Edge *prevEdge;//edge that is previous on the same left face
+    Face *left;//inner face (left) of the currentEdge
+    unsigned int innerid; //id of inner face
+    while ((currentEdge = vertEdges.next())!=0){//iterating till exhausted
+        left = currentEdge->Left();//grabbing the inner face of the edge
+        innerid = left->getID();//id of inner face
+        prevEdge = currentEdge->Lprev();//edge that is previous on the same left face, ccw previous
+        //grabbing j+1 and j-1 vertex
+        Vertex *vertex1 = prevEdge->Org();//j-1
+        Vertex *vertex2 = currentEdge->Org();//j
+        Vertex *vertex3 = currentEdge->Dest();//j+1
+        //getting the vertices of the above vertex
+        //j-1 vertex
+        xk_1 = vertex1->getProjectedXcoordinate(innerid);
+        yk_1 = vertex1->getProjectedYcoordinate(innerid);
+        //j vertex
+        xk = vertex2->getProjectedXcoordinate(innerid);
+        yk = vertex2->getProjectedYcoordinate(innerid);
+        //j+1 vertex
+        xk1 = vertex3->getProjectedXcoordinate(innerid);
+        yk1 = vertex3->getProjectedYcoordinate(innerid);
+        //calculating xderivative of mu1squared, mu2sq, mu4sq
+        temp1 = (left->getMu1())*1./6.*((vertex2->getFunction1(innerid))*yk1-(vertex1->getFunction1(innerid))*yk_1);
+        temp2 = (left->getMu2())*1./12.*((vertex2->getFunction2(innerid))*yk1-(vertex1->getFunction2(innerid))*yk_1 +
+                (vertex2->getAk(innerid))*yk1+(vertex2->getAk(innerid))*2*yk + 
+                (vertex1->getAk(innerid))*yk+(vertex1->getAk(innerid))*yk_1);
+        temp3 =(left->getMu4())*1./6.*((vertex2->getFunction3(innerid))*yk1-(vertex1->getFunction3(innerid))*yk_1 +
+                (vertex2->getAk(innerid))*2*xk+(vertex1->getAk(innerid))*xk_1 + 
+                (vertex2->getAk(innerid))*xk1+(vertex1->getAk(innerid))*2*xk);
+        this->mu1SquaredXDerivative[innerid] = temp1;
+        this->mu2SquaredXDerivative[innerid] = temp2;
+        this->mu3SquaredXDerivative[innerid] = temp2;
+        this->mu4SquaredXDerivative[innerid] = temp3;
+    }
+}
 
+void Vertex::setMuSquaredYDerivative(){
+    VertexEdgeIterator vertEdges(this);//iterator to iterate through the vertex for outgoign edge
+    double temp1, temp2, temp3; //variable to store value of mu1squared, m2squared, mu4 sqaured derivative
+    double xk_1,yk_1,xk,yk,xk1,yk1; // varibales to store the coordinates of the vertices
+    Edge *currentEdge;//pointer to keep track of a edge that is iterated 
+    Edge *prevEdge;//edge that is previous on the same left face
+    Face *left;//inner face (left) of the currentEdge
+    unsigned int innerid; //id of inner face
+    while ((currentEdge = vertEdges.next())!=0){//iterating till exhausted
+        left = currentEdge->Left();//grabbing the inner face of the edge
+        innerid = left->getID();//id of inner face
+        prevEdge = currentEdge->Lprev();//edge that is previous on the same left face, ccw previous
+        //grabbing j+1 and j-1 vertex
+        Vertex *vertex1 = prevEdge->Org();//j-1
+        Vertex *vertex2 = currentEdge->Org();//j
+        Vertex *vertex3 = currentEdge->Dest();//j+1
+        //getting the vertices of the above vertex
+        //j-1 vertex
+        xk_1 = vertex1->getProjectedXcoordinate(innerid);
+        yk_1 = vertex1->getProjectedYcoordinate(innerid);
+        //j vertex
+        xk = vertex2->getProjectedXcoordinate(innerid);
+        yk = vertex2->getProjectedYcoordinate(innerid);
+        //j+1 vertex
+        xk1 = vertex3->getProjectedXcoordinate(innerid);
+        yk1 = vertex3->getProjectedYcoordinate(innerid);
+        //calculating xderivative of mu1squared, mu2sq, mu4sq
+        temp1 = (left->getMu1())*1./6.*((vertex1->getFunction1(innerid))*xk_1-(vertex2->getFunction1(innerid))*xk1 +
+                (vertex2->getAk(innerid))*2*yk+(vertex1->getAk(innerid))*yk_1 + 
+                (vertex2->getAk(innerid))*yk1+(vertex1->getAk(innerid))*2*yk);
+        temp2 = (left->getMu2())*1./12.*((vertex1->getFunction2(innerid))*xk_1-(vertex2->getFunction2(innerid))*xk1 +
+                (vertex1->getAk(innerid))*xk_1+(vertex2->getAk(innerid))*2*xk + 
+                (vertex1->getAk(innerid))*2*xk+(vertex2->getAk(innerid))*xk1);
+        temp3 =(left->getMu4())*1./6.*((vertex1->getFunction3(innerid))*xk_1-(vertex2->getFunction3(innerid))*xk);
+        this->mu1SquaredYDerivative[innerid] = temp1;
+        this->mu2SquaredYDerivative[innerid] = temp2;
+        this->mu3SquaredYDerivative[innerid] = temp2;
+        this->mu4SquaredYDerivative[innerid] = temp3;
+    }
+}
 // ******************************************************* //
 void Vertex::setFunction1(){
   VertexEdgeIterator vertEdges(this);//iterator to iterate through the vertex for outgoign edge
@@ -177,7 +354,7 @@ void Vertex::setFunction1(){
     while ((currentEdge = vertEdges.next())!=0){//iterating till exhausted
         Face *left = currentEdge->Left();//grabbing the inner face of the edge
         unsigned int innerid = left->getID();//id of inner face
-        Edge *prevEdge = currentEdge->Lprev();//edge that is previous on the same left face
+        //Edge *prevEdge = currentEdge->Lprev();//edge that is previous on the same left face
         //grabbing j+1 and j-1 vertex
         //Vertex *vertex1 = prevEdge->Org();//j-1
         Vertex *vertex2 = currentEdge->Org();//j
@@ -198,7 +375,7 @@ void Vertex::setFunction2(){
     while ((currentEdge = vertEdges.next())!=0){//iterating till exhausted
         Face *left = currentEdge->Left();//grabbing the inner face of the edge
         unsigned int innerid = left->getID();//id of inner face
-        Edge *prevEdge = currentEdge->Lprev();//edge that is previous on the same left face
+        //Edge *prevEdge = currentEdge->Lprev();//edge that is previous on the same left face
         //grabbing j+1 and j-1 vertex
         //Vertex *vertex1 = prevEdge->Org();//j-1
         Vertex *vertex2 = currentEdge->Org();//j
@@ -216,12 +393,12 @@ void Vertex::setFunction2(){
 // ******************************************************* //
 void Vertex::setFunction3(){
   VertexEdgeIterator vertEdges(this);//iterator to iterate through the vertex for outgoign edge
-  double functionvalue, xk, xk1; //variable to store function value
+  double functionvalue(0), xk, xk1; //variable to store function value
     Edge *currentEdge;//pointer to keep track of a edge that is iterated 
     while ((currentEdge = vertEdges.next())!=0){//iterating till exhausted
         Face *left = currentEdge->Left();//grabbing the inner face of the edge
         unsigned int innerid = left->getID();//id of inner face
-        Edge *prevEdge = currentEdge->Lprev();//edge that is previous on the same left face
+        //Edge *prevEdge = currentEdge->Lprev();//edge that is previous on the same left face
         //grabbing j+1 and j-1 vertex
         //Vertex *vertex1 = prevEdge->Org();//j-1
         Vertex *vertex2 = currentEdge->Org();//j
@@ -234,26 +411,121 @@ void Vertex::setFunction3(){
         this->Function3[innerid] = functionvalue;
     }
 }
+// %%%%%%%%%%%%%%%%%%%%%%%%% X Derivative %%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
 // ******************************************************* //
-void Vertex::setAk(){
-  VertexEdgeIterator vertEdges(this);//iterator to iterate through the vertex for outgoign edge
-  double functionvalue, xk, xk1, yk, yk1; //variable to store function value
-    Edge *currentEdge;//pointer to keep track of a edge that is iterated 
+void Vertex::setFirstTermXDerivative(){
+    VertexEdgeIterator vertEdges(this);//iterator to iterate through the outgoing edge
+    double functionvalue(0), area, sumMuSqDerivative,sumMuSq,areaDerivative;//variable to store function value
+    unsigned int innerid; //variable to store inner id of face
+    Edge *currentEdge;//pointer to the current edge that is iterated
     while ((currentEdge = vertEdges.next())!=0){//iterating till exhausted
         Face *left = currentEdge->Left();//grabbing the inner face of the edge
-        unsigned int innerid = left->getID();//id of inner face
-        Edge *prevEdge = currentEdge->Lprev();//edge that is previous on the same left face
-        //grabbing j+1 and j-1 vertex
-        //Vertex *vertex1 = prevEdge->Org();//j-1
-        Vertex *vertex2 = currentEdge->Org();//j
-        Vertex *vertex3 = currentEdge->Dest();//j+1
-        xk = vertex2->getProjectedXcoordinate(innerid);
-        xk1 = vertex3->getProjectedXcoordinate(innerid);
-        yk = vertex2->getProjectedYcoordinate(innerid);
-        yk1 = vertex3->getProjectedYcoordinate(innerid);
-        //calculating the fucntion
-        functionvalue = xk*yk1 - xk1*yk;
-        //putting function1 value in the array
-        this->Ak[innerid] = functionvalue;
-  }
+        innerid = left->getID();//id of inner face
+        area = left->getAreaOfFace();//area of inner face
+        sumMuSqDerivative = this->getMu1SquaredXDerivative(innerid) + this->getMu2SquaredXDerivative(innerid) +
+                             this->getMu3SquaredXDerivative(innerid) + this->getMu4SquaredXDerivative(innerid);//sumof mu sq X derivaitves
+        sumMuSq = (left->getMu1())*(left->getMu1()) + (left->getMu2())*(left->getMu2()) +
+                  (left->getMu3())*(left->getMu3()) + (left->getMu4())*(left->getMu4());
+        areaDerivative = this->getAreaXDerivative(innerid);
+        functionvalue += 1./(left->getTraceSquaredTargetFormMatrix())*(area*(sumMuSqDerivative)+sumMuSq*areaDerivative);
+    }
+    this->firstTermXDerivative = functionvalue;
+}
+
+// ******************************************************* //
+ void Vertex::setSecondTermXDerivative(){
+    VertexEdgeIterator vertEdges(this);//iterator to iterate through the outgoing edge
+    double functionvalue(0), area, sumMuDerivative,sumMu,areaDerivative;//variable to store function value
+    unsigned int innerid; //variable to store inner id of face
+    Edge *currentEdge;//pointer to the current edge that is iterated
+    while ((currentEdge = vertEdges.next())!=0){//iterating till exhausted
+        Face *left = currentEdge->Left();//grabbing the inner face of the edge
+        innerid = left->getID();//id of inner face
+        area = left->getAreaOfFace();//area of inner face
+        sumMuDerivative = (left->getMu4())*(this->getMu1XDerivative(innerid)) + 
+                          (left->getMu1())*(this->getMu4XDerivative(innerid));//sumof mu sq X derivaitves
+        sumMu = (left->getMu1()+left->getMu4());
+        areaDerivative = this->getAreaXDerivative(innerid);
+        functionvalue += 1./(left->getTraceSquaredTargetFormMatrix())*
+                          ((sumMu*sumMu)*areaDerivative+area*2*sumMu*sumMuDerivative);
+    }
+    this->secondTermXDerivative = functionvalue;
+}
+// ******************************************************* //
+void Vertex::setThirdTermXDerivative(){
+    VertexEdgeIterator vertEdges(this);//iterator to iterate through the outgoing edge
+    Cell *currentCell = this->getCell();// cell this vertex lies in
+    Face *left;//pointer to the left face of the edge
+    double pressure = currentCell->getPressure();//pressure in the cells of this tissue
+    double functionvalue(0), areaDerivative;//variable to store function value
+    unsigned int innerid; //variable to store inner id of face
+    Edge *currentEdge;//pointer to the current edge that is iterated
+    //Edge *prevEdge; // pointer to edge previous on the left face of the current edge
+    while ((currentEdge = vertEdges.next())!=0){//iterating till exhausted
+        left = currentEdge->Left();//grabbing the inner face of the edge
+        innerid = left->getID();//id of inner face
+        //getting area derivative wrt X
+        areaDerivative = this->getAreaXDerivative(innerid);
+        //calculating xderivative third term
+        functionvalue += pressure*areaDerivative;
+    }
+    this->thirdTermXDerivative =functionvalue;
+}
+// %%%%%%%%%%%%%%%%%%%%%%%%% Y Derivative %%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+void Vertex::setFirstTermYDerivative(){
+    VertexEdgeIterator vertEdges(this);//iterator to iterate through the outgoing edge
+    double functionvalue(0), area, sumMuSqDerivative,sumMuSq,areaDerivative;//variable to store function value
+    unsigned int innerid; //variable to store inner id of face
+    Edge *currentEdge;//pointer to the current edge that is iterated
+    while ((currentEdge = vertEdges.next())!=0){//iterating till exhausted
+        Face *left = currentEdge->Left();//grabbing the inner face of the edge
+        innerid = left->getID();//id of inner face
+        area = left->getAreaOfFace();//area of inner face
+        sumMuSqDerivative = this->getMu1SquaredYDerivative(innerid) + this->getMu2SquaredYDerivative(innerid) +
+                             this->getMu3SquaredYDerivative(innerid) + this->getMu4SquaredYDerivative(innerid);//sumof mu sq X derivaitves
+        sumMuSq = (left->getMu1())*(left->getMu1()) + (left->getMu2())*(left->getMu2()) +
+                  (left->getMu3())*(left->getMu3()) + (left->getMu4())*(left->getMu4());
+        areaDerivative = this->getAreaYDerivative(innerid);
+        functionvalue += 1./(left->getTraceSquaredTargetFormMatrix())*(area*(sumMuSqDerivative)+sumMuSq*areaDerivative);
+    }
+    this->firstTermXDerivative = functionvalue;
+}
+// ******************************************************* //
+ void Vertex::setSecondTermYDerivative(){
+    VertexEdgeIterator vertEdges(this);//iterator to iterate through the outgoing edge
+    double functionvalue(0), area, sumMuDerivative,sumMu,areaDerivative;//variable to store function value
+    unsigned int innerid; //variable to store inner id of face
+    Edge *currentEdge;//pointer to the current edge that is iterated
+    while ((currentEdge = vertEdges.next())!=0){//iterating till exhausted
+        Face *left = currentEdge->Left();//grabbing the inner face of the edge
+        innerid = left->getID();//id of inner face
+        area = left->getAreaOfFace();//area of inner face
+        sumMuDerivative = (left->getMu4())*(this->getMu1YDerivative(innerid)) + 
+                          (left->getMu1())*(this->getMu4YDerivative(innerid));//sumof mu sq X derivaitves
+        sumMu = (left->getMu1()+left->getMu4());
+        areaDerivative = this->getAreaYDerivative(innerid);
+        functionvalue += 1./(left->getTraceSquaredTargetFormMatrix())*
+                          ((sumMu*sumMu)*areaDerivative+area*2*sumMu*sumMuDerivative);
+    }
+    this->secondTermXDerivative = functionvalue;
+}
+// ******************************************************* //
+void Vertex::setThirdTermYDerivative(){
+    VertexEdgeIterator vertEdges(this);//iterator to iterate through the outgoing edge
+    Cell *currentCell = this->getCell();// cell this vertex lies in
+    Face *left;//pointer to the left face of the edge
+    double pressure = currentCell->getPressure();//pressure in the cells of this tissue
+    double functionvalue(0), areaDerivative;//variable to store function value
+    unsigned int innerid; //variable to store inner id of face
+    Edge *currentEdge;//pointer to the current edge that is iterated
+    //Edge *prevEdge; // pointer to edge previous on the left face of the current edge
+    while ((currentEdge = vertEdges.next())!=0){//iterating till exhausted
+        left = currentEdge->Left();//grabbing the inner face of the edge
+        innerid = left->getID();//id of inner face
+        //getting area derivative wrt X
+        areaDerivative = this->getAreaYDerivative(innerid);
+        //calculating xderivative third term
+        functionvalue += pressure*areaDerivative;
+    }
+    this->thirdTermXDerivative =functionvalue;
 }

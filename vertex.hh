@@ -35,9 +35,9 @@ class Vertex
   /*coordinates of vertex
    *all initialised to origin (0,0,0)
    */
-  double Xcoordinate = 0;
-  double Ycoordinate = 0;
-  double Zcoordinate = 0;
+  double Xcoordinate;
+  double Ycoordinate;
+  double Zcoordinate;
     /*
     * Associative array for storing the projected X coordinate
     * Key : Face ID -- unsigned int
@@ -69,6 +69,16 @@ class Vertex
     * Y derivative of Ak of face with respect to this vertex
     */
     std::map<unsigned int, double> AkYDerivative;
+    // %%%%%%%%%%%%%%%%%%% X derivative %%%%%%%%%%%%%%%%%%%% //
+    /**
+     * x derivative of mu1
+     */
+    std::map<unsigned int, double>mu1XDerivative;
+    /**
+     * y derivative of mu4
+     */
+    std::map<unsigned int, double>mu4XDerivative;
+    
     /**
      * X derivative of mu1_squared
      */
@@ -81,7 +91,59 @@ class Vertex
      * X derivative of mu3_squared
      */
      std::map<unsigned int, double>mu3SquaredXDerivative;
-     
+          /**
+     * X derivative of mu4_squared
+     */
+     std::map<unsigned int, double>mu4SquaredXDerivative;
+     /**
+      * First term X derivative
+      */
+     double firstTermXDerivative;
+     /**
+      * Second term X derivative
+      */
+     double secondTermXDerivative;
+     /**
+     * third term X derivative
+     */
+     double thirdTermXDerivative;
+     // %%%%%%%%%%%%%%%%%%% Y derivative %%%%%%%%%%%%%%%%%%% //
+     /**
+     * x derivative of mu1
+     */
+    std::map<unsigned int, double>mu1YDerivative;
+    /**
+     * y derivative of mu4
+     */
+    std::map<unsigned int, double>mu4YDerivative;
+     /**
+     * Y derivative of mu1_squared
+     */
+     std::map<unsigned int, double>mu1SquaredYDerivative;
+     /**
+     * Y derivative of mu2_squared
+     */
+     std::map<unsigned int, double>mu2SquaredYDerivative;
+     /**
+     * Y derivative of mu3_squared
+     */
+     std::map<unsigned int, double>mu3SquaredYDerivative;
+     /**
+     * Y derivative of mu4_squared
+     */
+     std::map<unsigned int, double>mu4SquaredYDerivative;
+     /**
+      * First term derivative
+      */
+     double firstTermYDerivative;
+     /**
+      * Second term Y derivative
+      */
+     double secondTermYDerivative;
+     /**
+      * third term Y derivative
+      */
+     double thirdTermYDerivative;
     //========================AK and Functions===============================//
 /*
     * Associative array for storing the value of function1 [f1(k)]
@@ -231,7 +293,7 @@ class Vertex
    * return - double
    */
    double getProjectedYcoordinate(unsigned int faceid);
-   //========================Derivatives===============================//
+   //====================Derivatives get/set functions===========================//
    /**
     * Function to set the areaDerivative with respect to x and y given vertex
     */
@@ -260,6 +322,125 @@ class Vertex
     * faceid : the id of the face on which the derivative is to be returned
     */
     double getAkYDerivative(unsigned int faceid);
+    // %%%%%%%%%%%%%%%%%%%%%% X derivative %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+    // ***************** SET functions ******************** //
+    /**
+     * function to set mu deriavtive of this vertex with respect to X
+     */
+    void setMuXDerivative();
+    /**
+     * Function to set the mu squared derivative of this vertex with respect to X
+     */
+    void setMuSquaredXDerivative();
+     /**
+      * first Term X Derivative
+      */
+    void setFirstTermXDerivative();
+    /**
+     * set second term X derivative
+     */
+    void setSecondTermXDerivative();
+    /**
+     * set third term X derivative
+     */
+    void setThirdTermXDerivative();
+    // ***************** GET functions ******************** //
+    /**
+     * function to get mu1 deriavtive of this vertex with the key face id
+     */
+    double getMu1XDerivative(unsigned int);
+    /**
+     * function to get mu4 deriavtive of this vertex with the key face id
+     */
+    double getMu4XDerivative(unsigned int); 
+    /**
+     * get frist term x derivaitve
+     */
+    double getFirstTermXDerivative();
+     /**
+      * get second term x derivative
+      */
+    double getSecondTermXDerivative();
+    /**
+     * get third term x derivative();
+     */
+    double getThirdTermXDerivative();
+    /**
+     * get mu1sqderivative 
+     */
+    double getMu1SquaredXDerivative(unsigned int facid);
+     /**
+     * get mu2sqderivative 
+     */
+    double getMu2SquaredXDerivative(unsigned int faceid);
+     /**
+     * get mu3sqderivative 
+     */
+    double getMu3SquaredXDerivative(unsigned int faceid);
+     /**
+     * get mu4sqderivative 
+     */
+    double getMu4SquaredXDerivative(unsigned int faceid);
+    // %%%%%%%%%%%%%%%%%%%%%% Y derivative %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+    // ********************** SET function ********************* //
+    /**
+     * function to set mu deriavtive of this vertex with respect to X
+     */
+    void setMuYDerivative();
+    /**
+     * Function to set mu derivative of this vertex with respect to Y
+     */
+    void setMuSquaredYDerivative();
+     /**
+      * first Term Y Derivative
+      */
+    void setFirstTermYDerivative();
+    /**
+     * set second term Y derivative
+     */
+    void setSecondTermYDerivative();
+    /**
+     * set third term Y derivative
+     */
+     void setThirdTermYDerivative();
+     // ******************* GET function ******************** //
+    /**
+     * get frist term y derivaitve
+     */
+    double getFirstTermYDerivative();
+     /**
+      * get second term y derivative
+      */
+    double getSecondTermYDerivative();
+    /**
+     * get third term y derivative
+     */
+    double getThirdTermYDerivative();
+    /**
+     * get mu1 y derivative
+     */
+    double getMu1YDerivative(unsigned int);
+    /**
+     * get mu2 y derivative();
+     */
+    double getMu4YDerivative(unsigned int);
+     /**
+     * get mu1sqderivative 
+     */
+    double getMu1SquaredYDerivative(unsigned int facid);
+     /**
+     * get mu2sqderivative 
+     */
+    double getMu2SquaredYDerivative(unsigned int faceid);
+     /**
+     * get mu3sqderivative 
+     */
+    double getMu3SquaredYDerivative(unsigned int faceid);
+     /**
+     * get mu4sqderivative 
+     */
+    double getMu4SquaredYDerivative(unsigned int faceid);
+     
      // *************************************************************//
    /*
     * Set function to set the value of function1
@@ -308,8 +489,6 @@ class Vertex
      * faceid: face id of the face on which the value of function3 is to be returned
      */
     double getFunction3(unsigned int faceid);
-
-
 ///////////////////////////////////////////////////////////////////////
   /*
    * Return an arbitrary outgoing edge from this vertex.
@@ -401,6 +580,62 @@ inline double Vertex::getFunction2(unsigned int faceid)
 inline double Vertex::getFunction3(unsigned int faceid)
 {
   return this->Function3[faceid];
+}
+inline double Vertex::getMu1SquaredXDerivative(unsigned int faceid)
+{
+  return this->mu1SquaredXDerivative[faceid];
+}
+inline double Vertex::getMu2SquaredXDerivative(unsigned int faceid)
+{
+  return this->mu2SquaredXDerivative[faceid];
+}
+inline double Vertex::getMu3SquaredXDerivative(unsigned int faceid)
+{
+  return this->mu3SquaredXDerivative[faceid];
+}
+inline double Vertex::getMu4SquaredXDerivative(unsigned int faceid)
+{
+  return this->mu4SquaredXDerivative[faceid];
+}
+inline double Vertex::getMu1XDerivative(unsigned int faceid)
+{
+  return this->mu1XDerivative[faceid];
+}
+inline double Vertex::getMu4XDerivative(unsigned int faceid)
+{
+  return this->mu4XDerivative[faceid];
+}
+inline double Vertex::getMu1YDerivative(unsigned int faceid)
+{
+  return this->mu1YDerivative[faceid];
+}
+inline double Vertex::getMu4YDerivative(unsigned int faceid)
+{
+  return this->mu4YDerivative[faceid];
+}
+inline double Vertex::getFirstTermXDerivative()
+{
+  return this->firstTermXDerivative;
+}
+inline double Vertex::getFirstTermYDerivative()
+{
+  return this->firstTermYDerivative;
+}
+inline double Vertex::getSecondTermXDerivative()
+{
+  return this->secondTermXDerivative;
+}
+inline double Vertex::getSecondTermYDerivative()
+{
+  return this->secondTermYDerivative;
+}
+inline double Vertex::getThirdTermXDerivative()
+{
+  return this->thirdTermXDerivative;
+}
+inline double Vertex::getThirdTermYDerivative()
+{
+  return this->thirdTermYDerivative;
 }
 /* ----------------------------------------------------------------------------
  * VertexEdgeIterator
