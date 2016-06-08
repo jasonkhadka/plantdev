@@ -14,6 +14,4 @@
  * ----------------------------------------------------------------------------------------------
  */
  
-void Jacobian(Cell *cell){
- 		printf("number of faces : %u",cell->countFaces());
- }
+void Jacobian(Cell *cell);
