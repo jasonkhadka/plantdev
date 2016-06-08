@@ -39,19 +39,34 @@ class Vertex
   double Ycoordinate;
   double Zcoordinate;
     /*
-    * Associative array for storing the projected X coordinate
+    * Associative array for storing the projected and CENTRALISED X coordinate
     * Key : Face ID -- unsigned int
     * Value : the projected X coordinate -- double
     * ProjectedXcoordinate -> the projected X coordinate of this vertex
     */
    std::map<unsigned int, double> ProjectedXcoordinate;
    /*
-    * Associative array for storing the projected Y coordinate
+    * Associative array for storing the projected and CENTRALISED Y coordinate
     * Key : Face ID -- unsigned int
     * Value : the projected Y coordinate -- double
     * ProjectedYcoordinate -> the projected Y coordinate of this vertex
     */
    std::map<unsigned int, double> ProjectedYcoordinate;
+    /*
+    * Associative array for storing the projected and NOT CENTRALISED X coordinate
+    * Key : Face ID -- unsigned int
+    * Value : the projected X coordinate -- double
+    * ProjectedXcoordinate -> the projected X coordinate of this vertex
+    */
+   std::map<unsigned int, double> NonCentralisedProjectedXcoordinate;
+   /*
+    * Associative array for storing the projected and NOT CENTRALISED Y coordinate
+    * Key : Face ID -- unsigned int
+    * Value : the projected Y coordinate -- double
+    * ProjectedYcoordinate -> the projected Y coordinate of this vertex
+    */
+   std::map<unsigned int, double> NonCentralisedProjectedYcoordinate;
+
    //========================Derivatives===============================//
    /**
     * X derivative of area of face with respect to this vertex
@@ -78,7 +93,6 @@ class Vertex
      * y derivative of mu4
      */
     std::map<unsigned int, double>mu4XDerivative;
-    
     /**
      * X derivative of mu1_squared
      */
@@ -277,6 +291,20 @@ class Vertex
    * ycood - double
    */
    void insertProjectedYcoordinate(unsigned int faceid, double ycood);
+  /*
+   * Function to insert new elements
+   * in associated array of NonCentralisedProjectedXcoordinate
+   * faceid - unsigned int 
+   * xcood - double
+   */
+   void insertNonCentralisedProjectedXcoordinate(unsigned int faceid, double xcood);
+   /*
+   * Function to insert new elements
+   * in associated array of NonCentralisedProjectedYcoordinate
+   * faceid - unsigned int 
+   * ycood - double
+   */
+   void insertNonCentralisedProjectedYcoordinate(unsigned int faceid, double ycood);
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
   /*
@@ -293,6 +321,20 @@ class Vertex
    * return - double
    */
    double getProjectedYcoordinate(unsigned int faceid);
+  /*
+   * Function to get Non centralised projected xcoordinate from the faceid
+   * in associated array of ProjectedYcoordinate
+   * faceid - unsigned int 
+   * return - double
+   */
+   double getNonCentralisedProjectedXcoordinate(unsigned int faceid);
+   /*
+   * Function to get non centralised projected Ycoordinate from the faceid
+   * in associated array of ProjectedYcoordinate
+   * faceid - unsigned int 
+   * return - double
+   */
+   double getNonCentralisedProjectedYcoordinate(unsigned int faceid);
    //====================Derivatives get/set functions===========================//
    /**
     * Function to set the areaDerivative with respect to x and y given vertex
@@ -402,7 +444,7 @@ class Vertex
     /**
      * set third term Y derivative
      */
-     void setThirdTermYDerivative();
+    void setThirdTermYDerivative();
      // ******************* GET function ******************** //
     /**
      * get frist term y derivaitve
@@ -440,8 +482,13 @@ class Vertex
      * get mu4sqderivative 
      */
     double getMu4SquaredYDerivative(unsigned int faceid);
-     
-     // *************************************************************//
+    // *************************************************************//
+    // *************************************************************//
+    // ************************SET Functions************************//
+    /**
+     * set all functions of given vertex
+     */
+    void setFunctions();
    /*
     * Set function to set the value of function1
     * faceid : id of the face to set the key
@@ -469,6 +516,7 @@ class Vertex
     */
     void setAk();
     //*****************************************************************//
+    // ************************GET Functions************************//
     /**
      * function to get the value of Ak
      * faceid: face id of the face on which the value of Ak is to be returned
@@ -489,6 +537,28 @@ class Vertex
      * faceid: face id of the face on which the value of function3 is to be returned
      */
     double getFunction3(unsigned int faceid);
+    /**
+     * function to get the mu1
+     * input : face id, the face on which the mu1 is to be calculated
+     */
+    double getMu1(unsigned int faceid);
+    /**
+     * function to get the mu2
+     * input : face id, the face on which the mu1 is to be calculated
+     */
+    double getMu2(unsigned int faceid);
+    /**
+     * function to get the mu3
+     * input : face id, the face on which the mu1 is to be calculated
+     */
+    double getMu3(unsigned int faceid);
+    /**
+     * function to get the mu4
+     * input : face id, the face on which the mu1 is to be calculated
+     */
+    double getMu4(unsigned int faceid);
+    // **************************************************************//
+    // **************************************************************//
 ///////////////////////////////////////////////////////////////////////
   /*
    * Return an arbitrary outgoing edge from this vertex.
@@ -585,17 +655,34 @@ inline double Vertex::getMu1SquaredXDerivative(unsigned int faceid)
 {
   return this->mu1SquaredXDerivative[faceid];
 }
+inline double Vertex::getMu1SquaredYDerivative(unsigned int faceid)
+{
+  return this->mu1SquaredYDerivative[faceid];
+}
 inline double Vertex::getMu2SquaredXDerivative(unsigned int faceid)
 {
   return this->mu2SquaredXDerivative[faceid];
+}
+inline double Vertex::getMu2SquaredYDerivative(unsigned int faceid)
+{
+  return this->mu2SquaredYDerivative[faceid];
 }
 inline double Vertex::getMu3SquaredXDerivative(unsigned int faceid)
 {
   return this->mu3SquaredXDerivative[faceid];
 }
+inline double Vertex::getMu3SquaredYDerivative(unsigned int faceid)
+{
+  return this->mu3SquaredYDerivative[faceid];
+}
 inline double Vertex::getMu4SquaredXDerivative(unsigned int faceid)
 {
   return this->mu4SquaredXDerivative[faceid];
+}
+
+inline double Vertex::getMu4SquaredYDerivative(unsigned int faceid)
+{
+  return this->mu4SquaredYDerivative[faceid];
 }
 inline double Vertex::getMu1XDerivative(unsigned int faceid)
 {

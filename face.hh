@@ -261,6 +261,11 @@ class Face
    * set centralised Coordinates of this face
    */
    void setCentralisedCoordinate();
+   /**
+    * Function to set new projected X & Y coordinate of vertices of this face
+    */
+    void setProjectedCoordinate();
+    
   /**
    * get x centralised coordiante of this face
    */

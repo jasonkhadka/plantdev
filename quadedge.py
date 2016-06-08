@@ -150,6 +150,12 @@ class Cell(_object):
 
     def makeFaceID(self):
         return _quadedge.Cell_makeFaceID(self)
+
+    def setPressure(self, arg2):
+        return _quadedge.Cell_setPressure(self, arg2)
+
+    def getPressure(self):
+        return _quadedge.Cell_getPressure(self)
 Cell_swigregister = _quadedge.Cell_swigregister
 Cell_swigregister(Cell)
 
@@ -257,8 +263,35 @@ class Face(_object):
     def removeVertex(self, vertex):
         return _quadedge.Face_removeVertex(self, vertex)
 
+    def setMu(self):
+        return _quadedge.Face_setMu(self)
+
+    def getMu1(self):
+        return _quadedge.Face_getMu1(self)
+
+    def getMu2(self):
+        return _quadedge.Face_getMu2(self)
+
+    def getMu3(self):
+        return _quadedge.Face_getMu3(self)
+
+    def getMu4(self):
+        return _quadedge.Face_getMu4(self)
+
+    def setTargetFormMatrix(self):
+        return _quadedge.Face_setTargetFormMatrix(self)
+
+    def setTraceSquaredTargetFormMatrix(self):
+        return _quadedge.Face_setTraceSquaredTargetFormMatrix(self)
+
+    def getTraceSquaredTargetFormMatrix(self):
+        return _quadedge.Face_getTraceSquaredTargetFormMatrix(self)
+
     def setCentralisedCoordinate(self):
         return _quadedge.Face_setCentralisedCoordinate(self)
+
+    def setProjectedCoordinate(self):
+        return _quadedge.Face_setProjectedCoordinate(self)
 
     def getXCentralised(self):
         return _quadedge.Face_getXCentralised(self)
@@ -391,34 +424,6 @@ class Edge(_object):
 
     def Rprev(self):
         return _quadedge.Edge_Rprev(self)
-    __swig_setmethods__["Function1"] = _quadedge.Edge_Function1_set
-    __swig_getmethods__["Function1"] = _quadedge.Edge_Function1_get
-    if _newclass:
-        Function1 = _swig_property(_quadedge.Edge_Function1_get, _quadedge.Edge_Function1_set)
-    __swig_setmethods__["Function2"] = _quadedge.Edge_Function2_set
-    __swig_getmethods__["Function2"] = _quadedge.Edge_Function2_get
-    if _newclass:
-        Function2 = _swig_property(_quadedge.Edge_Function2_get, _quadedge.Edge_Function2_set)
-    __swig_setmethods__["Function3"] = _quadedge.Edge_Function3_set
-    __swig_getmethods__["Function3"] = _quadedge.Edge_Function3_get
-    if _newclass:
-        Function3 = _swig_property(_quadedge.Edge_Function3_get, _quadedge.Edge_Function3_set)
-    __swig_setmethods__["Ak"] = _quadedge.Edge_Ak_set
-    __swig_getmethods__["Ak"] = _quadedge.Edge_Ak_get
-    if _newclass:
-        Ak = _swig_property(_quadedge.Edge_Ak_get, _quadedge.Edge_Ak_set)
-
-    def setFunction1(self, arg2, arg3):
-        return _quadedge.Edge_setFunction1(self, arg2, arg3)
-
-    def setFunction2(self, arg2, arg3):
-        return _quadedge.Edge_setFunction2(self, arg2, arg3)
-
-    def setFunction3(self, arg2, arg3):
-        return _quadedge.Edge_setFunction3(self, arg2, arg3)
-
-    def setAk(self, arg2, arg3):
-        return _quadedge.Edge_setAk(self, arg2, arg3)
 Edge_swigregister = _quadedge.Edge_swigregister
 Edge_swigregister(Edge)
 
@@ -503,11 +508,164 @@ class Vertex(_object):
     def insertProjectedYcoordinate(self, faceid, ycood):
         return _quadedge.Vertex_insertProjectedYcoordinate(self, faceid, ycood)
 
+    def insertNonCentralisedProjectedXcoordinate(self, faceid, xcood):
+        return _quadedge.Vertex_insertNonCentralisedProjectedXcoordinate(self, faceid, xcood)
+
+    def insertNonCentralisedProjectedYcoordinate(self, faceid, ycood):
+        return _quadedge.Vertex_insertNonCentralisedProjectedYcoordinate(self, faceid, ycood)
+
     def getProjectedXcoordinate(self, faceid):
         return _quadedge.Vertex_getProjectedXcoordinate(self, faceid)
 
     def getProjectedYcoordinate(self, faceid):
         return _quadedge.Vertex_getProjectedYcoordinate(self, faceid)
+
+    def getNonCentralisedProjectedXcoordinate(self, faceid):
+        return _quadedge.Vertex_getNonCentralisedProjectedXcoordinate(self, faceid)
+
+    def getNonCentralisedProjectedYcoordinate(self, faceid):
+        return _quadedge.Vertex_getNonCentralisedProjectedYcoordinate(self, faceid)
+
+    def setAreaDerivative(self):
+        return _quadedge.Vertex_setAreaDerivative(self)
+
+    def getAreaXDerivative(self, faceid):
+        return _quadedge.Vertex_getAreaXDerivative(self, faceid)
+
+    def getAreaYDerivative(self, faceid):
+        return _quadedge.Vertex_getAreaYDerivative(self, faceid)
+
+    def setAkDerivative(self):
+        return _quadedge.Vertex_setAkDerivative(self)
+
+    def getAkXDerivative(self, faceid):
+        return _quadedge.Vertex_getAkXDerivative(self, faceid)
+
+    def getAkYDerivative(self, faceid):
+        return _quadedge.Vertex_getAkYDerivative(self, faceid)
+
+    def setMuXDerivative(self):
+        return _quadedge.Vertex_setMuXDerivative(self)
+
+    def setMuSquaredXDerivative(self):
+        return _quadedge.Vertex_setMuSquaredXDerivative(self)
+
+    def setFirstTermXDerivative(self):
+        return _quadedge.Vertex_setFirstTermXDerivative(self)
+
+    def setSecondTermXDerivative(self):
+        return _quadedge.Vertex_setSecondTermXDerivative(self)
+
+    def setThirdTermXDerivative(self):
+        return _quadedge.Vertex_setThirdTermXDerivative(self)
+
+    def getMu1XDerivative(self, arg2):
+        return _quadedge.Vertex_getMu1XDerivative(self, arg2)
+
+    def getMu4XDerivative(self, arg2):
+        return _quadedge.Vertex_getMu4XDerivative(self, arg2)
+
+    def getFirstTermXDerivative(self):
+        return _quadedge.Vertex_getFirstTermXDerivative(self)
+
+    def getSecondTermXDerivative(self):
+        return _quadedge.Vertex_getSecondTermXDerivative(self)
+
+    def getThirdTermXDerivative(self):
+        return _quadedge.Vertex_getThirdTermXDerivative(self)
+
+    def getMu1SquaredXDerivative(self, facid):
+        return _quadedge.Vertex_getMu1SquaredXDerivative(self, facid)
+
+    def getMu2SquaredXDerivative(self, faceid):
+        return _quadedge.Vertex_getMu2SquaredXDerivative(self, faceid)
+
+    def getMu3SquaredXDerivative(self, faceid):
+        return _quadedge.Vertex_getMu3SquaredXDerivative(self, faceid)
+
+    def getMu4SquaredXDerivative(self, faceid):
+        return _quadedge.Vertex_getMu4SquaredXDerivative(self, faceid)
+
+    def setMuYDerivative(self):
+        return _quadedge.Vertex_setMuYDerivative(self)
+
+    def setMuSquaredYDerivative(self):
+        return _quadedge.Vertex_setMuSquaredYDerivative(self)
+
+    def setFirstTermYDerivative(self):
+        return _quadedge.Vertex_setFirstTermYDerivative(self)
+
+    def setSecondTermYDerivative(self):
+        return _quadedge.Vertex_setSecondTermYDerivative(self)
+
+    def setThirdTermYDerivative(self):
+        return _quadedge.Vertex_setThirdTermYDerivative(self)
+
+    def getFirstTermYDerivative(self):
+        return _quadedge.Vertex_getFirstTermYDerivative(self)
+
+    def getSecondTermYDerivative(self):
+        return _quadedge.Vertex_getSecondTermYDerivative(self)
+
+    def getThirdTermYDerivative(self):
+        return _quadedge.Vertex_getThirdTermYDerivative(self)
+
+    def getMu1YDerivative(self, arg2):
+        return _quadedge.Vertex_getMu1YDerivative(self, arg2)
+
+    def getMu4YDerivative(self, arg2):
+        return _quadedge.Vertex_getMu4YDerivative(self, arg2)
+
+    def getMu1SquaredYDerivative(self, facid):
+        return _quadedge.Vertex_getMu1SquaredYDerivative(self, facid)
+
+    def getMu2SquaredYDerivative(self, faceid):
+        return _quadedge.Vertex_getMu2SquaredYDerivative(self, faceid)
+
+    def getMu3SquaredYDerivative(self, faceid):
+        return _quadedge.Vertex_getMu3SquaredYDerivative(self, faceid)
+
+    def getMu4SquaredYDerivative(self, faceid):
+        return _quadedge.Vertex_getMu4SquaredYDerivative(self, faceid)
+
+    def setFunctions(self):
+        return _quadedge.Vertex_setFunctions(self)
+
+    def setFunction1(self):
+        return _quadedge.Vertex_setFunction1(self)
+
+    def setFunction2(self):
+        return _quadedge.Vertex_setFunction2(self)
+
+    def setFunction3(self):
+        return _quadedge.Vertex_setFunction3(self)
+
+    def setAk(self):
+        return _quadedge.Vertex_setAk(self)
+
+    def getAk(self, faceid):
+        return _quadedge.Vertex_getAk(self, faceid)
+
+    def getFunction1(self, faceid):
+        return _quadedge.Vertex_getFunction1(self, faceid)
+
+    def getFunction2(self, faceid):
+        return _quadedge.Vertex_getFunction2(self, faceid)
+
+    def getFunction3(self, faceid):
+        return _quadedge.Vertex_getFunction3(self, faceid)
+
+    def getMu1(self, faceid):
+        return _quadedge.Vertex_getMu1(self, faceid)
+
+    def getMu2(self, faceid):
+        return _quadedge.Vertex_getMu2(self, faceid)
+
+    def getMu3(self, faceid):
+        return _quadedge.Vertex_getMu3(self, faceid)
+
+    def getMu4(self, faceid):
+        return _quadedge.Vertex_getMu4(self, faceid)
 
     def getEdge(self):
         return _quadedge.Vertex_getEdge(self)

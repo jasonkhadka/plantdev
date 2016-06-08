@@ -68,7 +68,24 @@ double Vertex::getProjectedXcoordinate(unsigned int faceid){
 double Vertex::getProjectedYcoordinate(unsigned int faceid){
 	return this->ProjectedYcoordinate[faceid];
 }
-
+void Vertex::insertNonCentralisedProjectedXcoordinate(unsigned int faceid, double xcood){
+  assert(faceid>0);
+  this->NonCentralisedProjectedXcoordinate[faceid] = xcood;
+}
+///////////////////////////////////////////////////////////////////////
+void Vertex::insertNonCentralisedProjectedYcoordinate(unsigned int faceid, double ycood){
+  assert(faceid>0);
+  this->NonCentralisedProjectedYcoordinate[faceid] = ycood;
+}
+///////////////////////////////////////////////////////////////////////
+double Vertex::getNonCentralisedProjectedXcoordinate(unsigned int faceid){
+  return this->NonCentralisedProjectedXcoordinate[faceid];
+}
+///////////////////////////////////////////////////////////////////////
+double Vertex::getNonCentralisedProjectedYcoordinate(unsigned int faceid){
+  return this->NonCentralisedProjectedYcoordinate[faceid];
+}
+///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
 
 void Vertex::setID(unsigned int id)
@@ -191,6 +208,67 @@ double Vertex::getAkXDerivative(unsigned int faceid){
 
 double Vertex::getAkYDerivative(unsigned int faceid){
     return this->AkYDerivative[faceid];
+}
+//***************************************************************************************//
+double Vertex::getMu1(unsigned int faceid){
+    VertexEdgeIterator vertEdges(this);//iterator to iterate through the vertex for outgoing edge
+    Edge *currentEdge;
+    Face *left;//inner face of the current edge
+    unsigned int innerid;//id of inner face
+    while ((currentEdge = vertEdges.next())!=0){
+        left = currentEdge->Left();//grabing the inner face of the edge
+        innerid = left->getID();//innerid of the face
+        if (innerid == faceid){
+            return left->getMu1();
+        }
+    }
+    return 0.;//if not found returns 0.
+}
+//***************************************************************************************//
+double Vertex::getMu2(unsigned int faceid){
+    VertexEdgeIterator vertEdges(this);//iterator to iterate through the vertex for outgoing edge
+    Edge *currentEdge;
+    Face *left;//inner face of the current edge
+    unsigned int innerid;//id of inner face
+    while ((currentEdge = vertEdges.next())!=0){
+        left = currentEdge->Left();//grabing the inner face of the edge
+        innerid = left->getID();//innerid of the face
+        if (innerid == faceid){
+            return left->getMu2();
+        }
+    }
+  return 0.;//if not found returns 0.
+}
+//***************************************************************************************//
+double Vertex::getMu3(unsigned int faceid){
+    VertexEdgeIterator vertEdges(this);//iterator to iterate through the vertex for outgoing edge
+    Edge *currentEdge;
+    Face *left;//inner face of the current edge
+    unsigned int innerid;//id of inner face
+    while ((currentEdge = vertEdges.next())!=0){
+        left = currentEdge->Left();//grabing the inner face of the edge
+        innerid = left->getID();//innerid of the face
+        if (innerid == faceid){
+            return left->getMu3();
+        }
+    }
+    return 0.;//if not found returns 0.
+
+}
+//***************************************************************************************//
+double Vertex::getMu4(unsigned int faceid){
+    VertexEdgeIterator vertEdges(this);//iterator to iterate through the vertex for outgoing edge
+    Edge *currentEdge;
+    Face *left;//inner face of the current edge
+    unsigned int innerid;//id of inner face
+    while ((currentEdge = vertEdges.next())!=0){
+        left = currentEdge->Left();//grabing the inner face of the edge
+        innerid = left->getID();//innerid of the face
+        if (innerid == faceid){
+            return left->getMu4();
+        }
+    }
+    return 0.;//if not found returns 0.
 }
 //***************************************************************************************//
 void Vertex::setMuXDerivative(){
@@ -345,6 +423,12 @@ void Vertex::setMuSquaredYDerivative(){
         this->mu3SquaredYDerivative[innerid] = temp2;
         this->mu4SquaredYDerivative[innerid] = temp3;
     }
+}
+// ******************************************************* //
+void Vertex::setFunctions(){
+  this->setFunction1();
+  this->setFunction2();
+  this->setFunction3();
 }
 // ******************************************************* //
 void Vertex::setFunction1(){

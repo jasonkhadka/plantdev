@@ -2977,10 +2977,9 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 #define SWIGTYPE_p_Vertex swig_types[7]
 #define SWIGTYPE_p_VertexEdgeIterator swig_types[8]
 #define SWIGTYPE_p_char swig_types[9]
-#define SWIGTYPE_p_std__mapT_unsigned_int_double_t swig_types[10]
-#define SWIGTYPE_p_void swig_types[11]
-static swig_type_info *swig_types[13];
-static swig_module_info swig_module = {swig_types, 12, 0, 0, 0, 0};
+#define SWIGTYPE_p_void swig_types[10]
+static swig_type_info *swig_types[12];
+static swig_module_info swig_module = {swig_types, 11, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -3260,13 +3259,13 @@ SWIG_AsVal_unsigned_SS_int (PyObject * obj, unsigned int *val)
 }
 
 
+  #define SWIG_From_double   PyFloat_FromDouble 
+
+
 #include "list.hh"
 
 
 #include "face.hh"
-
-
-  #define SWIG_From_double   PyFloat_FromDouble 
 
 
 #include "edge.hh"
@@ -3841,6 +3840,58 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_setPressure(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Cell_setPressure",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setPressure" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Cell_setPressure" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setPressure(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getPressure(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getPressure",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getPressure" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getPressure();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *Cell_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *obj;
   if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
@@ -4354,6 +4405,179 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_setMu(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_setMu",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setMu" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->setMu();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getMu1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getMu1",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getMu1" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getMu1();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getMu2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getMu2",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getMu2" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getMu2();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getMu3(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getMu3",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getMu3" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getMu3();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getMu4(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getMu4",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getMu4" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getMu4();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setTargetFormMatrix(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_setTargetFormMatrix",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setTargetFormMatrix" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->setTargetFormMatrix();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setTraceSquaredTargetFormMatrix(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_setTraceSquaredTargetFormMatrix",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setTraceSquaredTargetFormMatrix" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->setTraceSquaredTargetFormMatrix();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getTraceSquaredTargetFormMatrix(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getTraceSquaredTargetFormMatrix",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getTraceSquaredTargetFormMatrix" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getTraceSquaredTargetFormMatrix();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_setCentralisedCoordinate(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -4368,6 +4592,27 @@ SWIGINTERN PyObject *_wrap_Face_setCentralisedCoordinate(PyObject *SWIGUNUSEDPAR
   }
   arg1 = reinterpret_cast< Face * >(argp1);
   (arg1)->setCentralisedCoordinate();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setProjectedCoordinate(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_setProjectedCoordinate",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setProjectedCoordinate" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->setProjectedCoordinate();
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -5179,402 +5424,6 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Edge_Function1_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Edge *arg1 = (Edge *) 0 ;
-  std::map< unsigned int,double > arg2 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:Edge_Function1_set",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Edge, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Edge_Function1_set" "', argument " "1"" of type '" "Edge *""'"); 
-  }
-  arg1 = reinterpret_cast< Edge * >(argp1);
-  {
-    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_std__mapT_unsigned_int_double_t,  0  | 0);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Edge_Function1_set" "', argument " "2"" of type '" "std::map< unsigned int,double >""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Edge_Function1_set" "', argument " "2"" of type '" "std::map< unsigned int,double >""'");
-    } else {
-      std::map< unsigned int,double > * temp = reinterpret_cast< std::map< unsigned int,double > * >(argp2);
-      arg2 = *temp;
-      if (SWIG_IsNewObj(res2)) delete temp;
-    }
-  }
-  if (arg1) (arg1)->Function1 = arg2;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Edge_Function1_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Edge *arg1 = (Edge *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  std::map< unsigned int,double > result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:Edge_Function1_get",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Edge, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Edge_Function1_get" "', argument " "1"" of type '" "Edge *""'"); 
-  }
-  arg1 = reinterpret_cast< Edge * >(argp1);
-  result =  ((arg1)->Function1);
-  resultobj = SWIG_NewPointerObj((new std::map< unsigned int,double >(static_cast< const std::map< unsigned int,double >& >(result))), SWIGTYPE_p_std__mapT_unsigned_int_double_t, SWIG_POINTER_OWN |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Edge_Function2_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Edge *arg1 = (Edge *) 0 ;
-  std::map< unsigned int,double > arg2 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:Edge_Function2_set",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Edge, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Edge_Function2_set" "', argument " "1"" of type '" "Edge *""'"); 
-  }
-  arg1 = reinterpret_cast< Edge * >(argp1);
-  {
-    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_std__mapT_unsigned_int_double_t,  0  | 0);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Edge_Function2_set" "', argument " "2"" of type '" "std::map< unsigned int,double >""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Edge_Function2_set" "', argument " "2"" of type '" "std::map< unsigned int,double >""'");
-    } else {
-      std::map< unsigned int,double > * temp = reinterpret_cast< std::map< unsigned int,double > * >(argp2);
-      arg2 = *temp;
-      if (SWIG_IsNewObj(res2)) delete temp;
-    }
-  }
-  if (arg1) (arg1)->Function2 = arg2;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Edge_Function2_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Edge *arg1 = (Edge *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  std::map< unsigned int,double > result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:Edge_Function2_get",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Edge, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Edge_Function2_get" "', argument " "1"" of type '" "Edge *""'"); 
-  }
-  arg1 = reinterpret_cast< Edge * >(argp1);
-  result =  ((arg1)->Function2);
-  resultobj = SWIG_NewPointerObj((new std::map< unsigned int,double >(static_cast< const std::map< unsigned int,double >& >(result))), SWIGTYPE_p_std__mapT_unsigned_int_double_t, SWIG_POINTER_OWN |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Edge_Function3_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Edge *arg1 = (Edge *) 0 ;
-  std::map< unsigned int,double > arg2 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:Edge_Function3_set",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Edge, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Edge_Function3_set" "', argument " "1"" of type '" "Edge *""'"); 
-  }
-  arg1 = reinterpret_cast< Edge * >(argp1);
-  {
-    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_std__mapT_unsigned_int_double_t,  0  | 0);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Edge_Function3_set" "', argument " "2"" of type '" "std::map< unsigned int,double >""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Edge_Function3_set" "', argument " "2"" of type '" "std::map< unsigned int,double >""'");
-    } else {
-      std::map< unsigned int,double > * temp = reinterpret_cast< std::map< unsigned int,double > * >(argp2);
-      arg2 = *temp;
-      if (SWIG_IsNewObj(res2)) delete temp;
-    }
-  }
-  if (arg1) (arg1)->Function3 = arg2;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Edge_Function3_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Edge *arg1 = (Edge *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  std::map< unsigned int,double > result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:Edge_Function3_get",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Edge, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Edge_Function3_get" "', argument " "1"" of type '" "Edge *""'"); 
-  }
-  arg1 = reinterpret_cast< Edge * >(argp1);
-  result =  ((arg1)->Function3);
-  resultobj = SWIG_NewPointerObj((new std::map< unsigned int,double >(static_cast< const std::map< unsigned int,double >& >(result))), SWIGTYPE_p_std__mapT_unsigned_int_double_t, SWIG_POINTER_OWN |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Edge_Ak_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Edge *arg1 = (Edge *) 0 ;
-  std::map< unsigned int,double > arg2 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:Edge_Ak_set",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Edge, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Edge_Ak_set" "', argument " "1"" of type '" "Edge *""'"); 
-  }
-  arg1 = reinterpret_cast< Edge * >(argp1);
-  {
-    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_std__mapT_unsigned_int_double_t,  0  | 0);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Edge_Ak_set" "', argument " "2"" of type '" "std::map< unsigned int,double >""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Edge_Ak_set" "', argument " "2"" of type '" "std::map< unsigned int,double >""'");
-    } else {
-      std::map< unsigned int,double > * temp = reinterpret_cast< std::map< unsigned int,double > * >(argp2);
-      arg2 = *temp;
-      if (SWIG_IsNewObj(res2)) delete temp;
-    }
-  }
-  if (arg1) (arg1)->Ak = arg2;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Edge_Ak_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Edge *arg1 = (Edge *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  std::map< unsigned int,double > result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:Edge_Ak_get",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Edge, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Edge_Ak_get" "', argument " "1"" of type '" "Edge *""'"); 
-  }
-  arg1 = reinterpret_cast< Edge * >(argp1);
-  result =  ((arg1)->Ak);
-  resultobj = SWIG_NewPointerObj((new std::map< unsigned int,double >(static_cast< const std::map< unsigned int,double >& >(result))), SWIGTYPE_p_std__mapT_unsigned_int_double_t, SWIG_POINTER_OWN |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Edge_setFunction1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Edge *arg1 = (Edge *) 0 ;
-  unsigned int arg2 ;
-  Edge *arg3 = (Edge *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  unsigned int val2 ;
-  int ecode2 = 0 ;
-  void *argp3 = 0 ;
-  int res3 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OOO:Edge_setFunction1",&obj0,&obj1,&obj2)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Edge, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Edge_setFunction1" "', argument " "1"" of type '" "Edge *""'"); 
-  }
-  arg1 = reinterpret_cast< Edge * >(argp1);
-  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Edge_setFunction1" "', argument " "2"" of type '" "unsigned int""'");
-  } 
-  arg2 = static_cast< unsigned int >(val2);
-  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Edge, 0 |  0 );
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Edge_setFunction1" "', argument " "3"" of type '" "Edge *""'"); 
-  }
-  arg3 = reinterpret_cast< Edge * >(argp3);
-  (arg1)->setFunction1(arg2,arg3);
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Edge_setFunction2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Edge *arg1 = (Edge *) 0 ;
-  unsigned int arg2 ;
-  Edge *arg3 = (Edge *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  unsigned int val2 ;
-  int ecode2 = 0 ;
-  void *argp3 = 0 ;
-  int res3 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OOO:Edge_setFunction2",&obj0,&obj1,&obj2)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Edge, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Edge_setFunction2" "', argument " "1"" of type '" "Edge *""'"); 
-  }
-  arg1 = reinterpret_cast< Edge * >(argp1);
-  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Edge_setFunction2" "', argument " "2"" of type '" "unsigned int""'");
-  } 
-  arg2 = static_cast< unsigned int >(val2);
-  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Edge, 0 |  0 );
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Edge_setFunction2" "', argument " "3"" of type '" "Edge *""'"); 
-  }
-  arg3 = reinterpret_cast< Edge * >(argp3);
-  (arg1)->setFunction2(arg2,arg3);
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Edge_setFunction3(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Edge *arg1 = (Edge *) 0 ;
-  unsigned int arg2 ;
-  Edge *arg3 = (Edge *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  unsigned int val2 ;
-  int ecode2 = 0 ;
-  void *argp3 = 0 ;
-  int res3 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OOO:Edge_setFunction3",&obj0,&obj1,&obj2)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Edge, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Edge_setFunction3" "', argument " "1"" of type '" "Edge *""'"); 
-  }
-  arg1 = reinterpret_cast< Edge * >(argp1);
-  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Edge_setFunction3" "', argument " "2"" of type '" "unsigned int""'");
-  } 
-  arg2 = static_cast< unsigned int >(val2);
-  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Edge, 0 |  0 );
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Edge_setFunction3" "', argument " "3"" of type '" "Edge *""'"); 
-  }
-  arg3 = reinterpret_cast< Edge * >(argp3);
-  (arg1)->setFunction3(arg2,arg3);
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Edge_setAk(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Edge *arg1 = (Edge *) 0 ;
-  unsigned int arg2 ;
-  Edge *arg3 = (Edge *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  unsigned int val2 ;
-  int ecode2 = 0 ;
-  void *argp3 = 0 ;
-  int res3 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  PyObject * obj2 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OOO:Edge_setAk",&obj0,&obj1,&obj2)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Edge, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Edge_setAk" "', argument " "1"" of type '" "Edge *""'"); 
-  }
-  arg1 = reinterpret_cast< Edge * >(argp1);
-  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Edge_setAk" "', argument " "2"" of type '" "unsigned int""'");
-  } 
-  arg2 = static_cast< unsigned int >(val2);
-  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Edge, 0 |  0 );
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "Edge_setAk" "', argument " "3"" of type '" "Edge *""'"); 
-  }
-  arg3 = reinterpret_cast< Edge * >(argp3);
-  (arg1)->setAk(arg2,arg3);
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
 SWIGINTERN PyObject *Edge_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *obj;
   if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
@@ -6123,6 +5972,84 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Vertex_insertNonCentralisedProjectedXcoordinate(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  double arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:Vertex_insertNonCentralisedProjectedXcoordinate",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_insertNonCentralisedProjectedXcoordinate" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_insertNonCentralisedProjectedXcoordinate" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  ecode3 = SWIG_AsVal_double(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "Vertex_insertNonCentralisedProjectedXcoordinate" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = static_cast< double >(val3);
+  (arg1)->insertNonCentralisedProjectedXcoordinate(arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_insertNonCentralisedProjectedYcoordinate(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  double arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:Vertex_insertNonCentralisedProjectedYcoordinate",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_insertNonCentralisedProjectedYcoordinate" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_insertNonCentralisedProjectedYcoordinate" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  ecode3 = SWIG_AsVal_double(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "Vertex_insertNonCentralisedProjectedYcoordinate" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = static_cast< double >(val3);
+  (arg1)->insertNonCentralisedProjectedYcoordinate(arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Vertex_getProjectedXcoordinate(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Vertex *arg1 = (Vertex *) 0 ;
@@ -6178,6 +6105,1301 @@ SWIGINTERN PyObject *_wrap_Vertex_getProjectedYcoordinate(PyObject *SWIGUNUSEDPA
   } 
   arg2 = static_cast< unsigned int >(val2);
   result = (double)(arg1)->getProjectedYcoordinate(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getNonCentralisedProjectedXcoordinate(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getNonCentralisedProjectedXcoordinate",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getNonCentralisedProjectedXcoordinate" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getNonCentralisedProjectedXcoordinate" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getNonCentralisedProjectedXcoordinate(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getNonCentralisedProjectedYcoordinate(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getNonCentralisedProjectedYcoordinate",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getNonCentralisedProjectedYcoordinate" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getNonCentralisedProjectedYcoordinate" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getNonCentralisedProjectedYcoordinate(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setAreaDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setAreaDerivative",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setAreaDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setAreaDerivative();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getAreaXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getAreaXDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getAreaXDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getAreaXDerivative" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getAreaXDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getAreaYDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getAreaYDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getAreaYDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getAreaYDerivative" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getAreaYDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setAkDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setAkDerivative",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setAkDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setAkDerivative();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getAkXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getAkXDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getAkXDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getAkXDerivative" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getAkXDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getAkYDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getAkYDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getAkYDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getAkYDerivative" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getAkYDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setMuXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setMuXDerivative",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setMuXDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setMuXDerivative();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setMuSquaredXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setMuSquaredXDerivative",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setMuSquaredXDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setMuSquaredXDerivative();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setFirstTermXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setFirstTermXDerivative",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setFirstTermXDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setFirstTermXDerivative();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setSecondTermXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setSecondTermXDerivative",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setSecondTermXDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setSecondTermXDerivative();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setThirdTermXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setThirdTermXDerivative",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setThirdTermXDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setThirdTermXDerivative();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getMu1XDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getMu1XDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getMu1XDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getMu1XDerivative" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getMu1XDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getMu4XDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getMu4XDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getMu4XDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getMu4XDerivative" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getMu4XDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getFirstTermXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_getFirstTermXDerivative",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getFirstTermXDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  result = (double)(arg1)->getFirstTermXDerivative();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getSecondTermXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_getSecondTermXDerivative",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getSecondTermXDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  result = (double)(arg1)->getSecondTermXDerivative();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getThirdTermXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_getThirdTermXDerivative",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getThirdTermXDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  result = (double)(arg1)->getThirdTermXDerivative();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getMu1SquaredXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getMu1SquaredXDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getMu1SquaredXDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getMu1SquaredXDerivative" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getMu1SquaredXDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getMu2SquaredXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getMu2SquaredXDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getMu2SquaredXDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getMu2SquaredXDerivative" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getMu2SquaredXDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getMu3SquaredXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getMu3SquaredXDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getMu3SquaredXDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getMu3SquaredXDerivative" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getMu3SquaredXDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getMu4SquaredXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getMu4SquaredXDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getMu4SquaredXDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getMu4SquaredXDerivative" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getMu4SquaredXDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setMuYDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setMuYDerivative",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setMuYDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setMuYDerivative();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setMuSquaredYDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setMuSquaredYDerivative",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setMuSquaredYDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setMuSquaredYDerivative();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setFirstTermYDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setFirstTermYDerivative",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setFirstTermYDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setFirstTermYDerivative();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setSecondTermYDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setSecondTermYDerivative",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setSecondTermYDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setSecondTermYDerivative();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setThirdTermYDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setThirdTermYDerivative",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setThirdTermYDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setThirdTermYDerivative();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getFirstTermYDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_getFirstTermYDerivative",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getFirstTermYDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  result = (double)(arg1)->getFirstTermYDerivative();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getSecondTermYDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_getSecondTermYDerivative",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getSecondTermYDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  result = (double)(arg1)->getSecondTermYDerivative();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getThirdTermYDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_getThirdTermYDerivative",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getThirdTermYDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  result = (double)(arg1)->getThirdTermYDerivative();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getMu1YDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getMu1YDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getMu1YDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getMu1YDerivative" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getMu1YDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getMu4YDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getMu4YDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getMu4YDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getMu4YDerivative" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getMu4YDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getMu1SquaredYDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getMu1SquaredYDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getMu1SquaredYDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getMu1SquaredYDerivative" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getMu1SquaredYDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getMu2SquaredYDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getMu2SquaredYDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getMu2SquaredYDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getMu2SquaredYDerivative" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getMu2SquaredYDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getMu3SquaredYDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getMu3SquaredYDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getMu3SquaredYDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getMu3SquaredYDerivative" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getMu3SquaredYDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getMu4SquaredYDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getMu4SquaredYDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getMu4SquaredYDerivative" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getMu4SquaredYDerivative" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getMu4SquaredYDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setFunctions(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setFunctions",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setFunctions" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setFunctions();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setFunction1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setFunction1",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setFunction1" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setFunction1();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setFunction2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setFunction2",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setFunction2" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setFunction2();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setFunction3(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setFunction3",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setFunction3" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setFunction3();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setAk(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setAk",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setAk" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setAk();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getAk(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getAk",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getAk" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getAk" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getAk(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getFunction1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getFunction1",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getFunction1" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getFunction1" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getFunction1(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getFunction2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getFunction2",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getFunction2" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getFunction2" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getFunction2(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getFunction3(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getFunction3",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getFunction3" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getFunction3" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getFunction3(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getMu1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getMu1",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getMu1" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getMu1" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getMu1(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getMu2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getMu2",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getMu2" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getMu2" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getMu2(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getMu3(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getMu3",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getMu3" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getMu3" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getMu3(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getMu4(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_getMu4",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getMu4" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_getMu4" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  result = (double)(arg1)->getMu4(arg2);
   resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
@@ -6365,6 +7587,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_addFace", _wrap_Cell_addFace, METH_VARARGS, NULL},
 	 { (char *)"Cell_removeFace", _wrap_Cell_removeFace, METH_VARARGS, NULL},
 	 { (char *)"Cell_makeFaceID", _wrap_Cell_makeFaceID, METH_VARARGS, NULL},
+	 { (char *)"Cell_setPressure", _wrap_Cell_setPressure, METH_VARARGS, NULL},
+	 { (char *)"Cell_getPressure", _wrap_Cell_getPressure, METH_VARARGS, NULL},
 	 { (char *)"Cell_swigregister", Cell_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_CellVertexIterator", _wrap_new_CellVertexIterator, METH_VARARGS, NULL},
 	 { (char *)"delete_CellVertexIterator", _wrap_delete_CellVertexIterator, METH_VARARGS, NULL},
@@ -6388,7 +7612,16 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getIthVertex", _wrap_Face_getIthVertex, METH_VARARGS, NULL},
 	 { (char *)"Face_addVertex", _wrap_Face_addVertex, METH_VARARGS, NULL},
 	 { (char *)"Face_removeVertex", _wrap_Face_removeVertex, METH_VARARGS, NULL},
+	 { (char *)"Face_setMu", _wrap_Face_setMu, METH_VARARGS, NULL},
+	 { (char *)"Face_getMu1", _wrap_Face_getMu1, METH_VARARGS, NULL},
+	 { (char *)"Face_getMu2", _wrap_Face_getMu2, METH_VARARGS, NULL},
+	 { (char *)"Face_getMu3", _wrap_Face_getMu3, METH_VARARGS, NULL},
+	 { (char *)"Face_getMu4", _wrap_Face_getMu4, METH_VARARGS, NULL},
+	 { (char *)"Face_setTargetFormMatrix", _wrap_Face_setTargetFormMatrix, METH_VARARGS, NULL},
+	 { (char *)"Face_setTraceSquaredTargetFormMatrix", _wrap_Face_setTraceSquaredTargetFormMatrix, METH_VARARGS, NULL},
+	 { (char *)"Face_getTraceSquaredTargetFormMatrix", _wrap_Face_getTraceSquaredTargetFormMatrix, METH_VARARGS, NULL},
 	 { (char *)"Face_setCentralisedCoordinate", _wrap_Face_setCentralisedCoordinate, METH_VARARGS, NULL},
+	 { (char *)"Face_setProjectedCoordinate", _wrap_Face_setProjectedCoordinate, METH_VARARGS, NULL},
 	 { (char *)"Face_getXCentralised", _wrap_Face_getXCentralised, METH_VARARGS, NULL},
 	 { (char *)"Face_getYCentralised", _wrap_Face_getYCentralised, METH_VARARGS, NULL},
 	 { (char *)"Face_setAreaOfFace", _wrap_Face_setAreaOfFace, METH_VARARGS, NULL},
@@ -6425,18 +7658,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Edge_Lprev", _wrap_Edge_Lprev, METH_VARARGS, NULL},
 	 { (char *)"Edge_Rnext", _wrap_Edge_Rnext, METH_VARARGS, NULL},
 	 { (char *)"Edge_Rprev", _wrap_Edge_Rprev, METH_VARARGS, NULL},
-	 { (char *)"Edge_Function1_set", _wrap_Edge_Function1_set, METH_VARARGS, NULL},
-	 { (char *)"Edge_Function1_get", _wrap_Edge_Function1_get, METH_VARARGS, NULL},
-	 { (char *)"Edge_Function2_set", _wrap_Edge_Function2_set, METH_VARARGS, NULL},
-	 { (char *)"Edge_Function2_get", _wrap_Edge_Function2_get, METH_VARARGS, NULL},
-	 { (char *)"Edge_Function3_set", _wrap_Edge_Function3_set, METH_VARARGS, NULL},
-	 { (char *)"Edge_Function3_get", _wrap_Edge_Function3_get, METH_VARARGS, NULL},
-	 { (char *)"Edge_Ak_set", _wrap_Edge_Ak_set, METH_VARARGS, NULL},
-	 { (char *)"Edge_Ak_get", _wrap_Edge_Ak_get, METH_VARARGS, NULL},
-	 { (char *)"Edge_setFunction1", _wrap_Edge_setFunction1, METH_VARARGS, NULL},
-	 { (char *)"Edge_setFunction2", _wrap_Edge_setFunction2, METH_VARARGS, NULL},
-	 { (char *)"Edge_setFunction3", _wrap_Edge_setFunction3, METH_VARARGS, NULL},
-	 { (char *)"Edge_setAk", _wrap_Edge_setAk, METH_VARARGS, NULL},
 	 { (char *)"Edge_swigregister", Edge_swigregister, METH_VARARGS, NULL},
 	 { (char *)"objReadCell", _wrap_objReadCell, METH_VARARGS, NULL},
 	 { (char *)"objWriteCell", _wrap_objWriteCell, METH_VARARGS, NULL},
@@ -6458,8 +7679,59 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Vertex_setID", _wrap_Vertex_setID, METH_VARARGS, NULL},
 	 { (char *)"Vertex_insertProjectedXcoordinate", _wrap_Vertex_insertProjectedXcoordinate, METH_VARARGS, NULL},
 	 { (char *)"Vertex_insertProjectedYcoordinate", _wrap_Vertex_insertProjectedYcoordinate, METH_VARARGS, NULL},
+	 { (char *)"Vertex_insertNonCentralisedProjectedXcoordinate", _wrap_Vertex_insertNonCentralisedProjectedXcoordinate, METH_VARARGS, NULL},
+	 { (char *)"Vertex_insertNonCentralisedProjectedYcoordinate", _wrap_Vertex_insertNonCentralisedProjectedYcoordinate, METH_VARARGS, NULL},
 	 { (char *)"Vertex_getProjectedXcoordinate", _wrap_Vertex_getProjectedXcoordinate, METH_VARARGS, NULL},
 	 { (char *)"Vertex_getProjectedYcoordinate", _wrap_Vertex_getProjectedYcoordinate, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getNonCentralisedProjectedXcoordinate", _wrap_Vertex_getNonCentralisedProjectedXcoordinate, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getNonCentralisedProjectedYcoordinate", _wrap_Vertex_getNonCentralisedProjectedYcoordinate, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setAreaDerivative", _wrap_Vertex_setAreaDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getAreaXDerivative", _wrap_Vertex_getAreaXDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getAreaYDerivative", _wrap_Vertex_getAreaYDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setAkDerivative", _wrap_Vertex_setAkDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getAkXDerivative", _wrap_Vertex_getAkXDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getAkYDerivative", _wrap_Vertex_getAkYDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setMuXDerivative", _wrap_Vertex_setMuXDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setMuSquaredXDerivative", _wrap_Vertex_setMuSquaredXDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setFirstTermXDerivative", _wrap_Vertex_setFirstTermXDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setSecondTermXDerivative", _wrap_Vertex_setSecondTermXDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setThirdTermXDerivative", _wrap_Vertex_setThirdTermXDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getMu1XDerivative", _wrap_Vertex_getMu1XDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getMu4XDerivative", _wrap_Vertex_getMu4XDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getFirstTermXDerivative", _wrap_Vertex_getFirstTermXDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getSecondTermXDerivative", _wrap_Vertex_getSecondTermXDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getThirdTermXDerivative", _wrap_Vertex_getThirdTermXDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getMu1SquaredXDerivative", _wrap_Vertex_getMu1SquaredXDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getMu2SquaredXDerivative", _wrap_Vertex_getMu2SquaredXDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getMu3SquaredXDerivative", _wrap_Vertex_getMu3SquaredXDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getMu4SquaredXDerivative", _wrap_Vertex_getMu4SquaredXDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setMuYDerivative", _wrap_Vertex_setMuYDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setMuSquaredYDerivative", _wrap_Vertex_setMuSquaredYDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setFirstTermYDerivative", _wrap_Vertex_setFirstTermYDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setSecondTermYDerivative", _wrap_Vertex_setSecondTermYDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setThirdTermYDerivative", _wrap_Vertex_setThirdTermYDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getFirstTermYDerivative", _wrap_Vertex_getFirstTermYDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getSecondTermYDerivative", _wrap_Vertex_getSecondTermYDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getThirdTermYDerivative", _wrap_Vertex_getThirdTermYDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getMu1YDerivative", _wrap_Vertex_getMu1YDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getMu4YDerivative", _wrap_Vertex_getMu4YDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getMu1SquaredYDerivative", _wrap_Vertex_getMu1SquaredYDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getMu2SquaredYDerivative", _wrap_Vertex_getMu2SquaredYDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getMu3SquaredYDerivative", _wrap_Vertex_getMu3SquaredYDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getMu4SquaredYDerivative", _wrap_Vertex_getMu4SquaredYDerivative, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setFunctions", _wrap_Vertex_setFunctions, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setFunction1", _wrap_Vertex_setFunction1, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setFunction2", _wrap_Vertex_setFunction2, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setFunction3", _wrap_Vertex_setFunction3, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setAk", _wrap_Vertex_setAk, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getAk", _wrap_Vertex_getAk, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getFunction1", _wrap_Vertex_getFunction1, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getFunction2", _wrap_Vertex_getFunction2, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getFunction3", _wrap_Vertex_getFunction3, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getMu1", _wrap_Vertex_getMu1, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getMu2", _wrap_Vertex_getMu2, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getMu3", _wrap_Vertex_getMu3, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getMu4", _wrap_Vertex_getMu4, METH_VARARGS, NULL},
 	 { (char *)"Vertex_getEdge", _wrap_Vertex_getEdge, METH_VARARGS, NULL},
 	 { (char *)"Vertex_addEdge", _wrap_Vertex_addEdge, METH_VARARGS, NULL},
 	 { (char *)"Vertex_removeEdge", _wrap_Vertex_removeEdge, METH_VARARGS, NULL},
@@ -6484,7 +7756,6 @@ static swig_type_info _swigt__p_Vec3 = {"_p_Vec3", "Vec3 *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Vertex = {"_p_Vertex", "Vertex *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_VertexEdgeIterator = {"_p_VertexEdgeIterator", "VertexEdgeIterator *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_std__mapT_unsigned_int_double_t = {"_p_std__mapT_unsigned_int_double_t", "std::map< unsigned int,double > *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_void = {"_p_void", "void *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
@@ -6498,7 +7769,6 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Vertex,
   &_swigt__p_VertexEdgeIterator,
   &_swigt__p_char,
-  &_swigt__p_std__mapT_unsigned_int_double_t,
   &_swigt__p_void,
 };
 
@@ -6512,7 +7782,6 @@ static swig_cast_info _swigc__p_Vec3[] = {  {&_swigt__p_Vec3, 0, 0, 0},{0, 0, 0,
 static swig_cast_info _swigc__p_Vertex[] = {  {&_swigt__p_Vertex, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_VertexEdgeIterator[] = {  {&_swigt__p_VertexEdgeIterator, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
-static swig_cast_info _swigc__p_std__mapT_unsigned_int_double_t[] = {  {&_swigt__p_std__mapT_unsigned_int_double_t, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_void[] = {  {&_swigt__p_void, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
@@ -6526,7 +7795,6 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Vertex,
   _swigc__p_VertexEdgeIterator,
   _swigc__p_char,
-  _swigc__p_std__mapT_unsigned_int_double_t,
   _swigc__p_void,
 };
 
