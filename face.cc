@@ -62,28 +62,11 @@ void Face::removeEdge(Edge *edge)
   this->edge = next!=edge ? next : 0;
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
-void Face::setCentralisedCoordinate(){
-  FaceEdgeIterator edges(this);//iterator to iterate through the face
-  Edge *newedge;//a pointer to keep current edge
-  double area = this->areaOfFace;//area of face
-  unsigned int faceid = this->id;//getting the face id
-  //temporary variables to calculate centralised Coordinates
-  double xTemp = 0;
-  double yTemp = 0;
-  //temporary vertex pointer
-  Vertex *vertexOrg;
-  Vertex *vertexDest;
-  //now looping through all the edges of this face and calculating the cnetralised coordinate
-  while ((newedge = edges.next())!=0){//until exhausted
-    vertexOrg = newedge->Org();
-    vertexDest = newedge->Dest();
-    xTemp += (vertexOrg->getProjectedXcoordinate(id)+vertexDest->getProjectedXcoordinate(id))*
-              vertexOrg->getAk(faceid);//summing (x_i + x_i+1)*Ak
-    yTemp += (vertexOrg->getProjectedYcoordinate(id)+vertexDest->getProjectedYcoordinate(id))*
-              vertexOrg->getAk(faceid);//summing (y_i + y_i+1)*Ak
-  }
-  this->xCentralised = xTemp/(6*area);
-  this->yCentralised = yTemp/(6*area); 
+void Face::setCentralisedCoordinate(double xcent, double ycent, double zcent){
+  
+  this->xCentralised = xcent;
+  this->yCentralised = ycent; 
+  this->zCentralised = zcent;
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
 void Face::setProjectedCoordinate(){
@@ -96,10 +79,10 @@ void Face::setProjectedCoordinate(){
     } 
     FaceEdgeIterator faceEdges(this);//iterator to iterate through the vertex for outgoign edge
     double nx,ny;//normal coordinate
-    double xCentroid(0), yCentroid(0), zCentroid(0), totalarea(0); // coordinate of the cnetroid
+    double xCentroid(0), yCentroid(0), zCentroid(0); // coordinate of the cnetroid
     // array of vertices
     double xcood[6], ycood[6], zcood[6];// coordinate of the vertices of this face
-    double xTriCen[6], yTriCen[6], zTriCen[6], areaTri[6];// coordinate of center of triangluated triangles of face
+    double xTriCen[6], yTriCen[6], zTriCen[6], areaTri;// coordinate of center of triangluated triangles of face
     //areaTri : area of triangles
     double xmean(0), ymean(0), zmean(0);//mean center of the face
     int counter;//counter to keep track of vertices
@@ -131,7 +114,7 @@ void Face::setProjectedCoordinate(){
     //vectors of the triangles 
     double vector1[3],vector2[3];
     double crossProductVector[3];//cross product of the vector
-    double crossProductMagnitude;//cross product magintude
+    double crossProductMagnitude, totalarea(0);//cross product magintude
     for (int counter = 0; counter<6; counter++){
           // calculating center of the triangles
           xTriCen[counter] = 1./3.*(xmean+xcood[counter]+xcood[(counter+1)%6]);
@@ -139,58 +122,64 @@ void Face::setProjectedCoordinate(){
           zTriCen[counter] = 1./3.*(zmean+zcood[counter]+zcood[(counter+1)%6]);
           //printf("counter = %d; center of triangles : %F ; %F ; %F \n", counter, xTriCen[counter], yTriCen[counter], zTriCen[counter]);
           //getting two vectors of this triangle
-          vector1[0] = xcood[counter]-xTriCen[counter];
-          vector1[1] = ycood[counter]-yTriCen[counter];
-          vector1[2] = zcood[counter]-zTriCen[counter];
-          vector2[0] = xcood[(counter+1)%6]-xTriCen[counter];
-          vector2[1] = ycood[(counter+1)%6]-yTriCen[counter];
-          vector2[2] = zcood[(counter+1)%6]-zTriCen[counter];
+          vector1[0] = xcood[counter]-xmean;
+          vector1[1] = ycood[counter]-ymean;
+          vector1[2] = zcood[counter]-zmean;
+          vector2[0] = xcood[(counter+1)%6]-xmean;
+          vector2[1] = ycood[(counter+1)%6]-ymean;
+          vector2[2] = zcood[(counter+1)%6]-zmean;
           //cross product of the two vectors
           crossProductVector[0] = vector1[1]*vector2[2] - vector1[2]*vector2[1];
           crossProductVector[1] = vector1[2]*vector2[0] - vector1[0]*vector2[2];
           crossProductVector[2] = vector1[0]*vector2[1] - vector1[1]*vector2[0];
           //maginitude of cross product
-          crossProductMagnitude = sqrt(crossProductVector[0]*crossProductVector[0] + crossProductVector[1]+crossProductVector[1]+
+          crossProductMagnitude = sqrt(crossProductVector[0]*crossProductVector[0] + crossProductVector[1]*crossProductVector[1]+
                                   crossProductVector[2]*crossProductVector[2]);
-          areaTri[counter] = 0.5*crossProductMagnitude;//area of this triangle
-          xCentroid += xTriCen[counter]*areaTri[counter];//adding the weigthed centroid
-          yCentroid += yTriCen[counter]*areaTri[counter];
-          zCentroid += zTriCen[counter]*areaTri[counter]; 
+          areaTri = 0.5*crossProductMagnitude;//area of this triangle
+          xCentroid += xTriCen[counter]*areaTri;//adding the weigthed centroid
+          yCentroid += yTriCen[counter]*areaTri;
+          zCentroid += zTriCen[counter]*areaTri; 
           //adding total area
-          totalarea += areaTri[counter];// calculating total area of triange
+          totalarea += areaTri;// calculating total area of triange
       }
     //now calculating weighted center
     xCentroid = xCentroid/totalarea;
     yCentroid = yCentroid/totalarea;
     zCentroid = zCentroid/totalarea;
-    //printf("%s : ", "calculating total area");
-    //printf("%F", totalarea );
+    // setting the central coordinate of this face in terms of cartisian coordinate
+    this->xCentralised = xCentroid;
+    this->yCentralised = yCentroid;
+    this->zCentralised = zCentroid;
+    //printf("%s %u %F \n ", "calculating total area of Face :",faceid, totalarea);
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
     //Calculating normal of the triangles of the shape and then calculating weighted normal
     double normalTempX[6],normalTempY[6],normalTempZ[6];//vertices of normal of triangles
+    totalarea = 0;
     double normalX(0), normalY(0), normalZ(0); // vertices of weighted normal X, Y, Z 
     for (int counter = 0; counter<6; counter++){//triangulating the vertices with centroid of this face
           //getting two vectors of this triangle
           vector1[0] = xcood[counter]-xCentroid;
           vector1[1] = ycood[counter]-yCentroid;
           vector1[2] = zcood[counter]-zCentroid;
-          vector2[0] = xcood[(counter+1)%6]-xTriCen[counter];
-          vector2[1] = ycood[(counter+1)%6]-yTriCen[counter];
-          vector2[2] = zcood[(counter+1)%6]-zTriCen[counter];
+          vector2[0] = xcood[(counter+1)%6]-xCentroid;
+          vector2[1] = ycood[(counter+1)%6]-yCentroid;             
+          vector2[2] = zcood[(counter+1)%6]-zCentroid;
           //cross product of the two vectors
           crossProductVector[0] = vector1[1]*vector2[2] - vector1[2]*vector2[1];
           crossProductVector[1] = vector1[2]*vector2[0] - vector1[0]*vector2[2];
           crossProductVector[2] = vector1[0]*vector2[1] - vector1[1]*vector2[0];
           //maginitude of cross product
-          crossProductMagnitude = sqrt(crossProductVector[0]*crossProductVector[0] + crossProductVector[1]+crossProductVector[1]+
+          crossProductMagnitude = sqrt(crossProductVector[0]*crossProductVector[0] + crossProductVector[1]*crossProductVector[1]+
                                   crossProductVector[2]*crossProductVector[2]);
-          areaTri[counter] = 0.5*crossProductMagnitude;//area of this triangle
+          areaTri = 0.5*crossProductMagnitude;//area of this triangle
           //adding the weigthed centroid 
-          normalX += crossProductVector[0]*areaTri[counter];
-          normalY += crossProductVector[1]*areaTri[counter];
-          normalZ += crossProductVector[2]*areaTri[counter]; 
+          normalX += crossProductVector[0]*areaTri;
+          normalY += crossProductVector[1]*areaTri;
+          normalZ += crossProductVector[2]*areaTri; 
+          totalarea += areaTri;
           //total area is same as before calculated for this face
       }
+    printf("%s %u %F \n ", "calculating total area of Face :",faceid, totalarea);
     //weighted normal to this face
     normalX = normalX/totalarea;
     normalY = normalY/totalarea;
@@ -228,10 +217,21 @@ void Face::setProjectedCoordinate(){
     //now need to get this projected 3d plane coordinates onto rotated 2d coordinate system
     // getting the unit vector of 2d Plane
     double unitx[3], unity[3];//new unit vector of x, y on the plane
+    //to get the unit vector in X direction, lets project X axis (1,0,0) on to the plane
+    //vector from (1,0,0)+(xCentroid,Ycentroid,Zcentroid) until xCentroid
+    vectorVertex[0] = 1.+xCentroid-xCentroid;
+    vectorVertex[1] = 0.+yCentroid-yCentroid;
+    vectorVertex[2] = 0.+zCentroid-zCentroid;
+    //dot product of vectorVertex and normal
+    dotproduct = vectorVertex[0]*normalX+vectorVertex[1]*normalY+vectorVertex[2]*normalZ;
+    //now calculating the projected vertices 
+    unitx[0]  = 1.0 +xCentroid- dotproduct*normalX;
+    unitx[1] = 0.+yCentroid - dotproduct*normalY;
+    unitx[2] = 0.+zCentroid - dotproduct*normalZ;
     //getting the unitx = normalised[Projectedvertex1 - Origin]
-    unitx[0] = xproj[0]- xCentroid;
-    unitx[1] = yproj[0]- yCentroid;
-    unitx[2] = zproj[0]- zCentroid;
+    unitx[0] = unitx[0]- xCentroid;
+    unitx[1] = unitx[1]- yCentroid;
+    unitx[2] = unitx[2]- zCentroid;
     // normalising unitx
     double normUnitx   = sqrt(pow(unitx[0],2)+pow(unitx[1],2)+pow(unitx[2],2));
     unitx[0] = unitx[0]/normUnitx;

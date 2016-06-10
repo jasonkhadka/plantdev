@@ -300,10 +300,22 @@ class Cell
    * The next unused face ID.
    */
   unsigned int faceID;
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+  // Parameters of Simulation 
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
   /**
    * Pressure of cells (faces) on this tissue
    */
   double pressure;
+  /**
+   * Alpha : coefficient of first term of Energy
+   */
+   double alpha;
+   /**
+   * Beta : coefficient of second term of Energy
+   */
+   double beta;
+   
   // **************************************************************** //
   // Public instance method //
 public:
@@ -316,6 +328,23 @@ public:
    * function to get the pressure of the cell
    */
   double getPressure();
+  /**
+   * setting the alpha parameter of energy
+   */
+  void setAlpha(double );
+  /**
+   * function to get the alpha of the cell
+   */
+  double getAlpha();
+  /**
+   * setting the beta parameter of energy
+   */
+  void setBeta(double );
+  /**
+   * function to get the beta of the cell
+   */
+  double getBeta();
+  
   /* -- friend classes ----------------------------------------------------- */
 
   friend CellVertexIterator;
@@ -328,7 +357,14 @@ inline double Cell::getPressure()
 {
   return pressure;
 }
-
+inline double Cell::getAlpha()
+{
+  return alpha;
+}
+inline double Cell::getBeta()
+{
+  return beta;
+}
 inline unsigned int Cell::countVertices()
 {
   return vertexCount;

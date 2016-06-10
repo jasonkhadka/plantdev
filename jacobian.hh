@@ -13,5 +13,23 @@
  * This calculates Energy and Jacobian of a given cell (tissue)
  * ----------------------------------------------------------------------------------------------
  */
- 
-void Jacobian(Cell *cell);
+/**
+ * Task : give the total energy of the faces in the cell
+ * 		  or in biological terms : total energy of the tissue ( sum over all cells)
+ * Input : cell that contains all the information of faces and vertex of tissue
+ * Return : a double that is the total energy of the cell (tissue)
+ */
+double energyOfCell(Cell *cell);
+/**
+ * Task : Calculate the energy of the given face
+ * Input : pointer to the face
+ * Result : a double that is the energy of this face
+ */
+double energyOfFace(Face *face);
+/**
+ * Task : total jacobian of the tissue
+ * @details [long description]
+ * 
+ * @param cell [description]
+ */
+double jacobianOfCell(Cell *cell);

@@ -17,6 +17,13 @@
  void Cell::setPressure(double inputpressure){
       this->pressure = inputpressure;
  }
+ void Cell::setAlpha(double inputAlpha){
+      this->alpha = inputAlpha;
+ }
+ void Cell::setBeta(double inputBeta){
+      this->beta = inputBeta;
+ }
+ 
 /* -- public class methods ------------------------------------------------- */
 
 Cell *Cell::make()

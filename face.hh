@@ -171,16 +171,19 @@ class Face
   Edge *edge;
   /**
    * x centralised coordinate 
-   * of this face or (cell in biology) goes through all the vertices in 
-   * the face and calculates the centralised cordinates
+   * of this face or (cell in biology) 
    */
   double xCentralised;
   /**
    * y centralised coordinate 
-   * of this face or (cell in biology) goes through all the vertices in 
-   * the face and calculates the centralised cordinates
+   * of this face or (cell in biology) 
    */
   double yCentralised;
+    /**
+   * Z centralised coordinate 
+   * of this face or (cell in biology) 
+   */
+  double zCentralised;
   /*
    * Area of face
    * Positive
@@ -189,6 +192,7 @@ class Face
    double areaOfFace;
 
   //***************added features*******************************************//
+   //defing the type for 2d double array that would be used as matrix for Form Matrix
    /**
     * The vertices in this face
     * nonnull
@@ -205,6 +209,10 @@ class Face
      * Greater than or equal to _vertexCount_.
      */
     unsigned int vertexSize;
+    //***************end added features****************************************//
+  /* ----------Public instance methods ---------*/
+ /* -- public instance methods ----------------------------------------- */
+    public:
    /**
     * targetFormMatrix of this face (or cell in biological terms)
     * **for now this is jsut the form matrix of current shape
@@ -220,10 +228,6 @@ class Face
      * Needed to calculate the analytic jacobian
      */
      double mu1, mu2, mu3, mu4;
-  //***************end added features****************************************//
-  /* ----------Public instance methods ---------*/
-  public:
- /* -- public instance methods ----------------------------------------- */
   /**
    * function to set the value of mu1, mu2, mu3, mu4
    */
@@ -260,7 +264,7 @@ class Face
   /**
    * set centralised Coordinates of this face
    */
-   void setCentralisedCoordinate();
+   void setCentralisedCoordinate(double, double,double);
    /**
     * Function to set new projected X & Y coordinate of vertices of this face
     */
@@ -274,6 +278,11 @@ class Face
    * set y centralised coordiante of this face
    */
    double getYCentralised();
+    /**
+   * set z centralised coordiante of this face
+   */
+   double getZCentralised();
+
   /*
    * set area of face 
    * areaOfFace
@@ -292,10 +301,7 @@ class Face
    * <- the number of vertices
    */
   unsigned int countVertices();
-  /**
-   * Set the centralised coordinate for this face
-   * using centralised coordinat
-   */
+
 
 };
 /* ----- inline instance methods --------------------------------*/
@@ -336,6 +342,10 @@ inline double Face::getXCentralised()
 inline double Face::getYCentralised()
 {
   return yCentralised;
+}
+inline double Face::getZCentralised()
+{
+  return zCentralised;
 }
 inline double Face::getMu1()
 {
