@@ -70,6 +70,164 @@ void Face::setCentralisedCoordinate(double xcent, double ycent, double zcent){
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
 void Face::setProjectedCoordinate(){
+  //setting the projected coordinates of all vertices in this face
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+    // getting the mean center position of this face //
+    unsigned int faceid = this->getID();// first grabbing id of  current face
+    if (faceid == 1){//if faceid == 1 then this is external face, that doesnot need projection or calculation
+        return;
+    } 
+    FaceEdgeIterator faceEdges(this);//iterator to iterate through the vertex for outgoign edge
+    double nx,ny;//normal coordinate
+    double xCentroid(0), yCentroid(0), zCentroid(0); // coordinate of the cnetroid
+    // array of vertices
+    double xcood[6], ycood[6], zcood[6];// coordinate of the vertices of this face
+    double xTriCen[6], yTriCen[6], zTriCen[6], areaTri;// coordinate of center of triangluated triangles of face
+    //areaTri : area of triangles
+    double xmean(0), ymean(0), zmean(0);//mean center of the face
+    int counter;//counter to keep track of vertices
+    Edge *currentEdge;//pointer to keep track of a edge that is iterated 
+    Vertex *currentVertex; // vertex to store the dest() of currentEdge
+    counter = 0;
+    while ((currentEdge = faceEdges.next())!=0){//iterating the edges in the face
+          currentVertex = currentEdge->Dest();
+          // getting the vertices of the current face and storring it in array
+          xcood[counter] = currentVertex->getXcoordinate();
+          ycood[counter] = currentVertex->getYcoordinate();
+          zcood[counter] = currentVertex->getZcoordinate();
+          xmean += xcood[counter];
+          ymean += ycood[counter];
+          zmean += zcood[counter];
+          counter += 1;//increasing the counter value
+    }
+    //printf(" face id : %u \n", faceid);
+    //printf(" calculated means : X = %F ; Y = %F ; Z = %F \n", xmean, ymean,zmean );
+    //printf("counter %h \n",counter);
+    // divinding by the number of vertices to get the mean
+    xmean = (1./counter)*xmean;
+    ymean = (1./counter)*ymean;
+    zmean = (1./counter)*zmean;
+    //printf(">>>>new output start<<<< face id = %u \n", faceid);
+    //printf("calculated means : X = %F ; Y = %F ; Z = %F \n", xmean, ymean,zmean );
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+    // triangulating the face and getting the center of each triangle
+    //vectors of the triangles 
+    //now calculating weighted center
+    xCentroid = xmean;
+    yCentroid = ymean;
+    zCentroid = zmean;
+    // setting the central coordinate of this face in terms of cartisian coordinate
+    this->xCentralised = xCentroid;
+    this->yCentralised = yCentroid;
+    this->zCentralised = zCentroid;
+    //printf("%s %u %F \n ", "calculating total area of Face :",faceid, totalarea);
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+    //Calculating normal of the triangles of the shape and then calculating weighted normal
+    double normalTempX[6],normalTempY[6],normalTempZ[6],totalarea;//vertices of normal of triangles
+    double vector1[3], vector2[3], crossProductVector[3],crossProductMagnitude;
+    totalarea = 0;
+    double normalX(0), normalY(0), normalZ(0); // vertices of weighted normal X, Y, Z 
+    for (int counter = 0; counter<6; counter++){//triangulating the vertices with centroid of this face
+          //getting two vectors of this triangle
+          vector1[0] = xcood[counter]-xCentroid;
+          vector1[1] = ycood[counter]-yCentroid;
+          vector1[2] = zcood[counter]-zCentroid;
+          vector2[0] = xcood[(counter+1)%6]-xCentroid;
+          vector2[1] = ycood[(counter+1)%6]-yCentroid;             
+          vector2[2] = zcood[(counter+1)%6]-zCentroid;
+          //cross product of the two vectors
+          crossProductVector[0] = vector1[1]*vector2[2] - vector1[2]*vector2[1];
+          crossProductVector[1] = vector1[2]*vector2[0] - vector1[0]*vector2[2];
+          crossProductVector[2] = vector1[0]*vector2[1] - vector1[1]*vector2[0];
+          //maginitude of cross product
+          crossProductMagnitude = sqrt(crossProductVector[0]*crossProductVector[0] + crossProductVector[1]*crossProductVector[1]+
+                                  crossProductVector[2]*crossProductVector[2]);
+          areaTri = 0.5*crossProductMagnitude;//area of this triangle
+          //adding the weigthed centroid 
+          normalX += crossProductVector[0]*areaTri;
+          normalY += crossProductVector[1]*areaTri;
+          normalZ += crossProductVector[2]*areaTri; 
+          totalarea += areaTri;
+          //total area is same as before calculated for this face
+      }
+    //printf("%s %u %F \n ", "calculating total area of Face :",faceid, totalarea);
+    //weighted normal to this face
+    normalX = normalX/totalarea;
+    normalY = normalY/totalarea;
+    normalZ = normalZ/totalarea;
+    //normalising the normal vector 
+    double normalMagnitude = sqrt(pow(normalX,2.0)+pow(normalY,2.0)+pow(normalZ,2.0));
+    normalX = normalX/normalMagnitude;
+    normalY = normalY/normalMagnitude;
+    normalZ = normalZ/normalMagnitude;
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%/
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+    //now need to get this projected 3d plane coordinates onto rotated 2d coordinate system
+    // getting the unit vector of 2d Plane
+    double unitx[3], unity[3], vectorVertex[3];//new unit vector of x, y on the plane
+    double dotproduct, xvertex, yvertex, zvertex;
+    //to get the unit vector in X direction, lets project X axis (1,0,0) on to the plane
+    //vector from (1,0,0)+(xCentroid,Ycentroid,Zcentroid) until xCentroid
+    vectorVertex[0] = 1.+xCentroid-xCentroid;
+    vectorVertex[1] = 0.+yCentroid-yCentroid;
+    vectorVertex[2] = 0.+zCentroid-zCentroid;
+    //dot product of vectorVertex and normal
+    dotproduct = vectorVertex[0]*normalX+vectorVertex[1]*normalY+vectorVertex[2]*normalZ;
+    //now calculating the projected vertices 
+    unitx[0]  = 1.0 +xCentroid- dotproduct*normalX;
+    unitx[1] = 0.+yCentroid - dotproduct*normalY;
+    unitx[2] = 0.+zCentroid - dotproduct*normalZ;
+    //getting the unitx = normalised[Projectedvertex1 - Origin]
+    unitx[0] = unitx[0]- xCentroid;
+    unitx[1] = unitx[1]- yCentroid;
+    unitx[2] = unitx[2]- zCentroid;
+    // normalising unitx
+    double normUnitx   = sqrt(pow(unitx[0],2)+pow(unitx[1],2)+pow(unitx[2],2));
+    unitx[0] = unitx[0]/normUnitx;
+    unitx[1] = unitx[1]/normUnitx;
+    unitx[2] = unitx[2]/normUnitx;
+    // now getting unity : it is the cross product of  normal and unitx to the plane. 
+    unity[0] = normalY*unitx[2]-normalZ*unitx[1];
+    unity[1] = normalZ*unitx[0]-normalX*unitx[2];
+    unity[2] = normalX*unitx[1]-normalY*unitx[0];
+    //normalising unity
+    double normUnity = sqrt(pow(unity[0],2)+pow(unity[1],2)+pow(unity[2],2));
+    unity[0] = unity[0]/normUnity;
+    unity[1] = unity[1]/normUnity;
+    unity[2] = unity[2]/normUnity;
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+    // now projecting the 3d coordinates to the 2D coordinates and assinging the vertices
+    double xprojection, yprojection;
+    FaceEdgeIterator faceEdges2(this);//iterator to iterate through the vertex for outgoign edge
+    while((currentEdge = faceEdges2.next())!= 0){//runnign through the edges in the face again
+          currentVertex = currentEdge->Dest();// the current vertex, iterated
+          xvertex = currentVertex->getXcoordinate();
+          yvertex = currentVertex->getYcoordinate();
+          zvertex = currentVertex->getZcoordinate();
+          //getting the vector form the centroid or new origin
+          // CENTRALISED PorjectedCoordinate
+          vectorVertex[0] = xvertex-xCentroid;
+          vectorVertex[1] = yvertex-yCentroid;
+          vectorVertex[2] = zvertex-zCentroid;
+          //now getting the new x, y coordinates, dot product of unit vector with the vectorVertex
+          xprojection = unitx[0]*vectorVertex[0]+unitx[1]*vectorVertex[1]+unitx[2]*vectorVertex[2];
+          yprojection = unity[0]*vectorVertex[0]+unity[1]*vectorVertex[1]+unity[2]*vectorVertex[2];
+          //now setting the projected coordinates in the vertex properties
+          currentVertex->insertProjectedXcoordinate(faceid,xprojection);
+          currentVertex->insertProjectedYcoordinate(faceid,yprojection); 
+          //getting the vector form the real origin on new vertex
+          // NON CENTRALISED Projected Coordainte
+          vectorVertex[0] = xvertex;
+          vectorVertex[1] = yvertex;
+          vectorVertex[2] = zvertex;
+          //now getting the new x, y coordinates, dot product of unit vector with the vectorVertex
+          xprojection = unitx[0]*vectorVertex[0]+unitx[1]*vectorVertex[1]+unitx[2]*vectorVertex[2];
+          yprojection = unity[0]*vectorVertex[0]+unity[1]*vectorVertex[1]+unity[2]*vectorVertex[2];
+          //now setting the projected coordinates in the vertex properties
+          currentVertex->insertNonCentralisedProjectedXcoordinate(faceid,xprojection);
+          currentVertex->insertNonCentralisedProjectedYcoordinate(faceid,yprojection); 
+        }
+  /*
     //setting the projected coordinates of all vertices in this face
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
     // getting the mean center position of this face //
@@ -278,6 +436,7 @@ void Face::setProjectedCoordinate(){
           currentVertex->insertNonCentralisedProjectedXcoordinate(faceid,xprojection);
           currentVertex->insertNonCentralisedProjectedYcoordinate(faceid,yprojection); 
         }
+  */
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
 double Face::getAreaOfFace(){

@@ -66,7 +66,11 @@ class Vertex
     * ProjectedYcoordinate -> the projected Y coordinate of this vertex
     */
    std::map<unsigned int, double> NonCentralisedProjectedYcoordinate;
-
+   /**
+    * Calculated derivative of setPorjectedCoordiante function 
+    * at this vertex for the given face
+    */
+   //std::map<unsigned int, double> setProjectedCoordinateDerivative;
    //========================Derivatives===============================//
    /**
     * X derivative of area of face with respect to this vertex

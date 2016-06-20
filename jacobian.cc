@@ -87,3 +87,16 @@ double jacobianOfCell(Cell *cell){
  		printf("number of faces : %u",cell->countFaces());
  		return 0.0;
  }
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ void setProjectedCoordinateDerivative(Face *face){
+ }
+
+
+
+
+
+
+
+
+ 

@@ -269,6 +269,13 @@ class Face
     * Function to set new projected X & Y coordinate of vertices of this face
     */
     void setProjectedCoordinate();
+    /**
+     * Calcuate Projected Coordinate
+     * Function that calcualtes the projection of given vertex
+     * on the given face
+     * Input : Vertex, Face
+     * return : X, Y, Z projection
+     */
     
   /**
    * get x centralised coordiante of this face
