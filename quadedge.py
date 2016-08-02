@@ -544,6 +544,15 @@ class Vertex(_object):
     def setAlphaBetaGamma(self):
         return _quadedge.Vertex_setAlphaBetaGamma(self)
 
+    def setAlpha(self, arg2, arg3):
+        return _quadedge.Vertex_setAlpha(self, arg2, arg3)
+
+    def setBeta(self, arg2, arg3):
+        return _quadedge.Vertex_setBeta(self, arg2, arg3)
+
+    def setGamma(self, arg2, arg3):
+        return _quadedge.Vertex_setGamma(self, arg2, arg3)
+
     def getAlpha(self, id):
         return _quadedge.Vertex_getAlpha(self, id)
 

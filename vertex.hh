@@ -188,6 +188,11 @@ class Vertex
       * third term Y derivative
       */
      double thirdTermYDerivative;
+    // ================ Certralised Derivatives ============================= //
+     std::map<unsigned int, double>xiXderivative();
+     std::map<unsigned int, double>ex1Xderivative();
+     std::map<unsigned int, double>ex2Xderivative();
+     std::map<unsigned int, double>ex3Xderivative();
     //========================AK and Functions===============================//
 /*
     * Associative array for storing the value of function1 [f1(k)]
@@ -300,6 +305,18 @@ class Vertex
     * calculates for all the adjacent faces
     */
     void setAlphaBetaGamma();
+    /**
+     * set the alpha to a given value for a given faceid
+     */
+     void setAlpha(unsigned int, double);
+     /**
+     * set the beta to a given value for a given faceid
+     */
+     void setBeta(unsigned int, double);
+     /**
+     * set the gamma to a given value for a given faceid
+     */
+     void setGamma(unsigned int, double);
     /**
      * function to get Alpha
      */
@@ -693,7 +710,10 @@ class Vertex
    * Null if isolated.
    */
   Edge *edge;
+  // **********************************************************************// 
+  /* -- friend classes ----------------------------------------------------- */
 
+  friend class centralisedDerivative;
 };
 
 /* -- inline instance methods ---------------------------------------------- */
@@ -809,6 +829,15 @@ inline double Vertex::getBeta(unsigned int id){
 }
 inline double Vertex::getGamma(unsigned int id){
   return this->gamma[id];
+}
+inline void Vertex::setAlpha(unsigned int id, double value){
+    this->alpha[id] = value;
+}
+inline void Vertex::setBeta(unsigned int id, double value){
+    this->beta[id] = value;
+}
+inline void Vertex::setGamma(unsigned int id, double value){
+    this->gamma[id] = value;
 }
 /* ----------------------------------------------------------------------------
  * VertexEdgeIterator

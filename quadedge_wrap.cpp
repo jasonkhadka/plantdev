@@ -6398,6 +6398,123 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Vertex_setAlpha(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  double arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:Vertex_setAlpha",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setAlpha" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_setAlpha" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  ecode3 = SWIG_AsVal_double(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "Vertex_setAlpha" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = static_cast< double >(val3);
+  (arg1)->setAlpha(arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setBeta(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  double arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:Vertex_setBeta",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setBeta" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_setBeta" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  ecode3 = SWIG_AsVal_double(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "Vertex_setBeta" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = static_cast< double >(val3);
+  (arg1)->setBeta(arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setGamma(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  unsigned int arg2 ;
+  double arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:Vertex_setGamma",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setGamma" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_setGamma" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  ecode3 = SWIG_AsVal_double(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "Vertex_setGamma" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = static_cast< double >(val3);
+  (arg1)->setGamma(arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Vertex_getAlpha(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Vertex *arg1 = (Vertex *) 0 ;
@@ -8571,6 +8688,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Vertex_setYcoordinate", _wrap_Vertex_setYcoordinate, METH_VARARGS, NULL},
 	 { (char *)"Vertex_setZcoordinate", _wrap_Vertex_setZcoordinate, METH_VARARGS, NULL},
 	 { (char *)"Vertex_setAlphaBetaGamma", _wrap_Vertex_setAlphaBetaGamma, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setAlpha", _wrap_Vertex_setAlpha, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setBeta", _wrap_Vertex_setBeta, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setGamma", _wrap_Vertex_setGamma, METH_VARARGS, NULL},
 	 { (char *)"Vertex_getAlpha", _wrap_Vertex_getAlpha, METH_VARARGS, NULL},
 	 { (char *)"Vertex_getBeta", _wrap_Vertex_getBeta, METH_VARARGS, NULL},
 	 { (char *)"Vertex_getGamma", _wrap_Vertex_getGamma, METH_VARARGS, NULL},

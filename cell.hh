@@ -347,8 +347,8 @@ public:
   
   /* -- friend classes ----------------------------------------------------- */
 
-  friend CellVertexIterator;
-  friend CellFaceIterator;
+  friend class CellVertexIterator;
+  friend class CellFaceIterator;
 
 };
 

@@ -131,7 +131,12 @@ void Face::setProjectedCoordinate(){
     double vector1[3], vector2[3], crossProductVector[3],crossProductMagnitude;
     totalarea = 0;
     double normalX(0), normalY(0), normalZ(0); // vertices of weighted normal X, Y, Z 
+    // iterating the faces also
+    FaceEdgeIterator faceEdges1(this);//iterator to iterate through the vertex for outgoign edge
+    // curentVertex and currentEdge have been already declared above
+    currentEdge = faceEdges1.next();// grabbing the one edge of face = this
     for (int counter = 0; counter<6; counter++){//triangulating the vertices with centroid of this face
+          currentVertex = currentEdge->Dest();//getting the destination of the edge
           //getting two vectors of this triangle
           vector1[0] = xcood[counter]-xCentroid;
           vector1[1] = ycood[counter]-yCentroid;
@@ -140,12 +145,20 @@ void Face::setProjectedCoordinate(){
           vector2[1] = ycood[(counter+1)%6]-yCentroid;             
           vector2[2] = zcood[(counter+1)%6]-zCentroid;
           //cross product of the two vectors
-          crossProductVector[0] = vector1[1]*vector2[2] - vector1[2]*vector2[1];
-          crossProductVector[1] = vector1[2]*vector2[0] - vector1[0]*vector2[2];
-          crossProductVector[2] = vector1[0]*vector2[1] - vector1[1]*vector2[0];
+          crossProductVector[0] = vector1[1]*vector2[2] - vector1[2]*vector2[1];//also definition of alpha
+          crossProductVector[1] = vector1[2]*vector2[0] - vector1[0]*vector2[2];//also definition of beta
+          crossProductVector[2] = vector1[0]*vector2[1] - vector1[1]*vector2[0];//also definition of gamma
+          // now saving the above calculation of alpha, beta, gamma for the vertex
+          currentVertex->setAlpha(faceid, crossProductVector[0]);
+          currentVertex->setBeta(faceid, crossProductVector[1]);
+          currentVertex->setGamma(faceid, crossProductVector[2]);
           //maginitude of cross product
           crossProductMagnitude = sqrt(crossProductVector[0]*crossProductVector[0] + crossProductVector[1]*crossProductVector[1]+
                                   crossProductVector[2]*crossProductVector[2]);
+          //normalising the crossProductVector
+          crossProductVector[0] = crossProductVector[0]/crossProductMagnitude;
+          crossProductVector[1] = crossProductVector[1]/crossProductMagnitude;
+          crossProductVector[2] = crossProductVector[2]/crossProductMagnitude;
           areaTri = 0.5*crossProductMagnitude;//area of this triangle
           //adding the weigthed centroid 
           normalX += crossProductVector[0]*areaTri;
@@ -153,6 +166,7 @@ void Face::setProjectedCoordinate(){
           normalZ += crossProductVector[2]*areaTri; 
           totalarea += areaTri;
           //total area is same as before calculated for this face
+          currentEdge = faceEdges1.next();//keep on iterating through the edges in the face
       }
     //printf("%s %u %F \n ", "calculating total area of Face :",faceid, totalarea);
     //weighted normal to this face

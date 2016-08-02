@@ -1,3 +1,6 @@
+#ifndef jacobianINCLUDED
+#define jacobianINCLUDED
+
 #include "cell.hh"
 #include "edge.hh"
 #include "face.hh"
@@ -39,3 +42,6 @@ double jacobianOfCell(Cell *cell);
  * 
  */
 void setProjectedCoordinateDerivative(Face *face);
+
+
+#endif /* #ifndef edgeINCLUDED */
