@@ -170,20 +170,24 @@ class Face
    */
   Edge *edge;
   /**
-   * x centralised coordinate 
+   * x centroid coordinate 
    * of this face or (cell in biology) 
    */
   double xCentralised;
   /**
-   * y centralised coordinate 
+   * y centroid coordinate 
    * of this face or (cell in biology) 
    */
   double yCentralised;
     /**
-   * Z centralised coordinate 
+   * Z centroid coordinate 
    * of this face or (cell in biology) 
    */
   double zCentralised;
+  /**
+   * Angle between the projected average normal and the cartesian X- axis. 
+   */
+   double angleOfTilt;
   /*
    * Area of face
    * Positive
@@ -249,6 +253,14 @@ class Face
     */
   double getMu4();
   /**
+   * function to set the angle of tilt
+   */
+   void setAngleOfTilt(double);
+   /**
+    * function to get the angle of tilt
+    */
+  double getAngleOfTilt();
+  /**
    * the function to set the targetFormMatrix
    * right now just the form matrix of current shape
    * in Future : this should include the time update at each growth step
@@ -312,6 +324,14 @@ class Face
 
 };
 /* ----- inline instance methods --------------------------------*/
+inline void Face::setAngleOfTilt(double angle)
+{
+    angleOfTilt = angle;
+}
+inline double Face::getAngleOfTilt()
+{
+    return angleOfTilt;
+}
 inline unsigned int Face::countVertices()
 {
   return vertexCount;

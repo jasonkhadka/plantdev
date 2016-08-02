@@ -60,6 +60,10 @@ void Vertex::insertProjectedYcoordinate(unsigned int faceid, double ycood){
 	assert(faceid>0);
 	this->ProjectedYcoordinate[faceid] = ycood;
 }
+void Vertex::insertProjectedZcoordinate(unsigned int faceid, double zcood){
+  assert(faceid>0);
+  this->ProjectedZcoordinate[faceid] = zcood;
+}
 ///////////////////////////////////////////////////////////////////////
 double Vertex::getProjectedXcoordinate(unsigned int faceid){
 	return this->ProjectedXcoordinate[faceid];
@@ -67,6 +71,9 @@ double Vertex::getProjectedXcoordinate(unsigned int faceid){
 ///////////////////////////////////////////////////////////////////////
 double Vertex::getProjectedYcoordinate(unsigned int faceid){
 	return this->ProjectedYcoordinate[faceid];
+}
+double Vertex::getProjectedZcoordinate(unsigned int faceid){
+  return this->ProjectedZcoordinate[faceid];
 }
 void Vertex::insertNonCentralisedProjectedXcoordinate(unsigned int faceid, double xcood){
   assert(faceid>0);
@@ -77,6 +84,11 @@ void Vertex::insertNonCentralisedProjectedYcoordinate(unsigned int faceid, doubl
   assert(faceid>0);
   this->NonCentralisedProjectedYcoordinate[faceid] = ycood;
 }
+void Vertex::insertNonCentralisedProjectedZcoordinate(unsigned int faceid, double zcood){
+  assert(faceid>0);
+  this->NonCentralisedProjectedZcoordinate[faceid] = zcood;
+}
+/////////////
 ///////////////////////////////////////////////////////////////////////
 double Vertex::getNonCentralisedProjectedXcoordinate(unsigned int faceid){
   return this->NonCentralisedProjectedXcoordinate[faceid];
@@ -84,6 +96,11 @@ double Vertex::getNonCentralisedProjectedXcoordinate(unsigned int faceid){
 ///////////////////////////////////////////////////////////////////////
 double Vertex::getNonCentralisedProjectedYcoordinate(unsigned int faceid){
   return this->NonCentralisedProjectedYcoordinate[faceid];
+}
+
+///////////////////////////////////////////////////////////////////////
+double Vertex::getNonCentralisedProjectedZcoordinate(unsigned int faceid){
+  return this->NonCentralisedProjectedZcoordinate[faceid];
 }
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
@@ -613,3 +630,41 @@ void Vertex::setThirdTermYDerivative(){
     }
     this->thirdTermXDerivative =functionvalue;
 }
+// ******************************************************* //
+void Vertex::setAlphaBetaGamma(){
+    VertexEdgeIterator vertEdges(this);//iterator to iterate through the outgoing edge
+    Face *left; //pointer to left face
+    double xmean, ymean, zmean, tempalpha, tempgamma, tempbeta;
+    double x1, y1, z1, x2, y2, z2;
+    unsigned int innerid;// ID of inner Face
+    Edge *currentEdge; // pointer to current edge
+    Vertex *vertex1, *vertex2;
+    while ((currentEdge = vertEdges.next())!=0){
+        left = currentEdge->Left();//grabbing the inner face of the edge
+        innerid = left->getID();
+        vertex1 = currentEdge->Org();
+        vertex2 = currentEdge->Dest();
+        x1 = vertex1->getXcoordinate();
+        y1 = vertex1->getYcoordinate();
+        z1 = vertex1->getZcoordinate();
+        x2 = vertex2->getXcoordinate();
+        y2 = vertex2->getYcoordinate();
+        z2 = vertex2->getZcoordinate();
+        // getting the mean x, y and z from the left 
+        xmean = left->getXCentralised();
+        ymean = left->getYCentralised();
+        zmean = left->getZCentralised();
+        //calculating alpha beta and gamma
+        tempalpha = (y1-ymean)*(z2-zmean)-(z1-zmean)*(y2-ymean);
+        tempbeta = (z1-zmean)*(x2-xmean)-(x1-xmean)*(z2-zmean);
+        tempgamma = (x1-xmean)*(y2-ymean)-(y1-ymean)*(x2-xmean);
+        //now storing the values
+        this->alpha[innerid] = tempalpha;
+        this->beta[innerid] = tempbeta;
+        this->gamma[innerid] = tempgamma;
+    }
+}
+
+
+
+

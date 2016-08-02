@@ -75,6 +75,10 @@ void Face::setProjectedCoordinate(){
     // getting the mean center position of this face //
     unsigned int faceid = this->getID();// first grabbing id of  current face
     if (faceid == 1){//if faceid == 1 then this is external face, that doesnot need projection or calculation
+        // setting the central coordinate of this face in terms of cartisian coordinate
+          this->xCentralised = 0.;
+          this->yCentralised = 0.;
+          this->zCentralised =  0.;
         return;
     } 
     FaceEdgeIterator faceEdges(this);//iterator to iterate through the vertex for outgoign edge
@@ -197,7 +201,7 @@ void Face::setProjectedCoordinate(){
     unity[2] = unity[2]/normUnity;
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
     // now projecting the 3d coordinates to the 2D coordinates and assinging the vertices
-    double xprojection, yprojection;
+    double xprojection, yprojection, zprojection;
     FaceEdgeIterator faceEdges2(this);//iterator to iterate through the vertex for outgoign edge
     while((currentEdge = faceEdges2.next())!= 0){//runnign through the edges in the face again
           currentVertex = currentEdge->Dest();// the current vertex, iterated
@@ -212,9 +216,11 @@ void Face::setProjectedCoordinate(){
           //now getting the new x, y coordinates, dot product of unit vector with the vectorVertex
           xprojection = unitx[0]*vectorVertex[0]+unitx[1]*vectorVertex[1]+unitx[2]*vectorVertex[2];
           yprojection = unity[0]*vectorVertex[0]+unity[1]*vectorVertex[1]+unity[2]*vectorVertex[2];
+          zprojection = normalX*vectorVertex[0]+normalY*vectorVertex[1]+normalZ*vectorVertex[2];
           //now setting the projected coordinates in the vertex properties
           currentVertex->insertProjectedXcoordinate(faceid,xprojection);
           currentVertex->insertProjectedYcoordinate(faceid,yprojection); 
+          currentVertex->insertProjectedZcoordinate(faceid,zprojection); 
           //getting the vector form the real origin on new vertex
           // NON CENTRALISED Projected Coordainte
           vectorVertex[0] = xvertex;
@@ -223,11 +229,18 @@ void Face::setProjectedCoordinate(){
           //now getting the new x, y coordinates, dot product of unit vector with the vectorVertex
           xprojection = unitx[0]*vectorVertex[0]+unitx[1]*vectorVertex[1]+unitx[2]*vectorVertex[2];
           yprojection = unity[0]*vectorVertex[0]+unity[1]*vectorVertex[1]+unity[2]*vectorVertex[2];
+          zprojection = normalX*vectorVertex[0]+normalY*vectorVertex[1]+normalZ*vectorVertex[2];
           //now setting the projected coordinates in the vertex properties
           currentVertex->insertNonCentralisedProjectedXcoordinate(faceid,xprojection);
           currentVertex->insertNonCentralisedProjectedYcoordinate(faceid,yprojection); 
+          currentVertex->insertNonCentralisedProjectedZcoordinate(faceid,zprojection); 
         }
-  /*
+    //Calculating the Angle of tilt to the cartesian x axis
+    // dor product between the unitx vector and cartesian x unit vector [1,0,0]
+    dotproduct = unitx[0]; // as second and third terms are multiplied by 0
+    double theta = acos(dotproduct);//since both unitx and x unit vector have 1 magnitude, just dividing by 1
+    this->setAngleOfTilt(theta);
+    /*
     //setting the projected coordinates of all vertices in this face
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
     // getting the mean center position of this face //
@@ -406,7 +419,7 @@ void Face::setProjectedCoordinate(){
     unity[2] = unity[2]/normUnity;
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
     // now projecting the 3d coordinates to the 2D coordinates and assinging the vertices
-    double xprojection, yprojection;
+    double xprojection, yprojection,zprojection;
     FaceEdgeIterator faceEdges2(this);//iterator to iterate through the vertex for outgoign edge
     while((currentEdge = faceEdges2.next())!= 0){//runnign through the edges in the face again
           currentVertex = currentEdge->Dest();// the current vertex, iterated
@@ -421,9 +434,11 @@ void Face::setProjectedCoordinate(){
           //now getting the new x, y coordinates, dot product of unit vector with the vectorVertex
           xprojection = unitx[0]*vectorVertex[0]+unitx[1]*vectorVertex[1]+unitx[2]*vectorVertex[2];
           yprojection = unity[0]*vectorVertex[0]+unity[1]*vectorVertex[1]+unity[2]*vectorVertex[2];
+          zprojection = normalX*vectorVertex[0]+normalY*vectorVertex[1]+normalZ*vectorVertex[2];
           //now setting the projected coordinates in the vertex properties
           currentVertex->insertProjectedXcoordinate(faceid,xprojection);
-          currentVertex->insertProjectedYcoordinate(faceid,yprojection); 
+          currentVertex->insertProjectedYcoordinate(faceid,yprojection);
+          currentVertex->insertProjectedZcoordinate(faceid,zprojection); 
           //getting the vector form the real origin on new vertex
           // NON CENTRALISED Projected Coordainte
           vectorVertex[0] = xvertex;
@@ -432,11 +447,14 @@ void Face::setProjectedCoordinate(){
           //now getting the new x, y coordinates, dot product of unit vector with the vectorVertex
           xprojection = unitx[0]*vectorVertex[0]+unitx[1]*vectorVertex[1]+unitx[2]*vectorVertex[2];
           yprojection = unity[0]*vectorVertex[0]+unity[1]*vectorVertex[1]+unity[2]*vectorVertex[2];
+          zprojection = normalX*vectorVertex[0]+normalY*vectorVertex[1]+normalZ*vectorVertex[2];
           //now setting the projected coordinates in the vertex properties
           currentVertex->insertNonCentralisedProjectedXcoordinate(faceid,xprojection);
           currentVertex->insertNonCentralisedProjectedYcoordinate(faceid,yprojection); 
+          currentVertex->insertNonCentralisedProjectedZcoordinate(faceid,zprojection); 
         }
-  */
+        */
+  
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
 double Face::getAreaOfFace(){

@@ -156,6 +156,18 @@ class Cell(_object):
 
     def getPressure(self):
         return _quadedge.Cell_getPressure(self)
+
+    def setAlpha(self, arg2):
+        return _quadedge.Cell_setAlpha(self, arg2)
+
+    def getAlpha(self):
+        return _quadedge.Cell_getAlpha(self)
+
+    def setBeta(self, arg2):
+        return _quadedge.Cell_setBeta(self, arg2)
+
+    def getBeta(self):
+        return _quadedge.Cell_getBeta(self)
 Cell_swigregister = _quadedge.Cell_swigregister
 Cell_swigregister(Cell)
 
@@ -262,6 +274,30 @@ class Face(_object):
 
     def removeVertex(self, vertex):
         return _quadedge.Face_removeVertex(self, vertex)
+    __swig_setmethods__["targetFormMatrix"] = _quadedge.Face_targetFormMatrix_set
+    __swig_getmethods__["targetFormMatrix"] = _quadedge.Face_targetFormMatrix_get
+    if _newclass:
+        targetFormMatrix = _swig_property(_quadedge.Face_targetFormMatrix_get, _quadedge.Face_targetFormMatrix_set)
+    __swig_setmethods__["traceSquaredTargetFormMatrix"] = _quadedge.Face_traceSquaredTargetFormMatrix_set
+    __swig_getmethods__["traceSquaredTargetFormMatrix"] = _quadedge.Face_traceSquaredTargetFormMatrix_get
+    if _newclass:
+        traceSquaredTargetFormMatrix = _swig_property(_quadedge.Face_traceSquaredTargetFormMatrix_get, _quadedge.Face_traceSquaredTargetFormMatrix_set)
+    __swig_setmethods__["mu1"] = _quadedge.Face_mu1_set
+    __swig_getmethods__["mu1"] = _quadedge.Face_mu1_get
+    if _newclass:
+        mu1 = _swig_property(_quadedge.Face_mu1_get, _quadedge.Face_mu1_set)
+    __swig_setmethods__["mu2"] = _quadedge.Face_mu2_set
+    __swig_getmethods__["mu2"] = _quadedge.Face_mu2_get
+    if _newclass:
+        mu2 = _swig_property(_quadedge.Face_mu2_get, _quadedge.Face_mu2_set)
+    __swig_setmethods__["mu3"] = _quadedge.Face_mu3_set
+    __swig_getmethods__["mu3"] = _quadedge.Face_mu3_get
+    if _newclass:
+        mu3 = _swig_property(_quadedge.Face_mu3_get, _quadedge.Face_mu3_set)
+    __swig_setmethods__["mu4"] = _quadedge.Face_mu4_set
+    __swig_getmethods__["mu4"] = _quadedge.Face_mu4_get
+    if _newclass:
+        mu4 = _swig_property(_quadedge.Face_mu4_get, _quadedge.Face_mu4_set)
 
     def setMu(self):
         return _quadedge.Face_setMu(self)
@@ -278,6 +314,12 @@ class Face(_object):
     def getMu4(self):
         return _quadedge.Face_getMu4(self)
 
+    def setAngleOfTilt(self, arg2):
+        return _quadedge.Face_setAngleOfTilt(self, arg2)
+
+    def getAngleOfTilt(self):
+        return _quadedge.Face_getAngleOfTilt(self)
+
     def setTargetFormMatrix(self):
         return _quadedge.Face_setTargetFormMatrix(self)
 
@@ -287,8 +329,8 @@ class Face(_object):
     def getTraceSquaredTargetFormMatrix(self):
         return _quadedge.Face_getTraceSquaredTargetFormMatrix(self)
 
-    def setCentralisedCoordinate(self):
-        return _quadedge.Face_setCentralisedCoordinate(self)
+    def setCentralisedCoordinate(self, arg2, arg3, arg4):
+        return _quadedge.Face_setCentralisedCoordinate(self, arg2, arg3, arg4)
 
     def setProjectedCoordinate(self):
         return _quadedge.Face_setProjectedCoordinate(self)
@@ -298,6 +340,9 @@ class Face(_object):
 
     def getYCentralised(self):
         return _quadedge.Face_getYCentralised(self)
+
+    def getZCentralised(self):
+        return _quadedge.Face_getZCentralised(self)
 
     def setAreaOfFace(self):
         return _quadedge.Face_setAreaOfFace(self)
@@ -493,8 +538,20 @@ class Vertex(_object):
     def setYcoordinate(self, ycoord):
         return _quadedge.Vertex_setYcoordinate(self, ycoord)
 
-    def setZcoordinate(self, ycoord):
-        return _quadedge.Vertex_setZcoordinate(self, ycoord)
+    def setZcoordinate(self, zcoord):
+        return _quadedge.Vertex_setZcoordinate(self, zcoord)
+
+    def setAlphaBetaGamma(self):
+        return _quadedge.Vertex_setAlphaBetaGamma(self)
+
+    def getAlpha(self, id):
+        return _quadedge.Vertex_getAlpha(self, id)
+
+    def getBeta(self, id):
+        return _quadedge.Vertex_getBeta(self, id)
+
+    def getGamma(self, id):
+        return _quadedge.Vertex_getGamma(self, id)
 
     def getID(self):
         return _quadedge.Vertex_getID(self)
@@ -508,11 +565,17 @@ class Vertex(_object):
     def insertProjectedYcoordinate(self, faceid, ycood):
         return _quadedge.Vertex_insertProjectedYcoordinate(self, faceid, ycood)
 
+    def insertProjectedZcoordinate(self, faceid, zcood):
+        return _quadedge.Vertex_insertProjectedZcoordinate(self, faceid, zcood)
+
     def insertNonCentralisedProjectedXcoordinate(self, faceid, xcood):
         return _quadedge.Vertex_insertNonCentralisedProjectedXcoordinate(self, faceid, xcood)
 
     def insertNonCentralisedProjectedYcoordinate(self, faceid, ycood):
         return _quadedge.Vertex_insertNonCentralisedProjectedYcoordinate(self, faceid, ycood)
+
+    def insertNonCentralisedProjectedZcoordinate(self, faceid, zcood):
+        return _quadedge.Vertex_insertNonCentralisedProjectedZcoordinate(self, faceid, zcood)
 
     def getProjectedXcoordinate(self, faceid):
         return _quadedge.Vertex_getProjectedXcoordinate(self, faceid)
@@ -520,11 +583,17 @@ class Vertex(_object):
     def getProjectedYcoordinate(self, faceid):
         return _quadedge.Vertex_getProjectedYcoordinate(self, faceid)
 
+    def getProjectedZcoordinate(self, faceid):
+        return _quadedge.Vertex_getProjectedZcoordinate(self, faceid)
+
     def getNonCentralisedProjectedXcoordinate(self, faceid):
         return _quadedge.Vertex_getNonCentralisedProjectedXcoordinate(self, faceid)
 
     def getNonCentralisedProjectedYcoordinate(self, faceid):
         return _quadedge.Vertex_getNonCentralisedProjectedYcoordinate(self, faceid)
+
+    def getNonCentralisedProjectedZcoordinate(self, faceid):
+        return _quadedge.Vertex_getNonCentralisedProjectedZcoordinate(self, faceid)
 
     def setAreaDerivative(self):
         return _quadedge.Vertex_setAreaDerivative(self)
@@ -707,6 +776,22 @@ class VertexEdgeIterator(_object):
 VertexEdgeIterator_swigregister = _quadedge.VertexEdgeIterator_swigregister
 VertexEdgeIterator_swigregister(VertexEdgeIterator)
 
+
+def energyOfCell(cell):
+    return _quadedge.energyOfCell(cell)
+energyOfCell = _quadedge.energyOfCell
+
+def energyOfFace(face):
+    return _quadedge.energyOfFace(face)
+energyOfFace = _quadedge.energyOfFace
+
+def jacobianOfCell(cell):
+    return _quadedge.jacobianOfCell(cell)
+jacobianOfCell = _quadedge.jacobianOfCell
+
+def setProjectedCoordinateDerivative(face):
+    return _quadedge.setProjectedCoordinateDerivative(face)
+setProjectedCoordinateDerivative = _quadedge.setProjectedCoordinateDerivative
 # This file is compatible with both classic and new-style classes.
 
 

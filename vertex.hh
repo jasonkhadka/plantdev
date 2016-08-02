@@ -52,6 +52,13 @@ class Vertex
     * ProjectedYcoordinate -> the projected Y coordinate of this vertex
     */
    std::map<unsigned int, double> ProjectedYcoordinate;
+      /*
+    * Associative array for storing the projected and CENTRALISED Z coordinate
+    * Key : Face ID -- unsigned int
+    * Value : the projected Z coordinate -- double
+    * ProjectedYcoordinate -> the projected Z coordinate of this vertex
+    */
+   std::map<unsigned int, double> ProjectedZcoordinate;
     /*
     * Associative array for storing the projected and NOT CENTRALISED X coordinate
     * Key : Face ID -- unsigned int
@@ -66,6 +73,25 @@ class Vertex
     * ProjectedYcoordinate -> the projected Y coordinate of this vertex
     */
    std::map<unsigned int, double> NonCentralisedProjectedYcoordinate;
+      /*
+    * Associative array for storing the projected and NOT CENTRALISED Z coordinate
+    * Key : Face ID -- unsigned int
+    * Value : the projected Y coordinate -- double
+    * ProjectedYcoordinate -> the projected Z coordinate of this vertex
+    */
+   std::map<unsigned int, double> NonCentralisedProjectedZcoordinate;
+   /**
+    * For storing alpha_j for calculating the derivative for x centralised coordinate
+     */
+     std::map<unsigned int, double>alpha;
+    /**
+    * For storing beta_j for calculating the derivative for x centralised coordinate
+     */
+     std::map<unsigned int, double>beta;
+    /**
+    * For storing gamma_j for calculating the derivative for x centralised coordinate
+     */
+     std::map<unsigned int, double>gamma;
    /**
     * Calculated derivative of setPorjectedCoordiante function 
     * at this vertex for the given face
@@ -268,7 +294,24 @@ class Vertex
    * zcoordinate -> the z coordinate of this vertex;
    *    will be double
    */
-   void setZcoordinate(double ycoord);
+   void setZcoordinate(double zcoord);
+   /**
+    * set the alpha, beta, gamma for this vertex,
+    * calculates for all the adjacent faces
+    */
+    void setAlphaBetaGamma();
+    /**
+     * function to get Alpha
+     */
+     double getAlpha(unsigned int id);
+    /**
+     * function to get Alpha
+     */
+     double getBeta(unsigned int id);
+    /**
+     * function to get Alpha
+     */
+     double getGamma(unsigned int id);
   /*
    * Return the ID of this vertex.
    * <- the ID of this vertex;
@@ -295,6 +338,13 @@ class Vertex
    * ycood - double
    */
    void insertProjectedYcoordinate(unsigned int faceid, double ycood);
+    /*
+   * Function to insert new elements
+   * in associated array of ProjectedZcoordinate
+   * faceid - unsigned int 
+   * zcood - double
+   */
+   void insertProjectedZcoordinate(unsigned int faceid, double zcood);
   /*
    * Function to insert new elements
    * in associated array of NonCentralisedProjectedXcoordinate
@@ -309,6 +359,14 @@ class Vertex
    * ycood - double
    */
    void insertNonCentralisedProjectedYcoordinate(unsigned int faceid, double ycood);
+
+   /*
+   * Function to insert new elements
+   * in associated array of NonCentralisedProjectedZcoordinate
+   * faceid - unsigned int 
+   * zcood - double
+   */
+   void insertNonCentralisedProjectedZcoordinate(unsigned int faceid, double zcood);
 ///////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////
   /*
@@ -325,6 +383,13 @@ class Vertex
    * return - double
    */
    double getProjectedYcoordinate(unsigned int faceid);
+   /*
+   * Function to get projected Ycoordinate from the faceid
+   * in associated array of ProjectedZcoordinate
+   * faceid - unsigned int 
+   * return - double
+   */
+   double getProjectedZcoordinate(unsigned int faceid);
   /*
    * Function to get Non centralised projected xcoordinate from the faceid
    * in associated array of ProjectedYcoordinate
@@ -339,6 +404,14 @@ class Vertex
    * return - double
    */
    double getNonCentralisedProjectedYcoordinate(unsigned int faceid);
+   /*
+   * Function to get non centralised projected Zcoordinate from the faceid
+   * in associated array of ProjectedYcoordinate
+   * faceid - unsigned int 
+   * return - double
+   */
+   double getNonCentralisedProjectedZcoordinate(unsigned int faceid);
+   
    //====================Derivatives get/set functions===========================//
    /**
     * Function to set the areaDerivative with respect to x and y given vertex
@@ -727,6 +800,15 @@ inline double Vertex::getThirdTermXDerivative()
 inline double Vertex::getThirdTermYDerivative()
 {
   return this->thirdTermYDerivative;
+}
+inline double Vertex::getAlpha(unsigned int id){
+  return this->alpha[id];
+}
+inline double Vertex::getBeta(unsigned int id){
+  return this->beta[id];
+}
+inline double Vertex::getGamma(unsigned int id){
+  return this->gamma[id];
 }
 /* ----------------------------------------------------------------------------
  * VertexEdgeIterator
