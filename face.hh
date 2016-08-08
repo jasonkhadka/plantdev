@@ -213,10 +213,50 @@ class Face
      * Greater than or equal to _vertexCount_.
      */
     unsigned int vertexSize;
+    /**
+     * normal of this face [n^c_x,n^c_y,n^c_z]
+     * array stores x,y,z component of the normal
+     */
+     double normal[3];
+     /**
+       * normal before normalisation
+       */
+      double normaltilde[3];
+     /**
+      * pi_vector of this face (refer to the derivative of coordinate derivation)
+      *[ pi_x^p, pi_y^p, pi_z^p]
+      */
+      double pivector[3]; 
+      
     //***************end added features****************************************//
   /* ----------Public instance methods ---------*/
  /* -- public instance methods ----------------------------------------- */
     public:
+    /**
+     *function to set the normal
+     */
+     void setNormal(double *);
+    /**
+     * function to return the normal
+     */
+     double * getNormal();
+     /**
+      * function to set the normal tilde
+      */
+      void setNormalTilde(double *);
+      /**
+       * function to get the normal tilde
+       */
+      double * getNormalTilde();
+      
+     /**
+     *function to set the normal
+     */
+     void setPivector(double *);
+    /**
+     * function to return the normal
+     */
+     double * getPivector();
    /**
     * targetFormMatrix of this face (or cell in biological terms)
     * **for now this is jsut the form matrix of current shape
@@ -320,8 +360,6 @@ class Face
    * <- the number of vertices
    */
   unsigned int countVertices();
-
-
 };
 /* ----- inline instance methods --------------------------------*/
 inline void Face::setAngleOfTilt(double angle)

@@ -189,10 +189,10 @@ class Vertex
       */
      double thirdTermYDerivative;
     // ================ Certralised Derivatives ============================= //
-     std::map<unsigned int, double>xiXderivative();
-     std::map<unsigned int, double>ex1Xderivative();
-     std::map<unsigned int, double>ex2Xderivative();
-     std::map<unsigned int, double>ex3Xderivative();
+     std::map<unsigned int, double>xiXderivative;
+     std::map<unsigned int, double>ex1Xderivative;
+     std::map<unsigned int, double>ex2Xderivative;
+     std::map<unsigned int, double>ex3Xderivative;
     //========================AK and Functions===============================//
 /*
     * Associative array for storing the value of function1 [f1(k)]
@@ -257,7 +257,7 @@ class Vertex
   /* -- public instance methods -------------------------------------------- */
 
   public:
-
+  // ================ Certralised Derivatives ============================= //
   /*
    * Return the cell for this vertex.
    * <- the cell that the vertex belongs to;

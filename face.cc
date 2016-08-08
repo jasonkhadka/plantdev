@@ -173,12 +173,22 @@ void Face::setProjectedCoordinate(){
     normalX = normalX/totalarea;
     normalY = normalY/totalarea;
     normalZ = normalZ/totalarea;
+    //setting area of the face
+    this->areaOfFace = totalarea;
+    {//right now normalx,y,z is un-normalised so it is normalTilde
+        double normaltildeOfFace[3] = {normalX, normalY, normalZ};
+        double * pntnormaltilde = normaltildeOfFace;
+        this->setNormal(pntnormaltilde);
+    }
     //normalising the normal vector 
     double normalMagnitude = sqrt(pow(normalX,2.0)+pow(normalY,2.0)+pow(normalZ,2.0));
     normalX = normalX/normalMagnitude;
     normalY = normalY/normalMagnitude;
     normalZ = normalZ/normalMagnitude;
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%/
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+    double normalOfFace[3] = {normalX, normalY, normalZ};
+    double *pntNormalOfFace = normalOfFace;
+    this->setNormal(pntNormalOfFace);//saving the normal of this face
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
     //now need to get this projected 3d plane coordinates onto rotated 2d coordinate system
     // getting the unit vector of 2d Plane
@@ -186,15 +196,19 @@ void Face::setProjectedCoordinate(){
     double dotproduct, xvertex, yvertex, zvertex;
     //to get the unit vector in X direction, lets project X axis (1,0,0) on to the plane
     //vector from (1,0,0)+(xCentroid,Ycentroid,Zcentroid) until xCentroid
-    vectorVertex[0] = 1.+xCentroid-xCentroid;
-    vectorVertex[1] = 0.+yCentroid-yCentroid;
-    vectorVertex[2] = 0.+zCentroid-zCentroid;
-    //dot product of vectorVertex and normal
-    dotproduct = vectorVertex[0]*normalX+vectorVertex[1]*normalY+vectorVertex[2]*normalZ;
-    //now calculating the projected vertices 
+    vectorVertex[0] = 1.;//1.+xCentroid-xCentroid; just directly writing the resulting answer
+    vectorVertex[1] = 0.;//0.+yCentroid-yCentroid;
+    vectorVertex[2] = 0.;//0.+zCentroid-zCentroid;
+    //dot product of vectorVertex and normal, which is equal to normalX; this is n^c_x = \phi_P
+    dotproduct = normalX;//vectorVertex[0]*normalX+vectorVertex[1]*normalY+vectorVertex[2]*normalZ;
+    //now calculating the projected vertices --at this stage unitx is storing pi_vector
     unitx[0]  = 1.0 +xCentroid- dotproduct*normalX;
     unitx[1] = 0.+yCentroid - dotproduct*normalY;
     unitx[2] = 0.+zCentroid - dotproduct*normalZ;
+    {//saving the pi_vector of this face
+    double * pntPivector = unitx;
+    this->setPivector(pntPivector);
+    }
     //getting the unitx = normalised[Projectedvertex1 - Origin]
     unitx[0] = unitx[0]- xCentroid;
     unitx[1] = unitx[1]- yCentroid;
@@ -469,6 +483,42 @@ void Face::setProjectedCoordinate(){
         }
         */
   
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+void Face::setNormal(double * tempnormal){
+   for (int i = 0; i<3; i++){
+      normal[i] = tempnormal[i];
+   }
+}
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double *Face::getNormal(){
+   double * pntnormal = normal;
+   return pntnormal;
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+void Face::setNormalTilde(double * tempnormal){
+   for (int i = 0; i<3; i++){
+      normaltilde[i] = tempnormal[i];
+   }
+}
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double *Face::getNormalTilde(){
+   double * pntnormal = normaltilde;
+   return pntnormal;
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+void Face::setPivector(double * tempnormal){
+   for (int i = 0; i<3; i++){
+      pivector[i] = tempnormal[i];
+   }
+}
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double *Face::getPivector(){
+   double * pntnormal = pivector;
+   return pntnormal;
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
 double Face::getAreaOfFace(){

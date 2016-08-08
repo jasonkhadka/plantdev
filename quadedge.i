@@ -8,3 +8,4 @@
 %include array.i
 %include vertex.i
 %include jacobian.i
+%include derivative.i
