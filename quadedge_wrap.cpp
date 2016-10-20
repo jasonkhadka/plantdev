@@ -2970,17 +2970,19 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 #define SWIGTYPE_p_Cell swig_types[0]
 #define SWIGTYPE_p_CellFaceIterator swig_types[1]
 #define SWIGTYPE_p_CellVertexIterator swig_types[2]
-#define SWIGTYPE_p_Edge swig_types[3]
-#define SWIGTYPE_p_Face swig_types[4]
-#define SWIGTYPE_p_FaceEdgeIterator swig_types[5]
-#define SWIGTYPE_p_Vec3 swig_types[6]
-#define SWIGTYPE_p_Vertex swig_types[7]
-#define SWIGTYPE_p_VertexEdgeIterator swig_types[8]
-#define SWIGTYPE_p_a_2__double swig_types[9]
-#define SWIGTYPE_p_char swig_types[10]
-#define SWIGTYPE_p_void swig_types[11]
-static swig_type_info *swig_types[13];
-static swig_module_info swig_module = {swig_types, 12, 0, 0, 0, 0};
+#define SWIGTYPE_p_CentralisedDerivative swig_types[3]
+#define SWIGTYPE_p_Edge swig_types[4]
+#define SWIGTYPE_p_Face swig_types[5]
+#define SWIGTYPE_p_FaceEdgeIterator swig_types[6]
+#define SWIGTYPE_p_Vec3 swig_types[7]
+#define SWIGTYPE_p_Vertex swig_types[8]
+#define SWIGTYPE_p_VertexEdgeIterator swig_types[9]
+#define SWIGTYPE_p_a_2__double swig_types[10]
+#define SWIGTYPE_p_char swig_types[11]
+#define SWIGTYPE_p_double swig_types[12]
+#define SWIGTYPE_p_void swig_types[13]
+static swig_type_info *swig_types[15];
+static swig_module_info swig_module = {swig_types, 14, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -3374,6 +3376,35 @@ SWIG_AsCharPtrAndSize(PyObject *obj, char** cptr, size_t* psize, int *alloc)
 
 
 #include "jacobian.hh"
+
+
+#include "derivative.hh"
+
+
+  static double *new_doublearray(size_t nelements) { 
+    return (new double[nelements]);
+  }
+
+  static void delete_doublearray(double *ary) {
+    delete[] ary;
+  }
+
+  static double doublearray_getitem(double *ary, size_t index) {
+    return ary[index];
+  }
+  static void doublearray_setitem(double *ary, size_t index, double value) {
+    ary[index] = value;
+  }
+
+
+SWIGINTERNINLINE int
+SWIG_AsVal_size_t (PyObject * obj, size_t *val)
+{
+  unsigned long v;
+  int res = SWIG_AsVal_unsigned_SS_long (obj, val ? &v : 0);
+  if (SWIG_IsOK(res) && val) *val = static_cast< size_t >(v);
+  return res;
+}
 
 #ifdef __cplusplus
 extern "C" {
@@ -4507,6 +4538,318 @@ SWIGINTERN PyObject *_wrap_Face_removeVertex(PyObject *SWIGUNUSEDPARM(self), PyO
   arg2 = reinterpret_cast< Vertex * >(argp2);
   (arg1)->removeVertex(arg2);
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setNormal(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  double *arg2 = (double *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_setNormal",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setNormal" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Face_setNormal" "', argument " "2"" of type '" "double *""'"); 
+  }
+  arg2 = reinterpret_cast< double * >(argp2);
+  (arg1)->setNormal(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getNormal(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getNormal",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getNormal" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double *)(arg1)->getNormal();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setNormalTilde(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  double *arg2 = (double *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_setNormalTilde",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setNormalTilde" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Face_setNormalTilde" "', argument " "2"" of type '" "double *""'"); 
+  }
+  arg2 = reinterpret_cast< double * >(argp2);
+  (arg1)->setNormalTilde(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getNormalTilde(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getNormalTilde",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getNormalTilde" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double *)(arg1)->getNormalTilde();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setPivector(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  double *arg2 = (double *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_setPivector",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setPivector" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Face_setPivector" "', argument " "2"" of type '" "double *""'"); 
+  }
+  arg2 = reinterpret_cast< double * >(argp2);
+  (arg1)->setPivector(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getPivector(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getPivector",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getPivector" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double *)(arg1)->getPivector();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setUnitx(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  double *arg2 = (double *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_setUnitx",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setUnitx" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Face_setUnitx" "', argument " "2"" of type '" "double *""'"); 
+  }
+  arg2 = reinterpret_cast< double * >(argp2);
+  (arg1)->setUnitx(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getUnitx(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getUnitx",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getUnitx" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double *)(arg1)->getUnitx();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setUnity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  double *arg2 = (double *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_setUnity",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setUnity" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Face_setUnity" "', argument " "2"" of type '" "double *""'"); 
+  }
+  arg2 = reinterpret_cast< double * >(argp2);
+  (arg1)->setUnity(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getUnity(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getUnity",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getUnity" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double *)(arg1)->getUnity();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setUnitz(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  double *arg2 = (double *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_setUnitz",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setUnitz" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Face_setUnitz" "', argument " "2"" of type '" "double *""'"); 
+  }
+  arg2 = reinterpret_cast< double * >(argp2);
+  (arg1)->setUnitz(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getUnitz(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getUnitz",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getUnitz" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double *)(arg1)->getUnitz();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -8561,6 +8904,1434 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_xtildeXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_xtildeXDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_xtildeXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_xtildeXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_xtildeXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_xtildeXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->xtildeXDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_ytildeXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_ytildeXDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_ytildeXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_ytildeXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_ytildeXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_ytildeXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->ytildeXDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_xiXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_xiXDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_xiXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_xiXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_xiXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_xiXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->xiXDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_ex1XDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_ex1XDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_ex1XDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_ex1XDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_ex1XDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_ex1XDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->ex1XDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_ex2XDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_ex2XDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_ex2XDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_ex2XDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_ex2XDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_ex2XDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->ex2XDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_ex3XDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_ex3XDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_ex3XDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_ex3XDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_ex3XDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_ex3XDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->ex3XDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_ey1XDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_ey1XDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_ey1XDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_ey1XDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_ey1XDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_ey1XDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->ey1XDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_ey2XDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_ey2XDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_ey2XDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_ey2XDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_ey2XDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_ey2XDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->ey2XDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_ey3XDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_ey3XDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_ey3XDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_ey3XDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_ey3XDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_ey3XDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->ey3XDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_deltafunction(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  unsigned int arg2 ;
+  unsigned int arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  unsigned int val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:CentralisedDerivative_deltafunction",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_deltafunction" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "CentralisedDerivative_deltafunction" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  ecode3 = SWIG_AsVal_unsigned_SS_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "CentralisedDerivative_deltafunction" "', argument " "3"" of type '" "unsigned int""'");
+  } 
+  arg3 = static_cast< unsigned int >(val3);
+  result = (double)(arg1)->deltafunction(arg2,arg3);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_alphaXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_alphaXDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_alphaXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_alphaXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_alphaXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_alphaXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->alphaXDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_betaXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_betaXDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_betaXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_betaXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_betaXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_betaXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->betaXDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_gammaXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_gammaXDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_gammaXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_gammaXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_gammaXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_gammaXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->gammaXDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_cpinormXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_cpinormXDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_cpinormXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_cpinormXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_cpinormXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_cpinormXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->cpinormXDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_pixXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_pixXDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_pixXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_pixXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_pixXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_pixXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->pixXDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_piyXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_piyXDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_piyXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_piyXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_piyXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_piyXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->piyXDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_pizXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_pizXDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_pizXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_pizXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_pizXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_pizXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->pizXDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_ncxXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_ncxXDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_ncxXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_ncxXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_ncxXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_ncxXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->ncxXDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_ncyXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_ncyXDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_ncyXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_ncyXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_ncyXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_ncyXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->ncyXDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_nczXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_nczXDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_nczXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_nczXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_nczXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_nczXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->nczXDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_areatotalXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_areatotalXDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_areatotalXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_areatotalXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_areatotalXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_areatotalXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->areatotalXDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_nctildenormXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_nctildenormXDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_nctildenormXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_nctildenormXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_nctildenormXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_nctildenormXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->nctildenormXDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_ncxtildeXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_ncxtildeXDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_ncxtildeXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_ncxtildeXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_ncxtildeXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_ncxtildeXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->ncxtildeXDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_ncytildeXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_ncytildeXDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_ncytildeXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_ncytildeXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_ncytildeXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_ncytildeXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->ncytildeXDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_ncztildeXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:CentralisedDerivative_ncztildeXDerivative",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_ncztildeXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_ncztildeXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_ncztildeXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_ncztildeXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  result = (double)(arg1)->ncztildeXDerivative(arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_numericalXtildeXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  double arg5 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  double val5 ;
+  int ecode5 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  PyObject * obj4 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOOO:CentralisedDerivative_numericalXtildeXDerivative",&obj0,&obj1,&obj2,&obj3,&obj4)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_numericalXtildeXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_numericalXtildeXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_numericalXtildeXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_numericalXtildeXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  ecode5 = SWIG_AsVal_double(obj4, &val5);
+  if (!SWIG_IsOK(ecode5)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "CentralisedDerivative_numericalXtildeXDerivative" "', argument " "5"" of type '" "double""'");
+  } 
+  arg5 = static_cast< double >(val5);
+  result = (double)(arg1)->numericalXtildeXDerivative(arg2,arg3,arg4,arg5);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_new_CentralisedDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_CentralisedDerivative")) SWIG_fail;
+  result = (CentralisedDerivative *)new CentralisedDerivative();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_CentralisedDerivative, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_CentralisedDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_CentralisedDerivative",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_CentralisedDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *CentralisedDerivative_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_CentralisedDerivative, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
+
+SWIGINTERN PyObject *_wrap_new_doublearray(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  size_t arg1 ;
+  size_t val1 ;
+  int ecode1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:new_doublearray",&obj0)) SWIG_fail;
+  ecode1 = SWIG_AsVal_size_t(obj0, &val1);
+  if (!SWIG_IsOK(ecode1)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode1), "in method '" "new_doublearray" "', argument " "1"" of type '" "size_t""'");
+  } 
+  arg1 = static_cast< size_t >(val1);
+  result = (double *)new_doublearray(arg1);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_doublearray(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  double *arg1 = (double *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_doublearray",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_doublearray" "', argument " "1"" of type '" "double *""'"); 
+  }
+  arg1 = reinterpret_cast< double * >(argp1);
+  delete_doublearray(arg1);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_doublearray_getitem(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  double *arg1 = (double *) 0 ;
+  size_t arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:doublearray_getitem",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "doublearray_getitem" "', argument " "1"" of type '" "double *""'"); 
+  }
+  arg1 = reinterpret_cast< double * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "doublearray_getitem" "', argument " "2"" of type '" "size_t""'");
+  } 
+  arg2 = static_cast< size_t >(val2);
+  result = (double)doublearray_getitem(arg1,arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_doublearray_setitem(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  double *arg1 = (double *) 0 ;
+  size_t arg2 ;
+  double arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  size_t val2 ;
+  int ecode2 = 0 ;
+  double val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:doublearray_setitem",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "doublearray_setitem" "', argument " "1"" of type '" "double *""'"); 
+  }
+  arg1 = reinterpret_cast< double * >(argp1);
+  ecode2 = SWIG_AsVal_size_t(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "doublearray_setitem" "', argument " "2"" of type '" "size_t""'");
+  } 
+  arg2 = static_cast< size_t >(val2);
+  ecode3 = SWIG_AsVal_double(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "doublearray_setitem" "', argument " "3"" of type '" "double""'");
+  } 
+  arg3 = static_cast< double >(val3);
+  doublearray_setitem(arg1,arg2,arg3);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 static PyMethodDef SwigMethods[] = {
 	 { (char *)"SWIG_PyInstanceMethod_New", (PyCFunction)SWIG_PyInstanceMethod_New, METH_O, NULL},
 	 { (char *)"Cell_make", _wrap_Cell_make, METH_VARARGS, NULL},
@@ -8609,6 +10380,18 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getIthVertex", _wrap_Face_getIthVertex, METH_VARARGS, NULL},
 	 { (char *)"Face_addVertex", _wrap_Face_addVertex, METH_VARARGS, NULL},
 	 { (char *)"Face_removeVertex", _wrap_Face_removeVertex, METH_VARARGS, NULL},
+	 { (char *)"Face_setNormal", _wrap_Face_setNormal, METH_VARARGS, NULL},
+	 { (char *)"Face_getNormal", _wrap_Face_getNormal, METH_VARARGS, NULL},
+	 { (char *)"Face_setNormalTilde", _wrap_Face_setNormalTilde, METH_VARARGS, NULL},
+	 { (char *)"Face_getNormalTilde", _wrap_Face_getNormalTilde, METH_VARARGS, NULL},
+	 { (char *)"Face_setPivector", _wrap_Face_setPivector, METH_VARARGS, NULL},
+	 { (char *)"Face_getPivector", _wrap_Face_getPivector, METH_VARARGS, NULL},
+	 { (char *)"Face_setUnitx", _wrap_Face_setUnitx, METH_VARARGS, NULL},
+	 { (char *)"Face_getUnitx", _wrap_Face_getUnitx, METH_VARARGS, NULL},
+	 { (char *)"Face_setUnity", _wrap_Face_setUnity, METH_VARARGS, NULL},
+	 { (char *)"Face_getUnity", _wrap_Face_getUnity, METH_VARARGS, NULL},
+	 { (char *)"Face_setUnitz", _wrap_Face_setUnitz, METH_VARARGS, NULL},
+	 { (char *)"Face_getUnitz", _wrap_Face_getUnitz, METH_VARARGS, NULL},
 	 { (char *)"Face_targetFormMatrix_set", _wrap_Face_targetFormMatrix_set, METH_VARARGS, NULL},
 	 { (char *)"Face_targetFormMatrix_get", _wrap_Face_targetFormMatrix_get, METH_VARARGS, NULL},
 	 { (char *)"Face_traceSquaredTargetFormMatrix_set", _wrap_Face_traceSquaredTargetFormMatrix_set, METH_VARARGS, NULL},
@@ -8767,6 +10550,39 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"energyOfFace", _wrap_energyOfFace, METH_VARARGS, NULL},
 	 { (char *)"jacobianOfCell", _wrap_jacobianOfCell, METH_VARARGS, NULL},
 	 { (char *)"setProjectedCoordinateDerivative", _wrap_setProjectedCoordinateDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_xtildeXDerivative", _wrap_CentralisedDerivative_xtildeXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_ytildeXDerivative", _wrap_CentralisedDerivative_ytildeXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_xiXDerivative", _wrap_CentralisedDerivative_xiXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_ex1XDerivative", _wrap_CentralisedDerivative_ex1XDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_ex2XDerivative", _wrap_CentralisedDerivative_ex2XDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_ex3XDerivative", _wrap_CentralisedDerivative_ex3XDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_ey1XDerivative", _wrap_CentralisedDerivative_ey1XDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_ey2XDerivative", _wrap_CentralisedDerivative_ey2XDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_ey3XDerivative", _wrap_CentralisedDerivative_ey3XDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_deltafunction", _wrap_CentralisedDerivative_deltafunction, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_alphaXDerivative", _wrap_CentralisedDerivative_alphaXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_betaXDerivative", _wrap_CentralisedDerivative_betaXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_gammaXDerivative", _wrap_CentralisedDerivative_gammaXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_cpinormXDerivative", _wrap_CentralisedDerivative_cpinormXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_pixXDerivative", _wrap_CentralisedDerivative_pixXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_piyXDerivative", _wrap_CentralisedDerivative_piyXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_pizXDerivative", _wrap_CentralisedDerivative_pizXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_ncxXDerivative", _wrap_CentralisedDerivative_ncxXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_ncyXDerivative", _wrap_CentralisedDerivative_ncyXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_nczXDerivative", _wrap_CentralisedDerivative_nczXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_areatotalXDerivative", _wrap_CentralisedDerivative_areatotalXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_nctildenormXDerivative", _wrap_CentralisedDerivative_nctildenormXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_ncxtildeXDerivative", _wrap_CentralisedDerivative_ncxtildeXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_ncytildeXDerivative", _wrap_CentralisedDerivative_ncytildeXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_ncztildeXDerivative", _wrap_CentralisedDerivative_ncztildeXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_numericalXtildeXDerivative", _wrap_CentralisedDerivative_numericalXtildeXDerivative, METH_VARARGS, NULL},
+	 { (char *)"new_CentralisedDerivative", _wrap_new_CentralisedDerivative, METH_VARARGS, NULL},
+	 { (char *)"delete_CentralisedDerivative", _wrap_delete_CentralisedDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_swigregister", CentralisedDerivative_swigregister, METH_VARARGS, NULL},
+	 { (char *)"new_doublearray", _wrap_new_doublearray, METH_VARARGS, NULL},
+	 { (char *)"delete_doublearray", _wrap_delete_doublearray, METH_VARARGS, NULL},
+	 { (char *)"doublearray_getitem", _wrap_doublearray_getitem, METH_VARARGS, NULL},
+	 { (char *)"doublearray_setitem", _wrap_doublearray_setitem, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 
@@ -8776,6 +10592,7 @@ static PyMethodDef SwigMethods[] = {
 static swig_type_info _swigt__p_Cell = {"_p_Cell", "Cell *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CellFaceIterator = {"_p_CellFaceIterator", "CellFaceIterator *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_CellVertexIterator = {"_p_CellVertexIterator", "CellVertexIterator *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_CentralisedDerivative = {"_p_CentralisedDerivative", "CentralisedDerivative *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Edge = {"_p_Edge", "Edge *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Face = {"_p_Face", "Face *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_FaceEdgeIterator = {"_p_FaceEdgeIterator", "FaceEdgeIterator *", 0, 0, (void*)0, 0};
@@ -8784,12 +10601,14 @@ static swig_type_info _swigt__p_Vertex = {"_p_Vertex", "Vertex *", 0, 0, (void*)
 static swig_type_info _swigt__p_VertexEdgeIterator = {"_p_VertexEdgeIterator", "VertexEdgeIterator *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_a_2__double = {"_p_a_2__double", "double (*)[2]", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_char = {"_p_char", "char *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_double = {"_p_double", "double *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_void = {"_p_void", "void *", 0, 0, (void*)0, 0};
 
 static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Cell,
   &_swigt__p_CellFaceIterator,
   &_swigt__p_CellVertexIterator,
+  &_swigt__p_CentralisedDerivative,
   &_swigt__p_Edge,
   &_swigt__p_Face,
   &_swigt__p_FaceEdgeIterator,
@@ -8798,12 +10617,14 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_VertexEdgeIterator,
   &_swigt__p_a_2__double,
   &_swigt__p_char,
+  &_swigt__p_double,
   &_swigt__p_void,
 };
 
 static swig_cast_info _swigc__p_Cell[] = {  {&_swigt__p_Cell, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CellFaceIterator[] = {  {&_swigt__p_CellFaceIterator, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_CellVertexIterator[] = {  {&_swigt__p_CellVertexIterator, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_CentralisedDerivative[] = {  {&_swigt__p_CentralisedDerivative, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Edge[] = {  {&_swigt__p_Edge, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Face[] = {  {&_swigt__p_Face, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FaceEdgeIterator[] = {  {&_swigt__p_FaceEdgeIterator, 0, 0, 0},{0, 0, 0, 0}};
@@ -8812,12 +10633,14 @@ static swig_cast_info _swigc__p_Vertex[] = {  {&_swigt__p_Vertex, 0, 0, 0},{0, 0
 static swig_cast_info _swigc__p_VertexEdgeIterator[] = {  {&_swigt__p_VertexEdgeIterator, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_a_2__double[] = {  {&_swigt__p_a_2__double, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_char[] = {  {&_swigt__p_char, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_double[] = {  {&_swigt__p_double, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_void[] = {  {&_swigt__p_void, 0, 0, 0},{0, 0, 0, 0}};
 
 static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Cell,
   _swigc__p_CellFaceIterator,
   _swigc__p_CellVertexIterator,
+  _swigc__p_CentralisedDerivative,
   _swigc__p_Edge,
   _swigc__p_Face,
   _swigc__p_FaceEdgeIterator,
@@ -8826,6 +10649,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_VertexEdgeIterator,
   _swigc__p_a_2__double,
   _swigc__p_char,
+  _swigc__p_double,
   _swigc__p_void,
 };
 

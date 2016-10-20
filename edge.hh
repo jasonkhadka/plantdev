@@ -290,6 +290,8 @@ class Edge
 
   friend class QuadEdge;
 
+  friend class centralisedDerivative;
+
 };
 
 /* -- inline instance methods ---------------------------------------------- */

@@ -274,6 +274,42 @@ class Face(_object):
 
     def removeVertex(self, vertex):
         return _quadedge.Face_removeVertex(self, vertex)
+
+    def setNormal(self, arg2):
+        return _quadedge.Face_setNormal(self, arg2)
+
+    def getNormal(self):
+        return _quadedge.Face_getNormal(self)
+
+    def setNormalTilde(self, arg2):
+        return _quadedge.Face_setNormalTilde(self, arg2)
+
+    def getNormalTilde(self):
+        return _quadedge.Face_getNormalTilde(self)
+
+    def setPivector(self, arg2):
+        return _quadedge.Face_setPivector(self, arg2)
+
+    def getPivector(self):
+        return _quadedge.Face_getPivector(self)
+
+    def setUnitx(self, arg2):
+        return _quadedge.Face_setUnitx(self, arg2)
+
+    def getUnitx(self):
+        return _quadedge.Face_getUnitx(self)
+
+    def setUnity(self, arg2):
+        return _quadedge.Face_setUnity(self, arg2)
+
+    def getUnity(self):
+        return _quadedge.Face_getUnity(self)
+
+    def setUnitz(self, arg2):
+        return _quadedge.Face_setUnitz(self, arg2)
+
+    def getUnitz(self):
+        return _quadedge.Face_getUnitz(self)
     __swig_setmethods__["targetFormMatrix"] = _quadedge.Face_targetFormMatrix_set
     __swig_getmethods__["targetFormMatrix"] = _quadedge.Face_targetFormMatrix_get
     if _newclass:
@@ -801,6 +837,118 @@ jacobianOfCell = _quadedge.jacobianOfCell
 def setProjectedCoordinateDerivative(face):
     return _quadedge.setProjectedCoordinateDerivative(face)
 setProjectedCoordinateDerivative = _quadedge.setProjectedCoordinateDerivative
+class CentralisedDerivative(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, CentralisedDerivative, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, CentralisedDerivative, name)
+    __repr__ = _swig_repr
+
+    def xtildeXDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_xtildeXDerivative(self, first, second, face)
+
+    def ytildeXDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ytildeXDerivative(self, first, second, face)
+
+    def xiXDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_xiXDerivative(self, first, second, face)
+
+    def ex1XDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ex1XDerivative(self, first, second, face)
+
+    def ex2XDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ex2XDerivative(self, first, second, face)
+
+    def ex3XDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ex3XDerivative(self, first, second, face)
+
+    def ey1XDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ey1XDerivative(self, first, second, face)
+
+    def ey2XDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ey2XDerivative(self, first, second, face)
+
+    def ey3XDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ey3XDerivative(self, first, second, face)
+
+    def deltafunction(self, arg2, arg3):
+        return _quadedge.CentralisedDerivative_deltafunction(self, arg2, arg3)
+
+    def alphaXDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_alphaXDerivative(self, arg2, arg3, arg4)
+
+    def betaXDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_betaXDerivative(self, arg2, arg3, arg4)
+
+    def gammaXDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_gammaXDerivative(self, arg2, arg3, arg4)
+
+    def cpinormXDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_cpinormXDerivative(self, first, second, face)
+
+    def pixXDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_pixXDerivative(self, arg2, arg3, arg4)
+
+    def piyXDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_piyXDerivative(self, arg2, arg3, arg4)
+
+    def pizXDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_pizXDerivative(self, arg2, arg3, arg4)
+
+    def ncxXDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_ncxXDerivative(self, arg2, arg3, arg4)
+
+    def ncyXDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_ncyXDerivative(self, arg2, arg3, arg4)
+
+    def nczXDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_nczXDerivative(self, arg2, arg3, arg4)
+
+    def areatotalXDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_areatotalXDerivative(self, arg2, arg3, arg4)
+
+    def nctildenormXDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_nctildenormXDerivative(self, arg2, arg3, arg4)
+
+    def ncxtildeXDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_ncxtildeXDerivative(self, arg2, arg3, arg4)
+
+    def ncytildeXDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_ncytildeXDerivative(self, arg2, arg3, arg4)
+
+    def ncztildeXDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_ncztildeXDerivative(self, arg2, arg3, arg4)
+
+    def numericalXtildeXDerivative(self, arg2, arg3, arg4, arg5):
+        return _quadedge.CentralisedDerivative_numericalXtildeXDerivative(self, arg2, arg3, arg4, arg5)
+
+    def __init__(self):
+        this = _quadedge.new_CentralisedDerivative()
+        try:
+            self.this.append(this)
+        except:
+            self.this = this
+    __swig_destroy__ = _quadedge.delete_CentralisedDerivative
+    __del__ = lambda self: None
+CentralisedDerivative_swigregister = _quadedge.CentralisedDerivative_swigregister
+CentralisedDerivative_swigregister(CentralisedDerivative)
+
+
+def new_doublearray(nelements):
+    return _quadedge.new_doublearray(nelements)
+new_doublearray = _quadedge.new_doublearray
+
+def delete_doublearray(ary):
+    return _quadedge.delete_doublearray(ary)
+delete_doublearray = _quadedge.delete_doublearray
+
+def doublearray_getitem(ary, index):
+    return _quadedge.doublearray_getitem(ary, index)
+doublearray_getitem = _quadedge.doublearray_getitem
+
+def doublearray_setitem(ary, index, value):
+    return _quadedge.doublearray_setitem(ary, index, value)
+doublearray_setitem = _quadedge.doublearray_setitem
 # This file is compatible with both classic and new-style classes.
 
 

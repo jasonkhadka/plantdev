@@ -78,11 +78,10 @@ void Face::setProjectedCoordinate(){
         // setting the central coordinate of this face in terms of cartisian coordinate
           this->xCentralised = 0.;
           this->yCentralised = 0.;
-          this->zCentralised =  0.;
+          this->zCentralised = 0.;
         return;
     } 
     FaceEdgeIterator faceEdges(this);//iterator to iterate through the vertex for outgoign edge
-    double nx,ny;//normal coordinate
     double xCentroid(0), yCentroid(0), zCentroid(0); // coordinate of the cnetroid
     // array of vertices
     double xcood[6], ycood[6], zcood[6];// coordinate of the vertices of this face
@@ -107,19 +106,10 @@ void Face::setProjectedCoordinate(){
     //printf(" face id : %u \n", faceid);
     //printf(" calculated means : X = %F ; Y = %F ; Z = %F \n", xmean, ymean,zmean );
     //printf("counter %h \n",counter);
-    // divinding by the number of vertices to get the mean
-    xmean = (1./counter)*xmean;
-    ymean = (1./counter)*ymean;
-    zmean = (1./counter)*zmean;
-    //printf(">>>>new output start<<<< face id = %u \n", faceid);
-    //printf("calculated means : X = %F ; Y = %F ; Z = %F \n", xmean, ymean,zmean );
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
-    // triangulating the face and getting the center of each triangle
-    //vectors of the triangles 
-    //now calculating weighted center
-    xCentroid = xmean;
-    yCentroid = ymean;
-    zCentroid = zmean;
+    // divinding by the number of vertices to get the mean, which is also the centroid
+    xCentroid = (1./counter)*xmean;
+    yCentroid = (1./counter)*ymean;
+    zCentroid = (1./counter)*zmean;
     // setting the central coordinate of this face in terms of cartisian coordinate
     this->xCentralised = xCentroid;
     this->yCentralised = yCentroid;
@@ -127,9 +117,9 @@ void Face::setProjectedCoordinate(){
     //printf("%s %u %F \n ", "calculating total area of Face :",faceid, totalarea);
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
     //Calculating normal of the triangles of the shape and then calculating weighted normal
-    double normalTempX[6],normalTempY[6],normalTempZ[6],totalarea;//vertices of normal of triangles
+    //double normalTempX[6],normalTempY[6],normalTempZ[6],totalarea;//vertices of normal of triangles
     double vector1[3], vector2[3], crossProductVector[3],crossProductMagnitude;
-    totalarea = 0;
+    double totalarea = 0;
     double normalX(0), normalY(0), normalZ(0); // vertices of weighted normal X, Y, Z 
     // iterating the faces also
     FaceEdgeIterator faceEdges1(this);//iterator to iterate through the vertex for outgoign edge
@@ -174,11 +164,16 @@ void Face::setProjectedCoordinate(){
     normalY = normalY/totalarea;
     normalZ = normalZ/totalarea;
     //setting area of the face
+    // this totalarea is not the exact area of face, 
+    //so instead calling setareaofface fucntion
+    // however, this area is the total area for derivative calculation
     this->areaOfFace = totalarea;
+    //this->setAreaOfFace(); // to set the area
     {//right now normalx,y,z is un-normalised so it is normalTilde
+      //setting normalTilde
         double normaltildeOfFace[3] = {normalX, normalY, normalZ};
         double * pntnormaltilde = normaltildeOfFace;
-        this->setNormal(pntnormaltilde);
+        this->setNormalTilde(pntnormaltilde);
     }
     //normalising the normal vector 
     double normalMagnitude = sqrt(pow(normalX,2.0)+pow(normalY,2.0)+pow(normalZ,2.0));
@@ -263,6 +258,15 @@ void Face::setProjectedCoordinate(){
           currentVertex->insertNonCentralisedProjectedYcoordinate(faceid,yprojection); 
           currentVertex->insertNonCentralisedProjectedZcoordinate(faceid,zprojection); 
         }
+    //saving unit vectors
+   {
+    double * pntunitx = unitx;
+    double * pntunity = unity;
+    double * pntunitz = normalOfFace;
+    this->setUnitx(pntunitx);
+    this->setUnity(pntunity);
+    this->setUnitz(pntunitz);
+    }
     //Calculating the Angle of tilt to the cartesian x axis
     // dor product between the unitx vector and cartesian x unit vector [1,0,0]
     dotproduct = unitx[0]; // as second and third terms are multiplied by 0
@@ -520,6 +524,41 @@ double *Face::getPivector(){
    double * pntnormal = pivector;
    return pntnormal;
 }
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+void Face::setUnitx(double * tempunit){
+  for (int i = 0; i<3; i++){
+      unitx[i] = tempunit[i];
+   }
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double * Face::getUnitx(){
+  double * pntunit = unitx;
+  return pntunit;
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+void Face::setUnity(double * tempunit){
+  for (int i = 0; i<3; i++){
+      unity[i] = tempunit[i];
+   }
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double * Face::getUnity(){
+  double * pntunit = unity;
+  return pntunit;
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+void Face::setUnitz(double * tempunit){
+  for (int i = 0; i<3; i++){
+      unitz[i] = tempunit[i];
+   }
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double * Face::getUnitz(){
+  double * pntunit = unitz;
+  return pntunit;
+}
+
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
 double Face::getAreaOfFace(){
 	return this->areaOfFace;

@@ -227,7 +227,18 @@ class Face
       *[ pi_x^p, pi_y^p, pi_z^p]
       */
       double pivector[3]; 
-      
+    /**
+     * unit vector in X direction
+     */
+     double unitx[3];
+     /**
+     * unit vector in Y direction
+     */
+     double unity[3];
+     /**
+     * unit vector in Z direction
+     */
+     double unitz[3]; 
     //***************end added features****************************************//
   /* ----------Public instance methods ---------*/
  /* -- public instance methods ----------------------------------------- */
@@ -257,6 +268,30 @@ class Face
      * function to return the normal
      */
      double * getPivector();
+     /**
+      * function to set unit vector in X direction 
+      */
+      void setUnitx(double *);
+      /**
+       * function to get unit vector in X direction
+       */
+       double * getUnitx();
+       /**
+      * function to set unit vector in Y direction 
+      */
+      void setUnity(double *);
+      /**
+       * function to get unit vector in Y direction
+       */
+       double * getUnity();
+       /**
+      * function to set unit vector in Z direction 
+      */
+      void setUnitz(double *);
+      /**
+       * function to get unit vector in Z direction
+       */
+       double * getUnitz();
    /**
     * targetFormMatrix of this face (or cell in biological terms)
     * **for now this is jsut the form matrix of current shape
@@ -360,6 +395,10 @@ class Face
    * <- the number of vertices
    */
   unsigned int countVertices();
+  // **********************************************************************// 
+  /* -- friend classes ----------------------------------------------------- */
+
+  friend class centralisedDerivative;
 };
 /* ----- inline instance methods --------------------------------*/
 inline void Face::setAngleOfTilt(double angle)

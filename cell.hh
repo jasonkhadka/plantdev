@@ -349,6 +349,7 @@ public:
 
   friend class CellVertexIterator;
   friend class CellFaceIterator;
+  friend class CentralisedDerivative;
 
 };
 

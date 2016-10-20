@@ -2,8 +2,8 @@
 #define derivativeINCLUDED
 
 //forward declaring the classes
-//class Cell;
-//class Edge;
+class Cell;
+class Edge;
 class Vector;
 class Face;
 
@@ -12,6 +12,16 @@ class CentralisedDerivative
 
 
 	 public:
+	 	/**
+	 	 * xtilde (x centralised coordiante) derivative with respect to 
+	 	 * 			x_k coordiante. 
+	 	 */
+	 	double xtildeXDerivative(Vertex *first, Vertex *second, Face *face);
+	 	/**
+	 	 * ytilde (y centralised coordiante) derivative with respect to 
+	 	 * 			x_k coordiante. 
+	 	 */
+	 	double ytildeXDerivative(Vertex *first, Vertex *second, Face *face);
 
 		/* x_i derivative with respect to x_k
 		 * derivative of first with respect to second
@@ -32,9 +42,23 @@ class CentralisedDerivative
 		  * derivative of first with respect to x coordinate of second on Face face
 		  */
 		  double ex3XDerivative(Vertex* first, Vertex * second, Face* face);
+		 /** unit_y with respect to x_k */
+		 /* ey1 derivative with respect to x_k
+		 * derivative of first with respect to x coordinate of second
+		 */
+		double ey1XDerivative(Vertex *first, Vertex *second, Face* face);
+		/**
+		 * ey2 derivative with respect to x_k
+		 * derivative of first with respect to x coordinate of second on Face face
+		 */
+		 double ey2XDerivative(Vertex* first, Vertex *second, Face * face);
+		 /**
+		  * ey3 derivative with respect to x_k
+		  * derivative of first with respect to x coordinate of second on Face face
+		  */
+		  double ey3XDerivative(Vertex* first, Vertex * second, Face* face);
 
 	// -----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%//
-	private:
 
 	// here the functions that are not directly called but are used to build bigger 
 	// parts of derivatives should be put.
@@ -118,10 +142,12 @@ class CentralisedDerivative
 		  * vector normal of the face
 		  */
 		 double ncztildeXDerivative(Vertex*, Vertex*, Face*);
+		 // ******************************************************************************************* //
+		 // ******** Numerical Derivative of Xtilde X derivative  ********************* //
+		 double numericalXtildeXDerivative(Vertex*, Vertex*, Face*, double);
 
 		 // ******************************************************************************************* //
 		 // ******** Function metioned but left to write  ********************* //
-
 
 };
 //********** Inline Instance methods ************************//

@@ -9,3 +9,5 @@
 %include vertex.i
 %include jacobian.i
 %include derivative.i
+%include "carrays.i"
+%array_functions(double, doublearray)
