@@ -10178,6 +10178,64 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_numericalYtildeXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  Vertex *arg3 = (Vertex *) 0 ;
+  Face *arg4 = (Face *) 0 ;
+  double arg5 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  void *argp4 = 0 ;
+  int res4 = 0 ;
+  double val5 ;
+  int ecode5 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  PyObject * obj4 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOOO:CentralisedDerivative_numericalYtildeXDerivative",&obj0,&obj1,&obj2,&obj3,&obj4)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_numericalYtildeXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_numericalYtildeXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  res3 = SWIG_ConvertPtr(obj2, &argp3,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "CentralisedDerivative_numericalYtildeXDerivative" "', argument " "3"" of type '" "Vertex *""'"); 
+  }
+  arg3 = reinterpret_cast< Vertex * >(argp3);
+  res4 = SWIG_ConvertPtr(obj3, &argp4,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res4)) {
+    SWIG_exception_fail(SWIG_ArgError(res4), "in method '" "CentralisedDerivative_numericalYtildeXDerivative" "', argument " "4"" of type '" "Face *""'"); 
+  }
+  arg4 = reinterpret_cast< Face * >(argp4);
+  ecode5 = SWIG_AsVal_double(obj4, &val5);
+  if (!SWIG_IsOK(ecode5)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "CentralisedDerivative_numericalYtildeXDerivative" "', argument " "5"" of type '" "double""'");
+  } 
+  arg5 = static_cast< double >(val5);
+  result = (double)(arg1)->numericalYtildeXDerivative(arg2,arg3,arg4,arg5);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_new_CentralisedDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   CentralisedDerivative *result = 0 ;
@@ -10576,6 +10634,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"CentralisedDerivative_ncytildeXDerivative", _wrap_CentralisedDerivative_ncytildeXDerivative, METH_VARARGS, NULL},
 	 { (char *)"CentralisedDerivative_ncztildeXDerivative", _wrap_CentralisedDerivative_ncztildeXDerivative, METH_VARARGS, NULL},
 	 { (char *)"CentralisedDerivative_numericalXtildeXDerivative", _wrap_CentralisedDerivative_numericalXtildeXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_numericalYtildeXDerivative", _wrap_CentralisedDerivative_numericalYtildeXDerivative, METH_VARARGS, NULL},
 	 { (char *)"new_CentralisedDerivative", _wrap_new_CentralisedDerivative, METH_VARARGS, NULL},
 	 { (char *)"delete_CentralisedDerivative", _wrap_delete_CentralisedDerivative, METH_VARARGS, NULL},
 	 { (char *)"CentralisedDerivative_swigregister", CentralisedDerivative_swigregister, METH_VARARGS, NULL},

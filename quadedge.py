@@ -922,6 +922,9 @@ class CentralisedDerivative(_object):
     def numericalXtildeXDerivative(self, arg2, arg3, arg4, arg5):
         return _quadedge.CentralisedDerivative_numericalXtildeXDerivative(self, arg2, arg3, arg4, arg5)
 
+    def numericalYtildeXDerivative(self, arg2, arg3, arg4, arg5):
+        return _quadedge.CentralisedDerivative_numericalYtildeXDerivative(self, arg2, arg3, arg4, arg5)
+
     def __init__(self):
         this = _quadedge.new_CentralisedDerivative()
         try:

@@ -43,7 +43,6 @@ double CentralisedDerivative::xtildeXDerivative(Vertex *first, Vertex *second, F
 }
 
 // --------------------------------------------------------------------------------------------------- //
-
 double CentralisedDerivative::ytildeXDerivative(Vertex *first, Vertex *second, Face *face){
 	// gathering terms //
 	if (face->getID() == 1){
@@ -67,13 +66,13 @@ double CentralisedDerivative::ytildeXDerivative(Vertex *first, Vertex *second, F
 	double derivativeValue = (coordinates[0]-centroid[0])*ey1derivative
 							 +(coordinates[1]-centroid[1])*ey2derivative
 							 +(coordinates[2]-centroid[2])*ey3derivative
-							 +unityvector[0]*(xiderivative-1/6.);
+							 +unityvector[0]*(xiderivative-1./6.);
 	// returning value //
+	//std::cout<<"Unit Y : "<<unityvector[0]<<unityvector[1]<<unityvector[3]<<std::endl;
 	return derivativeValue;
 	}
 	
 }
-
 
 // -----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%//
 // -----%-----%-----%----Private Members Only-----%-----%-----%-----%-----%-----%-----%//
@@ -635,6 +634,8 @@ double CentralisedDerivative::numericalXtildeXDerivative(Vertex* first, Vertex* 
    return derivativeValue;
 }
 */
+// --------------------------------------------------------------------------------- //
+
 double CentralisedDerivative::numericalXtildeXDerivative(Vertex* first, Vertex* second, Face* face, double stepsize = pow(10.,-8.)){
 	// ********************************************************************** //
 	// calculating the numerical derivative with Newton method
@@ -658,17 +659,68 @@ double CentralisedDerivative::numericalXtildeXDerivative(Vertex* first, Vertex* 
  	//return the derivative
  	return derivative;
 }
+// --------------------------------------------------------------------------------- //
+
+double CentralisedDerivative::numericalYtildeXDerivative(Vertex* first, Vertex* second, Face* face, double stepsize = pow(10.,-8.)){
+	// ********************************************************************** //
+	// calculating the numerical derivative with Newton method
+	// f'(x) = (f(x+h)-f(x))/h
+	// ********************************************************************** //
+	// getting face ID 
+	unsigned int faceid = face->getID();
+	// getting the initial xtilde 
+	double ytilde_initial = first->getProjectedYcoordinate(faceid);
+	// now changing the second vertex by given stepsize and then setting new xtilde (x projected coordinate)
+	double xsecond = second->getXcoordinate();
+ 	second->setXcoordinate(xsecond+stepsize);
+ 	face->setProjectedCoordinate();
+ 	// now new projected coordinate has been calculated with change in second vertex by (x+h)
+ 	double ytilde_final = first->getProjectedYcoordinate(faceid);
+ 	//now calculating the numerical derivative by Newtown method
+ 	double derivative = (ytilde_final-ytilde_initial)/stepsize;
+ 	// also setting the xcoordinate of second vertex back to previous value and projected coordinate also back to original
+ 	second->setXcoordinate(xsecond);
+ 	face->setProjectedCoordinate();
+ 	//return the derivative
+ 	return derivative;
+}
 
 
 
+// ================================================================================================= //
+// ========================= Y DERIVATIVE ========================================================== //
+// ================================================================================================= //
 
+double CentralisedDerivative::yiYDerivative(Vertex* first, Vertex* second, Face* face){
+	return deltafunction(first->getID(),second->getID());
+}
 
+double CentralisedDerivative::ex1YDerivative(Vertex *first, Vertex *second, Face *face){
+	//gathering terms // 
+	double *pntpivector = face->getPivector();
+	double *pntnormal = face->getNormal();
+	double cPiNorm = sqrt(pow(pntpivector[0]-face->getXCentralised(),2)+
+							pow(pntpivector[1]-face->getYCentralised(),2) + 
+							pow(pntpivector[2]-face->getZCentralised(),2));
+	double ncyderivative = ncxYDerivative(first, second, face); //calculating the ncxderivative
+	double cPiNormyderivative = cpinormYDerivative(first,second,face); //calculating the cpinorm X derivative
+	//calculating the derivative value // 
+	double derivativeValue = (cPiNorm*(-2.*pntnormal[0]*ncyderivative)-(1-pow(pntnormal[0],2))*cPiNormYderivative)/pow(cPiNorm,2.);
+	return derivativeValue;
+}
+// -------------------------------------------------------------------------------------------------- //
 
-
-
-
-
-
+double CentralisedDerivative::ncxYDerivative(Vertex* first, Vertex* second, Face* face){
+	// gathering terms //
+	double *pntnormaltilde = face->getNormalTilde();
+	double normalTildeNorm = sqrt(pow(pntnormaltilde[0],2)+pow(pntnormaltilde[1],2)+pow(pntnormaltilde[2],2));
+	double ncxtildederivative = ncxtildeYDerivative(first, second, face);
+	double nctildenormderivative = nctildenormYDerivative(first, second, face);
+	// calculating derivative //
+	double derivativeValue = 1./(pow(normalTildeNorm,2))*(normalTildeNorm*ncxtildederivative
+														 - pntnormaltilde[0]*nctildenormderivative);
+	return derivativeValue;	
+}
 
 
 

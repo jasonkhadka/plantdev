@@ -214,9 +214,9 @@ void Face::setProjectedCoordinate(){
     unitx[1] = unitx[1]/normUnitx;
     unitx[2] = unitx[2]/normUnitx;
     // now getting unity : it is the cross product of  normal and unitx to the plane. 
-    unity[0] = normalY*unitx[2]-normalZ*unitx[1];
-    unity[1] = normalZ*unitx[0]-normalX*unitx[2];
-    unity[2] = normalX*unitx[1]-normalY*unitx[0];
+    unity[0] = unitx[1]*normalZ-unitx[2]*normalY;
+    unity[1] = unitx[2]*normalX-unitx[0]*normalZ;
+    unity[2] = unitx[0]*normalY-unitx[1]*normalX;
     //normalising unity
     double normUnity = sqrt(pow(unity[0],2)+pow(unity[1],2)+pow(unity[2],2));
     unity[0] = unity[0]/normUnity;
