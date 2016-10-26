@@ -690,11 +690,69 @@ double CentralisedDerivative::numericalYtildeXDerivative(Vertex* first, Vertex* 
 // ================================================================================================= //
 // ========================= Y DERIVATIVE ========================================================== //
 // ================================================================================================= //
+double CentralisedDerivative::alphaYDerivative(Vertex* first, Vertex* second, Face* face){
+	//gathering terms//
+	//iterating for second vertex in the face
+	double derivativeValue; //variable to store derivative
+	unsigned int faceid = face->getID();
+	Vertex * currentVertex;
+	Edge * currentEdge;
+	VertexEdgeIterator vertEdges(first);// iterating through all the edges coming out from vertex First
+	unsigned int tempfaceid;
+	Face * tempface;
+	while((currentEdge = vertEdges.next())!=0){
+		tempface = currentEdge->Left();
+		tempfaceid = tempface->getID(); 
+		if (tempfaceid == faceid){ // if the left face is same as Face* face, then we found the outgoing edge from First vert on the Face* face
+			// currentEdge :  Org=firstvertex(j)----->-----Dest=vertex(j+1)
+			Vertex* vertj1 = currentEdge->Dest();//the j+1 vertex
+			double zj1 = vertj1->getZcoordinate();// z coordinate of j+1
+			double zj = first->getZcoordinate(); // z coordinate of j
+			derivativeValue = (zj1-(face->getZCentralised()))*deltafunction(first->getID(),second->getID())
+							  + 1./6.*(zj - zj1)
+							  - (zj - face->getZCentralised())*deltafunction(vertj1->getID(),second->getID());
+			return derivativeValue;
+		}
+	}
+	// if something is gone wrong
+	return 0.0
+}
+// -------------------------------------------------------------------------------------------------- //
 
-double CentralisedDerivative::yiYDerivative(Vertex* first, Vertex* second, Face* face){
-	return deltafunction(first->getID(),second->getID());
+double CentralisedDerivative::betaYDerivative(Vertex* first, Vertex* second, Face* face){
+	return 0.0
 }
 
+// -------------------------------------------------------------------------------------------------- //
+
+double CentralisedDerivative::gammaYDerivative(Vertex* first, Vertex* second, Face* face){
+	//gathering terms//
+	//iterating for second vertex in the face
+	double derivativeValue; //variable to store derivative
+	unsigned int faceid = face->getID();
+	Vertex * currentVertex;
+	Edge * currentEdge;
+	VertexEdgeIterator vertEdges(first);// iterating through all the edges coming out from vertex First
+	unsigned int tempfaceid;
+	Face * tempface;
+	while((currentEdge = vertEdges.next())!=0){
+		tempface = currentEdge->Left();
+		tempfaceid = tempface->getID(); 
+		if (tempfaceid == faceid){ // if the left face is same as Face* face, then we found the outgoing edge from First vert on the Face* face
+			// currentEdge :  Org=firstvertex(j)----->-----Dest=vertex(j+1)
+			Vertex* vertj1 = currentEdge->Dest();//the j+1 vertex
+			double xj1 = vertj1->getXcoordinate();// z coordinate of j+1
+			double xj = first->getXcoordinate(); // z coordinate of j
+			derivativeValue = (xj-(face->getXCentralised()))*deltafunction(vertj1->getID(),second->getID())
+							  - 1./6.*(xj - xj1)
+							  - (xj1 - face->getXCentralised())*deltafunction(first->getID(),second->getID());
+			return derivativeValue;
+		}
+	}
+	// if something is gone wrong
+	return 0.0
+}
+// -------------------------------------------------------------------------------------------------- //
 double CentralisedDerivative::ex1YDerivative(Vertex *first, Vertex *second, Face *face){
 	//gathering terms // 
 	double *pntpivector = face->getPivector();
@@ -709,6 +767,69 @@ double CentralisedDerivative::ex1YDerivative(Vertex *first, Vertex *second, Face
 	return derivativeValue;
 }
 // -------------------------------------------------------------------------------------------------- //
+double CentralisedDerivative::ex2YDerivative(Vertex* first, Vertex* second, Face* face){
+	// gathering the terms //
+	double *pntpivector = face->getPivector();
+	double *pntnormal = face->getNormal();
+	double cpivector[3] = {pntpivector[0]-face->getXCentralised(),pntpivector[1]-face->getYCentralised(),pntpivector[2]-face->getZCentralised()};
+	double cpinorm = sqrt(pow(cpivector[0],2)+
+							pow(cpivector[1],2) + 
+							pow(cpivector[2],2));
+	double piyderivative = piyYDerivative(first, second, face);
+	double cpinormderivative = cpinormYDerivative(first, second, face);
+	// calculating derivative 
+	double derivativeValue = (1./pow(cpinorm,2))*(cpinorm*(piyderivative-1./6.) - (cpivector[1])*cpinormderivative);
+	return derivativeValue;
+}
+// --------------------------------------------------------------------------------- //
+double CentralisedDerivative::ex3YDerivative(Vertex* first, Vertex* second, Face* face){
+	// gathering the terms //
+	double *pntpivector = face->getPivector();
+	double *pntnormal = face->getNormal();
+	double cpivector[3] = {pntpivector[0]-face->getXCentralised(),pntpivector[1]-face->getYCentralised(),pntpivector[2]-face->getZCentralised()};
+	double cpinorm = sqrt(pow(cpivector[0],2)+
+							pow(cpivector[1],2) + 
+							pow(cpivector[2],2));
+	double pizderivative = pizYDerivative(first, second, face);
+	double cpinormderivative = cpinormYDerivative(first, second, face);
+	// calculating derivative 
+	double derivativeValue = (1./pow(cpinorm,2))*(cpinorm*pizderivative - cpivector[2]*cpinormderivative);
+	return derivativeValue;
+}
+
+// --------------------------------------------------------------------------------- //
+
+double CentralisedDerivative::areatotalYDerivative(Vertex* first, Vertex* second, Face* face){
+	// gathering terms //
+	double derivativeValue(0), alphatemp(0), betatemp(0), gammatemp(0), normfactor(0);
+	double betaderivative(0), gammaderivative(0);
+	unsigned int faceid = face->getID();
+	FaceEdgeIterator faceEdges(face); // iterating the edges of this face
+	Edge * currentEdge;
+	Vertex* currentVertex;
+	while ((currentEdge = faceEdges.next())!= 0){
+			currentVertex = currentEdge->Dest(); //grabbing the destination vertex
+			// gathering all terms //
+			alphatemp = currentVertex->getAlpha(faceid);
+			betatemp = currentVertex->getBeta(faceid);
+			gammatemp = currentVertex->getGamma(faceid);
+			normfactor = sqrt(pow(alphatemp,2)+pow(betatemp,2)+pow(gammatemp,2));
+			alphaderivative = alphaYDerivative(currentVertex, second, face);
+			betaderivative = betaYDerivative(currentVertex, second, face);
+			gammaderivative = gammaYDerivative(currentVertex, second, face);
+			//calculating derivative sum //
+			derivativeValue += (1./normfactor)*(alphatemp*alphaderivative+betatemp*betaderivative+gammatemp*gammaderivative);
+	}
+	derivativeValue = (1./(2))*derivativeValue;
+	return derivativeValue;
+}
+
+// -------------------------------------------------------------------------------------------------- //
+
+double CentralisedDerivative::yiYDerivative(Vertex* first, Vertex* second, Face* face){
+	return deltafunction(first->getID(),second->getID());
+}
+// -------------------------------------------------------------------------------------------------- //
 
 double CentralisedDerivative::ncxYDerivative(Vertex* first, Vertex* second, Face* face){
 	// gathering terms //
@@ -721,8 +842,154 @@ double CentralisedDerivative::ncxYDerivative(Vertex* first, Vertex* second, Face
 														 - pntnormaltilde[0]*nctildenormderivative);
 	return derivativeValue;	
 }
+// -------------------------------------------------------------------------------------------------- //
+
+double CentralisedDerivative::ncyXDerivative(Vertex* first, Vertex* second, Face* face){
+	// gathering terms //
+	double * normaltilde = face->getNormalTilde(); //getting the normal tilde vector of tha face
+	double normaltildenorm = sqrt(pow(normaltilde[0],2)+pow(normaltilde[1],2)+pow(normaltilde[2],2)); // norm of normaltilde
+	double ncytildederivative = ncytildeYDerivative(first, second, face);
+	double normaltildenormderivative = nctildenormYDerivative(first, second, face);
+	// calculating the derivative 
+	double derivativeValue = (1./pow(normaltildenorm,2))*(normaltildenorm*ncytildederivative - normaltilde[1]*normaltildenormderivative);
+	return derivativeValue;
+}
+
+// --------------------------------------------------------------------------------- //
+
+double CentralisedDerivative::nczYDerivative(Vertex* first, Vertex* second, Face* face){
+	// gathering terms //
+	double * normaltilde = face->getNormalTilde(); //getting the normal tilde vector of tha face
+	double normaltildenorm = sqrt(pow(normaltilde[0],2)+pow(normaltilde[1],2)+pow(normaltilde[2],2)); // norm of normaltilde
+	double ncztildederivative = ncztildeYDerivative(first, second, face);
+	double normaltildenormderivative = nctildenormYDerivative(first, second, face);
+	// calculating the derivative 
+	double derivativeValue = (1./pow(normaltildenorm,2))*(normaltildenorm*ncztildederivative - normaltilde[2]*normaltildenormderivative);
+	return derivativeValue;
+}
+// -------------------------------------------------------------------------------------------------- //
+double CentralisedDerivative::nctildenormYDerivative(Vertex* first, Vertex* second, Face* face){
+		// gathering terms //
+	double * normaltilde = face->getNormalTilde(); //getting the normal tilde vector of tha face
+	double normaltildenorm = sqrt(pow(normaltilde[0],2)+pow(normaltilde[1],2)+pow(normaltilde[2],2));
+	double ncxtildederivative = ncxtildeYDerivative(first, second, face);
+	double ncytildederivative = ncytildeYDerivative(first, second, face);
+	double ncztildederivative = ncztildeYDerivative(first, second, face);
+	// calculating the derivative //
+	double derivativeValue = (1./normaltildenorm) * (normaltilde[0]*ncxtildederivative +
+													 normaltilde[1]*ncytildederivative +
+													 normaltilde[2]*ncztildederivative);
+	return derivativeValue;
+}
+// -------------------------------------------------------------------------------------------------- //
+double CentralisedDerivative::ncxtildeYDerivative(Vertex* first, Vertex* second, Face* face){
+	// gathering terms // 
+	double areatotal = face->getAreaOfFace();
+	double areatotalderivative = areatotalYDerivative(first, second, face); 
+	// iterating the faces to get the all the alpha X derivatives
+	double alphaderivative(0);
+	double alphasum(0);
+	unsigned int faceid = face->getID();//ID of the face
+	Vertex* currentVertex; // a keeper for current Vertex
+	Edge* currentEdge; // a keeper for current Edge
+	FaceEdgeIterator faceEdges(face);//iterator to iterate through the vertex for outgoign edge
+    while((currentEdge = faceEdges.next())!= 0){//runnign through the edges in the face again
+     		currentVertex = currentEdge->Dest();//vertex to be derivatived by second vertex
+     		// summing up alpha X derivatives of all vertices
+     		alphaderivative += alphaYDerivative(currentVertex, second, face);
+     		//summing up all the alpha values of the vertex
+     		alphasum += currentVertex->getAlpha(faceid);
+     	}
+     // ******** Evaluating the value of derivative *********** //
+     double derivativeValue = 0.5*(1./pow(areatotal,2))*(areatotal*alphaderivative - 
+     													alphasum*areatotalderivative);
+     return derivativeValue;
+}
+
+// -------------------------------------------------------------------------------------------------- //
+double CentralisedDerivative::ncytildeYDerivative(Vertex* first, Vertex* second, Face* face){
+	// gathering terms // 
+	double areatotal = face->getAreaOfFace();
+	double areatotalderivative = areatotalYDerivative(first, second, face); 
+	// iterating the faces to get the all the alpha X derivatives
+	double betaderivative(0);
+	double betasum(0);
+	unsigned int faceid = face->getID();//ID of the face
+	Vertex* currentVertex; // a keeper for current Vertex
+	Edge* currentEdge; // a keeper for current Edge
+	FaceEdgeIterator faceEdges(face);//iterator to iterate through the vertex for outgoign edge
+    while((currentEdge = faceEdges.next())!= 0){//runnign through the edges in the face again
+     		currentVertex = currentEdge->Dest();//vertex to be derivatived by second vertex
+     		// summing up alpha X derivatives of all vertices
+     		betaderivative += betaYDerivative(currentVertex, second, face);
+     		//summing up all the alpha values of the vertex
+     		betasum += currentVertex->getBeta(faceid);
+     	}
+     // ******** Evaluating the value of derivative *********** //
+     double derivativeValue = 0.5*(1./pow(areatotal,2))*(areatotal*betaderivative - 
+     													betasum*areatotalderivative);
+     return derivativeValue;
+}
+
+
+// --------------------------------------------------------------------------------- //
+double CentralisedDerivative::ncztildeYDerivative(Vertex* first, Vertex* second, Face* face){
+	// gathering terms // 
+	double areatotal = face->getAreaOfFace();
+	double areatotalderivative = areatotalYDerivative(first, second, face); 
+	// iterating the faces to get the all the alpha X derivatives
+	double gammaderivative(0);
+	double gammasum(0);
+	unsigned int faceid = face->getID();//ID of the face
+	Vertex* currentVertex; // a keeper for current Vertex
+	Edge* currentEdge; // a keeper for current Edge
+	FaceEdgeIterator faceEdges(face);//iterator to iterate through the vertex for outgoign edge
+    while((currentEdge = faceEdges.next())!= 0){//runnign through the edges in the face again
+     		currentVertex = currentEdge->Dest();//vertex to be derivatived by second vertex
+     		// summing up alpha X derivatives of all vertices
+     		gammaderivative += gammaYDerivative(currentVertex, second, face);
+     		//summing up all the alpha values of the vertex
+     		gammasum += currentVertex->getGamma(faceid);
+     	}
+     // ******** Evaluating the value of derivative *********** //
+     double derivativeValue = 0.5*(1./pow(areatotal,2))*(areatotal*gammaderivative - 
+     													gammasum*areatotalderivative);
+     return derivativeValue;
+}
 
 
 
+// --------------------------------------------------------------------------------- //
+
+double CentralisedDerivative::pixYDerivative(Vertex* first, Vertex* second, Face* face){
+	// gathering terms //
+	double *pntnormal = face->getNormal();//grabing the normal of the face
+	double ncxderivative = ncxYDerivative(first, second, face);
+	//calcuating the derivative //
+	double derivativeValue = -2.*pntnormal[0]*ncxderivative;
+	return derivativeValue;
+}
+// --------------------------------------------------------------------------------- //
 
 
+double CentralisedDerivative::piyYDerivative(Vertex* first, Vertex* second, Face* face){
+	// gathering terms //
+	double * normal = face->getNormal(); //grabbing the normal of the face
+	double ncyderivative = ncyYDerivative(first, second, face);
+	double ncxderivative = ncxYDerivative(first, second, face);
+	// calculating the derivative // 
+	double derivativeValue = 1./6.- normal[0]*ncyderivative - normal[1]*ncxderivative;
+	return derivativeValue;
+}
+
+// --------------------------------------------------------------------------------- //
+
+double CentralisedDerivative::pizYDerivative(Vertex* first, Vertex* second, Face* face){
+	// gathering terms //
+	double * normal = face->getNormal(); //grabbing the normal of the face
+	double nczderivative = nczYDerivative(first, second, face);
+	double ncxderivative = ncxY Derivative(first, second, face);
+	// calculating the derivative // 
+	double derivativeValue = - normal[0]*nczderivative - normal[2]*ncxderivative;
+	return derivativeValue;
+}

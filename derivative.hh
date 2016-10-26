@@ -236,6 +236,18 @@ class CentralisedDerivative
 		 * face : current face on which derivatvie is calculated
 		 */
 		 double cpinormYDerivative(Vertex *first, Vertex *second, Face* face);
+		 /**
+		  * function to calculate y derivative of x component of pi vector of face
+		  */
+		 double pixYDerivative(Vertex*, Vertex*, Face*);
+		 /**
+		  * function to calculate y derivative of y component of pi vector of face
+		  */
+		 double piyYDerivative(Vertex*, Vertex*, Face*);
+		 /**
+		  * function to calculate y derivative of z component of pi vector of face
+		  */
+		 double pizYDerivative(Vertex*, Vertex*, Face*);
 		/**
 		  * function to calculate y derivative of norm of un-normalised 
 		  * vector normal of the face
