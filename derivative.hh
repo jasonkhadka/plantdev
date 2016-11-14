@@ -167,6 +167,17 @@ class CentralisedDerivative
 	     //~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~//
 	 	//~~~~~~~~~~~~~~~   y derivatives   ~~~~~~~~~~~~~~~ //
 	 	//~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~//
+		 /**
+	 	 * xtilde (x centralised coordiante) derivative with respect to 
+	 	 * 			y_k coordiante. 
+	 	 */
+		 double xtildeYDerivative(Vertex *first, Vertex *second, Face *face);
+		 /**
+	 	 * ytilde (y centralised coordiante) derivative with respect to 
+	 	 * 			y_k coordiante. 
+	 	 */
+		 double ytildeYDerivative(Vertex *first, Vertex *second, Face *face);
+
 	 	/* y_i derivative with respect to y_k
 		 * derivative of first with respect to second
 		 * face : current face on which derivatives are calculated
@@ -176,37 +187,6 @@ class CentralisedDerivative
 		 * derivative of first with respect to y coordinate of second
 		 */
 		 double ex1YDerivative(Vertex *first, Vertex *second, Face* face);
-		
-
-
-
-		 //*************************************************************************** //
-		 /********************  Numerical Derivatives   ****************************** //
-		 /*************************************************************************** //
-
-		 // ******** Numerical Derivative of Xtilde X derivative  ********************* //
-		 double numericalXtildeXDerivative(Vertex*, Vertex*, Face*, double);
-		// ******** Numerical Derivative of Ytilde X derivative  ********************* //
-		 double numericalYtildeXDerivative(Vertex*, Vertex*, Face*, double);
-		
-		//*************************************************************************** //
-		 /********************      Miscellaneous      ****************************** //
-		 /*************************************************************************** //
-		 /**
-		 * delta function for checking the ids
-		 * takes the unsigned ints or the ids of two objects
-		 * and returns : 1.0 if same 
-		 *               0.0 if different
-		 */
-		 double deltafunction(unsigned int, unsigned int);
-
-		 // ******************************************************************************************* //
-		 // ******** Function metioned but left to write  ********************* //
-		 /**
-	 	 * xtilde (y centralised coordiante) derivative with respect to 
-	 	 * 			y_k coordiante. 
-	 	 */
-		 double xtildeYDerivative(Vertex *first, Vertex *second, Face *face);
 
 		 /**
 		 * ex2 derivative with respect to y_k
@@ -218,6 +198,21 @@ class CentralisedDerivative
 		  * derivative of first with respect to y coordinate of second on Face face
 		  */
 		 double ex3YDerivative(Vertex* first, Vertex * second, Face* face);
+		 /* ey1 derivative with respect to y_k
+		 * derivative of first with respect to y coordinate of second
+		 */
+		 double ey1YDerivative(Vertex *first, Vertex *second, Face* face);
+
+		 /**
+		 * ey2 derivative with respect to y_k
+		 * derivative of first with respect to y coordinate of second on Face face
+		 */
+		 double ey2YDerivative(Vertex* first, Vertex *second, Face * face);
+		 /**
+		  * ey3 derivative with respect to y_k
+		  * derivative of first with respect to y coordinate of second on Face face
+		  */
+		 double ey3YDerivative(Vertex* first, Vertex * second, Face* face);
 		 /**
 		  * derivative of x component of normal of the face with respect to y_k of second
 		  */
@@ -290,6 +285,165 @@ class CentralisedDerivative
 		 * face : current face on which derivatives are calculated
 		 */
 		double gammaYDerivative(Vertex*, Vertex*, Face*);
+
+
+	     //~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~//
+	 	//~~~~~~~~~~~~~~~   z derivatives   ~~~~~~~~~~~~~~~ //
+	 	//~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~//
+		 /**
+	 	 * xtilde (x centralised coordiante) derivative with respect to 
+	 	 * 			z_k coordiante. 
+	 	 */
+		 double xtildeZDerivative(Vertex *first, Vertex *second, Face *face);
+		 /**
+	 	 * ytilde (y centralised coordiante) derivative with respect to 
+	 	 * 			z_k coordiante. 
+	 	 */
+		 double ytildeZDerivative(Vertex *first, Vertex *second, Face *face);
+
+	 	/* y_i derivative with respect to z_k
+		 * derivative of first with respect to second
+		 * face : current face on which derivatives are calculated
+		 */
+		 double ziZDerivative(Vertex*, Vertex*, Face*);
+		 /* ex1 derivative with respect to z_k
+		 * derivative of first with respect to z coordinate of second
+		 */
+		 double ex1ZDerivative(Vertex *first, Vertex *second, Face* face);
+
+		 /**
+		 * ex2 derivative with respect to z_k
+		 * derivative of first with respect to z coordinate of second on Face face
+		 */
+		 double ex2ZDerivative(Vertex* first, Vertex *second, Face * face);
+		 /**
+		  * ex3 derivative with respect to z_k
+		  * derivative of first with respect to z coordinate of second on Face face
+		  */
+		 double ex3ZDerivative(Vertex* first, Vertex * second, Face* face);
+		 /* ey1 derivative with respect to z_k
+		 * derivative of first with respect to z coordinate of second
+		 */
+		 double ey1ZDerivative(Vertex *first, Vertex *second, Face* face);
+
+		 /**
+		 * ey2 derivative with respect to z_k
+		 * derivative of first with respect to z coordinate of second on Face face
+		 */
+		 double ey2ZDerivative(Vertex* first, Vertex *second, Face * face);
+		 /**
+		  * ey3 derivative with respect to z_k
+		  * derivative of first with respect to z coordinate of second on Face face
+		  */
+		 double ey3ZDerivative(Vertex* first, Vertex * second, Face* face);
+		 /**
+		  * derivative of x component of normal of the face with respect to z_k of second
+		  */
+		 double ncxZDerivative(Vertex*, Vertex*, Face*);
+		 /**
+		  * derivative of y component of normal of the face with respect to z_k of second
+		  */
+		 double ncyZDerivative(Vertex* , Vertex*, Face* );
+		 /**
+		  * derivative of z component of normal of the face with respect to z_k of second
+		  */
+		 double nczZDerivative(Vertex* , Vertex*, Face* );
+		 /**
+		 * CPi vector norm derivative with respect to z_k
+		 * derivative of CPi vector norm of first with respect to z coordinate of second
+		 * face : current face on which derivatvie is calculated
+		 */
+		 double cpinormZDerivative(Vertex *first, Vertex *second, Face* face);
+		 /**
+		  * function to calculate z derivative of x component of pi vector of face
+		  */
+		 double pixZDerivative(Vertex*, Vertex*, Face*);
+		 /**
+		  * function to calculate Z derivative of y component of pi vector of face
+		  */
+		 double piyZDerivative(Vertex*, Vertex*, Face*);
+		 /**
+		  * function to calculate z derivative of z component of pi vector of face
+		  */
+		 double pizZDerivative(Vertex*, Vertex*, Face*);
+		/**
+		  * function to calculate Z derivative of norm of un-normalised 
+		  * vector normal of the face
+		  */
+		 double nctildenormZDerivative(Vertex*, Vertex*, Face*);
+		 /**
+		  * function to calculate Z derivative of X component of un-normalised 
+		  * vector normal of the face
+		  */
+		 double ncxtildeZDerivative(Vertex*, Vertex*, Face*);
+		 /**
+		  * function to calculate Z derivative of Y component of un-normalised 
+		  * vector normal of the face
+		  */
+		 double ncytildeZDerivative(Vertex*, Vertex*, Face*);
+		 /**
+		  * function to calculate Z derivative of Z component of un-normalised 
+		  * vector normal of the face
+		  */
+		 double ncztildeZDerivative(Vertex*, Vertex*, Face*);
+		 /**
+		  * derivative of areatotal with respect to Z_k of second vertex
+		  */
+		  double areatotalZDerivative(Vertex*, Vertex*, Face*);
+		  /**
+		 * alpha_j derivative with respect to Z_k
+		 * derivative of first with respect to second
+		 * face : current face on which derivatives are calculated
+		 */
+		double alphaZDerivative(Vertex*, Vertex*, Face*);
+		/**
+		 * beta_j derivative with respect to z_k
+		 * derivative of first with respect to second
+		 * face : current face on which derivatives are calculated
+		 */
+		double betaZDerivative(Vertex*, Vertex*, Face*);
+		/**
+		 * gamma_j derivative with respect to z_k
+		 * derivative of first with respect to second
+		 * face : current face on which derivatives are calculated
+		 */
+		double gammaZDerivative(Vertex*, Vertex*, Face*);
+
+
+
+
+		 //&&*************************************************************************** //
+		 //&********************  Numerical Derivatives   ****************************** //
+		 //&*************************************************************************** //
+
+		 // ******** Numerical Derivative of Xtilde X derivative  ********************* //
+		 double numericalXtildeXDerivative(Vertex*, Vertex*, Face*, double);
+		// ******** Numerical Derivative of Ytilde X derivative  ********************* //
+		 double numericalYtildeXDerivative(Vertex*, Vertex*, Face*, double);
+		 // ******* Numerical Derivative of Xtilde with Y_k derivative *************** //
+		 double numericalXtildeYDerivative(Vertex* , Vertex*, Face*, double);
+		// ******* Numerical Derivative of Xtilde with Y_k derivative *************** //
+		 double numericalYtildeYDerivative(Vertex* , Vertex*, Face*, double);
+		// ******* Numerical Derivative of Xtilde with Z_k derivative *************** //
+		 double numericalXtildeZDerivative(Vertex* , Vertex*, Face*, double);
+		// ******* Numerical Derivative of Xtilde with Z_k derivative *************** //
+		 double numericalYtildeZDerivative(Vertex* , Vertex*, Face*, double);
+		    
+		
+		// *************************************************************************** //
+		 // ********************      Miscellaneous      ****************************** //
+		 // *************************************************************************** //
+		 /**
+		 * delta function for checking the ids
+		 * takes the unsigned ints or the ids of two objects
+		 * and returns : 1.0 if same 
+		 *               0.0 if different
+		 */
+		 double deltafunction(unsigned int, unsigned int);
+
+		 // ******************************************************************************************* //
+		 // ******** Function metioned but left to write  ********************* //
+		 
 		 
 };
 //********** Inline Instance methods ************************//

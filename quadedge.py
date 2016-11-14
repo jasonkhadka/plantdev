@@ -871,9 +871,6 @@ class CentralisedDerivative(_object):
     def ey3XDerivative(self, first, second, face):
         return _quadedge.CentralisedDerivative_ey3XDerivative(self, first, second, face)
 
-    def deltafunction(self, arg2, arg3):
-        return _quadedge.CentralisedDerivative_deltafunction(self, arg2, arg3)
-
     def alphaXDerivative(self, arg2, arg3, arg4):
         return _quadedge.CentralisedDerivative_alphaXDerivative(self, arg2, arg3, arg4)
 
@@ -919,11 +916,170 @@ class CentralisedDerivative(_object):
     def ncztildeXDerivative(self, arg2, arg3, arg4):
         return _quadedge.CentralisedDerivative_ncztildeXDerivative(self, arg2, arg3, arg4)
 
+    def xtildeYDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_xtildeYDerivative(self, first, second, face)
+
+    def ytildeYDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ytildeYDerivative(self, first, second, face)
+
+    def yiYDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_yiYDerivative(self, arg2, arg3, arg4)
+
+    def ex1YDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ex1YDerivative(self, first, second, face)
+
+    def ex2YDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ex2YDerivative(self, first, second, face)
+
+    def ex3YDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ex3YDerivative(self, first, second, face)
+
+    def ey1YDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ey1YDerivative(self, first, second, face)
+
+    def ey2YDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ey2YDerivative(self, first, second, face)
+
+    def ey3YDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ey3YDerivative(self, first, second, face)
+
+    def ncxYDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_ncxYDerivative(self, arg2, arg3, arg4)
+
+    def ncyYDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_ncyYDerivative(self, arg2, arg3, arg4)
+
+    def nczYDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_nczYDerivative(self, arg2, arg3, arg4)
+
+    def cpinormYDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_cpinormYDerivative(self, first, second, face)
+
+    def pixYDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_pixYDerivative(self, arg2, arg3, arg4)
+
+    def piyYDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_piyYDerivative(self, arg2, arg3, arg4)
+
+    def pizYDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_pizYDerivative(self, arg2, arg3, arg4)
+
+    def nctildenormYDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_nctildenormYDerivative(self, arg2, arg3, arg4)
+
+    def ncxtildeYDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_ncxtildeYDerivative(self, arg2, arg3, arg4)
+
+    def ncytildeYDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_ncytildeYDerivative(self, arg2, arg3, arg4)
+
+    def ncztildeYDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_ncztildeYDerivative(self, arg2, arg3, arg4)
+
+    def areatotalYDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_areatotalYDerivative(self, arg2, arg3, arg4)
+
+    def alphaYDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_alphaYDerivative(self, arg2, arg3, arg4)
+
+    def betaYDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_betaYDerivative(self, arg2, arg3, arg4)
+
+    def gammaYDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_gammaYDerivative(self, arg2, arg3, arg4)
+
+    def xtildeZDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_xtildeZDerivative(self, first, second, face)
+
+    def ytildeZDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ytildeZDerivative(self, first, second, face)
+
+    def ziZDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_ziZDerivative(self, arg2, arg3, arg4)
+
+    def ex1ZDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ex1ZDerivative(self, first, second, face)
+
+    def ex2ZDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ex2ZDerivative(self, first, second, face)
+
+    def ex3ZDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ex3ZDerivative(self, first, second, face)
+
+    def ey1ZDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ey1ZDerivative(self, first, second, face)
+
+    def ey2ZDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ey2ZDerivative(self, first, second, face)
+
+    def ey3ZDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_ey3ZDerivative(self, first, second, face)
+
+    def ncxZDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_ncxZDerivative(self, arg2, arg3, arg4)
+
+    def ncyZDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_ncyZDerivative(self, arg2, arg3, arg4)
+
+    def nczZDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_nczZDerivative(self, arg2, arg3, arg4)
+
+    def cpinormZDerivative(self, first, second, face):
+        return _quadedge.CentralisedDerivative_cpinormZDerivative(self, first, second, face)
+
+    def pixZDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_pixZDerivative(self, arg2, arg3, arg4)
+
+    def piyZDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_piyZDerivative(self, arg2, arg3, arg4)
+
+    def pizZDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_pizZDerivative(self, arg2, arg3, arg4)
+
+    def nctildenormZDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_nctildenormZDerivative(self, arg2, arg3, arg4)
+
+    def ncxtildeZDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_ncxtildeZDerivative(self, arg2, arg3, arg4)
+
+    def ncytildeZDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_ncytildeZDerivative(self, arg2, arg3, arg4)
+
+    def ncztildeZDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_ncztildeZDerivative(self, arg2, arg3, arg4)
+
+    def areatotalZDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_areatotalZDerivative(self, arg2, arg3, arg4)
+
+    def alphaZDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_alphaZDerivative(self, arg2, arg3, arg4)
+
+    def betaZDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_betaZDerivative(self, arg2, arg3, arg4)
+
+    def gammaZDerivative(self, arg2, arg3, arg4):
+        return _quadedge.CentralisedDerivative_gammaZDerivative(self, arg2, arg3, arg4)
+
     def numericalXtildeXDerivative(self, arg2, arg3, arg4, arg5):
         return _quadedge.CentralisedDerivative_numericalXtildeXDerivative(self, arg2, arg3, arg4, arg5)
 
     def numericalYtildeXDerivative(self, arg2, arg3, arg4, arg5):
         return _quadedge.CentralisedDerivative_numericalYtildeXDerivative(self, arg2, arg3, arg4, arg5)
+
+    def numericalXtildeYDerivative(self, arg2, arg3, arg4, arg5):
+        return _quadedge.CentralisedDerivative_numericalXtildeYDerivative(self, arg2, arg3, arg4, arg5)
+
+    def numericalYtildeYDerivative(self, arg2, arg3, arg4, arg5):
+        return _quadedge.CentralisedDerivative_numericalYtildeYDerivative(self, arg2, arg3, arg4, arg5)
+
+    def numericalXtildeZDerivative(self, arg2, arg3, arg4, arg5):
+        return _quadedge.CentralisedDerivative_numericalXtildeZDerivative(self, arg2, arg3, arg4, arg5)
+
+    def numericalYtildeZDerivative(self, arg2, arg3, arg4, arg5):
+        return _quadedge.CentralisedDerivative_numericalYtildeZDerivative(self, arg2, arg3, arg4, arg5)
+
+    def deltafunction(self, arg2, arg3):
+        return _quadedge.CentralisedDerivative_deltafunction(self, arg2, arg3)
 
     def __init__(self):
         this = _quadedge.new_CentralisedDerivative()

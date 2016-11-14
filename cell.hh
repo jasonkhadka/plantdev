@@ -306,15 +306,15 @@ class Cell
   /**
    * Pressure of cells (faces) on this tissue
    */
-  double pressure;
+  double pressure(1.);
   /**
    * Alpha : coefficient of first term of Energy
    */
-   double alpha;
+   double alpha(1.);
    /**
    * Beta : coefficient of second term of Energy
    */
-   double beta;
+   double beta(1.);
    
   // **************************************************************** //
   // Public instance method //

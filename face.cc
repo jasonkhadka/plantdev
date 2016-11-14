@@ -653,6 +653,7 @@ void Face::setAreaOfFace(){
     // at each growth step
     //*******************************************//
      //iterating this face for the vertices
+    /*
     unsigned int faceid = this->getID();//id of this face
     FaceEdgeIterator faceIterator(this);
     Edge *currentEdge;//to keep the current edge
@@ -676,6 +677,13 @@ void Face::setAreaOfFace(){
     this->targetFormMatrix[1][0] = term12;
     this->targetFormMatrix[0][1] = term12;
     this->targetFormMatrix[1][1] = term22;
+    this->setTraceSquaredTargetFormMatrix();
+    */
+    //just setting a circle target form matrix
+    this->targetFormMatrix[0][0] = 1.;
+    this->targetFormMatrix[1][0] = 0.;
+    this->targetFormMatrix[0][1] = 0.;
+    this->targetFormMatrix[1][1] = 1.;
     this->setTraceSquaredTargetFormMatrix();
   }
  void Face::setTraceSquaredTargetFormMatrix(){
