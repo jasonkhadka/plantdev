@@ -239,6 +239,24 @@ class Face
      * unit vector in Z direction
      */
      double unitz[3]; 
+     // ****************** ENERGY VALUES ************************************** //
+     /**
+      * First term value of Energy
+      */
+     double firstTerm = 0;
+     /**
+      * Second term value of Energy
+      */
+     double secondTerm = 0;
+     /**
+      * third term value of Energy
+      */
+     double thirdTerm = 0;
+     /**
+      * Total energy of The face 
+      */
+     double energy = 0;
+     
     //***************end added features****************************************//
   /* ----------Public instance methods ---------*/
  /* -- public instance methods ----------------------------------------- */
@@ -292,21 +310,44 @@ class Face
        * function to get unit vector in Z direction
        */
        double * getUnitz();
+  // ***************************************** //
+  // TARGET FORM MATRIX //
+  // ***************************************** //
+  /**
+   * target form matrix growth function
+   * grows the matrix with 
+   * stocahstic and stress driven growth
+   */
+   void grow();
    /**
     * targetFormMatrix of this face (or cell in biological terms)
     * **for now this is jsut the form matrix of current shape
     */
-    double targetFormMatrix[2][2];
+    double targetFormMatrix[2][2] = {{0.,0.},{0.,0.}};
+    /**
+     * current form Matrix : the matrix that represents the 
+     *  current form of the cell
+     */
+    double currentFormMatrix[2][2]= {{0.,0.},{0.,0.}};
+    /**
+     * function that prints the targetform matrix
+     * this function ideally should be replaced by somethign that 
+     * just returnss the target fomr matrix
+     */
+    void printTargetFormMatrix();
     /**
      * trace of targetFormMatrix : will be updated as soon as
      *  new targetFormMatrix is calculated
      */
-     double traceSquaredTargetFormMatrix;
+     double traceSquaredTargetFormMatrix = 0.;
     /**
      * values of mu1, mu2, mu3, mu4
      * Needed to calculate the analytic jacobian
      */
-     double mu1, mu2, mu3, mu4;
+     double mu1= 0.;
+     double mu2 = 0.;
+     double mu3 = 0.;
+     double mu4 = 0.;
   /**
    * function to set the value of mu1, mu2, mu3, mu4
    */
@@ -341,6 +382,10 @@ class Face
    * in Future : this should include the time update at each growth step
    */
   void setTargetFormMatrix();
+  /**
+   * set the target form matrix to be near to the current form
+   */
+  void setTempTargetFormMatrix();
   /**function to set the trace of targetformmatrix
   */
   void setTraceSquaredTargetFormMatrix();
@@ -395,12 +440,45 @@ class Face
    * <- the number of vertices
    */
   unsigned int countVertices();
+  // ****************** ENERGY VALUES Setters/ Getters ************************************** //
+     /**
+      * get First term value of Energy
+      */
+     double getFirstTerm();
+     /**
+      * get Second term value of Energy
+      */
+     double getSecondTerm();
+     /**
+      *  get third term value of Energy
+      */
+     double getThirdTerm();
+     /**
+      * get Energy values
+      */
+     double getEnergy();
+      /**
+      * Set the values of Energy terms :- First, Second, Third term value of Energy
+      */
+     void setEnergyTerms();
   // **********************************************************************// 
   /* -- friend classes ----------------------------------------------------- */
 
   friend class centralisedDerivative;
 };
 /* ----- inline instance methods --------------------------------*/
+inline double Face::getFirstTerm(){
+    return firstTerm;
+}
+inline double Face::getSecondTerm(){
+    return secondTerm;
+}
+inline double Face::getThirdTerm(){
+    return thirdTerm;
+}
+inline double Face::getEnergy(){
+    return energy;
+}
 inline void Face::setAngleOfTilt(double angle)
 {
     angleOfTilt = angle;

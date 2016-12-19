@@ -10,7 +10,49 @@
 // -----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%//
 // -----%-----%-----%----Public Members Only-----%-----%-----%-----%-----%-----%-----%//
 // -----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%//
+/*
+This is a temprorary work and earlier work of 
+double CentralisedDerivative::energyXDerivative(Cell * cell, Vertex * first){
+	// iterating the edges arround the vertex first
+	VertexEdgeIterator vertedgeiterator(first);
+	Edge * currentEdge;
+	Face * currentFace;
+	Edge * tempEdge;
+	Vertex * tempvertex;
+	double alpha = cell->getAlpha();
+	double beta = cell->getBeta();
+	double pressure = cell->getPressure();
+	double energyxtildederivative(0.), energyytildederivative(0.);
+	double xtildexderivative(0.), ytildexderivative(0.);
+	double energyxderivativeFace(0.), totalenergyxderivative(0.);
+	// iterating through the vertex
+	while((currentEdge = vertedgeiterator.next())!=0){
+				currentFace = currentEdge->Left();
+				// iterating the face to get the vertex arround
+				FaceEdgeIterator faceedgeiterator(currentFace);
+				while ((tempEdge = faceedgeiterator.next())!= 0 ){
+						tempvertex = tempEdge->Org();//grabbing origin of the edge
+						//now calculating the derivative
+						energyxtildederivative = alpha*tempvertex->getFirstTermXDerivative()+
+												beta*tempvertex->getSecondTermXDerivative()+
+												pressure*tempvertex->getThirdTermXDerivative();
 
+						energyytildederivative = alpha*tempvertex->getFirstTermYDerivative()+
+												beta*tempvertex->getSecondTermYDerivative()+
+												pressure*tempvertex->getThirdTermYDerivative();
+						xtildexderivative = xtildeXDerivative(tempvertex,first,currentFace);
+						ytildexderivative = ytildeXDerivative(tempvertex,first,currentFace);
+						//summing up the derivatives 
+						energyxderivativeFace+= energyxtildederivative*xtildexderivative + 
+												 energyytildederivative*ytildexderivative;
+						}
+				totalenergyxderivative += energyxderivativeFace;
+		}
+	return totalenergyxderivative;
+}
+
+*/
+// --------------------------------------------------------------------------------------------------- //
 double CentralisedDerivative::xtildeXDerivative(Vertex *first, Vertex *second, Face *face){
 	// gathering terms //
 	if (face->getID() == 1){
@@ -1663,3 +1705,593 @@ double CentralisedDerivative::numericalYtildeZDerivative(Vertex* first, Vertex* 
  	//return the derivative
  	return derivative;
 }
+// ------------------------------------------------------------------------------------ //
+double CentralisedDerivative::numericalFirstTermXDerivative(Vertex* second){
+	//getting the initial x coordinate value
+	double initialxk = second->getXcoordinate();
+	//stepsize 
+	double stepsize = pow(10.,-7.);
+	std::cout<<"step size : "<<stepsize<<std::endl; //printing stepsize
+	//iterating the faces of this vertex to collect initial value of first term
+	VertexEdgeIterator edges(second); //iterating the edges around this vertex
+	Edge * currentEdge;//pointer to current edge being worked on
+	Face * currentFace;//pointer to current face
+	double initialfirstvalues[3], finalfirstvalues[3];//array that stores the values of first term 
+	unsigned int faceids[3];//storage for face ids
+	int counter;
+	//getting initial values
+	counter = 0;
+	while ((currentEdge = edges.next())!= 0){
+		currentFace = currentEdge->Left();
+		initialfirstvalues[counter] = currentFace->getFirstTerm();
+		counter++;
+	}
+	// ******** Changin Coordinate ********** //
+	//now changing the coordiante of the vertex
+	second->setXcoordinate(initialxk + stepsize);
+	//now setting the projected coordinates 
+	VertexEdgeIterator edges1(second); //iterating the edges around this vertex
+	while ((currentEdge = edges1.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setProjectedCoordinate();
+	}
+	// ********** Getting new energy values ********* //
+	//now setting the energy values
+	VertexEdgeIterator edges2(second); //iterating the edges around this vertex
+	counter = 0;
+	while ((currentEdge = edges2.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setEnergyTerms();
+		faceids[counter] = currentFace->getID();
+		finalfirstvalues[counter] = currentFace->getFirstTerm();
+		counter++;
+	}
+	// *********** changing back the Coordinate ********** //
+	//now changing the coordiante of the vertex
+	second->setXcoordinate(initialxk);
+	//now setting the projected coordinates 
+	VertexEdgeIterator edges3(second); //iterating the edges around this vertex
+	while ((currentEdge = edges3.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setProjectedCoordinate();
+		currentFace->setEnergyTerms();
+	}
+	//-------------------------------------------------------------------------- //
+	//  Now calculating the derivatives // 
+	double totalvalue = 0;
+	for (int i = 0; i<counter ; i++){
+		std::cout<<"face id "<<faceids[i]<<" first term initial : "<< finalfirstvalues[i]<<" final value : "<<initialfirstvalues[i]<<std::endl;
+		totalvalue += (finalfirstvalues[i]-initialfirstvalues[i])/stepsize;
+ 	}
+ 	// final value // 
+ 	return totalvalue;
+}
+
+
+
+// ------------------------------------------------------------------------------------ //
+double CentralisedDerivative::numericalSecondTermXDerivative(Vertex* second){
+	//getting the initial x coordinate value
+	double initialxk = second->getXcoordinate();
+	//stepsize 
+	double stepsize = pow(10.,-7.);
+	std::cout<<"step size : "<<stepsize<<std::endl; //printing stepsize
+	//iterating the faces of this vertex to collect initial value of first term
+	VertexEdgeIterator edges(second); //iterating the edges around this vertex
+	Edge * currentEdge;//pointer to current edge being worked on
+	Face * currentFace;//pointer to current face
+	double initialfirstvalues[3], finalfirstvalues[3];//array that stores the values of first term 
+	unsigned int faceids[3];//storage for face ids
+	int counter;
+	//getting initial values
+	counter = 0;
+	while ((currentEdge = edges.next())!= 0){
+		currentFace = currentEdge->Left();
+		initialfirstvalues[counter] = currentFace->getSecondTerm();
+		counter++;
+	}
+	// ******** Changin Coordinate ********** //
+	//now changing the coordiante of the vertex
+	second->setXcoordinate(initialxk + stepsize);
+	//now setting the projected coordinates 
+	VertexEdgeIterator edges1(second); //iterating the edges around this vertex
+	while ((currentEdge = edges1.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setProjectedCoordinate();
+	}
+	// ********** Getting new energy values ********* //
+	//now setting the energy values
+	VertexEdgeIterator edges2(second); //iterating the edges around this vertex
+	counter = 0;
+	while ((currentEdge = edges2.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setEnergyTerms();
+		faceids[counter] = currentFace->getID();
+		finalfirstvalues[counter] = currentFace->getSecondTerm();
+		counter++;
+	}
+	// *********** changing back the Coordinate ********** //
+	//now changing the coordiante of the vertex
+	second->setXcoordinate(initialxk);
+	//now setting the projected coordinates 
+	VertexEdgeIterator edges3(second); //iterating the edges around this vertex
+	while ((currentEdge = edges3.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setProjectedCoordinate();
+		currentFace->setEnergyTerms();
+	}
+	//-------------------------------------------------------------------------- //
+	//  Now calculating the derivatives // 
+	double totalvalue = 0;
+	for (int i = 0; i<counter ; i++){
+		std::cout<<"first term initial : "<< finalfirstvalues[i]<<" final value : "<<initialfirstvalues[i]<<std::endl;
+		totalvalue += (finalfirstvalues[i]-initialfirstvalues[i])/stepsize;
+ 	}
+ 	// final value // 
+ 	return totalvalue;
+}
+
+// ------------------------------------------------------------------------------------ //
+double CentralisedDerivative::numericalThirdTermXDerivative(Vertex* second){
+	//getting the initial x coordinate value
+	double initialxk = second->getXcoordinate();
+	//stepsize 
+	double stepsize = pow(10.,-7.);
+	std::cout<<"step size : "<<stepsize<<std::endl; //printing stepsize
+	//iterating the faces of this vertex to collect initial value of first term
+	VertexEdgeIterator edges(second); //iterating the edges around this vertex
+	Edge * currentEdge;//pointer to current edge being worked on
+	Face * currentFace;//pointer to current face
+	double initialfirstvalues[3], finalfirstvalues[3];//array that stores the values of first term 
+	unsigned int faceids[3];//storage for face ids
+	int counter;
+	//getting initial values
+	counter = 0;
+	while ((currentEdge = edges.next())!= 0){
+		currentFace = currentEdge->Left();
+		initialfirstvalues[counter] = currentFace->getThirdTerm();// *** CHANGE HERE *** //
+		counter++;
+	}
+	// ******** Changin Coordinate ********** //
+	//now changing the coordiante of the vertex
+	second->setXcoordinate(initialxk + stepsize);
+	//now setting the projected coordinates 
+	VertexEdgeIterator edges1(second); //iterating the edges around this vertex
+	while ((currentEdge = edges1.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setProjectedCoordinate();
+	}
+	// ********** Getting new energy values ********* //
+	//now setting the energy values
+	VertexEdgeIterator edges2(second); //iterating the edges around this vertex
+	counter = 0;
+	while ((currentEdge = edges2.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setEnergyTerms();
+		faceids[counter] = currentFace->getID();
+		finalfirstvalues[counter] = currentFace->getThirdTerm();// *** CHANGE HERE *** //
+		counter++;
+	}
+	// *********** changing back the Coordinate ********** //
+	//now changing the coordiante of the vertex
+	second->setXcoordinate(initialxk);
+	//now setting the projected coordinates 
+	VertexEdgeIterator edges3(second); //iterating the edges around this vertex
+	while ((currentEdge = edges3.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setProjectedCoordinate();
+		currentFace->setEnergyTerms();
+	}
+	//-------------------------------------------------------------------------- //
+	//  Now calculating the derivatives // 
+	double totalvalue = 0;
+	for (int i = 0; i<counter ; i++){
+		std::cout<<"first term initial : "<< finalfirstvalues[i]<<" final value : "<<initialfirstvalues[i]<<std::endl;
+		totalvalue += (finalfirstvalues[i]-initialfirstvalues[i])/stepsize;
+ 	}
+ 	// final value // 
+ 	return totalvalue;
+}
+
+
+
+// ------------------------------------------------------------------------------------ //
+double CentralisedDerivative::numericalFirstTermYDerivative(Vertex* second){
+	//getting the initial x coordinate value
+	double initialxk = second->getYcoordinate();
+	//stepsize 
+	double stepsize = pow(10.,-7.);
+	std::cout<<"step size : "<<stepsize<<std::endl; //printing stepsize
+	//iterating the faces of this vertex to collect initial value of first term
+	VertexEdgeIterator edges(second); //iterating the edges around this vertex
+	Edge * currentEdge;//pointer to current edge being worked on
+	Face * currentFace;//pointer to current face
+	double initialfirstvalues[3], finalfirstvalues[3];//array that stores the values of first term 
+	unsigned int faceids[3];//storage for face ids
+	int counter;
+	//getting initial values
+	counter = 0;
+	while ((currentEdge = edges.next())!= 0){
+		currentFace = currentEdge->Left();
+		initialfirstvalues[counter] = currentFace->getFirstTerm();
+		counter++;
+	}
+	// ******** Changin Coordinate ********** //
+	//now changing the coordiante of the vertex
+	second->setYcoordinate(initialxk + stepsize);
+	//now setting the projected coordinates 
+	VertexEdgeIterator edges1(second); //iterating the edges around this vertex
+	while ((currentEdge = edges1.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setProjectedCoordinate();
+	}
+	// ********** Getting new energy values ********* //
+	//now setting the energy values
+	VertexEdgeIterator edges2(second); //iterating the edges around this vertex
+	counter = 0;
+	while ((currentEdge = edges2.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setEnergyTerms();
+		faceids[counter] = currentFace->getID();
+		finalfirstvalues[counter] = currentFace->getFirstTerm();
+		counter++;
+	}
+	// *********** changing back the Coordinate ********** //
+	//now changing the coordiante of the vertex
+	second->setYcoordinate(initialxk);
+	//now setting the projected coordinates 
+	VertexEdgeIterator edges3(second); //iterating the edges around this vertex
+	while ((currentEdge = edges3.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setProjectedCoordinate();
+		currentFace->setEnergyTerms();
+	}
+	//-------------------------------------------------------------------------- //
+	//  Now calculating the derivatives // 
+	double totalvalue = 0;
+	for (int i = 0; i<counter ; i++){
+		std::cout<<"face id "<<faceids[i]<<" first term initial : "<< finalfirstvalues[i]<<" final value : "<<initialfirstvalues[i]<<std::endl;
+		totalvalue += (finalfirstvalues[i]-initialfirstvalues[i])/stepsize;
+ 	}
+ 	// final value // 
+ 	return totalvalue;
+}
+
+
+
+// ------------------------------------------------------------------------------------ //
+double CentralisedDerivative::numericalSecondTermYDerivative(Vertex* second){
+	//getting the initial x coordinate value
+	double initialxk = second->getYcoordinate();
+	//stepsize 
+	double stepsize = pow(10.,-7.);
+	std::cout<<"step size : "<<stepsize<<std::endl; //printing stepsize
+	//iterating the faces of this vertex to collect initial value of first term
+	VertexEdgeIterator edges(second); //iterating the edges around this vertex
+	Edge * currentEdge;//pointer to current edge being worked on
+	Face * currentFace;//pointer to current face
+	double initialfirstvalues[3], finalfirstvalues[3];//array that stores the values of first term 
+	unsigned int faceids[3];//storage for face ids
+	int counter;
+	//getting initial values
+	counter = 0;
+	while ((currentEdge = edges.next())!= 0){
+		currentFace = currentEdge->Left();
+		initialfirstvalues[counter] = currentFace->getSecondTerm();
+		counter++;
+	}
+	// ******** Changin Coordinate ********** //
+	//now changing the coordiante of the vertex
+	second->setYcoordinate(initialxk + stepsize);
+	//now setting the projected coordinates 
+	VertexEdgeIterator edges1(second); //iterating the edges around this vertex
+	while ((currentEdge = edges1.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setProjectedCoordinate();
+	}
+	// ********** Getting new energy values ********* //
+	//now setting the energy values
+	VertexEdgeIterator edges2(second); //iterating the edges around this vertex
+	counter = 0;
+	while ((currentEdge = edges2.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setEnergyTerms();
+		faceids[counter] = currentFace->getID();
+		finalfirstvalues[counter] = currentFace->getSecondTerm();
+		counter++;
+	}
+	// *********** changing back the Coordinate ********** //
+	//now changing the coordiante of the vertex
+	second->setYcoordinate(initialxk);
+	//now setting the projected coordinates 
+	VertexEdgeIterator edges3(second); //iterating the edges around this vertex
+	while ((currentEdge = edges3.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setProjectedCoordinate();
+		currentFace->setEnergyTerms();
+	}
+	//-------------------------------------------------------------------------- //
+	//  Now calculating the derivatives // 
+	double totalvalue = 0;
+	for (int i = 0; i<counter ; i++){
+		std::cout<<"first term initial : "<< finalfirstvalues[i]<<" final value : "<<initialfirstvalues[i]<<std::endl;
+		totalvalue += (finalfirstvalues[i]-initialfirstvalues[i])/stepsize;
+ 	}
+ 	// final value // 
+ 	return totalvalue;
+}
+
+// ------------------------------------------------------------------------------------ //
+double CentralisedDerivative::numericalThirdTermYDerivative(Vertex* second){
+	//getting the initial x coordinate value
+	double initialxk = second->getYcoordinate();
+	//stepsize 
+	double stepsize = pow(10.,-7.);
+	std::cout<<"step size : "<<stepsize<<std::endl; //printing stepsize
+	//iterating the faces of this vertex to collect initial value of first term
+	VertexEdgeIterator edges(second); //iterating the edges around this vertex
+	Edge * currentEdge;//pointer to current edge being worked on
+	Face * currentFace;//pointer to current face
+	double initialfirstvalues[3], finalfirstvalues[3];//array that stores the values of first term 
+	unsigned int faceids[3];//storage for face ids
+	int counter;
+	//getting initial values
+	counter = 0;
+	while ((currentEdge = edges.next())!= 0){
+		currentFace = currentEdge->Left();
+		initialfirstvalues[counter] = currentFace->getThirdTerm();// *** CHANGE HERE *** //
+		counter++;
+	}
+	// ******** Changin Coordinate ********** //
+	//now changing the coordiante of the vertex
+	second->setYcoordinate(initialxk + stepsize);
+	//now setting the projected coordinates 
+	VertexEdgeIterator edges1(second); //iterating the edges around this vertex
+	while ((currentEdge = edges1.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setProjectedCoordinate();
+	}
+	// ********** Getting new energy values ********* //
+	//now setting the energy values
+	VertexEdgeIterator edges2(second); //iterating the edges around this vertex
+	counter = 0;
+	while ((currentEdge = edges2.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setEnergyTerms();
+		faceids[counter] = currentFace->getID();
+		finalfirstvalues[counter] = currentFace->getThirdTerm();// *** CHANGE HERE *** //
+		counter++;
+	}
+	// *********** changing back the Coordinate ********** //
+	//now changing the coordiante of the vertex
+	second->setYcoordinate(initialxk);
+	//now setting the projected coordinates 
+	VertexEdgeIterator edges3(second); //iterating the edges around this vertex
+	while ((currentEdge = edges3.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setProjectedCoordinate();
+		currentFace->setEnergyTerms();
+	}
+	//-------------------------------------------------------------------------- //
+	//  Now calculating the derivatives // 
+	double totalvalue = 0;
+	for (int i = 0; i<counter ; i++){
+		std::cout<<"first term initial : "<< finalfirstvalues[i]<<" final value : "<<initialfirstvalues[i]<<std::endl;
+		totalvalue += (finalfirstvalues[i]-initialfirstvalues[i])/stepsize;
+ 	}
+ 	// final value // 
+ 	return totalvalue;
+}
+
+
+
+
+
+// ------------------------------------------------------------------------------------ //
+double CentralisedDerivative::numericalFirstTermZDerivative(Vertex* second){
+	//getting the initial x coordinate value
+	double initialxk = second->getZcoordinate();
+	//stepsize 
+	double stepsize = pow(10.,-7.);
+	std::cout<<"step size : "<<stepsize<<std::endl; //printing stepsize
+	//iterating the faces of this vertex to collect initial value of first term
+	VertexEdgeIterator edges(second); //iterating the edges around this vertex
+	Edge * currentEdge;//pointer to current edge being worked on
+	Face * currentFace;//pointer to current face
+	double initialfirstvalues[3], finalfirstvalues[3];//array that stores the values of first term 
+	unsigned int faceids[3];//storage for face ids
+	int counter;
+	//getting initial values
+	counter = 0;
+	while ((currentEdge = edges.next())!= 0){
+		currentFace = currentEdge->Left();
+		initialfirstvalues[counter] = currentFace->getFirstTerm();
+		counter++;
+	}
+	// ******** Changin Coordinate ********** //
+	//now changing the coordiante of the vertex
+	second->setZcoordinate(initialxk + stepsize);
+	//now setting the projected coordinates 
+	VertexEdgeIterator edges1(second); //iterating the edges around this vertex
+	while ((currentEdge = edges1.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setProjectedCoordinate();
+	}
+	// ********** Getting new energy values ********* //
+	//now setting the energy values
+	VertexEdgeIterator edges2(second); //iterating the edges around this vertex
+	counter = 0;
+	while ((currentEdge = edges2.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setEnergyTerms();
+		faceids[counter] = currentFace->getID();
+		finalfirstvalues[counter] = currentFace->getFirstTerm();
+		counter++;
+	}
+	// *********** changing back the Coordinate ********** //
+	//now changing the coordiante of the vertex
+	second->setZcoordinate(initialxk);
+	//now setting the projected coordinates 
+	VertexEdgeIterator edges3(second); //iterating the edges around this vertex
+	while ((currentEdge = edges3.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setProjectedCoordinate();
+		currentFace->setEnergyTerms();
+	}
+	//-------------------------------------------------------------------------- //
+	//  Now calculating the derivatives // 
+	double totalvalue = 0;
+	for (int i = 0; i<counter ; i++){
+		std::cout<<"face id "<<faceids[i]<<" first term initial : "<< finalfirstvalues[i]<<" final value : "<<initialfirstvalues[i]<<std::endl;
+		totalvalue += (finalfirstvalues[i]-initialfirstvalues[i])/stepsize;
+ 	}
+ 	// final value // 
+ 	return totalvalue;
+}
+
+
+
+// ------------------------------------------------------------------------------------ //
+double CentralisedDerivative::numericalSecondTermZDerivative(Vertex* second){
+	//getting the initial x coordinate value
+	double initialxk = second->getZcoordinate();
+	//stepsize 
+	double stepsize = pow(10.,-7.);
+	std::cout<<"step size : "<<stepsize<<std::endl; //printing stepsize
+	//iterating the faces of this vertex to collect initial value of first term
+	VertexEdgeIterator edges(second); //iterating the edges around this vertex
+	Edge * currentEdge;//pointer to current edge being worked on
+	Face * currentFace;//pointer to current face
+	double initialfirstvalues[3], finalfirstvalues[3];//array that stores the values of first term 
+	unsigned int faceids[3];//storage for face ids
+	int counter;
+	//getting initial values
+	counter = 0;
+	while ((currentEdge = edges.next())!= 0){
+		currentFace = currentEdge->Left();
+		initialfirstvalues[counter] = currentFace->getSecondTerm();
+		counter++;
+	}
+	// ******** Changin Coordinate ********** //
+	//now changing the coordiante of the vertex
+	second->setZcoordinate(initialxk + stepsize);
+	//now setting the projected coordinates 
+	VertexEdgeIterator edges1(second); //iterating the edges around this vertex
+	while ((currentEdge = edges1.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setProjectedCoordinate();
+	}
+	// ********** Getting new energy values ********* //
+	//now setting the energy values
+	VertexEdgeIterator edges2(second); //iterating the edges around this vertex
+	counter = 0;
+	while ((currentEdge = edges2.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setEnergyTerms();
+		faceids[counter] = currentFace->getID();
+		finalfirstvalues[counter] = currentFace->getSecondTerm();
+		counter++;
+	}
+	// *********** changing back the Coordinate ********** //
+	//now changing the coordiante of the vertex
+	second->setZcoordinate(initialxk);
+	//now setting the projected coordinates 
+	VertexEdgeIterator edges3(second); //iterating the edges around this vertex
+	while ((currentEdge = edges3.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setProjectedCoordinate();
+		currentFace->setEnergyTerms();
+	}
+	//-------------------------------------------------------------------------- //
+	//  Now calculating the derivatives // 
+	double totalvalue = 0;
+	for (int i = 0; i<counter ; i++){
+		std::cout<<"first term initial : "<< finalfirstvalues[i]<<" final value : "<<initialfirstvalues[i]<<std::endl;
+		totalvalue += (finalfirstvalues[i]-initialfirstvalues[i])/stepsize;
+ 	}
+ 	// final value // 
+ 	return totalvalue;
+}
+
+// ------------------------------------------------------------------------------------ //
+double CentralisedDerivative::numericalThirdTermZDerivative(Vertex* second){
+	//getting the initial x coordinate value
+	double initialxk = second->getZcoordinate();
+	//stepsize 
+	double stepsize = pow(10.,-7.);
+	std::cout<<"step size : "<<stepsize<<std::endl; //printing stepsize
+	//iterating the faces of this vertex to collect initial value of first term
+	VertexEdgeIterator edges(second); //iterating the edges around this vertex
+	Edge * currentEdge;//pointer to current edge being worked on
+	Face * currentFace;//pointer to current face
+	double initialfirstvalues[3], finalfirstvalues[3];//array that stores the values of first term 
+	unsigned int faceids[3];//storage for face ids
+	int counter;
+	//getting initial values
+	counter = 0;
+	while ((currentEdge = edges.next())!= 0){
+		currentFace = currentEdge->Left();
+		initialfirstvalues[counter] = currentFace->getThirdTerm();// *** CHANGE HERE *** //
+		counter++;
+	}
+	// ******** Changin Coordinate ********** //
+	//now changing the coordiante of the vertex
+	second->setZcoordinate(initialxk + stepsize);
+	//now setting the projected coordinates 
+	VertexEdgeIterator edges1(second); //iterating the edges around this vertex
+	while ((currentEdge = edges1.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setProjectedCoordinate();
+	}
+	// ********** Getting new energy values ********* //
+	//now setting the energy values
+	VertexEdgeIterator edges2(second); //iterating the edges around this vertex
+	counter = 0;
+	while ((currentEdge = edges2.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setEnergyTerms();
+		faceids[counter] = currentFace->getID();
+		finalfirstvalues[counter] = currentFace->getThirdTerm();// *** CHANGE HERE *** //
+		counter++;
+	}
+	// *********** changing back the Coordinate ********** //
+	//now changing the coordiante of the vertex
+	second->setZcoordinate(initialxk);
+	//now setting the projected coordinates 
+	VertexEdgeIterator edges3(second); //iterating the edges around this vertex
+	while ((currentEdge = edges3.next())!= 0){
+		currentFace = currentEdge->Left();
+		currentFace->setProjectedCoordinate();
+		currentFace->setEnergyTerms();
+	}
+	//-------------------------------------------------------------------------- //
+	//  Now calculating the derivatives // 
+	double totalvalue = 0;
+	for (int i = 0; i<counter ; i++){
+		std::cout<<"first term initial : "<< finalfirstvalues[i]<<" final value : "<<initialfirstvalues[i]<<std::endl;
+		totalvalue += (finalfirstvalues[i]-initialfirstvalues[i])/stepsize;
+ 	}
+ 	// final value // 
+ 	return totalvalue;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

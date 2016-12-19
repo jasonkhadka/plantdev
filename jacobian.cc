@@ -2,6 +2,7 @@
 #include "edge.hh"
 #include "face.hh"
 #include "vertex.hh"
+#include "jacobian.hh"
 
 #include <algorithm>//for std::copy
 #include <assert.h>
@@ -16,21 +17,27 @@
  */
 
 
-double energyOfCell(Cell *cell){
+double Jacobian::energyOfCell(Cell *cell){
   //iterating the faces on the cell
 	CellFaceIterator cellIterator(cell);
-  Face *currentface;
+  Face *currentFace;
   double totalenergy = 0.;
+  double tempenergy = 0.;
+  //cell paramerters
+  double alpha = cell->getAlpha();
+  double beta = cell->getBeta();
+  double pressure = cell->getPressure();
   while ((currentFace = cellIterator.next())!=0){
-          totalenergy += energyOfFace(currentFace);
+          if (currentFace->getID() == 1) continue;
+          totalenergy += currentFace->getEnergy();
   }
   return totalenergy;
 }
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-double energyOfFace(Face *face){
+double Jacobian::energyOfFace(Face *face){
 	//getting need properties from this face
-  if (face.getID() != 1){
+  if (face->getID() != 1){
     	double area = face->getAreaOfFace();//area of face
     	Cell *cell = face->getCell();//getting the cell on which this face lies
     	double alpha = cell->getAlpha();
@@ -40,7 +47,7 @@ double energyOfFace(Face *face){
     	// ****************************************************************************************** //
     	//setting the target form matrix of this face
     	face->setTargetFormMatrix();
-    	double * targetFormMatrix[2][2] = face->targetFormMatrix();
+    	double (*targetFormMatrix)[2] = face->targetFormMatrix;
     	//std::copy(&face->targetFormMatrix[0][0],&face->targetFormMatrix+2*2,&targetFormMatrix[0][0]);
     	double targetFormMatrixTraceSquared = face->getTraceSquaredTargetFormMatrix();
     	// ****************************************************************************************** //
@@ -86,19 +93,19 @@ double energyOfFace(Face *face){
         return energy;
   }
   else{
-    return 0.0.
+    return 0.0;
   }
 }		
 
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-double jacobianOfCell(Cell *cell){
+double Jacobian::jacobianOfCell(Cell *cell){
  		printf("number of faces : %u",cell->countFaces());
  		return 0.0;
  }
 
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- void setProjectedCoordinateDerivative(Face *face){
+ void Jacobian::setProjectedCoordinateDerivative(Face *face){
  }
 
 

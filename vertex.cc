@@ -6,7 +6,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <math.h>
 //#include <svl/Vec3.h>
 #include "svl-1.5/include/svl/SVL.h"
 #include "cell.hh"
@@ -516,21 +516,25 @@ void Vertex::setFunction3(){
 // ******************************************************* //
 void Vertex::setFirstTermXDerivative(){
     VertexEdgeIterator vertEdges(this);//iterator to iterate through the outgoing edge
-    double functionvalue(0), area, sumMuSqDerivative,sumMuSq,areaDerivative;//variable to store function value
+    double functionvalue(0), area(0), sumMuSqDerivative(0),sumMuSq(0),areaDerivative(0);//variable to store function value
     unsigned int innerid; //variable to store inner id of face
     Edge *currentEdge;//pointer to the current edge that is iterated
     while ((currentEdge = vertEdges.next())!=0){//iterating till exhausted
         Face *left = currentEdge->Left();//grabbing the inner face of the edge
         innerid = left->getID();//id of inner face
-        area = left->getAreaOfFace();//area of inner face
-        sumMuSqDerivative = this->getMu1SquaredXDerivative(innerid) + this->getMu2SquaredXDerivative(innerid) +
-                             this->getMu3SquaredXDerivative(innerid) + this->getMu4SquaredXDerivative(innerid);//sumof mu sq X derivaitves
-        sumMuSq = (left->getMu1())*(left->getMu1()) + (left->getMu2())*(left->getMu2()) +
-                  (left->getMu3())*(left->getMu3()) + (left->getMu4())*(left->getMu4());
-        areaDerivative = this->getAreaXDerivative(innerid);
-        functionvalue += 1./(left->getTraceSquaredTargetFormMatrix())*(area*(sumMuSqDerivative)+sumMuSq*areaDerivative);
+        if (innerid != 1){//skipping the rest of the calculation, if the face is outer face
+            area = left->getAreaOfFace();//area of inner face
+            sumMuSqDerivative = this->getMu1SquaredXDerivative(innerid) + this->getMu2SquaredXDerivative(innerid) +
+                                 this->getMu3SquaredXDerivative(innerid) + this->getMu4SquaredXDerivative(innerid);//sumof mu sq X derivaitves
+            sumMuSq = pow(left->getMu1(),2)+ pow(left->getMu2(),2)+pow(left->getMu3(),2)+ pow(left->getMu4(),2);
+            areaDerivative = this->getAreaXDerivative(innerid);
+            functionvalue += 1./(left->getTraceSquaredTargetFormMatrix())*(area*(sumMuSqDerivative)+sumMuSq*areaDerivative);
+            //std::cout<<"vertid : "<<this->getID()<<"face id : "<<innerid<<"functionvalue :"<<functionvalue<<std::endl;
+        }
     }
     this->firstTermXDerivative = functionvalue;
+    //std::cout<<"written !! "<<this->firstTermXDerivative<<std::endl;
+    //std::cout<<"vertid : "<<this->getID()<<"  face id : "<<innerid<<"  functionvalue :"<<functionvalue<<std::endl;
 }
 
 // ******************************************************* //
@@ -541,7 +545,8 @@ void Vertex::setFirstTermXDerivative(){
     Edge *currentEdge;//pointer to the current edge that is iterated
     while ((currentEdge = vertEdges.next())!=0){//iterating till exhausted
         Face *left = currentEdge->Left();//grabbing the inner face of the edge
-        innerid = left->getID();//id of inner face
+        innerid = left->getID();//id of inner 
+        if (innerid == 1) continue;
         area = left->getAreaOfFace();//area of inner face
         sumMuDerivative = (left->getMu4())*(this->getMu1XDerivative(innerid)) + 
                           (left->getMu1())*(this->getMu4XDerivative(innerid));//sumof mu sq X derivaitves
@@ -557,7 +562,7 @@ void Vertex::setThirdTermXDerivative(){
     VertexEdgeIterator vertEdges(this);//iterator to iterate through the outgoing edge
     Cell *currentCell = this->getCell();// cell this vertex lies in
     Face *left;//pointer to the left face of the edge
-    double pressure = currentCell->getPressure();//pressure in the cells of this tissue
+    //double pressure = currentCell->getPressure();//pressure in the cells of this tissue
     double functionvalue(0), areaDerivative;//variable to store function value
     unsigned int innerid; //variable to store inner id of face
     Edge *currentEdge;//pointer to the current edge that is iterated
@@ -568,7 +573,7 @@ void Vertex::setThirdTermXDerivative(){
         //getting area derivative wrt X
         areaDerivative = this->getAreaXDerivative(innerid);
         //calculating xderivative third term
-        functionvalue += pressure*areaDerivative;
+        functionvalue += areaDerivative;
     }
     this->thirdTermXDerivative =functionvalue;
 }
@@ -581,6 +586,7 @@ void Vertex::setFirstTermYDerivative(){
     while ((currentEdge = vertEdges.next())!=0){//iterating till exhausted
         Face *left = currentEdge->Left();//grabbing the inner face of the edge
         innerid = left->getID();//id of inner face
+        if (innerid == 1) continue; //skipping if face is the outer face
         area = left->getAreaOfFace();//area of inner face
         sumMuSqDerivative = this->getMu1SquaredYDerivative(innerid) + this->getMu2SquaredYDerivative(innerid) +
                              this->getMu3SquaredYDerivative(innerid) + this->getMu4SquaredYDerivative(innerid);//sumof mu sq X derivaitves
@@ -589,7 +595,7 @@ void Vertex::setFirstTermYDerivative(){
         areaDerivative = this->getAreaYDerivative(innerid);
         functionvalue += 1./(left->getTraceSquaredTargetFormMatrix())*(area*(sumMuSqDerivative)+sumMuSq*areaDerivative);
     }
-    this->firstTermXDerivative = functionvalue;
+    this->firstTermYDerivative = functionvalue;
 }
 // ******************************************************* //
  void Vertex::setSecondTermYDerivative(){
@@ -600,6 +606,7 @@ void Vertex::setFirstTermYDerivative(){
     while ((currentEdge = vertEdges.next())!=0){//iterating till exhausted
         Face *left = currentEdge->Left();//grabbing the inner face of the edge
         innerid = left->getID();//id of inner face
+        if (innerid == 1) continue; //skipping if face is the outer face
         area = left->getAreaOfFace();//area of inner face
         sumMuDerivative = (left->getMu4())*(this->getMu1YDerivative(innerid)) + 
                           (left->getMu1())*(this->getMu4YDerivative(innerid));//sumof mu sq X derivaitves
@@ -608,14 +615,14 @@ void Vertex::setFirstTermYDerivative(){
         functionvalue += 1./(left->getTraceSquaredTargetFormMatrix())*
                           ((sumMu*sumMu)*areaDerivative+area*2*sumMu*sumMuDerivative);
     }
-    this->secondTermXDerivative = functionvalue;
+    this->secondTermYDerivative = functionvalue;
 }
 // ******************************************************* //
 void Vertex::setThirdTermYDerivative(){
     VertexEdgeIterator vertEdges(this);//iterator to iterate through the outgoing edge
     Cell *currentCell = this->getCell();// cell this vertex lies in
     Face *left;//pointer to the left face of the edge
-    double pressure = currentCell->getPressure();//pressure in the cells of this tissue
+    //double pressure = currentCell->getPressure();//pressure in the cells of this tissue
     double functionvalue(0), areaDerivative;//variable to store function value
     unsigned int innerid; //variable to store inner id of face
     Edge *currentEdge;//pointer to the current edge that is iterated
@@ -626,9 +633,9 @@ void Vertex::setThirdTermYDerivative(){
         //getting area derivative wrt X
         areaDerivative = this->getAreaYDerivative(innerid);
         //calculating xderivative third term
-        functionvalue += pressure*areaDerivative;
+        functionvalue += areaDerivative;
     }
-    this->thirdTermXDerivative =functionvalue;
+    this->thirdTermYDerivative =functionvalue;
 }
 // ******************************************************* //
 void Vertex::setAlphaBetaGamma(){
@@ -664,7 +671,43 @@ void Vertex::setAlphaBetaGamma(){
         this->gamma[innerid] = tempgamma;
     }
 }
-
+// ******************************************************* //
+void Vertex::setparameters(){
+    //setting alpha beta gamma
+    this->setAlphaBetaGamma();
+    //Here on All need Projected coordinates <<>>
+    //setting function 1, 2 & 3
+    this->setFunctions();
+    //set A_k
+    this->setAk();
+}
+// ******************************************************** //
+void Vertex::setDerivatives(){
+    //setting A_k derivative
+    this->setAkDerivative();
+    //setting area derivative
+    this->setAreaDerivative();
+    //setting Mux derivative
+    this->setMuXDerivative();
+    //setting Muy derivative
+    this->setMuYDerivative();
+    //setting Musq X derivative
+    this->setMuSquaredXDerivative();
+    //setting Musq Y derivative
+    this->setMuSquaredYDerivative();
+    //setting first x derivative 
+    this->setFirstTermXDerivative();
+    //setting second x deriv
+    this->setSecondTermXDerivative();
+    //setting third xderiv
+    this->setThirdTermXDerivative();
+    //setting first Y derivative 
+    this->setFirstTermYDerivative();
+    //setting second Y deriv
+    this->setSecondTermYDerivative();
+    //setting third Y deriv
+    this->setThirdTermYDerivative();
+}
 
 
 

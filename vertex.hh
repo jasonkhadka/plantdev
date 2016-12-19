@@ -651,7 +651,20 @@ class Vertex
      * input : face id, the face on which the mu1 is to be calculated
      */
     double getMu4(unsigned int faceid);
+    ///////////////////////////////////////////////////////////////////////
+
+
     // **************************************************************//
+    // Single Function that sets all paramenters need for calculation//
+    // **************************************************************//
+    void setparameters();
+    // **************************************************************//
+    // Single Function that sets all Derivatives need for calculation//
+    // **************************************************************//
+    void setDerivatives();
+
+    
+    
     // **************************************************************//
 ///////////////////////////////////////////////////////////////////////
   /*

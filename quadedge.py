@@ -150,6 +150,26 @@ class Cell(_object):
 
     def makeFaceID(self):
         return _quadedge.Cell_makeFaceID(self)
+    __swig_setmethods__["thresholdMatrix"] = _quadedge.Cell_thresholdMatrix_set
+    __swig_getmethods__["thresholdMatrix"] = _quadedge.Cell_thresholdMatrix_get
+    if _newclass:
+        thresholdMatrix = _swig_property(_quadedge.Cell_thresholdMatrix_get, _quadedge.Cell_thresholdMatrix_set)
+    __swig_setmethods__["hstepsize"] = _quadedge.Cell_hstepsize_set
+    __swig_getmethods__["hstepsize"] = _quadedge.Cell_hstepsize_get
+    if _newclass:
+        hstepsize = _swig_property(_quadedge.Cell_hstepsize_get, _quadedge.Cell_hstepsize_set)
+
+    def getEnergy(self):
+        return _quadedge.Cell_getEnergy(self)
+
+    def getFirstTerm(self):
+        return _quadedge.Cell_getFirstTerm(self)
+
+    def getSecondTerm(self):
+        return _quadedge.Cell_getSecondTerm(self)
+
+    def getThirdTerm(self):
+        return _quadedge.Cell_getThirdTerm(self)
 
     def setPressure(self, arg2):
         return _quadedge.Cell_setPressure(self, arg2)
@@ -168,6 +188,12 @@ class Cell(_object):
 
     def getBeta(self):
         return _quadedge.Cell_getBeta(self)
+
+    def setKappa(self, arg2):
+        return _quadedge.Cell_setKappa(self, arg2)
+
+    def getKappa(self):
+        return _quadedge.Cell_getKappa(self)
 Cell_swigregister = _quadedge.Cell_swigregister
 Cell_swigregister(Cell)
 
@@ -310,10 +336,20 @@ class Face(_object):
 
     def getUnitz(self):
         return _quadedge.Face_getUnitz(self)
+
+    def grow(self):
+        return _quadedge.Face_grow(self)
     __swig_setmethods__["targetFormMatrix"] = _quadedge.Face_targetFormMatrix_set
     __swig_getmethods__["targetFormMatrix"] = _quadedge.Face_targetFormMatrix_get
     if _newclass:
         targetFormMatrix = _swig_property(_quadedge.Face_targetFormMatrix_get, _quadedge.Face_targetFormMatrix_set)
+    __swig_setmethods__["currentFormMatrix"] = _quadedge.Face_currentFormMatrix_set
+    __swig_getmethods__["currentFormMatrix"] = _quadedge.Face_currentFormMatrix_get
+    if _newclass:
+        currentFormMatrix = _swig_property(_quadedge.Face_currentFormMatrix_get, _quadedge.Face_currentFormMatrix_set)
+
+    def printTargetFormMatrix(self):
+        return _quadedge.Face_printTargetFormMatrix(self)
     __swig_setmethods__["traceSquaredTargetFormMatrix"] = _quadedge.Face_traceSquaredTargetFormMatrix_set
     __swig_getmethods__["traceSquaredTargetFormMatrix"] = _quadedge.Face_traceSquaredTargetFormMatrix_get
     if _newclass:
@@ -359,6 +395,9 @@ class Face(_object):
     def setTargetFormMatrix(self):
         return _quadedge.Face_setTargetFormMatrix(self)
 
+    def setTempTargetFormMatrix(self):
+        return _quadedge.Face_setTempTargetFormMatrix(self)
+
     def setTraceSquaredTargetFormMatrix(self):
         return _quadedge.Face_setTraceSquaredTargetFormMatrix(self)
 
@@ -388,6 +427,21 @@ class Face(_object):
 
     def countVertices(self):
         return _quadedge.Face_countVertices(self)
+
+    def getFirstTerm(self):
+        return _quadedge.Face_getFirstTerm(self)
+
+    def getSecondTerm(self):
+        return _quadedge.Face_getSecondTerm(self)
+
+    def getThirdTerm(self):
+        return _quadedge.Face_getThirdTerm(self)
+
+    def getEnergy(self):
+        return _quadedge.Face_getEnergy(self)
+
+    def setEnergyTerms(self):
+        return _quadedge.Face_setEnergyTerms(self)
 Face_swigregister = _quadedge.Face_swigregister
 Face_swigregister(Face)
 
@@ -781,6 +835,12 @@ class Vertex(_object):
     def getMu4(self, faceid):
         return _quadedge.Vertex_getMu4(self, faceid)
 
+    def setparameters(self):
+        return _quadedge.Vertex_setparameters(self)
+
+    def setDerivatives(self):
+        return _quadedge.Vertex_setDerivatives(self)
+
     def getEdge(self):
         return _quadedge.Vertex_getEdge(self)
 
@@ -821,22 +881,36 @@ class VertexEdgeIterator(_object):
 VertexEdgeIterator_swigregister = _quadedge.VertexEdgeIterator_swigregister
 VertexEdgeIterator_swigregister(VertexEdgeIterator)
 
+class Jacobian(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Jacobian, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Jacobian, name)
+    __repr__ = _swig_repr
 
-def energyOfCell(cell):
-    return _quadedge.energyOfCell(cell)
-energyOfCell = _quadedge.energyOfCell
+    def energyOfCell(self, cell):
+        return _quadedge.Jacobian_energyOfCell(self, cell)
 
-def energyOfFace(face):
-    return _quadedge.energyOfFace(face)
-energyOfFace = _quadedge.energyOfFace
+    def energyOfFace(self, face):
+        return _quadedge.Jacobian_energyOfFace(self, face)
 
-def jacobianOfCell(cell):
-    return _quadedge.jacobianOfCell(cell)
-jacobianOfCell = _quadedge.jacobianOfCell
+    def jacobianOfCell(self, cell):
+        return _quadedge.Jacobian_jacobianOfCell(self, cell)
 
-def setProjectedCoordinateDerivative(face):
-    return _quadedge.setProjectedCoordinateDerivative(face)
-setProjectedCoordinateDerivative = _quadedge.setProjectedCoordinateDerivative
+    def setProjectedCoordinateDerivative(self, face):
+        return _quadedge.Jacobian_setProjectedCoordinateDerivative(self, face)
+
+    def __init__(self):
+        this = _quadedge.new_Jacobian()
+        try:
+            self.this.append(this)
+        except:
+            self.this = this
+    __swig_destroy__ = _quadedge.delete_Jacobian
+    __del__ = lambda self: None
+Jacobian_swigregister = _quadedge.Jacobian_swigregister
+Jacobian_swigregister(Jacobian)
+
 class CentralisedDerivative(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, CentralisedDerivative, name, value)
@@ -1077,6 +1151,33 @@ class CentralisedDerivative(_object):
 
     def numericalYtildeZDerivative(self, arg2, arg3, arg4, arg5):
         return _quadedge.CentralisedDerivative_numericalYtildeZDerivative(self, arg2, arg3, arg4, arg5)
+
+    def numericalFirstTermXDerivative(self, second):
+        return _quadedge.CentralisedDerivative_numericalFirstTermXDerivative(self, second)
+
+    def numericalSecondTermXDerivative(self, second):
+        return _quadedge.CentralisedDerivative_numericalSecondTermXDerivative(self, second)
+
+    def numericalThirdTermXDerivative(self, second):
+        return _quadedge.CentralisedDerivative_numericalThirdTermXDerivative(self, second)
+
+    def numericalFirstTermYDerivative(self, second):
+        return _quadedge.CentralisedDerivative_numericalFirstTermYDerivative(self, second)
+
+    def numericalSecondTermYDerivative(self, second):
+        return _quadedge.CentralisedDerivative_numericalSecondTermYDerivative(self, second)
+
+    def numericalThirdTermYDerivative(self, second):
+        return _quadedge.CentralisedDerivative_numericalThirdTermYDerivative(self, second)
+
+    def numericalFirstTermZDerivative(self, second):
+        return _quadedge.CentralisedDerivative_numericalFirstTermZDerivative(self, second)
+
+    def numericalSecondTermZDerivative(self, second):
+        return _quadedge.CentralisedDerivative_numericalSecondTermZDerivative(self, second)
+
+    def numericalThirdTermZDerivative(self, second):
+        return _quadedge.CentralisedDerivative_numericalThirdTermZDerivative(self, second)
 
     def deltafunction(self, arg2, arg3):
         return _quadedge.CentralisedDerivative_deltafunction(self, arg2, arg3)

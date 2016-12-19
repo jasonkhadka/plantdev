@@ -17,6 +17,15 @@ class CentralisedDerivative
 	 	// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
 
 	 	//~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~//
+	 	//  ~~~~~~~~~~~~~ Energy Derivatives ~~~~~~~~~~~~~~~~ //
+	 	// Total energy X derivatives of the Cell with respect to change in Vertex k // 
+	 	//double energyXDerivative(Cell *, Vertex *);
+	 	// Total energy X derivatives of the Cell with respect to change in Vertex k // 
+	 	//double energyYDerivative(Cell *, Vertex *);
+	 	// Total energy X derivatives of the Cell with respect to change in Vertex k // 
+	 	//double energyZDerivative(Cell *, Vertex *);
+	 	
+	 	//~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~//
 	 	//~~~~~~~~~~~~~~~   x derivatives   ~~~~~~~~~~~~~~~ //
 	 	//~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~//
 	 	/**
@@ -417,19 +426,40 @@ class CentralisedDerivative
 		 //&*************************************************************************** //
 
 		 // ******** Numerical Derivative of Xtilde X derivative  ********************* //
-		 double numericalXtildeXDerivative(Vertex*, Vertex*, Face*, double);
+		double numericalXtildeXDerivative(Vertex*, Vertex*, Face*, double);
 		// ******** Numerical Derivative of Ytilde X derivative  ********************* //
-		 double numericalYtildeXDerivative(Vertex*, Vertex*, Face*, double);
+		double numericalYtildeXDerivative(Vertex*, Vertex*, Face*, double);
 		 // ******* Numerical Derivative of Xtilde with Y_k derivative *************** //
-		 double numericalXtildeYDerivative(Vertex* , Vertex*, Face*, double);
+		double numericalXtildeYDerivative(Vertex* , Vertex*, Face*, double);
 		// ******* Numerical Derivative of Xtilde with Y_k derivative *************** //
-		 double numericalYtildeYDerivative(Vertex* , Vertex*, Face*, double);
+		double numericalYtildeYDerivative(Vertex* , Vertex*, Face*, double);
 		// ******* Numerical Derivative of Xtilde with Z_k derivative *************** //
-		 double numericalXtildeZDerivative(Vertex* , Vertex*, Face*, double);
+		double numericalXtildeZDerivative(Vertex* , Vertex*, Face*, double);
 		// ******* Numerical Derivative of Xtilde with Z_k derivative *************** //
-		 double numericalYtildeZDerivative(Vertex* , Vertex*, Face*, double);
-		    
+		double numericalYtildeZDerivative(Vertex* , Vertex*, Face*, double);
 		
+		// ---------------------------------------------------------------------------------------- //
+		//                  Face derivative with respect to given Vertex                            //
+		// -----------------------------------------------------------------------------------------//
+		// ******* Numerical Derivative of First term of energy derivative ********** //
+		double numericalFirstTermXDerivative(Vertex* second);
+		// ******* Numerical Derivative of Second term of energy derivative ********** //
+		double numericalSecondTermXDerivative(Vertex* second);    
+		
+		// ******* Numerical Derivative of Third term of energy derivative ********** //
+		double numericalThirdTermXDerivative(Vertex* second);    
+		// ******* Numerical Derivative of First term of energy derivative ********** //
+		double numericalFirstTermYDerivative(Vertex* second);
+		// ******* Numerical Derivative of Second term of energy derivative ********** //
+		double numericalSecondTermYDerivative(Vertex* second);    
+		// ******* Numerical Derivative of Third term of energy derivative ********** //
+		double numericalThirdTermYDerivative(Vertex* second);    
+		// ******* Numerical Derivative of First term of energy derivative ********** //
+		double numericalFirstTermZDerivative(Vertex* second);
+		// ******* Numerical Derivative of Second term of energy derivative ********** //
+		double numericalSecondTermZDerivative(Vertex* second);    
+		// ******* Numerical Derivative of Third term of energy derivative ********** //
+		double numericalThirdTermZDerivative(Vertex* second);    
 		// *************************************************************************** //
 		 // ********************      Miscellaneous      ****************************** //
 		 // *************************************************************************** //

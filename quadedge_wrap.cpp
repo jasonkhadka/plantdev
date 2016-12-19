@@ -2974,15 +2974,16 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 #define SWIGTYPE_p_Edge swig_types[4]
 #define SWIGTYPE_p_Face swig_types[5]
 #define SWIGTYPE_p_FaceEdgeIterator swig_types[6]
-#define SWIGTYPE_p_Vec3 swig_types[7]
-#define SWIGTYPE_p_Vertex swig_types[8]
-#define SWIGTYPE_p_VertexEdgeIterator swig_types[9]
-#define SWIGTYPE_p_a_2__double swig_types[10]
-#define SWIGTYPE_p_char swig_types[11]
-#define SWIGTYPE_p_double swig_types[12]
-#define SWIGTYPE_p_void swig_types[13]
-static swig_type_info *swig_types[15];
-static swig_module_info swig_module = {swig_types, 14, 0, 0, 0, 0};
+#define SWIGTYPE_p_Jacobian swig_types[7]
+#define SWIGTYPE_p_Vec3 swig_types[8]
+#define SWIGTYPE_p_Vertex swig_types[9]
+#define SWIGTYPE_p_VertexEdgeIterator swig_types[10]
+#define SWIGTYPE_p_a_2__double swig_types[11]
+#define SWIGTYPE_p_char swig_types[12]
+#define SWIGTYPE_p_double swig_types[13]
+#define SWIGTYPE_p_void swig_types[14]
+static swig_type_info *swig_types[16];
+static swig_module_info swig_module = {swig_types, 15, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -3367,9 +3368,6 @@ SWIG_AsCharPtrAndSize(PyObject *obj, char** cptr, size_t* psize, int *alloc)
 
 
 
-
-
-#include "array.hh"
 
 
 #include "vertex.hh"
@@ -3875,6 +3873,212 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_thresholdMatrix_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  double (*arg2)[2] ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Cell_thresholdMatrix_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_thresholdMatrix_set" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_a_2__double, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Cell_thresholdMatrix_set" "', argument " "2"" of type '" "double [2][2]""'"); 
+  } 
+  arg2 = reinterpret_cast< double (*)[2] >(argp2);
+  {
+    if (arg2) {
+      size_t ii = 0;
+      for (; ii < (size_t)2; ++ii) {
+        if (arg2[ii]) {
+          size_t jj = 0;
+          for (; jj < (size_t)2; ++jj) arg1->thresholdMatrix[ii][jj] = arg2[ii][jj];
+        } else {
+          SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in variable '""thresholdMatrix""' of type '""double [2][2]""'");
+        }
+      }
+    } else {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in variable '""thresholdMatrix""' of type '""double [2][2]""'");
+    }
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_thresholdMatrix_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double (*result)[2] = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_thresholdMatrix_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_thresholdMatrix_get" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double (*)[2])(double (*)[2]) ((arg1)->thresholdMatrix);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_a_2__double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_hstepsize_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Cell_hstepsize_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_hstepsize_set" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Cell_hstepsize_set" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  if (arg1) (arg1)->hstepsize = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_hstepsize_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_hstepsize_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_hstepsize_get" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double) ((arg1)->hstepsize);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getEnergy(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getEnergy",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getEnergy" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getEnergy();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getFirstTerm(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getFirstTerm",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getFirstTerm" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getFirstTerm();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getSecondTerm(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getSecondTerm",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getSecondTerm" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getSecondTerm();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getThirdTerm(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getThirdTerm",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getThirdTerm" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getThirdTerm();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_setPressure(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -4024,6 +4228,58 @@ SWIGINTERN PyObject *_wrap_Cell_getBeta(PyObject *SWIGUNUSEDPARM(self), PyObject
   }
   arg1 = reinterpret_cast< Cell * >(argp1);
   result = (double)(arg1)->getBeta();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_setKappa(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Cell_setKappa",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setKappa" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Cell_setKappa" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setKappa(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getKappa(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getKappa",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getKappa" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getKappa();
   resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
@@ -4856,6 +5112,27 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_grow(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_grow",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_grow" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->grow();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_targetFormMatrix_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -4916,6 +5193,93 @@ SWIGINTERN PyObject *_wrap_Face_targetFormMatrix_get(PyObject *SWIGUNUSEDPARM(se
   arg1 = reinterpret_cast< Face * >(argp1);
   result = (double (*)[2])(double (*)[2]) ((arg1)->targetFormMatrix);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_a_2__double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_currentFormMatrix_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  double (*arg2)[2] ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_currentFormMatrix_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_currentFormMatrix_set" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_a_2__double, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Face_currentFormMatrix_set" "', argument " "2"" of type '" "double [2][2]""'"); 
+  } 
+  arg2 = reinterpret_cast< double (*)[2] >(argp2);
+  {
+    if (arg2) {
+      size_t ii = 0;
+      for (; ii < (size_t)2; ++ii) {
+        if (arg2[ii]) {
+          size_t jj = 0;
+          for (; jj < (size_t)2; ++jj) arg1->currentFormMatrix[ii][jj] = arg2[ii][jj];
+        } else {
+          SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in variable '""currentFormMatrix""' of type '""double [2][2]""'");
+        }
+      }
+    } else {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in variable '""currentFormMatrix""' of type '""double [2][2]""'");
+    }
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_currentFormMatrix_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double (*result)[2] = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_currentFormMatrix_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_currentFormMatrix_get" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double (*)[2])(double (*)[2]) ((arg1)->currentFormMatrix);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_a_2__double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_printTargetFormMatrix(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_printTargetFormMatrix",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_printTargetFormMatrix" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->printTargetFormMatrix();
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -5364,6 +5728,27 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_setTempTargetFormMatrix(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_setTempTargetFormMatrix",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setTempTargetFormMatrix" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->setTempTargetFormMatrix();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_setTraceSquaredTargetFormMatrix(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -5601,6 +5986,115 @@ SWIGINTERN PyObject *_wrap_Face_countVertices(PyObject *SWIGUNUSEDPARM(self), Py
   arg1 = reinterpret_cast< Face * >(argp1);
   result = (unsigned int)(arg1)->countVertices();
   resultobj = SWIG_From_unsigned_SS_int(static_cast< unsigned int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getFirstTerm(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getFirstTerm",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getFirstTerm" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getFirstTerm();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getSecondTerm(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getSecondTerm",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getSecondTerm" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getSecondTerm();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getThirdTerm(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getThirdTerm",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getThirdTerm" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getThirdTerm();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getEnergy(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getEnergy",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getEnergy" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getEnergy();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setEnergyTerms(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_setEnergyTerms",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setEnergyTerms" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->setEnergyTerms();
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -8656,6 +9150,48 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Vertex_setparameters(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setparameters",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setparameters" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setparameters();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setDerivatives(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setDerivatives",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setDerivatives" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setDerivatives();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Vertex_getEdge(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Vertex *arg1 = (Vertex *) 0 ;
@@ -8817,21 +9353,30 @@ SWIGINTERN PyObject *VertexEdgeIterator_swigregister(PyObject *SWIGUNUSEDPARM(se
   return SWIG_Py_Void();
 }
 
-SWIGINTERN PyObject *_wrap_energyOfCell(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_Jacobian_energyOfCell(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  Cell *arg1 = (Cell *) 0 ;
+  Jacobian *arg1 = (Jacobian *) 0 ;
+  Cell *arg2 = (Cell *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
   PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
   double result;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:energyOfCell",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!PyArg_ParseTuple(args,(char *)"OO:Jacobian_energyOfCell",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Jacobian, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "energyOfCell" "', argument " "1"" of type '" "Cell *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Jacobian_energyOfCell" "', argument " "1"" of type '" "Jacobian *""'"); 
   }
-  arg1 = reinterpret_cast< Cell * >(argp1);
-  result = (double)energyOfCell(arg1);
+  arg1 = reinterpret_cast< Jacobian * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Jacobian_energyOfCell" "', argument " "2"" of type '" "Cell *""'"); 
+  }
+  arg2 = reinterpret_cast< Cell * >(argp2);
+  result = (double)(arg1)->energyOfCell(arg2);
   resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
@@ -8839,21 +9384,30 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_energyOfFace(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_Jacobian_energyOfFace(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  Face *arg1 = (Face *) 0 ;
+  Jacobian *arg1 = (Jacobian *) 0 ;
+  Face *arg2 = (Face *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
   PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
   double result;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:energyOfFace",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!PyArg_ParseTuple(args,(char *)"OO:Jacobian_energyOfFace",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Jacobian, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "energyOfFace" "', argument " "1"" of type '" "Face *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Jacobian_energyOfFace" "', argument " "1"" of type '" "Jacobian *""'"); 
   }
-  arg1 = reinterpret_cast< Face * >(argp1);
-  result = (double)energyOfFace(arg1);
+  arg1 = reinterpret_cast< Jacobian * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Jacobian_energyOfFace" "', argument " "2"" of type '" "Face *""'"); 
+  }
+  arg2 = reinterpret_cast< Face * >(argp2);
+  result = (double)(arg1)->energyOfFace(arg2);
   resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
@@ -8861,21 +9415,30 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_jacobianOfCell(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_Jacobian_jacobianOfCell(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  Cell *arg1 = (Cell *) 0 ;
+  Jacobian *arg1 = (Jacobian *) 0 ;
+  Cell *arg2 = (Cell *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
   PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
   double result;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:jacobianOfCell",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!PyArg_ParseTuple(args,(char *)"OO:Jacobian_jacobianOfCell",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Jacobian, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "jacobianOfCell" "', argument " "1"" of type '" "Cell *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Jacobian_jacobianOfCell" "', argument " "1"" of type '" "Jacobian *""'"); 
   }
-  arg1 = reinterpret_cast< Cell * >(argp1);
-  result = (double)jacobianOfCell(arg1);
+  arg1 = reinterpret_cast< Jacobian * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Jacobian_jacobianOfCell" "', argument " "2"" of type '" "Cell *""'"); 
+  }
+  arg2 = reinterpret_cast< Cell * >(argp2);
+  result = (double)(arg1)->jacobianOfCell(arg2);
   resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
@@ -8883,26 +9446,76 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_setProjectedCoordinateDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_Jacobian_setProjectedCoordinateDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
-  Face *arg1 = (Face *) 0 ;
+  Jacobian *arg1 = (Jacobian *) 0 ;
+  Face *arg2 = (Face *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
   PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:setProjectedCoordinateDerivative",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!PyArg_ParseTuple(args,(char *)"OO:Jacobian_setProjectedCoordinateDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Jacobian, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "setProjectedCoordinateDerivative" "', argument " "1"" of type '" "Face *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Jacobian_setProjectedCoordinateDerivative" "', argument " "1"" of type '" "Jacobian *""'"); 
   }
-  arg1 = reinterpret_cast< Face * >(argp1);
-  setProjectedCoordinateDerivative(arg1);
+  arg1 = reinterpret_cast< Jacobian * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Jacobian_setProjectedCoordinateDerivative" "', argument " "2"" of type '" "Face *""'"); 
+  }
+  arg2 = reinterpret_cast< Face * >(argp2);
+  (arg1)->setProjectedCoordinateDerivative(arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
 }
 
+
+SWIGINTERN PyObject *_wrap_new_Jacobian(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Jacobian *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)":new_Jacobian")) SWIG_fail;
+  result = (Jacobian *)new Jacobian();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Jacobian, SWIG_POINTER_NEW |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_delete_Jacobian(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Jacobian *arg1 = (Jacobian *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:delete_Jacobian",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Jacobian, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "delete_Jacobian" "', argument " "1"" of type '" "Jacobian *""'"); 
+  }
+  arg1 = reinterpret_cast< Jacobian * >(argp1);
+  delete arg1;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *Jacobian_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *obj;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigregister", &obj)) return NULL;
+  SWIG_TypeNewClientData(SWIGTYPE_p_Jacobian, SWIG_NewClientData(obj));
+  return SWIG_Py_Void();
+}
 
 SWIGINTERN PyObject *_wrap_CentralisedDerivative_xtildeXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
@@ -12780,6 +13393,285 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_numericalFirstTermXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CentralisedDerivative_numericalFirstTermXDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_numericalFirstTermXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_numericalFirstTermXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  result = (double)(arg1)->numericalFirstTermXDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_numericalSecondTermXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CentralisedDerivative_numericalSecondTermXDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_numericalSecondTermXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_numericalSecondTermXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  result = (double)(arg1)->numericalSecondTermXDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_numericalThirdTermXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CentralisedDerivative_numericalThirdTermXDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_numericalThirdTermXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_numericalThirdTermXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  result = (double)(arg1)->numericalThirdTermXDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_numericalFirstTermYDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CentralisedDerivative_numericalFirstTermYDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_numericalFirstTermYDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_numericalFirstTermYDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  result = (double)(arg1)->numericalFirstTermYDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_numericalSecondTermYDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CentralisedDerivative_numericalSecondTermYDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_numericalSecondTermYDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_numericalSecondTermYDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  result = (double)(arg1)->numericalSecondTermYDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_numericalThirdTermYDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CentralisedDerivative_numericalThirdTermYDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_numericalThirdTermYDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_numericalThirdTermYDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  result = (double)(arg1)->numericalThirdTermYDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_numericalFirstTermZDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CentralisedDerivative_numericalFirstTermZDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_numericalFirstTermZDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_numericalFirstTermZDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  result = (double)(arg1)->numericalFirstTermZDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_numericalSecondTermZDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CentralisedDerivative_numericalSecondTermZDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_numericalSecondTermZDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_numericalSecondTermZDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  result = (double)(arg1)->numericalSecondTermZDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_numericalThirdTermZDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CentralisedDerivative_numericalThirdTermZDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_numericalThirdTermZDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_numericalThirdTermZDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  result = (double)(arg1)->numericalThirdTermZDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_CentralisedDerivative_deltafunction(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
@@ -12993,12 +13885,22 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_addFace", _wrap_Cell_addFace, METH_VARARGS, NULL},
 	 { (char *)"Cell_removeFace", _wrap_Cell_removeFace, METH_VARARGS, NULL},
 	 { (char *)"Cell_makeFaceID", _wrap_Cell_makeFaceID, METH_VARARGS, NULL},
+	 { (char *)"Cell_thresholdMatrix_set", _wrap_Cell_thresholdMatrix_set, METH_VARARGS, NULL},
+	 { (char *)"Cell_thresholdMatrix_get", _wrap_Cell_thresholdMatrix_get, METH_VARARGS, NULL},
+	 { (char *)"Cell_hstepsize_set", _wrap_Cell_hstepsize_set, METH_VARARGS, NULL},
+	 { (char *)"Cell_hstepsize_get", _wrap_Cell_hstepsize_get, METH_VARARGS, NULL},
+	 { (char *)"Cell_getEnergy", _wrap_Cell_getEnergy, METH_VARARGS, NULL},
+	 { (char *)"Cell_getFirstTerm", _wrap_Cell_getFirstTerm, METH_VARARGS, NULL},
+	 { (char *)"Cell_getSecondTerm", _wrap_Cell_getSecondTerm, METH_VARARGS, NULL},
+	 { (char *)"Cell_getThirdTerm", _wrap_Cell_getThirdTerm, METH_VARARGS, NULL},
 	 { (char *)"Cell_setPressure", _wrap_Cell_setPressure, METH_VARARGS, NULL},
 	 { (char *)"Cell_getPressure", _wrap_Cell_getPressure, METH_VARARGS, NULL},
 	 { (char *)"Cell_setAlpha", _wrap_Cell_setAlpha, METH_VARARGS, NULL},
 	 { (char *)"Cell_getAlpha", _wrap_Cell_getAlpha, METH_VARARGS, NULL},
 	 { (char *)"Cell_setBeta", _wrap_Cell_setBeta, METH_VARARGS, NULL},
 	 { (char *)"Cell_getBeta", _wrap_Cell_getBeta, METH_VARARGS, NULL},
+	 { (char *)"Cell_setKappa", _wrap_Cell_setKappa, METH_VARARGS, NULL},
+	 { (char *)"Cell_getKappa", _wrap_Cell_getKappa, METH_VARARGS, NULL},
 	 { (char *)"Cell_swigregister", Cell_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_CellVertexIterator", _wrap_new_CellVertexIterator, METH_VARARGS, NULL},
 	 { (char *)"delete_CellVertexIterator", _wrap_delete_CellVertexIterator, METH_VARARGS, NULL},
@@ -13034,8 +13936,12 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getUnity", _wrap_Face_getUnity, METH_VARARGS, NULL},
 	 { (char *)"Face_setUnitz", _wrap_Face_setUnitz, METH_VARARGS, NULL},
 	 { (char *)"Face_getUnitz", _wrap_Face_getUnitz, METH_VARARGS, NULL},
+	 { (char *)"Face_grow", _wrap_Face_grow, METH_VARARGS, NULL},
 	 { (char *)"Face_targetFormMatrix_set", _wrap_Face_targetFormMatrix_set, METH_VARARGS, NULL},
 	 { (char *)"Face_targetFormMatrix_get", _wrap_Face_targetFormMatrix_get, METH_VARARGS, NULL},
+	 { (char *)"Face_currentFormMatrix_set", _wrap_Face_currentFormMatrix_set, METH_VARARGS, NULL},
+	 { (char *)"Face_currentFormMatrix_get", _wrap_Face_currentFormMatrix_get, METH_VARARGS, NULL},
+	 { (char *)"Face_printTargetFormMatrix", _wrap_Face_printTargetFormMatrix, METH_VARARGS, NULL},
 	 { (char *)"Face_traceSquaredTargetFormMatrix_set", _wrap_Face_traceSquaredTargetFormMatrix_set, METH_VARARGS, NULL},
 	 { (char *)"Face_traceSquaredTargetFormMatrix_get", _wrap_Face_traceSquaredTargetFormMatrix_get, METH_VARARGS, NULL},
 	 { (char *)"Face_mu1_set", _wrap_Face_mu1_set, METH_VARARGS, NULL},
@@ -13054,6 +13960,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_setAngleOfTilt", _wrap_Face_setAngleOfTilt, METH_VARARGS, NULL},
 	 { (char *)"Face_getAngleOfTilt", _wrap_Face_getAngleOfTilt, METH_VARARGS, NULL},
 	 { (char *)"Face_setTargetFormMatrix", _wrap_Face_setTargetFormMatrix, METH_VARARGS, NULL},
+	 { (char *)"Face_setTempTargetFormMatrix", _wrap_Face_setTempTargetFormMatrix, METH_VARARGS, NULL},
 	 { (char *)"Face_setTraceSquaredTargetFormMatrix", _wrap_Face_setTraceSquaredTargetFormMatrix, METH_VARARGS, NULL},
 	 { (char *)"Face_getTraceSquaredTargetFormMatrix", _wrap_Face_getTraceSquaredTargetFormMatrix, METH_VARARGS, NULL},
 	 { (char *)"Face_setCentralisedCoordinate", _wrap_Face_setCentralisedCoordinate, METH_VARARGS, NULL},
@@ -13064,6 +13971,11 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_setAreaOfFace", _wrap_Face_setAreaOfFace, METH_VARARGS, NULL},
 	 { (char *)"Face_getAreaOfFace", _wrap_Face_getAreaOfFace, METH_VARARGS, NULL},
 	 { (char *)"Face_countVertices", _wrap_Face_countVertices, METH_VARARGS, NULL},
+	 { (char *)"Face_getFirstTerm", _wrap_Face_getFirstTerm, METH_VARARGS, NULL},
+	 { (char *)"Face_getSecondTerm", _wrap_Face_getSecondTerm, METH_VARARGS, NULL},
+	 { (char *)"Face_getThirdTerm", _wrap_Face_getThirdTerm, METH_VARARGS, NULL},
+	 { (char *)"Face_getEnergy", _wrap_Face_getEnergy, METH_VARARGS, NULL},
+	 { (char *)"Face_setEnergyTerms", _wrap_Face_setEnergyTerms, METH_VARARGS, NULL},
 	 { (char *)"Face_swigregister", Face_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_FaceEdgeIterator", _wrap_new_FaceEdgeIterator, METH_VARARGS, NULL},
 	 { (char *)"delete_FaceEdgeIterator", _wrap_delete_FaceEdgeIterator, METH_VARARGS, NULL},
@@ -13180,6 +14092,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Vertex_getMu2", _wrap_Vertex_getMu2, METH_VARARGS, NULL},
 	 { (char *)"Vertex_getMu3", _wrap_Vertex_getMu3, METH_VARARGS, NULL},
 	 { (char *)"Vertex_getMu4", _wrap_Vertex_getMu4, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setparameters", _wrap_Vertex_setparameters, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setDerivatives", _wrap_Vertex_setDerivatives, METH_VARARGS, NULL},
 	 { (char *)"Vertex_getEdge", _wrap_Vertex_getEdge, METH_VARARGS, NULL},
 	 { (char *)"Vertex_addEdge", _wrap_Vertex_addEdge, METH_VARARGS, NULL},
 	 { (char *)"Vertex_removeEdge", _wrap_Vertex_removeEdge, METH_VARARGS, NULL},
@@ -13188,10 +14102,13 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_VertexEdgeIterator", _wrap_delete_VertexEdgeIterator, METH_VARARGS, NULL},
 	 { (char *)"VertexEdgeIterator_next", _wrap_VertexEdgeIterator_next, METH_VARARGS, NULL},
 	 { (char *)"VertexEdgeIterator_swigregister", VertexEdgeIterator_swigregister, METH_VARARGS, NULL},
-	 { (char *)"energyOfCell", _wrap_energyOfCell, METH_VARARGS, NULL},
-	 { (char *)"energyOfFace", _wrap_energyOfFace, METH_VARARGS, NULL},
-	 { (char *)"jacobianOfCell", _wrap_jacobianOfCell, METH_VARARGS, NULL},
-	 { (char *)"setProjectedCoordinateDerivative", _wrap_setProjectedCoordinateDerivative, METH_VARARGS, NULL},
+	 { (char *)"Jacobian_energyOfCell", _wrap_Jacobian_energyOfCell, METH_VARARGS, NULL},
+	 { (char *)"Jacobian_energyOfFace", _wrap_Jacobian_energyOfFace, METH_VARARGS, NULL},
+	 { (char *)"Jacobian_jacobianOfCell", _wrap_Jacobian_jacobianOfCell, METH_VARARGS, NULL},
+	 { (char *)"Jacobian_setProjectedCoordinateDerivative", _wrap_Jacobian_setProjectedCoordinateDerivative, METH_VARARGS, NULL},
+	 { (char *)"new_Jacobian", _wrap_new_Jacobian, METH_VARARGS, NULL},
+	 { (char *)"delete_Jacobian", _wrap_delete_Jacobian, METH_VARARGS, NULL},
+	 { (char *)"Jacobian_swigregister", Jacobian_swigregister, METH_VARARGS, NULL},
 	 { (char *)"CentralisedDerivative_xtildeXDerivative", _wrap_CentralisedDerivative_xtildeXDerivative, METH_VARARGS, NULL},
 	 { (char *)"CentralisedDerivative_ytildeXDerivative", _wrap_CentralisedDerivative_ytildeXDerivative, METH_VARARGS, NULL},
 	 { (char *)"CentralisedDerivative_xiXDerivative", _wrap_CentralisedDerivative_xiXDerivative, METH_VARARGS, NULL},
@@ -13270,6 +14187,15 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"CentralisedDerivative_numericalYtildeYDerivative", _wrap_CentralisedDerivative_numericalYtildeYDerivative, METH_VARARGS, NULL},
 	 { (char *)"CentralisedDerivative_numericalXtildeZDerivative", _wrap_CentralisedDerivative_numericalXtildeZDerivative, METH_VARARGS, NULL},
 	 { (char *)"CentralisedDerivative_numericalYtildeZDerivative", _wrap_CentralisedDerivative_numericalYtildeZDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_numericalFirstTermXDerivative", _wrap_CentralisedDerivative_numericalFirstTermXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_numericalSecondTermXDerivative", _wrap_CentralisedDerivative_numericalSecondTermXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_numericalThirdTermXDerivative", _wrap_CentralisedDerivative_numericalThirdTermXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_numericalFirstTermYDerivative", _wrap_CentralisedDerivative_numericalFirstTermYDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_numericalSecondTermYDerivative", _wrap_CentralisedDerivative_numericalSecondTermYDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_numericalThirdTermYDerivative", _wrap_CentralisedDerivative_numericalThirdTermYDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_numericalFirstTermZDerivative", _wrap_CentralisedDerivative_numericalFirstTermZDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_numericalSecondTermZDerivative", _wrap_CentralisedDerivative_numericalSecondTermZDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_numericalThirdTermZDerivative", _wrap_CentralisedDerivative_numericalThirdTermZDerivative, METH_VARARGS, NULL},
 	 { (char *)"CentralisedDerivative_deltafunction", _wrap_CentralisedDerivative_deltafunction, METH_VARARGS, NULL},
 	 { (char *)"new_CentralisedDerivative", _wrap_new_CentralisedDerivative, METH_VARARGS, NULL},
 	 { (char *)"delete_CentralisedDerivative", _wrap_delete_CentralisedDerivative, METH_VARARGS, NULL},
@@ -13291,6 +14217,7 @@ static swig_type_info _swigt__p_CentralisedDerivative = {"_p_CentralisedDerivati
 static swig_type_info _swigt__p_Edge = {"_p_Edge", "Edge *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Face = {"_p_Face", "Face *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_FaceEdgeIterator = {"_p_FaceEdgeIterator", "FaceEdgeIterator *", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_Jacobian = {"_p_Jacobian", "Jacobian *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Vec3 = {"_p_Vec3", "Vec3 *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_Vertex = {"_p_Vertex", "Vertex *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_VertexEdgeIterator = {"_p_VertexEdgeIterator", "VertexEdgeIterator *", 0, 0, (void*)0, 0};
@@ -13307,6 +14234,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_Edge,
   &_swigt__p_Face,
   &_swigt__p_FaceEdgeIterator,
+  &_swigt__p_Jacobian,
   &_swigt__p_Vec3,
   &_swigt__p_Vertex,
   &_swigt__p_VertexEdgeIterator,
@@ -13323,6 +14251,7 @@ static swig_cast_info _swigc__p_CentralisedDerivative[] = {  {&_swigt__p_Central
 static swig_cast_info _swigc__p_Edge[] = {  {&_swigt__p_Edge, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Face[] = {  {&_swigt__p_Face, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_FaceEdgeIterator[] = {  {&_swigt__p_FaceEdgeIterator, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_Jacobian[] = {  {&_swigt__p_Jacobian, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Vec3[] = {  {&_swigt__p_Vec3, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_Vertex[] = {  {&_swigt__p_Vertex, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_VertexEdgeIterator[] = {  {&_swigt__p_VertexEdgeIterator, 0, 0, 0},{0, 0, 0, 0}};
@@ -13339,6 +14268,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_Edge,
   _swigc__p_Face,
   _swigc__p_FaceEdgeIterator,
+  _swigc__p_Jacobian,
   _swigc__p_Vec3,
   _swigc__p_Vertex,
   _swigc__p_VertexEdgeIterator,

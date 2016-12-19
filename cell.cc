@@ -23,7 +23,67 @@
  void Cell::setBeta(double inputBeta){
       this->beta = inputBeta;
  }
- 
+ /**
+  * Energy of cell calculator,
+  * bascially go over faces and sum up the energies
+  */
+ double Cell::getEnergy(){
+      //iterating the faces
+      CellFaceIterator faces(this);
+      Face * face;
+      double totalenergy = 0.;
+      while ((face = faces.next())!= 0){
+          if (face->getID()==1) continue;
+          totalenergy += face->getEnergy();
+      }
+      return totalenergy;
+ }
+
+ /**
+  * First term of Energy of cell calculator,
+  * bascially go over faces and sum up the energies
+  */
+ double Cell::getFirstTerm(){
+      //iterating the faces
+      CellFaceIterator faces(this);
+      Face * face;
+      double totalenergy = 0.;
+      while ((face = faces.next())!= 0){
+          if (face->getID()==1) continue;
+          totalenergy += face->getFirstTerm();
+      }
+      return totalenergy;
+ }
+ /**
+  * Second term of Energy of cell calculator,
+  * bascially go over faces and sum up the energies
+  */
+ double Cell::getSecondTerm(){
+      //iterating the faces
+      CellFaceIterator faces(this);
+      Face * face;
+      double totalenergy = 0.;
+      while ((face = faces.next())!= 0){
+          if (face->getID()==1) continue;
+          totalenergy += face->getSecondTerm();
+      }
+      return totalenergy;
+ }
+/**
+  * Third term of Energy of cell calculator,
+  * bascially go over faces and sum up the energies
+  */
+ double Cell::getThirdTerm(){
+      //iterating the faces
+      CellFaceIterator faces(this);
+      Face * face;
+      double totalenergy = 0.;
+      while ((face = faces.next())!= 0){
+          if (face->getID()==1) continue;
+          totalenergy += face->getThirdTerm();
+      }
+      return totalenergy;
+ }
 /* -- public class methods ------------------------------------------------- */
 
 Cell *Cell::make()
@@ -47,7 +107,13 @@ Cell *Cell::make()
   //adding vertex to left and right face
   left->addVertex(vertex);
   right->addVertex(vertex);
+  //initialising the thresholdMatrix
+  cell->thresholdMatrix[0][0] = 0.;
+  cell->thresholdMatrix[0][1] = 0.;
+  cell->thresholdMatrix[1][0] = 0.;
+  cell->thresholdMatrix[1][1] = 0.;
 //********************* end added features *****************************************//
+
   
   return cell;
 }

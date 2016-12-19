@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>//for math operations sqrt and others
-
+#include <algorithm>//for std::max
 #include "cell.hh"
 #include "edge.hh"
 #include "face.hh"
@@ -272,221 +272,9 @@ void Face::setProjectedCoordinate(){
     dotproduct = unitx[0]; // as second and third terms are multiplied by 0
     double theta = acos(dotproduct);//since both unitx and x unit vector have 1 magnitude, just dividing by 1
     this->setAngleOfTilt(theta);
-    /*
-    //setting the projected coordinates of all vertices in this face
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
-    // getting the mean center position of this face //
-    unsigned int faceid = this->getID();// first grabbing id of  current face
-    if (faceid == 1){//if faceid == 1 then this is external face, that doesnot need projection or calculation
-        return;
-    } 
-    FaceEdgeIterator faceEdges(this);//iterator to iterate through the vertex for outgoign edge
-    double nx,ny;//normal coordinate
-    double xCentroid(0), yCentroid(0), zCentroid(0); // coordinate of the cnetroid
-    // array of vertices
-    double xcood[6], ycood[6], zcood[6];// coordinate of the vertices of this face
-    double xTriCen[6], yTriCen[6], zTriCen[6], areaTri;// coordinate of center of triangluated triangles of face
-    //areaTri : area of triangles
-    double xmean(0), ymean(0), zmean(0);//mean center of the face
-    int counter;//counter to keep track of vertices
-    Edge *currentEdge;//pointer to keep track of a edge that is iterated 
-    Vertex *currentVertex; // vertex to store the dest() of currentEdge
-    counter = 0;
-    while ((currentEdge = faceEdges.next())!=0){//iterating the edges in the face
-          currentVertex = currentEdge->Dest();
-          // getting the vertices of the current face and storring it in array
-          xcood[counter] = currentVertex->getXcoordinate();
-          ycood[counter] = currentVertex->getYcoordinate();
-          zcood[counter] = currentVertex->getZcoordinate();
-          xmean += xcood[counter];
-          ymean += ycood[counter];
-          zmean += zcood[counter];
-          counter += 1;//increasing the counter value
-    }
-    //printf(" face id : %u \n", faceid);
-    //printf(" calculated means : X = %F ; Y = %F ; Z = %F \n", xmean, ymean,zmean );
-    //printf("counter %h \n",counter);
-    // divinding by the number of vertices to get the mean
-    xmean = (1./counter)*xmean;
-    ymean = (1./counter)*ymean;
-    zmean = (1./counter)*zmean;
-    //printf(">>>>new output start<<<< face id = %u \n", faceid);
-    //printf("calculated means : X = %F ; Y = %F ; Z = %F \n", xmean, ymean,zmean );
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
-    // triangulating the face and getting the center of each triangle
-    //vectors of the triangles 
-    double vector1[3],vector2[3];
-    double crossProductVector[3];//cross product of the vector
-    double crossProductMagnitude, totalarea(0);//cross product magintude
-    for (int counter = 0; counter<6; counter++){
-          // calculating center of the triangles
-          xTriCen[counter] = 1./3.*(xmean+xcood[counter]+xcood[(counter+1)%6]);
-          yTriCen[counter] = 1./3.*(ymean+ycood[counter]+ycood[(counter+1)%6]);
-          zTriCen[counter] = 1./3.*(zmean+zcood[counter]+zcood[(counter+1)%6]);
-          //printf("counter = %d; center of triangles : %F ; %F ; %F \n", counter, xTriCen[counter], yTriCen[counter], zTriCen[counter]);
-          //getting two vectors of this triangle
-          vector1[0] = xcood[counter]-xmean;
-          vector1[1] = ycood[counter]-ymean;
-          vector1[2] = zcood[counter]-zmean;
-          vector2[0] = xcood[(counter+1)%6]-xmean;
-          vector2[1] = ycood[(counter+1)%6]-ymean;
-          vector2[2] = zcood[(counter+1)%6]-zmean;
-          //cross product of the two vectors
-          crossProductVector[0] = vector1[1]*vector2[2] - vector1[2]*vector2[1];
-          crossProductVector[1] = vector1[2]*vector2[0] - vector1[0]*vector2[2];
-          crossProductVector[2] = vector1[0]*vector2[1] - vector1[1]*vector2[0];
-          //maginitude of cross product
-          crossProductMagnitude = sqrt(crossProductVector[0]*crossProductVector[0] + crossProductVector[1]*crossProductVector[1]+
-                                  crossProductVector[2]*crossProductVector[2]);
-          areaTri = 0.5*crossProductMagnitude;//area of this triangle
-          xCentroid += xTriCen[counter]*areaTri;//adding the weigthed centroid
-          yCentroid += yTriCen[counter]*areaTri;
-          zCentroid += zTriCen[counter]*areaTri; 
-          //adding total area
-          totalarea += areaTri;// calculating total area of triange
-      }
-    //now calculating weighted center
-    xCentroid = xCentroid/totalarea;
-    yCentroid = yCentroid/totalarea;
-    zCentroid = zCentroid/totalarea;
-    // setting the central coordinate of this face in terms of cartisian coordinate
-    this->xCentralised = xCentroid;
-    this->yCentralised = yCentroid;
-    this->zCentralised = zCentroid;
-    //printf("%s %u %F \n ", "calculating total area of Face :",faceid, totalarea);
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
-    //Calculating normal of the triangles of the shape and then calculating weighted normal
-    double normalTempX[6],normalTempY[6],normalTempZ[6];//vertices of normal of triangles
-    totalarea = 0;
-    double normalX(0), normalY(0), normalZ(0); // vertices of weighted normal X, Y, Z 
-    for (int counter = 0; counter<6; counter++){//triangulating the vertices with centroid of this face
-          //getting two vectors of this triangle
-          vector1[0] = xcood[counter]-xCentroid;
-          vector1[1] = ycood[counter]-yCentroid;
-          vector1[2] = zcood[counter]-zCentroid;
-          vector2[0] = xcood[(counter+1)%6]-xCentroid;
-          vector2[1] = ycood[(counter+1)%6]-yCentroid;             
-          vector2[2] = zcood[(counter+1)%6]-zCentroid;
-          //cross product of the two vectors
-          crossProductVector[0] = vector1[1]*vector2[2] - vector1[2]*vector2[1];
-          crossProductVector[1] = vector1[2]*vector2[0] - vector1[0]*vector2[2];
-          crossProductVector[2] = vector1[0]*vector2[1] - vector1[1]*vector2[0];
-          //maginitude of cross product
-          crossProductMagnitude = sqrt(crossProductVector[0]*crossProductVector[0] + crossProductVector[1]*crossProductVector[1]+
-                                  crossProductVector[2]*crossProductVector[2]);
-          areaTri = 0.5*crossProductMagnitude;//area of this triangle
-          //adding the weigthed centroid 
-          normalX += crossProductVector[0]*areaTri;
-          normalY += crossProductVector[1]*areaTri;
-          normalZ += crossProductVector[2]*areaTri; 
-          totalarea += areaTri;
-          //total area is same as before calculated for this face
-      }
-    printf("%s %u %F \n ", "calculating total area of Face :",faceid, totalarea);
-    //weighted normal to this face
-    normalX = normalX/totalarea;
-    normalY = normalY/totalarea;
-    normalZ = normalZ/totalarea;
-    //normalising the normal vector 
-    double normalMagnitude = sqrt(pow(normalX,2.0)+pow(normalY,2.0)+pow(normalZ,2.0));
-    normalX = normalX/normalMagnitude;
-    normalY = normalY/normalMagnitude;
-    normalZ = normalZ/normalMagnitude;
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
-    //now projecting the vertices on to the plane
-    FaceEdgeIterator faceEdges1(this);//iterator to iterate through the vertex for outgoign edge
-    double xvertex, yvertex, zvertex,vectorVertex[3],dotproduct;
-    //projected vertices: xproj is 6 element array, with element 1 giving x coordinate of vertex 1, same with yproj, zproj
-    double xproj[6], yproj[6], zproj[6];
-    int counterproj(0); //counter 
-    while((currentEdge = faceEdges1.next())!= 0){//runnign through the edges in the face again
-          currentVertex = currentEdge->Dest();// the current vertex, iterated
-          xvertex = currentVertex->getXcoordinate();
-          yvertex = currentVertex->getYcoordinate();
-          zvertex = currentVertex->getZcoordinate();
-          //getting the vector form the centroid
-          vectorVertex[0] = xvertex-xCentroid;
-          vectorVertex[1] = yvertex-yCentroid;
-          vectorVertex[2] = zvertex-zCentroid;
-          //dot product of vectorVertex and normal
-          dotproduct = vectorVertex[0]*normalX+vectorVertex[1]*normalY+vectorVertex[2]*normalZ;
-          //now calculating the projected vertices 
-          xproj[counterproj]  = xvertex - dotproduct*normalX;
-          yproj[counterproj]  = yvertex - dotproduct*normalY;
-          zproj[counterproj]  = zvertex - dotproduct*normalZ;
-          counterproj += 1;
-        }
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
-    //now need to get this projected 3d plane coordinates onto rotated 2d coordinate system
-    // getting the unit vector of 2d Plane
-    double unitx[3], unity[3];//new unit vector of x, y on the plane
-    //to get the unit vector in X direction, lets project X axis (1,0,0) on to the plane
-    //vector from (1,0,0)+(xCentroid,Ycentroid,Zcentroid) until xCentroid
-    vectorVertex[0] = 1.+xCentroid-xCentroid;
-    vectorVertex[1] = 0.+yCentroid-yCentroid;
-    vectorVertex[2] = 0.+zCentroid-zCentroid;
-    //dot product of vectorVertex and normal
-    dotproduct = vectorVertex[0]*normalX+vectorVertex[1]*normalY+vectorVertex[2]*normalZ;
-    //now calculating the projected vertices 
-    unitx[0]  = 1.0 +xCentroid- dotproduct*normalX;
-    unitx[1] = 0.+yCentroid - dotproduct*normalY;
-    unitx[2] = 0.+zCentroid - dotproduct*normalZ;
-    //getting the unitx = normalised[Projectedvertex1 - Origin]
-    unitx[0] = unitx[0]- xCentroid;
-    unitx[1] = unitx[1]- yCentroid;
-    unitx[2] = unitx[2]- zCentroid;
-    // normalising unitx
-    double normUnitx   = sqrt(pow(unitx[0],2)+pow(unitx[1],2)+pow(unitx[2],2));
-    unitx[0] = unitx[0]/normUnitx;
-    unitx[1] = unitx[1]/normUnitx;
-    unitx[2] = unitx[2]/normUnitx;
-    // now getting unity : it is the cross product of  normal and unitx to the plane. 
-    unity[0] = normalY*unitx[2]-normalZ*unitx[1];
-    unity[1] = normalZ*unitx[0]-normalX*unitx[2];
-    unity[2] = normalX*unitx[1]-normalY*unitx[0];
-    //normalising unity
-    double normUnity = sqrt(pow(unity[0],2)+pow(unity[1],2)+pow(unity[2],2));
-    unity[0] = unity[0]/normUnity;
-    unity[1] = unity[1]/normUnity;
-    unity[2] = unity[2]/normUnity;
-    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
-    // now projecting the 3d coordinates to the 2D coordinates and assinging the vertices
-    double xprojection, yprojection,zprojection;
-    FaceEdgeIterator faceEdges2(this);//iterator to iterate through the vertex for outgoign edge
-    while((currentEdge = faceEdges2.next())!= 0){//runnign through the edges in the face again
-          currentVertex = currentEdge->Dest();// the current vertex, iterated
-          xvertex = currentVertex->getXcoordinate();
-          yvertex = currentVertex->getYcoordinate();
-          zvertex = currentVertex->getZcoordinate();
-          //getting the vector form the centroid or new origin
-          // CENTRALISED PorjectedCoordinate
-          vectorVertex[0] = xvertex-xCentroid;
-          vectorVertex[1] = yvertex-yCentroid;
-          vectorVertex[2] = zvertex-zCentroid;
-          //now getting the new x, y coordinates, dot product of unit vector with the vectorVertex
-          xprojection = unitx[0]*vectorVertex[0]+unitx[1]*vectorVertex[1]+unitx[2]*vectorVertex[2];
-          yprojection = unity[0]*vectorVertex[0]+unity[1]*vectorVertex[1]+unity[2]*vectorVertex[2];
-          zprojection = normalX*vectorVertex[0]+normalY*vectorVertex[1]+normalZ*vectorVertex[2];
-          //now setting the projected coordinates in the vertex properties
-          currentVertex->insertProjectedXcoordinate(faceid,xprojection);
-          currentVertex->insertProjectedYcoordinate(faceid,yprojection);
-          currentVertex->insertProjectedZcoordinate(faceid,zprojection); 
-          //getting the vector form the real origin on new vertex
-          // NON CENTRALISED Projected Coordainte
-          vectorVertex[0] = xvertex;
-          vectorVertex[1] = yvertex;
-          vectorVertex[2] = zvertex;
-          //now getting the new x, y coordinates, dot product of unit vector with the vectorVertex
-          xprojection = unitx[0]*vectorVertex[0]+unitx[1]*vectorVertex[1]+unitx[2]*vectorVertex[2];
-          yprojection = unity[0]*vectorVertex[0]+unity[1]*vectorVertex[1]+unity[2]*vectorVertex[2];
-          zprojection = normalX*vectorVertex[0]+normalY*vectorVertex[1]+normalZ*vectorVertex[2];
-          //now setting the projected coordinates in the vertex properties
-          currentVertex->insertNonCentralisedProjectedXcoordinate(faceid,xprojection);
-          currentVertex->insertNonCentralisedProjectedYcoordinate(faceid,yprojection); 
-          currentVertex->insertNonCentralisedProjectedZcoordinate(faceid,zprojection); 
-        }
-        */
-  
+    // setting Mu values 
+    //setting Mu values 
+    this->setMu();
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
 void Face::setNormal(double * tempnormal){
@@ -622,7 +410,7 @@ void Face::setAreaOfFace(){
   }
   void Face::setMu(){
       //setting the values of TargetFormMatrix first, to calculate the value of Mu
-      this->setTargetFormMatrix();
+      //this->setTargetFormMatrix();
       unsigned int faceid = this->getID();//id of this face
       //iterating this face for the vertices
       FaceEdgeIterator faceIterator(this);
@@ -642,12 +430,18 @@ void Face::setAreaOfFace(){
             term12 += (1./24.)*ak*f2;
             term22 += (1./12.)*ak*f3;
       }
+      //setting the current form matrix
+      this->currentFormMatrix[0][0] = term11;
+      this->currentFormMatrix[0][1] = term12;
+      this->currentFormMatrix[1][0] = term12;
+      this->currentFormMatrix[1][1] = term22;
+      //setting mu
       this->mu1 = term11 - targetFormMatrix[0][0];
-      this->mu2 = term11 - targetFormMatrix[1][0];
+      this->mu2 = term12 - targetFormMatrix[1][0];
       this->mu3 = this->mu2;//as mu2 and mu3 are equal
-      this->mu4 = term11 - targetFormMatrix[1][1];
+      this->mu4 = term22 - targetFormMatrix[1][1];
   }
-  void Face::setTargetFormMatrix(){
+void Face::setTargetFormMatrix(){
     //*******************************************//
     // this should be edited to include time update
     // at each growth step
@@ -680,18 +474,132 @@ void Face::setAreaOfFace(){
     this->setTraceSquaredTargetFormMatrix();
     */
     //just setting a circle target form matrix
+  /*identity matrix
     this->targetFormMatrix[0][0] = 1.;
     this->targetFormMatrix[1][0] = 0.;
     this->targetFormMatrix[0][1] = 0.;
     this->targetFormMatrix[1][1] = 1.;
+    */
+    //setting this equal to the Mc
+    this->targetFormMatrix[0][0] = (this->getMu1() + 0. );
+    this->targetFormMatrix[1][0] = (this->getMu2() + 0. );
+    this->targetFormMatrix[0][1] = (this->getMu3() + 0. );
+    this->targetFormMatrix[1][1] = (this->getMu4() + 0. );
     this->setTraceSquaredTargetFormMatrix();
   }
+//***************************************************************************** //
+void Face::printTargetFormMatrix(){
+  std::cout<< "face id : "<< this->getID() << std::endl;
+  std::cout<< "TargetFormMatrix"<<std::endl;
+  std::cout<< this->targetFormMatrix[0][0] << "   "<<this->targetFormMatrix[0][1]<<std::endl;
+  std::cout<< this->targetFormMatrix[0][1] << "   "<<this->targetFormMatrix[1][1]<<std::endl;
+  std::cout<< "Current Form Matrix" <<std::endl;
+  std::cout<< this->currentFormMatrix[0][0] << "   "<<this->currentFormMatrix[0][1]<<std::endl;
+  std::cout<< this->currentFormMatrix[0][1] << "   "<<this->currentFormMatrix[1][1]<<std::endl;
+  std::cout<< "difference of targetFormMatrix and current form matrix" <<std::endl;
+  std::cout<< this->targetFormMatrix[0][0]-currentFormMatrix[0][0] << "   "<<this->targetFormMatrix[0][1]-currentFormMatrix[0][1]<<std::endl;
+  std::cout<< this->targetFormMatrix[0][1]-currentFormMatrix[0][1] << "   "<<this->targetFormMatrix[1][1]-currentFormMatrix[1][1]<<std::endl;
+}
+
+//***************************************************************************** //
+
+void Face::setTempTargetFormMatrix(){
+    this->targetFormMatrix[0][0] = (this->getMu1() + this->targetFormMatrix[0][0] );
+    this->targetFormMatrix[1][0] = (this->getMu2() + this->targetFormMatrix[1][0] );
+    this->targetFormMatrix[0][1] = (this->getMu3() + this->targetFormMatrix[0][1] );
+    this->targetFormMatrix[1][1] = (this->getMu4() + this->targetFormMatrix[1][1] );
+    this->setTraceSquaredTargetFormMatrix();
+}
+//***************************************************************************** //
  void Face::setTraceSquaredTargetFormMatrix(){
     double lambda1 = this->targetFormMatrix[0][0];
     double lambda2 = this->targetFormMatrix[1][1];
     double trace =  (lambda1+lambda2)*(lambda1+lambda2);
     this->traceSquaredTargetFormMatrix = trace;
  }
+ //************ ENERGY VALUE SETTER ******************** //
+ // First, Second, Third terms are set here ! //
+ void Face::setEnergyTerms(){
+  //getting need properties from this face
+  if (this->getID() != 1){
+      double area = this->getAreaOfFace();//area of face
+      Cell *cell = this->getCell();//getting the cell on which this face lies
+      double alpha = cell->getAlpha();
+      double beta = cell->getBeta();
+      double pressure = cell->getPressure();
+      unsigned int faceid = this->getID();//getting the face id
+      // ****************************************************************************************** //
+      //setting the target form matrix of this face
+      //this->setTargetFormMatrix();
+      double (*targetFormMatrix)[2] = this->targetFormMatrix;
+      //std::copy(&face->targetFormMatrix[0][0],&face->targetFormMatrix+2*2,&targetFormMatrix[0][0]);
+      double targetFormMatrixTraceSquared = this->getTraceSquaredTargetFormMatrix();
+      // ****************************************************************************************** //
+      //temporary variables to calculate centralised Coordinates
+      double firstterm(0), secondterm(0), thirdterm(0);// to store the values of each term of energy
+      // ****************************************************************************************** //
+      // calculating the Form matrix of this face
+        FaceEdgeIterator faceIterator(this);
+        Edge *currentEdge;//to keep the current edge
+        Vertex *currentVertex;//to keep the current vertex
+        double ak,f1,f2,f3;//to store the values of functions
+        double term11(0), term12(0), term22(0); // to store the values of matrix element
+        double currentFormMatrix[2][2];// current Form Matrix
+        //iterating through all the edges
+        while ((currentEdge = faceIterator.next())!=0){
+              currentVertex = currentEdge->Org();
+              ak = currentVertex->getAk(faceid);
+              f1 = currentVertex->getFunction1(faceid);
+              f2 = currentVertex->getFunction2(faceid);
+              f3 = currentVertex->getFunction3(faceid);
+              //calculating the terms of the form matrix
+              term11 += (1./12.)*ak*f1;
+              term12 += (1./24.)*ak*f2;
+              term22 += (1./12.)*ak*f3;
+        }
+        currentFormMatrix[0][0] = term11;
+        currentFormMatrix[0][1] = term12;
+        currentFormMatrix[1][0] = term12;
+        currentFormMatrix[1][1] = term22;
+        // ****************************************************************************************** //
+        //First Term
+        firstterm = (1./targetFormMatrixTraceSquared)*area*(pow(currentFormMatrix[0][0]-targetFormMatrix[0][0],2)+
+                  pow(currentFormMatrix[0][1]-targetFormMatrix[0][1],2)+
+                  pow(currentFormMatrix[1][0]-targetFormMatrix[1][0],2)+
+                  pow(currentFormMatrix[1][1]-targetFormMatrix[1][1],2));
+        //Second Term
+        secondterm = (1./targetFormMatrixTraceSquared)*area*(pow(currentFormMatrix[0][0]-targetFormMatrix[0][0]+
+                    currentFormMatrix[1][1]-targetFormMatrix[1][1],2));
+        //Third term
+        thirdterm = area;
+        // ****************************************************************************************** //
+        //calculating energy
+        double energytemp = alpha*firstterm + beta*secondterm - pressure*thirdterm;
+        //setting the energy values of face 
+        this->firstTerm = firstterm;
+        this->secondTerm = secondterm;
+        this->thirdTerm = thirdterm;
+        this->energy = energytemp;
+  }
+ }
+ // *************************************************************** //
+ void Face::grow(){
+  //currently using lockhardt model 
+  //thresholdmatrix : property of cell
+  Cell *thiscell = this->getCell();//getting the cell's threshold matrix
+  double kappa = thiscell->getKappa();
+  // performing the growth of targetFormMatrix
+  this->targetFormMatrix[0][0] = this->targetFormMatrix[0][0] + (thiscell->hstepsize)*kappa*
+                                    std::max(0.,(this->getMu1()-thiscell->thresholdMatrix[0][0]));
+  this->targetFormMatrix[1][0] = this->targetFormMatrix[1][0] + (thiscell->hstepsize)*kappa*
+                                    std::max(0.,(this->getMu3()-thiscell->thresholdMatrix[1][0]));
+  this->targetFormMatrix[0][1] = this->targetFormMatrix[0][1] + (thiscell->hstepsize)*kappa*
+                                    std::max(0.,(this->getMu2()-thiscell->thresholdMatrix[0][1]));
+  this->targetFormMatrix[1][1] = this->targetFormMatrix[1][1] + (thiscell->hstepsize)*kappa*
+                                    std::max(0.,(this->getMu4()-thiscell->thresholdMatrix[1][1]));
+
+ }
+
   //****************** end added features********************************//
 /* -- protected instance methods ------------------------------------------- */
 

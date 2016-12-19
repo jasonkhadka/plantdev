@@ -306,19 +306,54 @@ class Cell
   /**
    * Pressure of cells (faces) on this tissue
    */
-  double pressure(1.);
+  double pressure = 1.;
   /**
    * Alpha : coefficient of first term of Energy
    */
-   double alpha(1.);
+   double alpha = 1.;
    /**
    * Beta : coefficient of second term of Energy
    */
-   double beta(1.);
+   double beta = 1.;
+   /**
+    * Kappa : the growth rate of faces
+    */
+   double kappa = 1.;
+
+public:
+  /**
+   * Public members
+   */
+   /**
+    * Growth threshold for faces
+    * it is initialised with constructor in Cell
+    * */
+   double thresholdMatrix[2][2] = {{0.,0.},{0.,0.}};
+  /**
+    * time step of calculation
+    */
+   double hstepsize = 1.;
+   /**
+    * Energy of Cell calculator
+    */
+   double getEnergy();
+   /**
+    * First term of energy for this  cell
+    */
+   double getFirstTerm();
+   /**
+    * Second term of energy for this  cell
+    */
+   double getSecondTerm();
+   /**
+    * Third term of energy for this  cell
+    */
+   double getThirdTerm();
    
   // **************************************************************** //
   // Public instance method //
 public:
+
   /**
    * setting the pressure acting on the cells of this tissue
    * in the faces in quadedge 
@@ -344,6 +379,14 @@ public:
    * function to get the beta of the cell
    */
   double getBeta();
+  /**
+   * setKappa()
+   */
+  void setKappa(double);
+  /**
+   * getKappa()
+   */
+  double getKappa();
   
   /* -- friend classes ----------------------------------------------------- */
 
@@ -354,6 +397,12 @@ public:
 };
 
 /* -- inline instance methods ---------------------------------------------- */
+inline double Cell::getKappa(){
+  return kappa;
+}
+inline void Cell::setKappa(double newkappa){
+  this->kappa = newkappa;
+}
 inline double Cell::getPressure()
 {
   return pressure;

@@ -10,9 +10,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>//for math operations sqrt and others
-
+//forward declaring the classes
+class Cell;
+class Edge;
+class Vector;
+class Face;
 /**----------------------------------------------------------------------------------------------
- * Jacobian library : 
+ * Jacobian Class : 
  * This calculates Energy and Jacobian of a given cell (tissue)
  * ----------------------------------------------------------------------------------------------
  */
@@ -22,26 +26,34 @@
  * Input : cell that contains all the information of faces and vertex of tissue
  * Return : a double that is the total energy of the cell (tissue)
  */
-double energyOfCell(Cell *cell);
-/**
+class Jacobian
+{
+public: 
+	// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+	// %%%%%%%%%%%%%%%%%% MAIN FUNCTIONS %%%%%%%%%%%%%%%%%%%% //
+	// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+	double energyOfCell(Cell *cell);
+	/**
  * Task : Calculate the energy of the given face
  * Input : pointer to the face
  * Result : a double that is the energy of this face
  */
-double energyOfFace(Face *face);
+	double energyOfFace(Face *face);
 /**
  * Task : total jacobian of the tissue
  * @details [long description]
  * 
  * @param cell [description]
  */
-double jacobianOfCell(Cell *cell);
+	double jacobianOfCell(Cell *cell);
 /**
  * Numerical Derivative Calculation of setProjectedCoordinate Fucntion
  * Calcualted at for each vertex
  * 
  */
-void setProjectedCoordinateDerivative(Face *face);
+	void setProjectedCoordinateDerivative(Face *face);
+};
 
 
-#endif /* #ifndef edgeINCLUDED */
+#endif 
+/* #ifndef edgeINCLUDED */
