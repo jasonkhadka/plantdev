@@ -487,6 +487,7 @@ void Face::setTargetFormMatrix(){
     this->targetFormMatrix[1][1] = (this->getMu4() + 0. );
     this->setTraceSquaredTargetFormMatrix();
   }
+  // This is master // 
 //***************************************************************************** //
 void Face::printTargetFormMatrix(){
   std::cout<< "face id : "<< this->getID() << std::endl;
@@ -500,7 +501,7 @@ void Face::printTargetFormMatrix(){
   std::cout<< this->targetFormMatrix[0][0]-currentFormMatrix[0][0] << "   "<<this->targetFormMatrix[0][1]-currentFormMatrix[0][1]<<std::endl;
   std::cout<< this->targetFormMatrix[0][1]-currentFormMatrix[0][1] << "   "<<this->targetFormMatrix[1][1]-currentFormMatrix[1][1]<<std::endl;
 }
-
+/*
 //***************************************************************************** //
 
 void Face::setTempTargetFormMatrix(){
@@ -508,6 +509,18 @@ void Face::setTempTargetFormMatrix(){
     this->targetFormMatrix[1][0] = (this->getMu2() + this->targetFormMatrix[1][0] );
     this->targetFormMatrix[0][1] = (this->getMu3() + this->targetFormMatrix[0][1] );
     this->targetFormMatrix[1][1] = (this->getMu4() + this->targetFormMatrix[1][1] );
+    this->setTraceSquaredTargetFormMatrix();
+}
+*/
+
+
+//***************************************************************************** //
+
+void Face::setTempTargetFormMatrix(){
+    this->targetFormMatrix[0][0] = 1.;
+    this->targetFormMatrix[1][0] = 0.;
+    this->targetFormMatrix[0][1] = 0.;
+    this->targetFormMatrix[1][1] = 1.;
     this->setTraceSquaredTargetFormMatrix();
 }
 //***************************************************************************** //
