@@ -517,10 +517,10 @@ void Face::setTempTargetFormMatrix(){
 //***************************************************************************** //
 
 void Face::setTempTargetFormMatrix(){
-    this->targetFormMatrix[0][0] = 1.;
+    this->targetFormMatrix[0][0] = 2.;
     this->targetFormMatrix[1][0] = 0.;
     this->targetFormMatrix[0][1] = 0.;
-    this->targetFormMatrix[1][1] = 1.;
+    this->targetFormMatrix[1][1] = 2.;
     this->setTraceSquaredTargetFormMatrix();
 }
 //***************************************************************************** //
