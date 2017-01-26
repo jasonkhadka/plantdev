@@ -4,7 +4,6 @@
 %include list.i
 %include face.i
 %include edge.i
-%include obj.i
 %include vertex.i
 %include jacobian.i
 %include derivative.i
