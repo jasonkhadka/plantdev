@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/~finkr/svn/physikda/!svn/ver/49/code/sim/quad-edge/svl-1.5/include/svl
+END
+Transform.h
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/~finkr/svn/physikda/!svn/ver/49/code/sim/quad-edge/svl-1.5/include/svl/Transform.h
+END
+Constants.h
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/~finkr/svn/physikda/!svn/ver/4/code/sim/quad-edge/svl-1.5/include/svl/Constants.h
+END
+Vec.h
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/~finkr/svn/physikda/!svn/ver/49/code/sim/quad-edge/svl-1.5/include/svl/Vec.h
+END
+Vec2.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/~finkr/svn/physikda/!svn/ver/49/code/sim/quad-edge/svl-1.5/include/svl/Vec2.h
+END
+Utils.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/~finkr/svn/physikda/!svn/ver/4/code/sim/quad-edge/svl-1.5/include/svl/Utils.h
+END
+Vec3.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/~finkr/svn/physikda/!svn/ver/49/code/sim/quad-edge/svl-1.5/include/svl/Vec3.h
+END
+Mat.h
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/~finkr/svn/physikda/!svn/ver/49/code/sim/quad-edge/svl-1.5/include/svl/Mat.h
+END
+Vec4.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/~finkr/svn/physikda/!svn/ver/49/code/sim/quad-edge/svl-1.5/include/svl/Vec4.h
+END
+Mat2.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/~finkr/svn/physikda/!svn/ver/49/code/sim/quad-edge/svl-1.5/include/svl/Mat2.h
+END
+Basics.h
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/~finkr/svn/physikda/!svn/ver/49/code/sim/quad-edge/svl-1.5/include/svl/Basics.h
+END
+Mat3.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/~finkr/svn/physikda/!svn/ver/49/code/sim/quad-edge/svl-1.5/include/svl/Mat3.h
+END
+SVL.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/~finkr/svn/physikda/!svn/ver/4/code/sim/quad-edge/svl-1.5/include/svl/SVL.h
+END
+Mat4.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/~finkr/svn/physikda/!svn/ver/49/code/sim/quad-edge/svl-1.5/include/svl/Mat4.h
+END
+SVLgl.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/~finkr/svn/physikda/!svn/ver/4/code/sim/quad-edge/svl-1.5/include/svl/SVLgl.h
+END
