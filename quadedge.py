@@ -395,8 +395,11 @@ class Face(_object):
     def setTargetFormMatrix(self):
         return _quadedge.Face_setTargetFormMatrix(self)
 
-    def setTempTargetFormMatrix(self):
-        return _quadedge.Face_setTempTargetFormMatrix(self)
+    def setTempTargetFormMatrixIdentity(self):
+        return _quadedge.Face_setTempTargetFormMatrixIdentity(self)
+
+    def setTempTargetFormMatrixCurrent(self):
+        return _quadedge.Face_setTempTargetFormMatrixCurrent(self)
 
     def setTraceSquaredTargetFormMatrix(self):
         return _quadedge.Face_setTraceSquaredTargetFormMatrix(self)
@@ -574,18 +577,6 @@ def Edge_splice(a, b):
     return _quadedge.Edge_splice(a, b)
 Edge_splice = _quadedge.Edge_splice
 
-
-def objReadCell(name):
-    return _quadedge.objReadCell(name)
-objReadCell = _quadedge.objReadCell
-
-def objWriteCell(cell, name):
-    return _quadedge.objWriteCell(cell, name)
-objWriteCell = _quadedge.objWriteCell
-
-def objCloneCell(cell):
-    return _quadedge.objCloneCell(cell)
-objCloneCell = _quadedge.objCloneCell
 class Vertex(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Vertex, name, value)

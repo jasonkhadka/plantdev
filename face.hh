@@ -383,9 +383,14 @@ class Face
    */
   void setTargetFormMatrix();
   /**
+   * set the target form matrix to be near to the Identity form
+   */
+  void setTempTargetFormMatrixIdentity();
+  /**
    * set the target form matrix to be near to the current form
    */
-  void setTempTargetFormMatrix();
+  void setTempTargetFormMatrixCurrent();
+
   /**function to set the trace of targetformmatrix
   */
   void setTraceSquaredTargetFormMatrix();

@@ -167,7 +167,7 @@ void Face::setProjectedCoordinate(){
     // this totalarea is not the exact area of face, 
     //so instead calling setareaofface fucntion
     // however, this area is the total area for derivative calculation
-    this->areaOfFace = totalarea;
+    //this->areaOfFace = totalarea;
     //this->setAreaOfFace(); // to set the area
     {//right now normalx,y,z is un-normalised so it is normalTilde
       //setting normalTilde
@@ -214,9 +214,9 @@ void Face::setProjectedCoordinate(){
     unitx[1] = unitx[1]/normUnitx;
     unitx[2] = unitx[2]/normUnitx;
     // now getting unity : it is the cross product of  normal and unitx to the plane. 
-    unity[0] = unitx[1]*normalZ-unitx[2]*normalY;
-    unity[1] = unitx[2]*normalX-unitx[0]*normalZ;
-    unity[2] = unitx[0]*normalY-unitx[1]*normalX;
+    unity[0] = normalY*unitx[2]-normalZ*unitx[1];
+    unity[1] = normalZ*unitx[0]-normalX*unitx[2];
+    unity[2] = normalX*unitx[1]-normalY*unitx[0];
     //normalising unity
     double normUnity = sqrt(pow(unity[0],2)+pow(unity[1],2)+pow(unity[2],2));
     unity[0] = unity[0]/normUnity;
@@ -272,6 +272,8 @@ void Face::setProjectedCoordinate(){
     dotproduct = unitx[0]; // as second and third terms are multiplied by 0
     double theta = acos(dotproduct);//since both unitx and x unit vector have 1 magnitude, just dividing by 1
     this->setAngleOfTilt(theta);
+    //setting areas for the face
+    this->setAreaOfFace();
     // setting Mu values 
     //setting Mu values 
     this->setMu();
@@ -361,6 +363,7 @@ void Face::setAreaOfFace(){
 	//looping through all the edges in the face until exhausted
 	while ((newedge = edges.next())!=0){
     vertexOrg = newedge->Org();
+    vertexOrg->setparameters();//setting parameters required to calculate area
 		areasum += vertexOrg->getAk(faceid);//summing up all the Ak values for this face
 	}
 	this->areaOfFace = 0.5*areasum;//storing the area of the face in areaOfFace variable
@@ -487,6 +490,7 @@ void Face::setTargetFormMatrix(){
     this->targetFormMatrix[1][1] = (this->getMu4() + 0. );
     this->setTraceSquaredTargetFormMatrix();
   }
+  // This is master // 
 //***************************************************************************** //
 void Face::printTargetFormMatrix(){
   std::cout<< "face id : "<< this->getID() << std::endl;
@@ -503,11 +507,22 @@ void Face::printTargetFormMatrix(){
 
 //***************************************************************************** //
 
-void Face::setTempTargetFormMatrix(){
+void Face::setTempTargetFormMatrixCurrent(){
     this->targetFormMatrix[0][0] = (this->getMu1() + this->targetFormMatrix[0][0] );
     this->targetFormMatrix[1][0] = (this->getMu2() + this->targetFormMatrix[1][0] );
     this->targetFormMatrix[0][1] = (this->getMu3() + this->targetFormMatrix[0][1] );
     this->targetFormMatrix[1][1] = (this->getMu4() + this->targetFormMatrix[1][1] );
+    this->setTraceSquaredTargetFormMatrix();
+}
+
+
+//***************************************************************************** //
+
+void Face::setTempTargetFormMatrixIdentity(){
+    this->targetFormMatrix[0][0] = 1.;
+    this->targetFormMatrix[1][0] = 0.;
+    this->targetFormMatrix[0][1] = 0.;
+    this->targetFormMatrix[1][1] = 1.;
     this->setTraceSquaredTargetFormMatrix();
 }
 //***************************************************************************** //

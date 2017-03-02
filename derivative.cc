@@ -50,8 +50,23 @@ double CentralisedDerivative::energyXDerivative(Cell * cell, Vertex * first){
 		}
 	return totalenergyxderivative;
 }
-
 */
+double energyXDerivative(Cell * cell, Vertex * vertex){
+	// iterating through the edges of the vertex
+	VertexEdgeIterator vertedgeiterator(vertex);
+	Edge * currentEdge;
+	Face * currentFace;
+	Edge * tempEdge;
+	Vertex * tempVertex;
+	while((currentEdge = vertedgeiterator.next())!=0){
+			currentFace = currentEdge->Left(); // grabing left face of the edge
+			FaceEdgeIterator faceedgeiterator(currentFace);
+			while((tempEdge = faceedgeiterator.next())!= 0){
+					tempVertex = tempEdge->Dest();
+					
+			}
+	}
+}
 // --------------------------------------------------------------------------------------------------- //
 double CentralisedDerivative::xtildeXDerivative(Vertex *first, Vertex *second, Face *face){
 	// gathering terms //
