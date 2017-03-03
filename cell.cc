@@ -4,7 +4,7 @@
 
 #include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> //has abs and others
 
 #include "cell.hh"
 #include "face.hh"
@@ -36,9 +36,48 @@
           if (face->getID()==1) continue;
           totalenergy += face->getEnergy();
       }
-      return totalenergy;
+      totalenergy -= this->getPressure()*this->getVolume();
+      return totalenergy ;
  }
-
+//******************************************************************************* //
+ /**
+  * caculating the volume
+  */
+ double Cell::getVolume(){
+    //iterating the faces
+  CellFaceIterator faces(this);
+  Face * face;
+  Edge * edge;
+  Vertex * first;
+  Vertex * second;
+  double tempVolume = 0.;
+  double productVector[3];
+  while ((face= faces.next()) != 0){
+    if (face->getID()==1) continue;
+    //getting the centroid of face
+    double centroid[3] = {face->getXCentralised(),face->getYCentralised(),face->getZCentralised()};
+    // iterating the faces
+    FaceEdgeIterator edges(face);
+    while ((edge = edges.next()) != 0){
+          first = edge->Org();
+          second = edge->Dest();
+          double firstCoordinate[3] = {first->getXcoordinate(),first->getYcoordinate(),first->getZcoordinate()};
+          double secondCoordinate[3] = {second->getXcoordinate(),second->getYcoordinate(),second->getZcoordinate()};
+          //calculating cross product of two vectors first and second
+          productVector[0] = firstCoordinate[1]*secondCoordinate[2] - firstCoordinate[2]*secondCoordinate[1];//also definition of alpha
+          productVector[1] = firstCoordinate[2]*secondCoordinate[0] - firstCoordinate[0]*secondCoordinate[2];//also definition of beta
+          productVector[2] = firstCoordinate[0]*secondCoordinate[1] - firstCoordinate[1]*secondCoordinate[0];//also definition of gamma
+          //calculating dot product and resulting volumne
+          //std::cout<< " centroid : "<< centroid[0] <<centroid[1]<<centroid[2]<<std::endl;
+          tempVolume += (1./6.)*abs(productVector[0]*centroid[0]+
+                                    productVector[1]*centroid[1]+
+                                    productVector[2]*centroid[2]);
+        }
+        //std::cout<<"Volume " << tempVolume<<std::endl;
+  }
+  return tempVolume;
+ }
+//******************************************************************************* //
  /**
   * First term of Energy of cell calculator,
   * bascially go over faces and sum up the energies

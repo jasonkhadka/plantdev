@@ -463,7 +463,7 @@ class Face
       */
      double getEnergy();
       /**
-      * Set the values of Energy terms :- First, Second, Third term value of Energy
+      * Set the values of Energy terms :- First, Second, Third term value of Energy 
       */
      void setEnergyTerms();
   // **********************************************************************// 

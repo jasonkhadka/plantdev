@@ -150,6 +150,9 @@ class Cell(_object):
 
     def makeFaceID(self):
         return _quadedge.Cell_makeFaceID(self)
+
+    def getVolume(self):
+        return _quadedge.Cell_getVolume(self)
     __swig_setmethods__["thresholdMatrix"] = _quadedge.Cell_thresholdMatrix_set
     __swig_getmethods__["thresholdMatrix"] = _quadedge.Cell_thresholdMatrix_get
     if _newclass:

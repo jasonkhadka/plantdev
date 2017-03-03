@@ -192,6 +192,10 @@ class Cell
    *    will be positive
    */
   unsigned int makeFaceID();
+  /**
+   * calculate the volume of the structure
+   */
+  double getVolume();
 
   /* -- protected instance methods ----------------------------------------- */
 
@@ -334,7 +338,7 @@ public:
     */
    double hstepsize = 1.;
    /**
-    * Energy of Cell calculator
+    * Energy of Cell calculator : ADDED - P*V in the energy
     */
    double getEnergy();
    /**
