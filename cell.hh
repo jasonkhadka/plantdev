@@ -196,6 +196,11 @@ class Cell
    * calculate the volume of the structure
    */
   double getVolume();
+  /**
+   * calculate the volume of the structure
+   * without Centroid
+   */
+  double getVolumeWOCentroid();
 
   /* -- protected instance methods ----------------------------------------- */
 

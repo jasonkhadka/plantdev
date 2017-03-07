@@ -41,32 +41,74 @@
  }
 //******************************************************************************* //
  /**
-  * caculating the volume
+  * caculating the volume without Centroid
   */
- double Cell::getVolume(){
+ double Cell::getVolumeWOCentroid(){
     //iterating the faces
   CellFaceIterator faces(this);
   Face * face;
   Edge * edge;
   Vertex * first;
   Vertex * second;
+  Vertex * third;
   double tempVolume = 0.;
   double productVector[3];
   while ((face= faces.next()) != 0){
     if (face->getID()==1) continue;
     //getting the centroid of face
-    double centroid[3] = {face->getXCentralised(),face->getYCentralised(),face->getZCentralised()};
-    // iterating the faces
     FaceEdgeIterator edges(face);
+    edge = edges.next();
+    first = edge->Org();//grabbing the first vertex in the face
+    double firstCoordinate[3] = {first->getXcoordinate(),first->getYcoordinate(),first->getZcoordinate()};
+    //double centroid[3] = {face->getXCentralised(),face->getYCentralised(),face->getZCentralised()};
+    // iterating the faces
     while ((edge = edges.next()) != 0){
-          first = edge->Org();
-          second = edge->Dest();
-          double firstCoordinate[3] = {first->getXcoordinate(),first->getYcoordinate(),first->getZcoordinate()};
+          second = edge->Org();
+          third = edge->Dest();
           double secondCoordinate[3] = {second->getXcoordinate(),second->getYcoordinate(),second->getZcoordinate()};
+          double thirdCoordinate[3] = {third->getXcoordinate(),third->getYcoordinate(),third->getZcoordinate()};
           //calculating cross product of two vectors first and second
-          productVector[0] = firstCoordinate[1]*secondCoordinate[2] - firstCoordinate[2]*secondCoordinate[1];//also definition of alpha
-          productVector[1] = firstCoordinate[2]*secondCoordinate[0] - firstCoordinate[0]*secondCoordinate[2];//also definition of beta
-          productVector[2] = firstCoordinate[0]*secondCoordinate[1] - firstCoordinate[1]*secondCoordinate[0];//also definition of gamma
+          productVector[0] = secondCoordinate[1]*thirdCoordinate[2] - secondCoordinate[2]*thirdCoordinate[1];//also definition of alpha
+          productVector[1] = secondCoordinate[2]*thirdCoordinate[0] - secondCoordinate[0]*thirdCoordinate[2];//also definition of beta
+          productVector[2] = secondCoordinate[0]*thirdCoordinate[1] - secondCoordinate[1]*thirdCoordinate[0];//also definition of gamma
+          //calculating dot product and resulting volumne
+          //std::cout<< " centroid : "<< centroid[0] <<centroid[1]<<centroid[2]<<std::endl;
+          tempVolume += (1./6.)*abs(productVector[0]*firstCoordinate[0]+
+                                    productVector[1]*firstCoordinate[1]+
+                                    productVector[2]*firstCoordinate[2]);
+        }
+        //std::cout<<"Volume " << tempVolume<<std::endl;
+  }
+  return tempVolume;
+ }
+  /**
+  * caculating the volume
+  */
+  double Cell::getVolume(){
+  //iterating the faces
+  CellFaceIterator faces(this);
+  Face * face;
+  Edge * edge;
+  Vertex * second;
+  Vertex * third;
+  double tempVolume = 0.;
+  double productVector[3];
+  while ((face= faces.next()) != 0){
+    if (face->getID()==1) continue;
+    //getting the centroid of face
+    FaceEdgeIterator edges(face);
+    double centroid[3] = {face->getXCentralised(),face->getYCentralised(),face->getZCentralised()};
+    //double centroid[3] = {face->getXCentralised(),face->getYCentralised(),face->getZCentralised()};
+    // iterating the faces
+    while ((edge = edges.next()) != 0){
+          second = edge->Org();
+          third = edge->Dest();
+          double secondCoordinate[3] = {second->getNonCentralisedProjectedXcoordinate(face->getID()),second->getNonCentralisedProjectedYcoordinate(face->getID()),second->getNonCentralisedProjectedZcoordinate(face->getID())};
+          double thirdCoordinate[3] = {third->getNonCentralisedProjectedXcoordinate(face->getID()),third->getNonCentralisedProjectedYcoordinate(face->getID()),third->getNonCentralisedProjectedZcoordinate(face->getID())};
+          //calculating cross product of two vectors first and second
+          productVector[0] = secondCoordinate[1]*thirdCoordinate[2] - secondCoordinate[2]*thirdCoordinate[1];//also definition of alpha
+          productVector[1] = secondCoordinate[2]*thirdCoordinate[0] - secondCoordinate[0]*thirdCoordinate[2];//also definition of beta
+          productVector[2] = secondCoordinate[0]*thirdCoordinate[1] - secondCoordinate[1]*thirdCoordinate[0];//also definition of gamma
           //calculating dot product and resulting volumne
           //std::cout<< " centroid : "<< centroid[0] <<centroid[1]<<centroid[2]<<std::endl;
           tempVolume += (1./6.)*abs(productVector[0]*centroid[0]+

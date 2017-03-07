@@ -225,6 +225,7 @@ void Face::setProjectedCoordinate(){
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
     // now projecting the 3d coordinates to the 2D coordinates and assinging the vertices
     double xprojection, yprojection, zprojection;
+    double gamma1, gamma2, gamma3;
     FaceEdgeIterator faceEdges2(this);//iterator to iterate through the vertex for outgoign edge
     while((currentEdge = faceEdges2.next())!= 0){//runnign through the edges in the face again
           currentVertex = currentEdge->Dest();// the current vertex, iterated
@@ -245,18 +246,20 @@ void Face::setProjectedCoordinate(){
           currentVertex->insertProjectedYcoordinate(faceid,yprojection); 
           currentVertex->insertProjectedZcoordinate(faceid,zprojection); 
           //getting the vector form the real origin on new vertex
-          // NON CENTRALISED Projected Coordainte
-          vectorVertex[0] = xvertex;
-          vectorVertex[1] = yvertex;
-          vectorVertex[2] = zvertex;
+          // NON CENTRALISED Projected Coordainte or coordinates in terms of CARTESIAN SYSTEM
+          vectorVertex[0] = xprojection;
+          vectorVertex[1] = yprojection;
+          //vectorVertex[2] = zprojection; //taking zproj means fully changing 3D shape to cartesian system
+          vectorVertex[2] = 0.; //taking zproj = 0. means changing only x-y projection to cartesian system
           //now getting the new x, y coordinates, dot product of unit vector with the vectorVertex
-          xprojection = unitx[0]*vectorVertex[0]+unitx[1]*vectorVertex[1]+unitx[2]*vectorVertex[2];
-          yprojection = unity[0]*vectorVertex[0]+unity[1]*vectorVertex[1]+unity[2]*vectorVertex[2];
-          zprojection = normalX*vectorVertex[0]+normalY*vectorVertex[1]+normalZ*vectorVertex[2];
+          //This converts fully the projected coordinates to cartesian
+          gamma1 = unitx[0]*vectorVertex[0]+unity[0]*vectorVertex[1]+unitz[0]*vectorVertex[2] + xCentroid;
+          gamma2 = unitx[1]*vectorVertex[0]+unity[1]*vectorVertex[1]+unitz[1]*vectorVertex[2] + yCentroid;
+          gamma3 = unitx[2]*vectorVertex[0]+unity[2]*vectorVertex[1]+unitz[2]*vectorVertex[2] + zCentroid;
           //now setting the projected coordinates in the vertex properties
-          currentVertex->insertNonCentralisedProjectedXcoordinate(faceid,xprojection);
-          currentVertex->insertNonCentralisedProjectedYcoordinate(faceid,yprojection); 
-          currentVertex->insertNonCentralisedProjectedZcoordinate(faceid,zprojection); 
+          currentVertex->insertNonCentralisedProjectedXcoordinate(faceid,gamma1);
+          currentVertex->insertNonCentralisedProjectedYcoordinate(faceid,gamma2); 
+          currentVertex->insertNonCentralisedProjectedZcoordinate(faceid,gamma3); 
         }
     //saving unit vectors
    {
@@ -589,7 +592,9 @@ void Face::setTempTargetFormMatrixIdentity(){
         thirdterm = area;
         // ****************************************************************************************** //
         //calculating energy
-        double energytemp = alpha*firstterm + beta*secondterm - pressure*thirdterm;
+        //double energytemp = alpha*firstterm + beta*secondterm - pressure*thirdterm;
+        //removing the area term
+        double energytemp = alpha*firstterm + beta*secondterm;
         //setting the energy values of face 
         this->firstTerm = firstterm;
         this->secondTerm = secondterm;

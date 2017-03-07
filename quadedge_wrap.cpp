@@ -3800,6 +3800,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_getVolumeWOCentroid(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getVolumeWOCentroid",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getVolumeWOCentroid" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getVolumeWOCentroid();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_thresholdMatrix_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -13754,6 +13776,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_removeFace", _wrap_Cell_removeFace, METH_VARARGS, NULL},
 	 { (char *)"Cell_makeFaceID", _wrap_Cell_makeFaceID, METH_VARARGS, NULL},
 	 { (char *)"Cell_getVolume", _wrap_Cell_getVolume, METH_VARARGS, NULL},
+	 { (char *)"Cell_getVolumeWOCentroid", _wrap_Cell_getVolumeWOCentroid, METH_VARARGS, NULL},
 	 { (char *)"Cell_thresholdMatrix_set", _wrap_Cell_thresholdMatrix_set, METH_VARARGS, NULL},
 	 { (char *)"Cell_thresholdMatrix_get", _wrap_Cell_thresholdMatrix_get, METH_VARARGS, NULL},
 	 { (char *)"Cell_hstepsize_set", _wrap_Cell_hstepsize_set, METH_VARARGS, NULL},

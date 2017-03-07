@@ -153,6 +153,9 @@ class Cell(_object):
 
     def getVolume(self):
         return _quadedge.Cell_getVolume(self)
+
+    def getVolumeWOCentroid(self):
+        return _quadedge.Cell_getVolumeWOCentroid(self)
     __swig_setmethods__["thresholdMatrix"] = _quadedge.Cell_thresholdMatrix_set
     __swig_getmethods__["thresholdMatrix"] = _quadedge.Cell_thresholdMatrix_get
     if _newclass:
