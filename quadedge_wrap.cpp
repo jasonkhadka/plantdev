@@ -3800,7 +3800,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Cell_getVolumeWOCentroid(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_Cell_getCartesianVolumeWOCentroid(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
   void *argp1 = 0 ;
@@ -3808,13 +3808,35 @@ SWIGINTERN PyObject *_wrap_Cell_getVolumeWOCentroid(PyObject *SWIGUNUSEDPARM(sel
   PyObject * obj0 = 0 ;
   double result;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getVolumeWOCentroid",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getCartesianVolumeWOCentroid",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getVolumeWOCentroid" "', argument " "1"" of type '" "Cell *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getCartesianVolumeWOCentroid" "', argument " "1"" of type '" "Cell *""'"); 
   }
   arg1 = reinterpret_cast< Cell * >(argp1);
-  result = (double)(arg1)->getVolumeWOCentroid();
+  result = (double)(arg1)->getCartesianVolumeWOCentroid();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getCartesianVolume(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getCartesianVolume",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getCartesianVolume" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getCartesianVolume();
   resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
@@ -3955,6 +3977,50 @@ SWIGINTERN PyObject *_wrap_Cell_getEnergy(PyObject *SWIGUNUSEDPARM(self), PyObje
   }
   arg1 = reinterpret_cast< Cell * >(argp1);
   result = (double)(arg1)->getEnergy();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getEnergyCartesianVolumeWOCentroid(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getEnergyCartesianVolumeWOCentroid",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getEnergyCartesianVolumeWOCentroid" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getEnergyCartesianVolumeWOCentroid();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getEnergyCartesianVolume(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getEnergyCartesianVolume",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getEnergyCartesianVolume" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getEnergyCartesianVolume();
   resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
@@ -4125,6 +4191,58 @@ SWIGINTERN PyObject *_wrap_Cell_getAlpha(PyObject *SWIGUNUSEDPARM(self), PyObjec
   }
   arg1 = reinterpret_cast< Cell * >(argp1);
   result = (double)(arg1)->getAlpha();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_setGamma(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Cell_setGamma",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setGamma" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Cell_setGamma" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setGamma(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getGamma(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getGamma",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getGamma" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getGamma();
   resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
@@ -5148,6 +5266,58 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_targetArea_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_targetArea_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_targetArea_set" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Face_targetArea_set" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  if (arg1) (arg1)->targetArea = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_targetArea_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_targetArea_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_targetArea_get" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double) ((arg1)->targetArea);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_currentFormMatrix_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -5824,6 +5994,58 @@ SWIGINTERN PyObject *_wrap_Face_setProjectedCoordinate(PyObject *SWIGUNUSEDPARM(
   }
   arg1 = reinterpret_cast< Face * >(argp1);
   (arg1)->setProjectedCoordinate();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getTargetArea(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getTargetArea",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getTargetArea" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getTargetArea();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setTargetArea(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_setTargetArea",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setTargetArea" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Face_setTargetArea" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setTargetArea(arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -13776,12 +13998,15 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_removeFace", _wrap_Cell_removeFace, METH_VARARGS, NULL},
 	 { (char *)"Cell_makeFaceID", _wrap_Cell_makeFaceID, METH_VARARGS, NULL},
 	 { (char *)"Cell_getVolume", _wrap_Cell_getVolume, METH_VARARGS, NULL},
-	 { (char *)"Cell_getVolumeWOCentroid", _wrap_Cell_getVolumeWOCentroid, METH_VARARGS, NULL},
+	 { (char *)"Cell_getCartesianVolumeWOCentroid", _wrap_Cell_getCartesianVolumeWOCentroid, METH_VARARGS, NULL},
+	 { (char *)"Cell_getCartesianVolume", _wrap_Cell_getCartesianVolume, METH_VARARGS, NULL},
 	 { (char *)"Cell_thresholdMatrix_set", _wrap_Cell_thresholdMatrix_set, METH_VARARGS, NULL},
 	 { (char *)"Cell_thresholdMatrix_get", _wrap_Cell_thresholdMatrix_get, METH_VARARGS, NULL},
 	 { (char *)"Cell_hstepsize_set", _wrap_Cell_hstepsize_set, METH_VARARGS, NULL},
 	 { (char *)"Cell_hstepsize_get", _wrap_Cell_hstepsize_get, METH_VARARGS, NULL},
 	 { (char *)"Cell_getEnergy", _wrap_Cell_getEnergy, METH_VARARGS, NULL},
+	 { (char *)"Cell_getEnergyCartesianVolumeWOCentroid", _wrap_Cell_getEnergyCartesianVolumeWOCentroid, METH_VARARGS, NULL},
+	 { (char *)"Cell_getEnergyCartesianVolume", _wrap_Cell_getEnergyCartesianVolume, METH_VARARGS, NULL},
 	 { (char *)"Cell_getFirstTerm", _wrap_Cell_getFirstTerm, METH_VARARGS, NULL},
 	 { (char *)"Cell_getSecondTerm", _wrap_Cell_getSecondTerm, METH_VARARGS, NULL},
 	 { (char *)"Cell_getThirdTerm", _wrap_Cell_getThirdTerm, METH_VARARGS, NULL},
@@ -13789,6 +14014,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_getPressure", _wrap_Cell_getPressure, METH_VARARGS, NULL},
 	 { (char *)"Cell_setAlpha", _wrap_Cell_setAlpha, METH_VARARGS, NULL},
 	 { (char *)"Cell_getAlpha", _wrap_Cell_getAlpha, METH_VARARGS, NULL},
+	 { (char *)"Cell_setGamma", _wrap_Cell_setGamma, METH_VARARGS, NULL},
+	 { (char *)"Cell_getGamma", _wrap_Cell_getGamma, METH_VARARGS, NULL},
 	 { (char *)"Cell_setBeta", _wrap_Cell_setBeta, METH_VARARGS, NULL},
 	 { (char *)"Cell_getBeta", _wrap_Cell_getBeta, METH_VARARGS, NULL},
 	 { (char *)"Cell_setKappa", _wrap_Cell_setKappa, METH_VARARGS, NULL},
@@ -13831,6 +14058,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_grow", _wrap_Face_grow, METH_VARARGS, NULL},
 	 { (char *)"Face_targetFormMatrix_set", _wrap_Face_targetFormMatrix_set, METH_VARARGS, NULL},
 	 { (char *)"Face_targetFormMatrix_get", _wrap_Face_targetFormMatrix_get, METH_VARARGS, NULL},
+	 { (char *)"Face_targetArea_set", _wrap_Face_targetArea_set, METH_VARARGS, NULL},
+	 { (char *)"Face_targetArea_get", _wrap_Face_targetArea_get, METH_VARARGS, NULL},
 	 { (char *)"Face_currentFormMatrix_set", _wrap_Face_currentFormMatrix_set, METH_VARARGS, NULL},
 	 { (char *)"Face_currentFormMatrix_get", _wrap_Face_currentFormMatrix_get, METH_VARARGS, NULL},
 	 { (char *)"Face_printTargetFormMatrix", _wrap_Face_printTargetFormMatrix, METH_VARARGS, NULL},
@@ -13858,6 +14087,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getTraceSquaredTargetFormMatrix", _wrap_Face_getTraceSquaredTargetFormMatrix, METH_VARARGS, NULL},
 	 { (char *)"Face_setCentralisedCoordinate", _wrap_Face_setCentralisedCoordinate, METH_VARARGS, NULL},
 	 { (char *)"Face_setProjectedCoordinate", _wrap_Face_setProjectedCoordinate, METH_VARARGS, NULL},
+	 { (char *)"Face_getTargetArea", _wrap_Face_getTargetArea, METH_VARARGS, NULL},
+	 { (char *)"Face_setTargetArea", _wrap_Face_setTargetArea, METH_VARARGS, NULL},
 	 { (char *)"Face_getXCentralised", _wrap_Face_getXCentralised, METH_VARARGS, NULL},
 	 { (char *)"Face_getYCentralised", _wrap_Face_getYCentralised, METH_VARARGS, NULL},
 	 { (char *)"Face_getZCentralised", _wrap_Face_getZCentralised, METH_VARARGS, NULL},

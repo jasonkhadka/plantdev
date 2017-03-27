@@ -325,6 +325,10 @@ class Face
     */
     double targetFormMatrix[2][2] = {{0.,0.},{0.,0.}};
     /**
+     * target Area: the ideal area of this cell (area from target Form)
+     */
+    double targetArea = 0.;
+    /**
      * current form Matrix : the matrix that represents the 
      *  current form of the cell
      */
@@ -406,6 +410,15 @@ class Face
     * Function to set new projected X & Y coordinate of vertices of this face
     */
     void setProjectedCoordinate();
+    /**
+     * get Target Area;
+     */
+    double getTargetArea();
+    /**
+     * set target area;
+     */
+    void setTargetArea(double);
+
     /**
      * Calcuate Projected Coordinate
      * Function that calcualtes the projection of given vertex
@@ -498,7 +511,14 @@ inline unsigned int Face::countVertices()
 }
 
 /* -- inline instance methods ---------------------------------------------- */
-
+inline void Face::setTargetArea(double temparea)
+{
+  targetArea = temparea;
+}
+inline double Face::getTargetArea()
+{
+  return targetArea;
+}
 inline Cell *Face::getCell()
 {
   return cell;

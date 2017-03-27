@@ -154,8 +154,11 @@ class Cell(_object):
     def getVolume(self):
         return _quadedge.Cell_getVolume(self)
 
-    def getVolumeWOCentroid(self):
-        return _quadedge.Cell_getVolumeWOCentroid(self)
+    def getCartesianVolumeWOCentroid(self):
+        return _quadedge.Cell_getCartesianVolumeWOCentroid(self)
+
+    def getCartesianVolume(self):
+        return _quadedge.Cell_getCartesianVolume(self)
     __swig_setmethods__["thresholdMatrix"] = _quadedge.Cell_thresholdMatrix_set
     __swig_getmethods__["thresholdMatrix"] = _quadedge.Cell_thresholdMatrix_get
     if _newclass:
@@ -167,6 +170,12 @@ class Cell(_object):
 
     def getEnergy(self):
         return _quadedge.Cell_getEnergy(self)
+
+    def getEnergyCartesianVolumeWOCentroid(self):
+        return _quadedge.Cell_getEnergyCartesianVolumeWOCentroid(self)
+
+    def getEnergyCartesianVolume(self):
+        return _quadedge.Cell_getEnergyCartesianVolume(self)
 
     def getFirstTerm(self):
         return _quadedge.Cell_getFirstTerm(self)
@@ -188,6 +197,12 @@ class Cell(_object):
 
     def getAlpha(self):
         return _quadedge.Cell_getAlpha(self)
+
+    def setGamma(self, arg2):
+        return _quadedge.Cell_setGamma(self, arg2)
+
+    def getGamma(self):
+        return _quadedge.Cell_getGamma(self)
 
     def setBeta(self, arg2):
         return _quadedge.Cell_setBeta(self, arg2)
@@ -349,6 +364,10 @@ class Face(_object):
     __swig_getmethods__["targetFormMatrix"] = _quadedge.Face_targetFormMatrix_get
     if _newclass:
         targetFormMatrix = _swig_property(_quadedge.Face_targetFormMatrix_get, _quadedge.Face_targetFormMatrix_set)
+    __swig_setmethods__["targetArea"] = _quadedge.Face_targetArea_set
+    __swig_getmethods__["targetArea"] = _quadedge.Face_targetArea_get
+    if _newclass:
+        targetArea = _swig_property(_quadedge.Face_targetArea_get, _quadedge.Face_targetArea_set)
     __swig_setmethods__["currentFormMatrix"] = _quadedge.Face_currentFormMatrix_set
     __swig_getmethods__["currentFormMatrix"] = _quadedge.Face_currentFormMatrix_get
     if _newclass:
@@ -418,6 +437,12 @@ class Face(_object):
 
     def setProjectedCoordinate(self):
         return _quadedge.Face_setProjectedCoordinate(self)
+
+    def getTargetArea(self):
+        return _quadedge.Face_getTargetArea(self)
+
+    def setTargetArea(self, arg2):
+        return _quadedge.Face_setTargetArea(self, arg2)
 
     def getXCentralised(self):
         return _quadedge.Face_getXCentralised(self)

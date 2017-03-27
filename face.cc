@@ -516,6 +516,7 @@ void Face::setTempTargetFormMatrixCurrent(){
     this->targetFormMatrix[0][1] = (this->getMu3() + this->targetFormMatrix[0][1] );
     this->targetFormMatrix[1][1] = (this->getMu4() + this->targetFormMatrix[1][1] );
     this->setTraceSquaredTargetFormMatrix();
+    this->setTargetArea(this->getAreaOfFace());//area of current form matrix as target area
 }
 
 
@@ -527,6 +528,7 @@ void Face::setTempTargetFormMatrixIdentity(){
     this->targetFormMatrix[0][1] = 0.;
     this->targetFormMatrix[1][1] = 1.;
     this->setTraceSquaredTargetFormMatrix();
+    this->setTargetArea(1.);//area of unit circle
 }
 //***************************************************************************** //
  void Face::setTraceSquaredTargetFormMatrix(){
@@ -592,9 +594,9 @@ void Face::setTempTargetFormMatrixIdentity(){
         thirdterm = area;
         // ****************************************************************************************** //
         //calculating energy
-        //double energytemp = alpha*firstterm + beta*secondterm - pressure*thirdterm;
+        double energytemp = alpha*firstterm + beta*secondterm - pressure*thirdterm;
         //removing the area term
-        double energytemp = alpha*firstterm + beta*secondterm;
+        //double energytemp = alpha*firstterm + beta*secondterm;
         //setting the energy values of face 
         this->firstTerm = firstterm;
         this->secondTerm = secondterm;

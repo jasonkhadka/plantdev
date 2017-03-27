@@ -200,7 +200,11 @@ class Cell
    * calculate the volume of the structure
    * without Centroid
    */
-  double getVolumeWOCentroid();
+  double getCartesianVolumeWOCentroid();
+  /**
+   * calculate the volume with cartesian (or actual) coordiantes
+   */
+  double getCartesianVolume();
 
   /* -- protected instance methods ----------------------------------------- */
 
@@ -313,7 +317,7 @@ class Cell
   // Parameters of Simulation 
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
   /**
-   * Pressure of cells (faces) on this tissue
+   * Pressure of cells (faces) from inside the cells
    */
   double pressure = 1.;
   /**
@@ -328,6 +332,10 @@ class Cell
     * Kappa : the growth rate of faces
     */
    double kappa = 1.;
+   /**
+    * Gamma : the pressure from underneath the L1 layer
+    */
+   double gamma = 1.;
 
 public:
   /**
@@ -344,8 +352,23 @@ public:
    double hstepsize = 1.;
    /**
     * Energy of Cell calculator : ADDED - P*V in the energy
+    * where Volume is calculated by projected coordiantes
     */
    double getEnergy();
+   /**
+    * Energy of Cell calculator : -> with -P*V in the energy
+    * where VOlume is calculated by cartesian coordiates by triangulating the vertices
+    * without the Centroid
+    */
+   double getEnergyCartesianVolumeWOCentroid();
+   /**
+    * Energy of Cell calculator : -> with -P*V in the energy 
+    * where VOlume is calcualted by Cartesian coordinates with Centroid
+    */
+   double getEnergyCartesianVolume();
+   /**
+    * 
+    */
    /**
     * First term of energy for this  cell
     */
@@ -380,6 +403,15 @@ public:
    * function to get the alpha of the cell
    */
   double getAlpha();
+
+  /**
+   * function to Set gamma value
+   */
+  void setGamma(double );
+  /**
+   * function to get Gamma value
+   */
+  double getGamma();
   /**
    * setting the beta parameter of energy
    */
@@ -419,6 +451,14 @@ inline double Cell::getPressure()
 inline double Cell::getAlpha()
 {
   return alpha;
+}
+inline double Cell::getGamma()
+{
+  return gamma;
+}
+inline void Cell::setGamma(double newgamma)
+{
+  this->gamma = newgamma;
 }
 inline double Cell::getBeta()
 {
