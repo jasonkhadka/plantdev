@@ -186,6 +186,9 @@ class Cell(_object):
     def getThirdTerm(self):
         return _quadedge.Cell_getThirdTerm(self)
 
+    def getFourthTerm(self):
+        return _quadedge.Cell_getFourthTerm(self)
+
     def setPressure(self, arg2):
         return _quadedge.Cell_setPressure(self, arg2)
 
@@ -215,6 +218,12 @@ class Cell(_object):
 
     def getKappa(self):
         return _quadedge.Cell_getKappa(self)
+
+    def getZeta(self):
+        return _quadedge.Cell_getZeta(self)
+
+    def setZeta(self, arg2):
+        return _quadedge.Cell_setZeta(self, arg2)
 Cell_swigregister = _quadedge.Cell_swigregister
 Cell_swigregister(Cell)
 

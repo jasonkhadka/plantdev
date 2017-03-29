@@ -4094,6 +4094,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_getFourthTerm(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getFourthTerm",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getFourthTerm" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getFourthTerm();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_setPressure(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -4348,6 +4370,58 @@ SWIGINTERN PyObject *_wrap_Cell_getKappa(PyObject *SWIGUNUSEDPARM(self), PyObjec
   arg1 = reinterpret_cast< Cell * >(argp1);
   result = (double)(arg1)->getKappa();
   resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getZeta(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getZeta",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getZeta" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getZeta();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_setZeta(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Cell_setZeta",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setZeta" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Cell_setZeta" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setZeta(arg2);
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -14010,6 +14084,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_getFirstTerm", _wrap_Cell_getFirstTerm, METH_VARARGS, NULL},
 	 { (char *)"Cell_getSecondTerm", _wrap_Cell_getSecondTerm, METH_VARARGS, NULL},
 	 { (char *)"Cell_getThirdTerm", _wrap_Cell_getThirdTerm, METH_VARARGS, NULL},
+	 { (char *)"Cell_getFourthTerm", _wrap_Cell_getFourthTerm, METH_VARARGS, NULL},
 	 { (char *)"Cell_setPressure", _wrap_Cell_setPressure, METH_VARARGS, NULL},
 	 { (char *)"Cell_getPressure", _wrap_Cell_getPressure, METH_VARARGS, NULL},
 	 { (char *)"Cell_setAlpha", _wrap_Cell_setAlpha, METH_VARARGS, NULL},
@@ -14020,6 +14095,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_getBeta", _wrap_Cell_getBeta, METH_VARARGS, NULL},
 	 { (char *)"Cell_setKappa", _wrap_Cell_setKappa, METH_VARARGS, NULL},
 	 { (char *)"Cell_getKappa", _wrap_Cell_getKappa, METH_VARARGS, NULL},
+	 { (char *)"Cell_getZeta", _wrap_Cell_getZeta, METH_VARARGS, NULL},
+	 { (char *)"Cell_setZeta", _wrap_Cell_setZeta, METH_VARARGS, NULL},
 	 { (char *)"Cell_swigregister", Cell_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_CellVertexIterator", _wrap_new_CellVertexIterator, METH_VARARGS, NULL},
 	 { (char *)"delete_CellVertexIterator", _wrap_delete_CellVertexIterator, METH_VARARGS, NULL},

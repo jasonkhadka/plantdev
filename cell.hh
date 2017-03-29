@@ -336,6 +336,10 @@ class Cell
     * Gamma : the pressure from underneath the L1 layer
     */
    double gamma = 1.;
+   /**
+    * Zeta : penalty for the bending of cells off the projection plane
+    */
+   double zeta = 1.;
 
 public:
   /**
@@ -381,7 +385,10 @@ public:
     * Third term of energy for this  cell
     */
    double getThirdTerm();
-   
+   /**
+    * Fourth term of energy for this cell
+    */
+   double getFourthTerm();
   // **************************************************************** //
   // Public instance method //
 public:
@@ -428,6 +435,15 @@ public:
    * getKappa()
    */
   double getKappa();
+  /**
+   * get Zeta()
+   */
+  double getZeta();
+  /**
+   * set Zeta()
+   */
+  void setZeta(double);
+  
   
   /* -- friend classes ----------------------------------------------------- */
 
@@ -463,6 +479,12 @@ inline void Cell::setGamma(double newgamma)
 inline double Cell::getBeta()
 {
   return beta;
+}
+inline void Cell::setZeta(double newzeta){
+  this->zeta = newzeta;
+}
+inline double Cell::getZeta(){
+  return zeta;
 }
 inline unsigned int Cell::countVertices()
 {

@@ -5,6 +5,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h> //has abs and others
+#include <math.h>
 
 #include "cell.hh"
 #include "face.hh"
@@ -36,7 +37,8 @@
           if (face->getID()==1) continue;
           totalenergy += face->getEnergy();
       }
-      totalenergy -= this->getGamma()*this->getVolume();
+      totalenergy -= this->getGamma()*this->getVolume();//subtracting the volume energy
+      totalenergy +=  this->getZeta()*this->getFourthTerm();//subtracting the fourth term : z_proj penalty
       return totalenergy ;
  }
 //******************************************************************************* //
@@ -54,6 +56,7 @@
           totalenergy += face->getEnergy();
       }
       totalenergy -= this->getGamma()*this->getCartesianVolumeWOCentroid();
+      totalenergy +=  this->getZeta()*this->getFourthTerm();//subtracting the fourth term : z_proj penalty
       return totalenergy ;
  }
 
@@ -73,6 +76,7 @@
           totalenergy += face->getEnergy();
       }
       totalenergy -= this->getGamma()*this->getCartesianVolume();
+      totalenergy +=  this->getZeta()*this->getFourthTerm();//subtracting the fourth term : z_proj penalty
       return totalenergy ;
  }
 //******************************************************************************* //
@@ -239,6 +243,28 @@
       }
       return totalenergy;
  }
+ /**
+  * Fourth term of the cell energy: 
+  * this calculates the deformation off the plane
+  * sum of the z_projected coordinate or the perpendicular distance of vertices from the plane of projection
+  */
+ double Cell::getFourthTerm(){
+    CellFaceIterator faces(this);
+    Face * face;
+    Edge * edge;
+    Vertex * vertex;
+    double totalenergy = 0.;
+    while((face = faces.next()) != 0){
+       if (face->getID() == 1) continue;
+      FaceEdgeIterator edges(face);
+      while ((edge = edges.next())!= 0){
+          vertex = edge->Dest();
+          totalenergy += pow(vertex->getProjectedZcoordinate(face->getID()),2);
+      }
+    }
+  return totalenergy;
+ }
+ /*------------------------------------------------------------------------- */
 /* -- public class methods ------------------------------------------------- */
 
 Cell *Cell::make()
