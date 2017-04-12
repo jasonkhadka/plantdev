@@ -62,6 +62,19 @@ void Face::removeEdge(Edge *edge)
   this->edge = next!=edge ? next : 0;
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+void Face::setVertexCount(){
+  Edge * currentEdge;
+  FaceEdgeIterator edges(this); //iterating through this face
+  int counter = 0;
+  while ((currentEdge = edges.next())!= 0){
+    //iterating this face until exhausted
+      counter++;//every time edge is switched counter is updated
+  }
+  this->vertexCount = counter;//putting the number of vertices in the vertexCount
+}
+
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
 void Face::setCentralisedCoordinate(double xcent, double ycent, double zcent){
   
   this->xCentralised = xcent;
@@ -71,6 +84,9 @@ void Face::setCentralisedCoordinate(double xcent, double ycent, double zcent){
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
 void Face::setProjectedCoordinate(){
   //setting the projected coordinates of all vertices in this face
+  //First : getting the number of vertices in this face
+  this->setVertexCount();
+  int numOfVertex = this->getVertexCount();
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
     // getting the mean center position of this face //
     unsigned int faceid = this->getID();// first grabbing id of  current face
@@ -81,17 +97,18 @@ void Face::setProjectedCoordinate(){
           this->zCentralised = 0.;
         return;
     } 
-    FaceEdgeIterator faceEdges(this);//iterator to iterate through the vertex for outgoign edge
+    //std::cout<<"face id : "<<faceid<< "numberOfvertex :"<<numOfVertex<<std::endl;
     double xCentroid(0), yCentroid(0), zCentroid(0); // coordinate of the cnetroid
     // array of vertices
-    double xcood[6], ycood[6], zcood[6];// coordinate of the vertices of this face
-    double xTriCen[6], yTriCen[6], zTriCen[6], areaTri;// coordinate of center of triangluated triangles of face
+    double xcood[numOfVertex], ycood[numOfVertex], zcood[numOfVertex];// coordinate of the vertices of this face
+    double xTriCen[numOfVertex], yTriCen[numOfVertex], zTriCen[numOfVertex], triangulatedArea[numOfVertex];// coordinate of center of triangluated triangles of face
     //areaTri : area of triangles
     double xmean(0), ymean(0), zmean(0);//mean center of the face
-    int counter;//counter to keep track of vertices
+    int counter(0);//counter to keep track of vertices
     Edge *currentEdge;//pointer to keep track of a edge that is iterated 
     Vertex *currentVertex; // vertex to store the dest() of currentEdge
-    counter = 0;
+    //getting the mean center of the face
+    FaceEdgeIterator faceEdges(this);//iterator to iterate through the vertex for outgoign edge
     while ((currentEdge = faceEdges.next())!=0){//iterating the edges in the face
           currentVertex = currentEdge->Dest();
           // getting the vertices of the current face and storring it in array
@@ -103,13 +120,50 @@ void Face::setProjectedCoordinate(){
           zmean += zcood[counter];
           counter += 1;//increasing the counter value
     }
-    //printf(" face id : %u \n", faceid);
-    //printf(" calculated means : X = %F ; Y = %F ; Z = %F \n", xmean, ymean,zmean );
-    //printf("counter %h \n",counter);
-    // divinding by the number of vertices to get the mean, which is also the centroid
-    xCentroid = (1./counter)*xmean;
-    yCentroid = (1./counter)*ymean;
-    zCentroid = (1./counter)*zmean;
+    xmean = xmean/numOfVertex;
+    ymean = ymean/numOfVertex;
+    zmean = zmean/numOfVertex;
+    //std::cout<<"xmean : "<< xmean<<" ymean : "<< ymean<<" zmean : "<< zmean<<std::endl;
+    //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+    // triangulating the face and getting the center of each triangle
+    //vectors of the triangles 
+    double vector1[3],vector2[3];
+    double totalarea = 0;
+    double crossProductVector[3];//cross product of the vector
+    double crossProductMagnitude;//cross product magintude
+    for (int counter = 0; counter<numOfVertex; counter++){
+          // calculating center of the triangles
+          xTriCen[counter] = 1./3.*(xmean+xcood[counter]+xcood[(counter+1)%numOfVertex]);
+          yTriCen[counter] = 1./3.*(ymean+ycood[counter]+ycood[(counter+1)%numOfVertex]);
+          zTriCen[counter] = 1./3.*(zmean+zcood[counter]+zcood[(counter+1)%numOfVertex]);
+          //printf("counter = %d; center of triangles : %F ; %F ; %F \n", counter, xTriCen[counter], yTriCen[counter], zTriCen[counter]);
+          //getting two vectors of this triangle
+          vector1[0] = xcood[counter]-xTriCen[counter];
+          vector1[1] = ycood[counter]-yTriCen[counter];
+          vector1[2] = zcood[counter]-zTriCen[counter];
+          vector2[0] = xcood[(counter+1)%numOfVertex]-xTriCen[counter];
+          vector2[1] = ycood[(counter+1)%numOfVertex]-yTriCen[counter];
+          vector2[2] = zcood[(counter+1)%numOfVertex]-zTriCen[counter];
+          //cross product of the two vectors
+          crossProductVector[0] = vector1[1]*vector2[2] - vector1[2]*vector2[1];
+          crossProductVector[1] = vector1[2]*vector2[0] - vector1[0]*vector2[2];
+          crossProductVector[2] = vector1[0]*vector2[1] - vector1[1]*vector2[0];
+          //maginitude of cross product
+          crossProductMagnitude = sqrt(abs(crossProductVector[0]*crossProductVector[0] + crossProductVector[1]+crossProductVector[1]+
+                                  crossProductVector[2]*crossProductVector[2]));
+          triangulatedArea[counter] = 0.5*crossProductMagnitude;//area of this triangle
+          xCentroid += xTriCen[counter]*triangulatedArea[counter];//adding the weigthed centroid
+          yCentroid += yTriCen[counter]*triangulatedArea[counter];
+          zCentroid += zTriCen[counter]*triangulatedArea[counter]; 
+          //adding total area
+          totalarea += triangulatedArea[counter];// calculating total area of triange
+      }
+    //std::cout<<"xCentroid: "<< xCentroid<<" yCentroid : "<< yCentroid<<" zCentroid : "<< zCentroid<<std::endl;
+    //std::cout<<"totalarea : "<< totalarea<<std::endl;
+    //now calculating weighted center
+    xCentroid = xCentroid/totalarea;
+    yCentroid = yCentroid/totalarea;
+    zCentroid = zCentroid/totalarea;
     // setting the central coordinate of this face in terms of cartisian coordinate
     this->xCentralised = xCentroid;
     this->yCentralised = yCentroid;
@@ -117,23 +171,22 @@ void Face::setProjectedCoordinate(){
     //printf("%s %u %F \n ", "calculating total area of Face :",faceid, totalarea);
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
     //Calculating normal of the triangles of the shape and then calculating weighted normal
-    //double normalTempX[6],normalTempY[6],normalTempZ[6],totalarea;//vertices of normal of triangles
-    double vector1[3], vector2[3], crossProductVector[3],crossProductMagnitude;
-    double totalarea = 0;
-    double normalX(0), normalY(0), normalZ(0); // vertices of weighted normal X, Y, Z 
+    //double normalTempX[numOfVertex],normalTempY[numOfVertex],normalTempZ[numOfVertex],totalarea;//vertices of normal of triangles
+    double normalX(0), normalY(0), normalZ(0), areaTri(0); // vertices of weighted normal X, Y, Z 
+    totalarea = 0;//resetting total area for calculation
     // iterating the faces also
     FaceEdgeIterator faceEdges1(this);//iterator to iterate through the vertex for outgoign edge
     // curentVertex and currentEdge have been already declared above
     currentEdge = faceEdges1.next();// grabbing the one edge of face = this
-    for (int counter = 0; counter<6; counter++){//triangulating the vertices with centroid of this face
+    for (int counter = 0; counter<numOfVertex; counter++){//triangulating the vertices with centroid of this face
           currentVertex = currentEdge->Dest();//getting the destination of the edge
           //getting two vectors of this triangle
           vector1[0] = xcood[counter]-xCentroid;
           vector1[1] = ycood[counter]-yCentroid;
           vector1[2] = zcood[counter]-zCentroid;
-          vector2[0] = xcood[(counter+1)%6]-xCentroid;
-          vector2[1] = ycood[(counter+1)%6]-yCentroid;             
-          vector2[2] = zcood[(counter+1)%6]-zCentroid;
+          vector2[0] = xcood[(counter+1)%numOfVertex]-xCentroid;
+          vector2[1] = ycood[(counter+1)%numOfVertex]-yCentroid;             
+          vector2[2] = zcood[(counter+1)%numOfVertex]-zCentroid;
           //cross product of the two vectors
           crossProductVector[0] = vector1[1]*vector2[2] - vector1[2]*vector2[1];//also definition of alpha
           crossProductVector[1] = vector1[2]*vector2[0] - vector1[0]*vector2[2];//also definition of beta
@@ -158,6 +211,9 @@ void Face::setProjectedCoordinate(){
           //total area is same as before calculated for this face
           currentEdge = faceEdges1.next();//keep on iterating through the edges in the face
       }
+    std::cout<<"xCentroid: "<< xCentroid<<" yCentroid : "<< yCentroid<<" zCentroid : "<< zCentroid<<std::endl;
+    std::cout<<"totalarea : "<< totalarea<<std::endl;
+    
     //printf("%s %u %F \n ", "calculating total area of Face :",faceid, totalarea);
     //weighted normal to this face
     normalX = normalX/totalarea;
@@ -372,6 +428,7 @@ void Face::setAreaOfFace(){
 	this->areaOfFace = 0.5*areasum;//storing the area of the face in areaOfFace variable
 }
 //******************added features********************************//
+/*
  void Face::addVertex(Vertex *vertex)
    {
     assert(vertex!=0);
@@ -414,6 +471,8 @@ void Face::setAreaOfFace(){
 
   assert(0);
   }
+*/
+
   void Face::setMu(){
       //setting the values of TargetFormMatrix first, to calculate the value of Mu
       //this->setTargetFormMatrix();

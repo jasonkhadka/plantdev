@@ -319,17 +319,11 @@ class Face(_object):
     def removeEdge(self, edge):
         return _quadedge.Face_removeEdge(self, edge)
 
-    def getVertex(self):
-        return _quadedge.Face_getVertex(self)
+    def setVertexCount(self):
+        return _quadedge.Face_setVertexCount(self)
 
-    def getIthVertex(self, position):
-        return _quadedge.Face_getIthVertex(self, position)
-
-    def addVertex(self, vertex):
-        return _quadedge.Face_addVertex(self, vertex)
-
-    def removeVertex(self, vertex):
-        return _quadedge.Face_removeVertex(self, vertex)
+    def getVertexCount(self):
+        return _quadedge.Face_getVertexCount(self)
 
     def setNormal(self, arg2):
         return _quadedge.Face_setNormal(self, arg2)
@@ -1240,6 +1234,10 @@ doublearray_getitem = _quadedge.doublearray_getitem
 def doublearray_setitem(ary, index, value):
     return _quadedge.doublearray_setitem(ary, index, value)
 doublearray_setitem = _quadedge.doublearray_setitem
+
+def getCurrentFormMatrix(face, i, j):
+    return _quadedge.getCurrentFormMatrix(face, i, j)
+getCurrentFormMatrix = _quadedge.getCurrentFormMatrix
 # This file is compatible with both classic and new-style classes.
 
 

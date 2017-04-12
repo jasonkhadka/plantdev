@@ -3088,6 +3088,17 @@ namespace swig {
 }
 
 
+#ifndef SWIG_FILE_WITH_INIT
+#define NO_IMPORT_ARRAY
+#endif
+#include "stdio.h"
+#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+#include <numpy/arrayobject.h>
+
+
+#include <complex> 
+
+
 #include "cell.hh"
 
 
@@ -3272,6 +3283,13 @@ SWIG_AsVal_unsigned_SS_int (PyObject * obj, unsigned int *val)
 #include "face.hh"
 
 
+SWIGINTERNINLINE PyObject*
+  SWIG_From_int  (int value)
+{
+  return PyInt_FromLong((long) value);
+}
+
+
 #include "edge.hh"
 
 
@@ -3306,6 +3324,66 @@ SWIG_AsVal_size_t (PyObject * obj, size_t *val)
   unsigned long v;
   int res = SWIG_AsVal_unsigned_SS_long (obj, val ? &v : 0);
   if (SWIG_IsOK(res) && val) *val = static_cast< size_t >(v);
+  return res;
+}
+
+
+double getCurrentFormMatrix(Face * face, int i, int j){
+	return face->currentFormMatrix[i][j];
+}	
+
+
+SWIGINTERN int
+SWIG_AsVal_long (PyObject *obj, long* val)
+{
+  if (PyInt_Check(obj)) {
+    if (val) *val = PyInt_AsLong(obj);
+    return SWIG_OK;
+  } else if (PyLong_Check(obj)) {
+    long v = PyLong_AsLong(obj);
+    if (!PyErr_Occurred()) {
+      if (val) *val = v;
+      return SWIG_OK;
+    } else {
+      PyErr_Clear();
+    }
+  }
+#ifdef SWIG_PYTHON_CAST_MODE
+  {
+    int dispatch = 0;
+    long v = PyInt_AsLong(obj);
+    if (!PyErr_Occurred()) {
+      if (val) *val = v;
+      return SWIG_AddCast(SWIG_OK);
+    } else {
+      PyErr_Clear();
+    }
+    if (!dispatch) {
+      double d;
+      int res = SWIG_AddCast(SWIG_AsVal_double (obj,&d));
+      if (SWIG_IsOK(res) && SWIG_CanCastAsInteger(&d, LONG_MIN, LONG_MAX)) {
+	if (val) *val = (long)(d);
+	return res;
+      }
+    }
+  }
+#endif
+  return SWIG_TypeError;
+}
+
+
+SWIGINTERN int
+SWIG_AsVal_int (PyObject * obj, int *val)
+{
+  long v;
+  int res = SWIG_AsVal_long (obj, &v);
+  if (SWIG_IsOK(res)) {
+    if ((v < INT_MIN || v > INT_MAX)) {
+      return SWIG_OverflowError;
+    } else {
+      if (val) *val = static_cast< int >(v);
+    }
+  }  
   return res;
 }
 
@@ -4828,82 +4906,20 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Face_getVertex(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_Face_setVertexCount(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   PyObject * obj0 = 0 ;
-  Vertex *result = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)"O:Face_getVertex",&obj0)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_setVertexCount",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getVertex" "', argument " "1"" of type '" "Face *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setVertexCount" "', argument " "1"" of type '" "Face *""'"); 
   }
   arg1 = reinterpret_cast< Face * >(argp1);
-  result = (Vertex *)(arg1)->getVertex();
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Vertex, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Face_getIthVertex(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Face *arg1 = (Face *) 0 ;
-  unsigned int arg2 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  unsigned int val2 ;
-  int ecode2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  Vertex *result = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:Face_getIthVertex",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getIthVertex" "', argument " "1"" of type '" "Face *""'"); 
-  }
-  arg1 = reinterpret_cast< Face * >(argp1);
-  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
-  if (!SWIG_IsOK(ecode2)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Face_getIthVertex" "', argument " "2"" of type '" "unsigned int""'");
-  } 
-  arg2 = static_cast< unsigned int >(val2);
-  result = (Vertex *)(arg1)->getIthVertex(arg2);
-  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_Vertex, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Face_addVertex(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Face *arg1 = (Face *) 0 ;
-  Vertex *arg2 = (Vertex *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:Face_addVertex",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_addVertex" "', argument " "1"" of type '" "Face *""'"); 
-  }
-  arg1 = reinterpret_cast< Face * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Face_addVertex" "', argument " "2"" of type '" "Vertex *""'"); 
-  }
-  arg2 = reinterpret_cast< Vertex * >(argp2);
-  (arg1)->addVertex(arg2);
+  (arg1)->setVertexCount();
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -4911,30 +4927,22 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Face_removeVertex(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_Face_getVertexCount(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
-  Vertex *arg2 = (Vertex *) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
   PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
+  int result;
   
-  if (!PyArg_ParseTuple(args,(char *)"OO:Face_removeVertex",&obj0,&obj1)) SWIG_fail;
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getVertexCount",&obj0)) SWIG_fail;
   res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_removeVertex" "', argument " "1"" of type '" "Face *""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getVertexCount" "', argument " "1"" of type '" "Face *""'"); 
   }
   arg1 = reinterpret_cast< Face * >(argp1);
-  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Face_removeVertex" "', argument " "2"" of type '" "Vertex *""'"); 
-  }
-  arg2 = reinterpret_cast< Vertex * >(argp2);
-  (arg1)->removeVertex(arg2);
-  resultobj = SWIG_Py_Void();
+  result = (int)(arg1)->getVertexCount();
+  resultobj = SWIG_From_int(static_cast< int >(result));
   return resultobj;
 fail:
   return NULL;
@@ -14052,6 +14060,46 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_getCurrentFormMatrix(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:getCurrentFormMatrix",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "getCurrentFormMatrix" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "getCurrentFormMatrix" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "getCurrentFormMatrix" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  result = (double)getCurrentFormMatrix(arg1,arg2,arg3);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 static PyMethodDef SwigMethods[] = {
 	 { (char *)"SWIG_PyInstanceMethod_New", (PyCFunction)SWIG_PyInstanceMethod_New, METH_O, NULL},
 	 { (char *)"Cell_make", _wrap_Cell_make, METH_VARARGS, NULL},
@@ -14116,10 +14164,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getEdge", _wrap_Face_getEdge, METH_VARARGS, NULL},
 	 { (char *)"Face_addEdge", _wrap_Face_addEdge, METH_VARARGS, NULL},
 	 { (char *)"Face_removeEdge", _wrap_Face_removeEdge, METH_VARARGS, NULL},
-	 { (char *)"Face_getVertex", _wrap_Face_getVertex, METH_VARARGS, NULL},
-	 { (char *)"Face_getIthVertex", _wrap_Face_getIthVertex, METH_VARARGS, NULL},
-	 { (char *)"Face_addVertex", _wrap_Face_addVertex, METH_VARARGS, NULL},
-	 { (char *)"Face_removeVertex", _wrap_Face_removeVertex, METH_VARARGS, NULL},
+	 { (char *)"Face_setVertexCount", _wrap_Face_setVertexCount, METH_VARARGS, NULL},
+	 { (char *)"Face_getVertexCount", _wrap_Face_getVertexCount, METH_VARARGS, NULL},
 	 { (char *)"Face_setNormal", _wrap_Face_setNormal, METH_VARARGS, NULL},
 	 { (char *)"Face_getNormal", _wrap_Face_getNormal, METH_VARARGS, NULL},
 	 { (char *)"Face_setNormalTilde", _wrap_Face_setNormalTilde, METH_VARARGS, NULL},
@@ -14402,6 +14448,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"delete_doublearray", _wrap_delete_doublearray, METH_VARARGS, NULL},
 	 { (char *)"doublearray_getitem", _wrap_doublearray_getitem, METH_VARARGS, NULL},
 	 { (char *)"doublearray_setitem", _wrap_doublearray_setitem, METH_VARARGS, NULL},
+	 { (char *)"getCurrentFormMatrix", _wrap_getCurrentFormMatrix, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 

@@ -108,19 +108,19 @@ class Face
    * <- a vertex that is adjacent to this face;
    *    null if degenerate
    */
-  Vertex *getVertex();
+  //Vertex *getVertex();
   /**
    * Return the ith vertex of this face. 
    * <- ith vertex on this face
    */
-  Vertex *getIthVertex(unsigned int position);
+  //Vertex *getIthVertex(unsigned int position);
   /**
    * Add a given vertex to this face
    * vertex -> a vertex to be added to this face
    *           is one of the vertex forming the face
    *           must be nonnull
    */
-   void addVertex(Vertex *vertex);
+   //void addVertex(Vertex *vertex);
 
    /**
    * Remove a given vertex from this face
@@ -129,7 +129,7 @@ class Face
    *           must be nonnull
    */
    
-   void removeVertex(Vertex *vertex);
+   //void removeVertex(Vertex *vertex);
    //********************end added features ****************************//
   /* -- protected instance methods ----------------------------------------- */
 
@@ -203,10 +203,10 @@ class Face
     */
     Vertex **vertices;
     /*
-     * The number of vertices in this cell.
+     * The number of vertices in this face.
      * Less than or equal to _vertexSize_.
      */
-    unsigned int vertexCount;
+    int vertexCount;
 
     /*
      * The number of vertices allocated for this cell.
@@ -261,6 +261,14 @@ class Face
   /* ----------Public instance methods ---------*/
  /* -- public instance methods ----------------------------------------- */
     public:
+    /**
+     * setting the number of vertices in this face
+     */
+    void setVertexCount();
+    /**
+     * getting the number of vertices in this face
+     */
+     int getVertexCount();
     /**
      *function to set the normal
      */
@@ -534,6 +542,7 @@ inline Edge *Face::getEdge()
   return edge;
 }
 //************added features***************************************//
+/*
 inline Vertex *Face::getVertex()
 {
   return vertices[0];
@@ -541,6 +550,11 @@ inline Vertex *Face::getVertex()
 inline Vertex *Face::getIthVertex(unsigned int position)
 {
   return vertices[position];
+}
+*/
+inline int Face::getVertexCount()
+{
+  return vertexCount;
 }
 inline double Face::getXCentralised()
 {

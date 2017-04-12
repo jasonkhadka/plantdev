@@ -286,13 +286,13 @@ Cell *Cell::make()
   edge->setRight(right);
 //********************* added features *****************************************//
   //adding vertex to left and right face
-  left->addVertex(vertex);
-  right->addVertex(vertex);
+  //left->addVertex(vertex);
+  //right->addVertex(vertex);
   //initialising the thresholdMatrix
-  cell->thresholdMatrix[0][0] = 0.;
-  cell->thresholdMatrix[0][1] = 0.;
-  cell->thresholdMatrix[1][0] = 0.;
-  cell->thresholdMatrix[1][1] = 0.;
+  //cell->thresholdMatrix[0][0] = 0.;
+  //cell->thresholdMatrix[0][1] = 0.;
+  //cell->thresholdMatrix[1][0] = 0.;
+  //cell->thresholdMatrix[1][1] = 0.;
 //********************* end added features *****************************************//
 
   
@@ -405,8 +405,8 @@ Edge *Cell::makeVertexEdge(Vertex *vertex, Face *left, Face *right)
   // vertex as their vertex of origin
 //********************* added features *****************************************//
   //adding vertex to left and right face
-  left->addVertex(vertexNew);
-  right->addVertex(vertexNew);
+  //left->addVertex(vertexNew);
+  //right->addVertex(vertexNew);
 //********************* end added features *****************************************//
   setOrbitOrg(edgeNew->Sym(), vertexNew);
 
