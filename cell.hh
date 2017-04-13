@@ -9,7 +9,15 @@
 #include <iostream>
 #include <set>
 
-#include "svl-1.5/include/svl/SVL.h"
+//random number generating
+#include <gsl/gsl_math.h>
+#include <gsl/gsl_rng.h>
+
+//for eigenvalue conputation
+#include "./eigen/Eigen/Dense"
+#include "./eigen/Eigen/Eigenvalues"
+
+//#include "svl-1.5/include/svl/SVL.h"
 
 #include "edge.hh"
 #include "face.hh"
@@ -340,6 +348,16 @@ class Cell
     * Zeta : penalty for the bending of cells off the projection plane
     */
    double zeta = 1.;
+   /**
+    * Growth Variation in Face growth rate
+    */
+   double growthvar = 0.1;
+   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+  //    Random Number Generator : seeded with *some* seed 
+  //      Right now it is just a number i chose for testing*
+  // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+   gsl_rng * randomNumberGenerator; //Random number generator
+   const gsl_rng_type * randomNumberGeneratorType; //type of random number generator
 
 public:
   /**
@@ -389,6 +407,7 @@ public:
     * Fourth term of energy for this cell
     */
    double getFourthTerm();
+
   // **************************************************************** //
   // Public instance method //
 public:
@@ -443,8 +462,19 @@ public:
    * set Zeta()
    */
   void setZeta(double);
-  
-  
+  /**
+   * Get a uniform random number from the random number generator of this cell
+   * in range [0,1) exclusive 1
+   */
+  double getRandomNumber();
+  /**
+   * get the growth variation
+   */
+  double getGrowthVar();
+  /**
+   * set the growth variation
+   */
+  void setGrowthVar(double);
   /* -- friend classes ----------------------------------------------------- */
 
   friend class CellVertexIterator;
@@ -454,6 +484,15 @@ public:
 };
 
 /* -- inline instance methods ---------------------------------------------- */
+inline double Cell::getGrowthVar(){
+  return growthvar;
+}
+inline void Cell::setGrowthVar(double tempvar){
+  growthvar = tempvar;
+}
+inline double Cell::getRandomNumber(){
+      return gsl_rng_uniform(randomNumberGenerator);
+}
 inline double Cell::getKappa(){
   return kappa;
 }

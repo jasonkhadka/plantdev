@@ -13,6 +13,15 @@
 #include "face.hh"
 #include "vertex.hh"
 
+
+//random number generating
+#include <gsl/gsl_math.h>
+#include <gsl/gsl_rng.h>
+
+//for eigenvalue conputation
+#include "./eigen/Eigen/Dense"
+#include "./eigen/Eigen/Eigenvalues"
+
 /* ----------------------------------------------------------------------------
  * Face
  * ------------------------------------------------------------------------- */
@@ -665,20 +674,40 @@ void Face::setTempTargetFormMatrixIdentity(){
  }
  // *************************************************************** //
  void Face::grow(){
-  //currently using lockhardt model 
-  //thresholdmatrix : property of cell
-  Cell *thiscell = this->getCell();//getting the cell's threshold matrix
-  double kappa = thiscell->getKappa();
-  // performing the growth of targetFormMatrix
-  this->targetFormMatrix[0][0] = this->targetFormMatrix[0][0] + (thiscell->hstepsize)*kappa*
-                                    std::max(0.,(this->getMu1()-thiscell->thresholdMatrix[0][0]));
-  this->targetFormMatrix[1][0] = this->targetFormMatrix[1][0] + (thiscell->hstepsize)*kappa*
-                                    std::max(0.,(this->getMu3()-thiscell->thresholdMatrix[1][0]));
-  this->targetFormMatrix[0][1] = this->targetFormMatrix[0][1] + (thiscell->hstepsize)*kappa*
-                                    std::max(0.,(this->getMu2()-thiscell->thresholdMatrix[0][1]));
-  this->targetFormMatrix[1][1] = this->targetFormMatrix[1][1] + (thiscell->hstepsize)*kappa*
-                                    std::max(0.,(this->getMu4()-thiscell->thresholdMatrix[1][1]));
-
+  //cell for this Face
+  Cell * cell = this->getCell();
+  //getting the strain matrix for this face
+  Eigen::Matrix2d strain;
+  //assigning values to strain values
+  double traceofstrain = (this->getMu1() + this->getMu4());
+  strain<< 1./traceofstrain*this->getMu1(),  1./traceofstrain*this->getMu2(),
+            1./traceofstrain*this->getMu3(), 1./traceofstrain*this->getMu4(); 
+  //Eigensolver for strain
+  Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
+  eigensolver.compute(strain);//computing the eigenvalues of strain
+  //growth fluctuation : calculated by same randomnumber generator set as property of cell
+  double fluctuation = cell->getRandomNumber();
+  //growth variation of face : Amplitude of fluctuation
+  double growthvar = cell->getGrowthVar();
+  //growth rate of faces : kappa
+  double kappa = cell->getKappa();
+  //for the growthrate (timederivative) calcualtion -> New_Mo = Old_mo + growthRate
+  Eigen::Matrix2d growthRate;
+  //to calculate the individual eigen direction of strain 
+  Eigen::Matrix2d eigen1;
+  Eigen::Matrix2d eigen2;
+  //calcuating the time derivative
+  eigen1 = std::max(eigensolver.eigenvalues()[0]-cell->thresholdMatrix[0][0],0.0)*
+                      ((eigensolver.eigenvectors().col(0))*(eigensolver.eigenvectors().col(0)).transpose());
+  eigen2 = std::max(eigensolver.eigenvalues()[1]-cell->thresholdMatrix[1][1],0.0)*
+                      ((eigensolver.eigenvectors().col(1))*(eigensolver.eigenvectors().col(1)).transpose());
+  //calculating the time derivative now
+  growthRate = kappa*(1+(2*growthvar*fluctuation-growthvar))*(eigen1+eigen2);
+  //now setting the new targetFormMatrix
+  this->targetFormMatrix[0][0] = growthRate(0,0);
+  this->targetFormMatrix[1][0] = growthRate(1,0);
+  this->targetFormMatrix[0][1] = growthRate(0,1);
+  this->targetFormMatrix[1][1] = growthRate(1,1);
  }
 
   //****************** end added features********************************//

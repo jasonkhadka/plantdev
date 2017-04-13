@@ -7,6 +7,11 @@
 #include <stdlib.h> //has abs and others
 #include <math.h>
 
+//random number generating
+#include <gsl/gsl_math.h>
+#include <gsl/gsl_rng.h>
+
+
 #include "cell.hh"
 #include "face.hh"
 #include "vertex.hh"
@@ -649,6 +654,10 @@ Cell::Cell()
   faceCount = 0;
   faceSize  = 6;
   faceID    = 1;
+  //setting the random number generator
+  randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm
+  randomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
+  gsl_rng_set(randomNumberGenerator,38270);//some number as seed-> this can be set with another random number/time
 }
 
 Cell::~Cell()
@@ -666,7 +675,8 @@ Cell::~Cell()
     for (unsigned int i = faceCount; i>0; i--)
       Face::kill(faces[i-1]);
   }
-
+  //release the randomNumberGenerator
+  gsl_rng_free(randomNumberGenerator);
   // reclaim the vertex and face arrays
 
   delete[] vertices;

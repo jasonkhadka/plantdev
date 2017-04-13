@@ -224,6 +224,15 @@ class Cell(_object):
 
     def setZeta(self, arg2):
         return _quadedge.Cell_setZeta(self, arg2)
+
+    def getRandomNumber(self):
+        return _quadedge.Cell_getRandomNumber(self)
+
+    def getGrowthVar(self):
+        return _quadedge.Cell_getGrowthVar(self)
+
+    def setGrowthVar(self, arg2):
+        return _quadedge.Cell_setGrowthVar(self, arg2)
 Cell_swigregister = _quadedge.Cell_swigregister
 Cell_swigregister(Cell)
 
