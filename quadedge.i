@@ -1,7 +1,7 @@
 // File : quadedge.i to hold all the interface files together
 %module quadedge
 
-%include "numpy.i"
+//%include "numpy.i"
 
 %include cell.i
 %include list.i
@@ -19,5 +19,11 @@
 %inline %{
 double getCurrentFormMatrix(Face * face, int i, int j){
 	return face->currentFormMatrix[i][j];
+}	
+%}
+//to get targetformmatrix
+%inline %{
+double getTargetFormMatrix(Face * face, int i, int j){
+	return face->targetFormMatrix[i][j];
 }	
 %}

@@ -3088,17 +3088,6 @@ namespace swig {
 }
 
 
-#ifndef SWIG_FILE_WITH_INIT
-#define NO_IMPORT_ARRAY
-#endif
-#include "stdio.h"
-#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
-#include <numpy/arrayobject.h>
-
-
-#include <complex> 
-
-
 #include "cell.hh"
 
 
@@ -3386,6 +3375,11 @@ SWIG_AsVal_int (PyObject * obj, int *val)
   }  
   return res;
 }
+
+
+double getTargetFormMatrix(Face * face, int i, int j){
+	return face->targetFormMatrix[i][j];
+}	
 
 #ifdef __cplusplus
 extern "C" {
@@ -6203,6 +6197,28 @@ SWIGINTERN PyObject *_wrap_Face_setTargetArea(PyObject *SWIGUNUSEDPARM(self), Py
   arg2 = static_cast< double >(val2);
   (arg1)->setTargetArea(arg2);
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getTargetFormMatrixDeterminant(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getTargetFormMatrixDeterminant",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getTargetFormMatrixDeterminant" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getTargetFormMatrixDeterminant();
+  resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
   return NULL;
@@ -14174,6 +14190,46 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_getTargetFormMatrix(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:getTargetFormMatrix",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "getTargetFormMatrix" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "getTargetFormMatrix" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "getTargetFormMatrix" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  result = (double)getTargetFormMatrix(arg1,arg2,arg3);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 static PyMethodDef SwigMethods[] = {
 	 { (char *)"SWIG_PyInstanceMethod_New", (PyCFunction)SWIG_PyInstanceMethod_New, METH_O, NULL},
 	 { (char *)"Cell_make", _wrap_Cell_make, METH_VARARGS, NULL},
@@ -14289,6 +14345,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_setProjectedCoordinate", _wrap_Face_setProjectedCoordinate, METH_VARARGS, NULL},
 	 { (char *)"Face_getTargetArea", _wrap_Face_getTargetArea, METH_VARARGS, NULL},
 	 { (char *)"Face_setTargetArea", _wrap_Face_setTargetArea, METH_VARARGS, NULL},
+	 { (char *)"Face_getTargetFormMatrixDeterminant", _wrap_Face_getTargetFormMatrixDeterminant, METH_VARARGS, NULL},
 	 { (char *)"Face_getXCentralised", _wrap_Face_getXCentralised, METH_VARARGS, NULL},
 	 { (char *)"Face_getYCentralised", _wrap_Face_getYCentralised, METH_VARARGS, NULL},
 	 { (char *)"Face_getZCentralised", _wrap_Face_getZCentralised, METH_VARARGS, NULL},
@@ -14526,6 +14583,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"doublearray_getitem", _wrap_doublearray_getitem, METH_VARARGS, NULL},
 	 { (char *)"doublearray_setitem", _wrap_doublearray_setitem, METH_VARARGS, NULL},
 	 { (char *)"getCurrentFormMatrix", _wrap_getCurrentFormMatrix, METH_VARARGS, NULL},
+	 { (char *)"getTargetFormMatrix", _wrap_getTargetFormMatrix, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 

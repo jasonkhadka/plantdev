@@ -351,7 +351,7 @@ class Cell
    /**
     * Growth Variation in Face growth rate
     */
-   double growthvar = 0.1;
+   double growthvar = 0.5;
    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
   //    Random Number Generator : seeded with *some* seed 
   //      Right now it is just a number i chose for testing*

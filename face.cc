@@ -220,8 +220,8 @@ void Face::setProjectedCoordinate(){
           //total area is same as before calculated for this face
           currentEdge = faceEdges1.next();//keep on iterating through the edges in the face
       }
-    std::cout<<"xCentroid: "<< xCentroid<<" yCentroid : "<< yCentroid<<" zCentroid : "<< zCentroid<<std::endl;
-    std::cout<<"totalarea : "<< totalarea<<std::endl;
+    //std::cout<<"xCentroid: "<< xCentroid<<" yCentroid : "<< yCentroid<<" zCentroid : "<< zCentroid<<std::endl;
+    //std::cout<<"totalarea : "<< totalarea<<std::endl;
     
     //printf("%s %u %F \n ", "calculating total area of Face :",faceid, totalarea);
     //weighted normal to this face
@@ -338,13 +338,13 @@ void Face::setProjectedCoordinate(){
     //Calculating the Angle of tilt to the cartesian x axis
     // dor product between the unitx vector and cartesian x unit vector [1,0,0]
     dotproduct = unitx[0]; // as second and third terms are multiplied by 0
-    double theta = acos(dotproduct);//since both unitx and x unit vector have 1 magnitude, just dividing by 1
-    this->setAngleOfTilt(theta);
+    //double theta = acos(dotproduct);//since both unitx and x unit vector have 1 magnitude, just dividing by 1
+    //this->setAngleOfTilt(theta);
     //setting areas for the face
-    this->setAreaOfFace();
+    //this->setAreaOfFace();
     // setting Mu values 
     //setting Mu values 
-    this->setMu();
+    //this->setMu();
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
 void Face::setNormal(double * tempnormal){
@@ -514,6 +514,8 @@ void Face::setAreaOfFace(){
       this->mu2 = term12 - targetFormMatrix[1][0];
       this->mu3 = this->mu2;//as mu2 and mu3 are equal
       this->mu4 = term22 - targetFormMatrix[1][1];
+      //Also calculating the area of this face
+      this->setAreaOfFace();
   }
 void Face::setTargetFormMatrix(){
     //*******************************************//
@@ -679,9 +681,10 @@ void Face::setTempTargetFormMatrixIdentity(){
   //getting the strain matrix for this face
   Eigen::Matrix2d strain;
   //assigning values to strain values
-  double traceofstrain = (this->getMu1() + this->getMu4());
-  strain<< 1./traceofstrain*this->getMu1(),  1./traceofstrain*this->getMu2(),
-            1./traceofstrain*this->getMu3(), 1./traceofstrain*this->getMu4(); 
+  double traceofTargetForm = (this->targetFormMatrix[0][0]+ this->targetFormMatrix[1][1]);
+  // Strain matrix = Mu-Matrix
+  strain<< 1./traceofTargetForm*(this->getMu1()),  1./traceofTargetForm*(this->getMu2()),
+            1./traceofTargetForm*(this->getMu3()), 1./traceofTargetForm*(this->getMu4()); 
   //Eigensolver for strain
   Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
   eigensolver.compute(strain);//computing the eigenvalues of strain
@@ -691,6 +694,8 @@ void Face::setTempTargetFormMatrixIdentity(){
   double growthvar = cell->getGrowthVar();
   //growth rate of faces : kappa
   double kappa = cell->getKappa();
+  std::cout<<"Growth fluctiuation"<<fluctuation<<std::endl;
+  std::cout<<"growthrate"<<kappa << " | after fluctuation : "<< kappa*(1+(2*growthvar*fluctuation-growthvar))<<std::endl;
   //for the growthrate (timederivative) calcualtion -> New_Mo = Old_mo + growthRate
   Eigen::Matrix2d growthRate;
   //to calculate the individual eigen direction of strain 
@@ -704,10 +709,12 @@ void Face::setTempTargetFormMatrixIdentity(){
   //calculating the time derivative now
   growthRate = kappa*(1+(2*growthvar*fluctuation-growthvar))*(eigen1+eigen2);
   //now setting the new targetFormMatrix
-  this->targetFormMatrix[0][0] = growthRate(0,0);
-  this->targetFormMatrix[1][0] = growthRate(1,0);
-  this->targetFormMatrix[0][1] = growthRate(0,1);
-  this->targetFormMatrix[1][1] = growthRate(1,1);
+  this->targetFormMatrix[0][0] += growthRate(0,0);
+  this->targetFormMatrix[1][0] += growthRate(1,0);
+  this->targetFormMatrix[0][1] += growthRate(0,1);
+  this->targetFormMatrix[1][1] += growthRate(1,1);
+  //now setting tracesq of Target Form Matrix
+  this->setTraceSquaredTargetFormMatrix();
  }
 
   //****************** end added features********************************//

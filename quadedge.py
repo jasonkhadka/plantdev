@@ -456,6 +456,9 @@ class Face(_object):
     def setTargetArea(self, arg2):
         return _quadedge.Face_setTargetArea(self, arg2)
 
+    def getTargetFormMatrixDeterminant(self):
+        return _quadedge.Face_getTargetFormMatrixDeterminant(self)
+
     def getXCentralised(self):
         return _quadedge.Face_getXCentralised(self)
 
@@ -1247,6 +1250,10 @@ doublearray_setitem = _quadedge.doublearray_setitem
 def getCurrentFormMatrix(face, i, j):
     return _quadedge.getCurrentFormMatrix(face, i, j)
 getCurrentFormMatrix = _quadedge.getCurrentFormMatrix
+
+def getTargetFormMatrix(face, i, j):
+    return _quadedge.getTargetFormMatrix(face, i, j)
+getTargetFormMatrix = _quadedge.getTargetFormMatrix
 # This file is compatible with both classic and new-style classes.
 
 

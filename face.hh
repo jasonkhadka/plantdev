@@ -419,13 +419,17 @@ class Face
     */
     void setProjectedCoordinate();
     /**
-     * get Target Area;
+     * get Target Area for calculation of Area Deformation;
      */
     double getTargetArea();
     /**
-     * set target area;
+     * set target area; for calculation of Area Deformation
      */
     void setTargetArea(double);
+    /**
+     * get target form matrix determinant
+     */
+    double getTargetFormMatrixDeterminant();
 
     /**
      * Calcuate Projected Coordinate
@@ -587,6 +591,10 @@ inline double Face::getMu4()
 inline double Face::getTraceSquaredTargetFormMatrix()
 {
   return traceSquaredTargetFormMatrix;
+}
+inline double Face::getTargetFormMatrixDeterminant()
+{
+  return targetFormMatrix[0][0]*targetFormMatrix[1][1]-targetFormMatrix[0][1]*targetFormMatrix[1][0];
 }
 //************ end added features **********************************//
 /* ----------------------------------------------------------------------------
