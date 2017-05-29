@@ -423,6 +423,9 @@ double Face::getAreaOfFace(){
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
 void Face::setAreaOfFace(){
+  if (this->getID() == 1){
+    return;
+  }
 	FaceEdgeIterator edges(this);//iterator to iterate through the face
 	Edge *newedge;//a pointer to keep track of current edge
 	double areasum = 0;//variable to store the area of the face
@@ -431,7 +434,7 @@ void Face::setAreaOfFace(){
 	//looping through all the edges in the face until exhausted
 	while ((newedge = edges.next())!=0){
     vertexOrg = newedge->Org();
-    vertexOrg->setparameters();//setting parameters required to calculate area
+    //vertexOrg->setparameters();//setting parameters required to calculate area
 		areasum += vertexOrg->getAk(faceid);//summing up all the Ak values for this face
 	}
 	this->areaOfFace = 0.5*areasum;//storing the area of the face in areaOfFace variable
@@ -483,6 +486,9 @@ void Face::setAreaOfFace(){
 */
 
   void Face::setMu(){
+    if (this->getID() == 1){
+    return;
+  }
       //setting the values of TargetFormMatrix first, to calculate the value of Mu
       //this->setTargetFormMatrix();
       unsigned int faceid = this->getID();//id of this face
@@ -518,6 +524,9 @@ void Face::setAreaOfFace(){
       this->setAreaOfFace();
   }
 void Face::setTargetFormMatrix(){
+  if (this->getID() == 1){
+    return;
+  }
     //*******************************************//
     // this should be edited to include time update
     // at each growth step
@@ -617,65 +626,42 @@ void Face::setTempTargetFormMatrixIdentity(){
       double alpha = cell->getAlpha();
       double beta = cell->getBeta();
       double pressure = cell->getPressure();
-      unsigned int faceid = this->getID();//getting the face id
+      //unsigned int faceid = this->getID();//getting the face id
+      double firstterm, secondterm, thirdterm;
       // ****************************************************************************************** //
-      //setting the target form matrix of this face
-      //this->setTargetFormMatrix();
-      double (*targetFormMatrix)[2] = this->targetFormMatrix;
       //std::copy(&face->targetFormMatrix[0][0],&face->targetFormMatrix+2*2,&targetFormMatrix[0][0]);
       double targetFormMatrixTraceSquared = this->getTraceSquaredTargetFormMatrix();
       // ****************************************************************************************** //
-      //temporary variables to calculate centralised Coordinates
-      double firstterm(0), secondterm(0), thirdterm(0);// to store the values of each term of energy
       // ****************************************************************************************** //
-      // calculating the Form matrix of this face
-        FaceEdgeIterator faceIterator(this);
-        Edge *currentEdge;//to keep the current edge
-        Vertex *currentVertex;//to keep the current vertex
-        double ak,f1,f2,f3;//to store the values of functions
-        double term11(0), term12(0), term22(0); // to store the values of matrix element
-        double currentFormMatrix[2][2];// current Form Matrix
-        //iterating through all the edges
-        while ((currentEdge = faceIterator.next())!=0){
-              currentVertex = currentEdge->Org();
-              ak = currentVertex->getAk(faceid);
-              f1 = currentVertex->getFunction1(faceid);
-              f2 = currentVertex->getFunction2(faceid);
-              f3 = currentVertex->getFunction3(faceid);
-              //calculating the terms of the form matrix
-              term11 += (1./12.)*ak*f1;
-              term12 += (1./24.)*ak*f2;
-              term22 += (1./12.)*ak*f3;
-        }
-        currentFormMatrix[0][0] = term11;
-        currentFormMatrix[0][1] = term12;
-        currentFormMatrix[1][0] = term12;
-        currentFormMatrix[1][1] = term22;
-        // ****************************************************************************************** //
-        //First Term
-        firstterm = (1./targetFormMatrixTraceSquared)*area*(pow(currentFormMatrix[0][0]-targetFormMatrix[0][0],2)+
-                  pow(currentFormMatrix[0][1]-targetFormMatrix[0][1],2)+
-                  pow(currentFormMatrix[1][0]-targetFormMatrix[1][0],2)+
-                  pow(currentFormMatrix[1][1]-targetFormMatrix[1][1],2));
-        //Second Term
-        secondterm = (1./targetFormMatrixTraceSquared)*area*(pow(currentFormMatrix[0][0]-targetFormMatrix[0][0]+
-                    currentFormMatrix[1][1]-targetFormMatrix[1][1],2));
-        //Third term
-        thirdterm = area;
-        // ****************************************************************************************** //
-        //calculating energy
-        double energytemp = alpha*firstterm + beta*secondterm - pressure*thirdterm;
-        //removing the area term
-        //double energytemp = alpha*firstterm + beta*secondterm;
-        //setting the energy values of face 
-        this->firstTerm = firstterm;
-        this->secondTerm = secondterm;
-        this->thirdTerm = thirdterm;
-        this->energy = energytemp;
+      //First Term
+      firstterm = (1./targetFormMatrixTraceSquared)*area*(
+                pow(this->getMu1(),2)+
+                pow(this->getMu2(),2)+
+                pow(this->getMu3(),2)+
+                pow(this->getMu4(),2)
+                );
+      //Second Term
+      secondterm = (1./targetFormMatrixTraceSquared)*area*(
+                pow(this->getMu1()+this->getMu4(),2));
+      //Third term
+      thirdterm = area;
+      // ****************************************************************************************** //
+      //calculating energy
+      double energytemp = alpha*firstterm + beta*secondterm - pressure*thirdterm;
+      //removing the area term
+      //double energytemp = alpha*firstterm + beta*secondterm;
+      //setting the energy values of face 
+      this->firstTerm = firstterm;
+      this->secondTerm = secondterm;
+      this->thirdTerm = thirdterm;
+      this->energy = energytemp;
   }
  }
  // *************************************************************** //
  void Face::grow(){
+  if (this->getID() == 1){
+    return;
+  }
   //cell for this Face
   Cell * cell = this->getCell();
   //getting the strain matrix for this face
@@ -694,13 +680,25 @@ void Face::setTempTargetFormMatrixIdentity(){
   double growthvar = cell->getGrowthVar();
   //growth rate of faces : kappa
   double kappa = cell->getKappa();
+  std::cout<< "***************************************************************************"<<std::endl;
+  std::cout<<"face id : "<<this->getID()<<std::endl;
+  std::cout<< "strain matrix : "<<std::endl<<strain<<std::endl;
+  std::cout<<"trace of target Form Matrix : "<<traceofTargetForm << std::endl;
+  std::cout<< "Determinant of strain Matrix : "<<strain(0,0)*strain(1,1)-strain(0,1)*strain(1,0)<<std::endl;
+  std::cout<< "***************************************************************************"<<std::endl;
   std::cout<<"Growth fluctiuation"<<fluctuation<<std::endl;
-  std::cout<<"growthrate"<<kappa << " | after fluctuation : "<< kappa*(1+(2*growthvar*fluctuation-growthvar))<<std::endl;
+  std::cout<<"growthrate (kappa) : "<<kappa << " | after fluctuation (k*growthfluc+other) : "<< kappa*(1+(2*growthvar*fluctuation-growthvar))<<std::endl;
   //for the growthrate (timederivative) calcualtion -> New_Mo = Old_mo + growthRate
   Eigen::Matrix2d growthRate;
   //to calculate the individual eigen direction of strain 
   Eigen::Matrix2d eigen1;
   Eigen::Matrix2d eigen2;
+  //printing eigen values & vector//
+  std::cout<<"The eigenvalues are "<<std::endl<<eigensolver.eigenvalues()<<std::endl;
+  std::cout<<"The vectors are "<<std::endl<<eigensolver.eigenvectors()<<std::endl;
+  std::cout<<"The thresholdMatrix "<<std::endl;
+  std::cout<<cell->thresholdMatrix[0][0]<<"    "<<cell->thresholdMatrix[0][1]<<std::endl;
+  std::cout<<cell->thresholdMatrix[1][0]<<"    "<<cell->thresholdMatrix[1][1]<<std::endl;
   //calcuating the time derivative
   eigen1 = std::max(eigensolver.eigenvalues()[0]-cell->thresholdMatrix[0][0],0.0)*
                       ((eigensolver.eigenvectors().col(0))*(eigensolver.eigenvectors().col(0)).transpose());
@@ -708,6 +706,8 @@ void Face::setTempTargetFormMatrixIdentity(){
                       ((eigensolver.eigenvectors().col(1))*(eigensolver.eigenvectors().col(1)).transpose());
   //calculating the time derivative now
   growthRate = kappa*(1+(2*growthvar*fluctuation-growthvar))*(eigen1+eigen2);
+  std::cout<<"Growth Rate addition to TargetFormMatrix : (from Face::grow() : Faceid :"<<this->getID()<<std::endl;
+  std::cout<<growthRate<<std::endl;
   //now setting the new targetFormMatrix
   this->targetFormMatrix[0][0] += growthRate(0,0);
   this->targetFormMatrix[1][0] += growthRate(1,0);
