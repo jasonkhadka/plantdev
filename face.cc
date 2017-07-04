@@ -260,22 +260,22 @@ void Face::setProjectedCoordinate(){
     double unitx[3], unity[3], vectorVertex[3];//new unit vector of x, y on the plane
     double dotproduct, xvertex, yvertex, zvertex;
     //new way of getting intrinsic x axis
-    double wvector[3];
-    if ((normalX <= normalY) and (normalX <= normalZ)){
-        wvector[0] = 1.;
-        wvector[1] = 0.;
-        wvector[2] = 0.;   
-    } else if ((normalY <= normalZ) and (normalY <= normalZ)) {
-        wvector[0] = 0.;
-        wvector[1] = 1.;
-        wvector[2] = 0.;  
-      } else if ((normalZ <= normalX) and (normalZ <= normalY)) {
-        wvector[0] = 0.;
-        wvector[1] = 0.;
-        wvector[2] = 1.;  
+    //double wvector[3];
+    //If normal is parralel to X-axis (or in this normalised case, eqaul to x-axis) then the projection is done using Y-Axis
+    if (((normalX - 1)<0.001) and((normalY - 0)<0.001) and ((normalZ - 0)<0.001) ){
+        vectorVertex[0] = 0.;
+        vectorVertex[1] = 1.;
+        vectorVertex[2] = 0.;
+        //std::cout<<"normal X"<<std::endl;   
+    } else {
+        vectorVertex[0] = 1.;
+        vectorVertex[1] = 0.;
+        vectorVertex[2] = 0.;  
+        //std::cout<<"normal Y"<<std::endl;
       };
 
     //to get the unit vector in X direction, lets project X axis (1,0,0) on to the plane
+    /*
     double cross_u[3];
     //cross product of the two vectors
     cross_u[0] = wvector[1]*normalZ - wvector[2]*normalY;
@@ -286,27 +286,27 @@ void Face::setProjectedCoordinate(){
     wvector[0] = cross_u[1]*normalZ - cross_u[2]*normalY;
     wvector[1]=  cross_u[2]*normalX - cross_u[0]*normalZ;
     wvector[2] = cross_u[0]*normalY - cross_u[1]*normalX;
+    */
     //vector from (1,0,0)+(xCentroid,Ycentroid,Zcentroid) until xCentroid
-    vectorVertex[0] = 1.;//1.+xCentroid-xCentroid; just directly writing the resulting answer
-    vectorVertex[1] = 0.;//0.+yCentroid-yCentroid;
-    vectorVertex[2] = 0.;//0.+zCentroid-zCentroid;
-    /*
+    //vectorVertex[0] = 1.;//1.+xCentroid-xCentroid; just directly writing the resulting answer
+    //vectorVertex[1] = 0.;//0.+yCentroid-yCentroid;
+    //vectorVertex[2] = 0.;//0.+zCentroid-zCentroid;
     //dot product of vectorVertex and normal, which is equal to normalX; this is n^c_x = \phi_P
     dotproduct = normalX;//vectorVertex[0]*normalX+vectorVertex[1]*normalY+vectorVertex[2]*normalZ;
     //now calculating the projected vertices --at this stage unitx is storing pi_vector
-    unitx[0]  = 1.0 +xCentroid- dotproduct*normalX;
-    unitx[1] = 0.+yCentroid - dotproduct*normalY;
-    unitx[2] = 0.+zCentroid - dotproduct*normalZ;
+    unitx[0]  = vectorVertex[0] +xCentroid- dotproduct*normalX;
+    unitx[1] = vectorVertex[1]+yCentroid - dotproduct*normalY;
+    unitx[2] = vectorVertex[2]+zCentroid - dotproduct*normalZ;
     {//saving the pi_vector of this face
     double * pntPivector = unitx;
     this->setPivector(pntPivector);
     }
-    */
-    //now getting the vertex on the plane to take it as the x-direction
+    ////getting the unitx = normalised[Projectedvertex1 - Origin]
+   //    Failed one : -> //now getting the vertex on the plane to take it as the x-direction
     //unitx = Normalised[Origin + wvector]
-    unitx[0] = wvector[0]+ xCentroid;
-    unitx[1] = wvector[1]+ yCentroid;
-    unitx[2] = wvector[2]+ zCentroid;
+    unitx[0] = unitx[0]- xCentroid;
+    unitx[1] = unitx[1]- yCentroid;
+    unitx[2] = unitx[2]- zCentroid;
     // normalising unitx
     double normUnitx   = sqrt(pow(unitx[0],2)+pow(unitx[1],2)+pow(unitx[2],2));
     unitx[0] = unitx[0]/normUnitx;
