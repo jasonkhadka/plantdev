@@ -5,17 +5,46 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h> //has abs and others
-#include <math.h>
-
+#include <math.h> //sqrt and others
+#include <vector>// for vector 
+#include <sys/time.h>//to get time of the day
 //random number generating
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_rng.h>
 
+// NLOPT for relaxation
+#include <nlopt.hpp>
 
+//QuadEdge libraries
 #include "cell.hh"
 #include "face.hh"
 #include "vertex.hh"
 
+//Macro to change 2d index to linear index [i.j] = i*numOfRow + j
+#define getIndex(i,j) (i*3 + j)
+// ***************************************************************** //
+// This is to seed the random number generator, for "truly" getting random number
+unsigned long int random_seed()
+{
+
+ unsigned int seed;
+ struct timeval tv;
+ FILE *devrandom;
+
+ if ((devrandom = fopen("/dev/urandom","r")) == NULL) {
+   gettimeofday(&tv,0);
+   seed = tv.tv_sec + tv.tv_usec;
+   //printf("Got seed %u from gettimeofday()\n",seed);
+ } else {
+   fread(&seed,sizeof(seed),1,devrandom);
+   //printf("Got seed %u from /dev/random\n",seed);
+   fclose(devrandom);
+ }
+
+ return(seed);
+
+}
+// ********************************************************************** //
 /* ----------------------------------------------------------------------------
  * Cell
  * ------------------------------------------------------------------------- */
@@ -269,6 +298,124 @@
     }
   return totalenergy;
  }
+ //********************************************************************************* //
+ void Cell::setInitialParameters(){
+  
+  Face * face;
+  Edge * edge;
+  Vertex * vertex;
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          if (face->getID() == 1) continue;
+          face->setProjectedCoordinate();
+    }
+  }
+  /////////////////////////////////////////
+  {
+    CellVertexIterator vertices(this);
+    while ((vertex = vertices.next())!= 0){
+      vertex->setparameters();
+    }
+  }
+  /////////////////////////////////////////
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          if (face->getID() == 1) continue;
+          face->setMu();
+    }
+  }
+  /////////////////////////////////////////
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          if (face->getID() == 1) continue;
+          face->setTempTargetFormMatrixCurrent();
+    }
+  }
+  /////////////////////////////////////////
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          if (face->getID() == 1) continue;
+          face->setMu();
+    }
+  }
+  /////////////////////////////////////////
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          if (face->getID() == 1) continue;
+          face->setAreaOfFace();
+    }
+  }
+  /////////////////////////////////////////
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          if (face->getID() == 1) continue;
+          face->setEnergyTerms();
+    }
+  }
+  /////////////////////////////////////////
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          if (face->getID() == 1) continue;
+          face->setDivisionThreshold();
+    }
+  }
+ }
+ //********************************************************************************* //
+void Cell::setParameters(){
+  Face * face;
+  Edge * edge;
+  Vertex * vertex;
+  {
+    CellFaceIterator faces(this);
+    
+    while((face = faces.next())!= 0){
+          if (face->getID() == 1) continue;
+          face->setProjectedCoordinate();
+    }
+  }
+  //////////////////////////////////
+  {
+    CellVertexIterator vertices(this);
+    while ((vertex = vertices.next())!= 0){
+      vertex->setparameters();
+    } 
+  }
+  //////////////////////////////////
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          if (face->getID() == 1) continue;
+          face->setMu();
+    }
+  }
+  //////////////////////////////////
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          if (face->getID() == 1) continue;
+          face->setAreaOfFace();
+    }
+  }
+  //////////////////////////////////
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          if (face->getID() == 1) continue;
+          face->setEnergyTerms();
+    }
+  }
+  //////////////////////////////////
+ }
+ //********************************************************************************* //
+
+
  /*------------------------------------------------------------------------- */
 /* -- public class methods ------------------------------------------------- */
 
@@ -654,10 +801,16 @@ Cell::Cell()
   faceCount = 0;
   faceSize  = 6;
   faceID    = 1;
+  divisionCounter = 0;
   //setting the random number generator
   randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm
   randomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
-  gsl_rng_set(randomNumberGenerator,38270);//some number as seed-> this can be set with another random number/time
+  gsl_rng_set(randomNumberGenerator,38270);//some number as seed-> this can be set with another random number/time or /dev/random /urandom
+  // RANDOM NUMBER GENERATOR FOR CELL DIVISION
+  cellDivisionRandomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
+  gsl_rng_set(cellDivisionRandomNumberGenerator, random_seed());//using /dev/urandom to seed this generator
+  //calculating the square root of epsilon
+  sqrtEpsilon = sqrt(std::numeric_limits<double>::epsilon());
 }
 
 Cell::~Cell()
@@ -675,12 +828,15 @@ Cell::~Cell()
     for (unsigned int i = faceCount; i>0; i--)
       Face::kill(faces[i-1]);
   }
-  //release the randomNumberGenerator
-  gsl_rng_free(randomNumberGenerator);
-  // reclaim the vertex and face arrays
+  
+    // reclaim the vertex and face arrays
 
   delete[] vertices;
   delete[] faces;
+  //release the randomNumberGenerator
+  gsl_rng_free(randomNumberGenerator);
+  gsl_rng_free(cellDivisionRandomNumberGenerator);
+
 }
 
 /* -- private instance methods --------------------------------------------- */
@@ -766,4 +922,157 @@ void Cell::setOrbitLeft(Edge *edge, Face *left)
   }
   while (scan!=edge);
 }
+// **************************************************************************** //
+//structure to store X,Y,Z coordinate of vertex
+
+struct vertex_coordinate {
+    unsigned int id;
+    double x,y,z;
+};
+// *********************************************************************************************** //
+
+// Function to relax the Tissue
+int Cell::relax()
+{
+  /* // Under Construction still
+   this->functionCallCounter += 1;
+   // Step 1. Gathering all the coordinates of the vertices
+      int numVertices = (int) this->countVertices();
+      int numOfLayer = this->getLayer();
+      double radius =  (numOfLayer>1)*(np.sqrt(3.)*(numOfLayer-1)-Length)+Length;
+      int perimeterVertexNum = 6+12*(numOfLayer-1);//number of verts in permeter
+      //making the array to store all the vertices
+      std::vector<double> coordinates(numVertices*3);
+      //iterating the vertices of cell to gather coordinates
+      CellVertexIterator vertices(this);
+      Vertex * vertex;
+      int counter = 0;
+      while ((vertex = vertices.next())!= 0){
+          coordinates[counter]= vertex.getXcoordinate();
+          counter += 1;
+          coordinates[counter]= vertex.getYcoordinate();
+          counter += 1;
+          coordinates[counter]= vertex.getZcoordinate();
+          counter += 1;
+      }
+      //*************************************************************** //
+      //BOUNDS FOR OPTIMIZATION //
+      //*************************************************************** //
+        double factor(4.), bound(0.);
+        double epsbasefreedom = (1./10.)*2.*M_PI*radius/perimeterVertexNum;
+        //array to store the bounds
+        std::vector<double> low_bound(numVertices*3);
+        std::vector<double> up_bound(numVertices*3);
+        //bounds for a Dome //
+        CellVertexIterator vertices(this);
+        int vertcounter = 0;
+        while ((vertex = vertices.next()!= 0))
+            {
+                if ((vertex->getID() > perimeterVertexNum) and (vertex->getID() <= numVertices))
+                { //DOME VERTEX
+                  bound = factor*radius;
+                  up_bound[getIndex(vertcounter,0)] = bound;
+                  up_bound[getIndex(vertcounter,1)] = bound;
+                  up_bound[getIndex(vertcounter,2)] = bound;
+                  low_bound[getIndex(vertcounter,0)] = -1.* bound;
+                  low_bound[getIndex(vertcounter,1)] = -1.* bound;
+                  low_bound[getIndex(vertcounter,2)] = 0.;
+                }
+                else
+                {
+                  // CYLINDRICAL FLANK VERTEX
+                  up_bound[getIndex(vertcounter,0)] = coordinates[getIndex(vertcounter,0)]+epsbasefreedom;
+                  up_bound[getIndex(vertcounter,1)] = coordinates[getIndex(vertcounter,1)]+epsbasefreedom;
+                  up_bound[getIndex(vertcounter,2)] = factor*radius;
+                  low_bound[getIndex(vertcounter,0)] = coordinates[getIndex(vertcounter,0)]-epsbasefreedom;
+                  low_bound[getIndex(vertcounter,1)] = coordinates[getIndex(vertcounter,1)]-epsbasefreedom;
+                  low_bound[getIndex(vertcounter,2)] = 0.;
+                }
+                vertcounter++;
+            }
+        //*************************************************************** //
+        //BOUNDS FOR FLOOR VERTICES//
+        //*************************************************************** //
+        CellVertexIterator vertices(this);
+        int vertcounter = 0;
+        while ((vertex = vertices.next()!= 0))
+            {
+                if (checkExternalVertex(vertex))//If the vertex is external vertex then new bounds applied
+                {
+                  up_bound[getIndex(vertcounter,0)] = coordinates[getIndex(vertcounter,0)]+epsbasefreedom;
+                  up_bound[getIndex(vertcounter,1)] = coordinates[getIndex(vertcounter,1)]+epsbasefreedom;
+                  up_bound[getIndex(vertcounter,2)] = coordinates[getIndex(vertcounter,2)]+epsbasefreedom;
+                  low_bound[getIndex(vertcounter,0)] = coordinates[getIndex(vertcounter,0)]-epsbasefreedom;
+                  low_bound[getIndex(vertcounter,1)] = coordinates[getIndex(vertcounter,1)]-epsbasefreedom;
+                  low_bound[getIndex(vertcounter,2)] = 0.;
+                }
+                vertcounter++;
+            }
+      //*************************************************************** //
+      //                    NLOPT CONFIGURATION                         //
+      //*************************************************************** //
+      //Initialising NLOPT optimizer -> Here using SBPLX
+      nlopt:opt opt(nlopt::LN_SBPLX,numVertices*3);
+      //setting the objective function
+      opt.set_min_objective(objectiveEnergyFunction,NULL);
+      //setting the tolerance 
+      opt.set_xtol_abs(this->tolerance);
+      //setting the initial step
+      opt.set_initial_step(this->initialStep);
+      //setting the bounds for calculation
+      opt.set_lower_bounds(low_bound);
+      opt.set_upper_bounds(up_bound);
+      // now optimizing the bounds
+      nlopt::result result = opt.optimize(coordinates)
+      //checking optimisation result 
+      */
+      return 0;
+      //*************************************************************** //
+      //                     Releasing the Memory                       //
+      //*************************************************************** //
+}
+
+// ********************************************************************************** //
+//this is the function to use as objective function in calculation of the energy for
+//NLOPT relaxation
+/*
+double objectiveEnergyFunction(const double * inputcoordinates, double * grad, Cell * cell)
+{
+    CellVertexIterator vertices(cell);
+    Vertex * vertex;
+    int counter(0);
+    //Updating the coordinates of the Cell
+    while((vertex = vertices.next())!= 0)
+    {
+        vertex->setXcoordinate(inputcoordinates[getIndex(counter,0)]);
+        vertex->setYcoordinate(inputcoordinates[getIndex(counter,1)]);
+        vertex->setZcoordinate(inputcoordinates[getIndex(counter,2)]);
+        counter += 1;
+    }
+    //now setting the parameters with respect to new Coordinates
+    cell->setParameters();
+    //now calculatng the Energy with Cartesian Volume and return
+    return cell->getEnergyCartesianVolume();
+}
+
+*/
+// ********************************************************************************** //
+bool checkExternalVertex(Vertex * vertex)
+{
+    VertexEdgeIterator edges(vertex);
+    Edge * edge;
+    Face * face;
+    while ((edge = edges.next())!= 0)
+    {
+          face = edge->Left();
+          if (face->getID() == 1)
+          {
+              return true;
+          }
+    }
+    return false;
+}
+
+
+
 

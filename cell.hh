@@ -213,6 +213,18 @@ class Cell
    * calculate the volume with cartesian (or actual) coordiantes
    */
   double getCartesianVolume();
+  /**
+   * Function to Initially set all the parameters to all the Faces & Vertices
+   * the targetFormMatrix for faces is set to be current Form Matrix
+   * to prepare for the further calculation of Energy and other quantities
+   */
+  void setInitialParameters();
+  /**
+   * Function to set all the parameters to all the Faces & Vertices
+   * to prepare for the further calculation of Energy and other quantities
+   */
+  void setParameters();
+
 
   /* -- protected instance methods ----------------------------------------- */
 
@@ -275,7 +287,10 @@ class Cell
   void setOrbitLeft(Edge *edge, Face *left);
   /* -- private instance variables ----------------------------------------- */
   private:
-
+  /**
+   * Layer of cells on the Dome of this cell
+   */
+  int layer;
   /*
    * The vertices in this cell.
    * Nonnull.
@@ -321,6 +336,7 @@ class Cell
    * The next unused face ID.
    */
   unsigned int faceID;
+
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
   // Parameters of Simulation 
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
@@ -352,17 +368,48 @@ class Cell
     * Growth Variation in Face growth rate
     */
    double growthvar = 0.5;
+   /**
+    * Square root of Epsilon to use for finite diference stepsize
+    * as recommended step size for finite difference is = sqrt(eps)*x for x != 0
+    * assigned in constructor
+    */
+   double sqrtEpsilon;
+   /**
+    * Tolerance for the optimizer
+    */
+   double tolerance = 0.0001;
+   /**
+    * Initial step for simulation
+    */
+   double initialStep = 0.01;
+   /**
+    * function call counter
+    */
+   int functionCallCounter = 0;
+   /**
+    * cell division counter 
+    */
+   unsigned int divisionCounter;
    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
   //    Random Number Generator : seeded with *some* seed 
   //      Right now it is just a number i chose for testing*
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
    gsl_rng * randomNumberGenerator; //Random number generator
    const gsl_rng_type * randomNumberGeneratorType; //type of random number generator
+   gsl_rng * cellDivisionRandomNumberGenerator; //random number generator for cell division
 
 public:
   /**
    * Public members
    */
+  /**
+   * register cell division
+   */
+  void countCellDivision();
+  /**
+   * return divisionCounter()
+   */
+  unsigned int getDivisionCounter();
    /**
     * Growth threshold for faces
     * it is initialised with constructor in Cell
@@ -411,6 +458,14 @@ public:
   // **************************************************************** //
   // Public instance method //
 public:
+  /**
+   * set the number of layer
+   */
+  void setLayer(int);
+  /**
+   * get the number of layer
+   */
+  int getLayer();
 
   /**
    * setting the pressure acting on the cells of this tissue
@@ -463,10 +518,14 @@ public:
    */
   void setZeta(double);
   /**
-   * Get a uniform random number from the random number generator of this cell
+   * Get a UNIFORM RANDOM NUMBER from the random number generator of this cell
    * in range [0,1) exclusive 1
    */
   double getRandomNumber();
+  /**
+   * get RANDOM NUMBER for CELL DIVISION
+   */
+  double getCellDivisionRandomNumber();
   /**
    * get the growth variation
    */
@@ -475,6 +534,43 @@ public:
    * set the growth variation
    */
   void setGrowthVar(double);
+  /**
+   * get Sqrt of Epsilon
+   */
+  double getSqrtEpsilon();
+  /**
+   * set the tolerance value
+   */
+  void setTolerance(double);
+  /**
+   * get the tolerance value
+   */
+  double getTolerance();
+  /**
+   * set the initial step
+   */
+  void setInitialStep(double);
+  /**
+   * get the initial step
+   */
+  double getInitialStep();
+  /**
+   * set function call counter
+   */
+  void setFunctionCallCounter(int);
+  /**
+   * get function call counter
+   */
+  int getFunctionCallCounter();
+
+  // ********************************************************************* //
+  /**
+   * Function to relax the tissue
+   * This uses NLOPT optmizer to relax the complete tissue
+   * For more details see its implementation in cell.cc
+   */
+  int relax();
+  // ********************************************************************* //
   /* -- friend classes ----------------------------------------------------- */
 
   friend class CellVertexIterator;
@@ -484,6 +580,39 @@ public:
 };
 
 /* -- inline instance methods ---------------------------------------------- */
+inline void Cell::countCellDivision(){
+  this->divisionCounter = this->divisionCounter + 1;
+}
+inline unsigned int Cell::getDivisionCounter(){
+  return divisionCounter;
+}
+inline int Cell::getFunctionCallCounter(){
+  return this->functionCallCounter;
+}
+inline void Cell::setFunctionCallCounter(int newvalue){
+  this->functionCallCounter = newvalue;
+}
+inline void Cell::setInitialStep(double newinitial){
+  this->initialStep = newinitial;
+}
+inline double Cell::getInitialStep(){
+  return initialStep;
+}
+inline void Cell::setTolerance(double newtol){
+  this->tolerance = newtol;
+}
+inline double Cell::getTolerance(){
+  return tolerance;
+}
+inline void Cell::setLayer(int newlayer){
+  this->layer = newlayer;
+}
+inline int Cell::getLayer(){
+  return layer;
+}
+inline double Cell::getSqrtEpsilon(){
+  return sqrtEpsilon;
+}
 inline double Cell::getGrowthVar(){
   return growthvar;
 }
@@ -492,6 +621,9 @@ inline void Cell::setGrowthVar(double tempvar){
 }
 inline double Cell::getRandomNumber(){
       return gsl_rng_uniform(randomNumberGenerator);
+}
+inline double Cell::getCellDivisionRandomNumber(){
+      return gsl_rng_uniform(cellDivisionRandomNumberGenerator);
 }
 inline double Cell::getKappa(){
   return kappa;

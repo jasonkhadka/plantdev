@@ -6,6 +6,8 @@
 #include "derivative.hh"
 #include <math.h>
 
+// ************************************************************************************ //
+// ************************************************************************************ //
 
 // -----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%-----%//
 // -----%-----%-----%----Public Members Only-----%-----%-----%-----%-----%-----%-----%//
@@ -51,6 +53,104 @@ double CentralisedDerivative::energyXDerivative(Cell * cell, Vertex * first){
 	return totalenergyxderivative;
 }
 */
+//****************************************************************************************** //
+//   Numerical Energy X derivative with respect to change in x coordinate of this vertex
+double CentralisedDerivative::numericalEnergyXDerivative(Vertex* vertex){
+	// forward difference
+	Cell * cell = vertex->getCell();
+	double currentEnergy = cell->getEnergyCartesianVolume();
+	//*** Now forward propagating the x vertex and the energy *** //
+	double currentXCoordinate = vertex->getXcoordinate();
+	// defining the stepsize for finite difference calculation
+	double stepsize;
+	if (currentXCoordinate != 0){
+		stepsize = (cell->getSqrtEpsilon())*currentXCoordinate;
+	}
+	else{
+		stepsize = cell->getSqrtEpsilon();
+	}
+	//now caculating the new energy by increasing the X-coordinate
+	vertex->setXcoordinate(currentXCoordinate+stepsize);
+	cell->setParameters();
+	double newEnergy = cell->getEnergyCartesianVolume();
+	//Resetting the coordinate and other values
+	vertex->setXcoordinate(currentXCoordinate);
+	cell->setParameters();
+	//calculating the derivative
+	double derivative = (newEnergy - currentEnergy)/stepsize;
+	//to check if the values are reset to previous values
+	//std::cout<< "CurrentEnergy" << currentEnergy <<"Energy after reseting : " 
+	//<< cell->getEnergyCartesianVolume() << "difference " 
+	//<<currentEnergy - cell->getEnergyCartesianVolume()<<std::endl;
+	// returning the derivative value
+	return derivative;
+}
+//****************************************************************************************** //
+//   Numerical Energy Y derivative with respect to change in x coordinate of this vertex
+double CentralisedDerivative::numericalEnergyYDerivative(Vertex* vertex){
+	// forward difference
+	Cell * cell = vertex->getCell();
+	double currentEnergy = cell->getEnergyCartesianVolume();
+	//*** Now forward propagating the x vertex and the energy *** //
+	double currentYCoordinate = vertex->getYcoordinate();
+	// defining the stepsize for finite difference calculation
+	double stepsize;
+	if (currentYCoordinate != 0){
+		stepsize = (cell->getSqrtEpsilon())*currentYCoordinate;
+	}
+	else{
+		stepsize = cell->getSqrtEpsilon();
+	}
+	//now caculating the new energy by increasing the Y-coordinate
+	vertex->setYcoordinate(currentYCoordinate+stepsize);
+	cell->setParameters();
+	double newEnergy = cell->getEnergyCartesianVolume();
+	//Resetting the coordinate and other values
+	vertex->setYcoordinate(currentYCoordinate);
+	cell->setParameters();
+	//calculating the derivative
+	double derivative = (newEnergy - currentEnergy)/stepsize;
+	//to check if the values are reset to previous values
+	//std::cout<< "CurrentEnergy" << currentEnergy <<"Energy after reseting : " 
+	//<< cell->getEnergyCartesianVolume() << "difference " 
+	//<<currentEnergy - cell->getEnergyCartesianVolume()<<std::endl;
+	// returning the derivative value
+	return derivative;
+}
+//****************************************************************************************** //
+//   Numerical Energy Z derivative with respect to change in x coordinate of this vertex
+double CentralisedDerivative::numericalEnergyZDerivative(Vertex* vertex){
+	// forward difference
+	Cell * cell = vertex->getCell();
+	double currentEnergy = cell->getEnergyCartesianVolume();
+	//*** Now forward propagating the x vertex and the energy *** //
+	double currentZCoordinate = vertex->getZcoordinate();
+	// defining the stepsize for finite difference calculation
+	double stepsize;
+	if (currentZCoordinate != 0){
+		stepsize = (cell->getSqrtEpsilon())*currentZCoordinate;
+	}
+	else{
+		stepsize = cell->getSqrtEpsilon();
+	}
+	//now caculating the new energy by increasing the Z-coordinate
+	vertex->setZcoordinate(currentZCoordinate+stepsize);
+	cell->setParameters();
+	double newEnergy = cell->getEnergyCartesianVolume();
+	//Resetting the coordinate and other values
+	vertex->setZcoordinate(currentZCoordinate);
+	cell->setParameters();
+	//calculating the derivative
+	double derivative = (newEnergy - currentEnergy)/stepsize;
+	//to check if the values are reset to previous values
+	//std::cout<< "CurrentEnergy" << currentEnergy <<"Energy after reseting : " 
+	//<< cell->getEnergyCartesianVolume() << "difference " 
+	//<<currentEnergy - cell->getEnergyCartesianVolume()<<std::endl;
+	// returning the derivative value
+	return derivative;
+}
+//****************************************************************************************** //
+//****************************************************************************************** //
 double energyXDerivative(Cell * cell, Vertex * vertex){
 	// iterating through the edges of the vertex
 	VertexEdgeIterator vertedgeiterator(vertex);
@@ -66,6 +166,7 @@ double energyXDerivative(Cell * cell, Vertex * vertex){
 					
 			}
 	}
+	return 0.;
 }
 // --------------------------------------------------------------------------------------------------- //
 double CentralisedDerivative::xtildeXDerivative(Vertex *first, Vertex *second, Face *face){

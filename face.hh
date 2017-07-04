@@ -328,6 +328,36 @@ class Face
    */
    void grow();
    /**
+    * The threshold for division
+   */
+   double divisionThreshold;
+   /**
+    * the factor for division threshold 
+    * divisionThreshold = divisionFactor*IntialArea;
+    * initial set as 10%  extra growth
+    */
+   double divisionFactor = 1.1;
+   /**
+    * set the threshold for division as compared to Current Area of Face
+   */
+   void setDivisionThreshold();
+   /**
+    * this function is to set the division threshold to the given value
+    */
+   void setDivisionThreshold(double);
+
+  /**
+     * function to divide this face in a random axis
+     */
+     void divideRandom();
+  /**
+   * function to set the Form Matrix after the division 
+   * need to set the form matrix of 
+   * 1. the Daugther cells of division 
+   * 2. Neighbouring cells as those also got new vertex
+   */
+    void setDivideFormMatrix();
+   /**
     * targetFormMatrix of this face (or cell in biological terms)
     * **for now this is jsut the form matrix of current shape
     */
@@ -341,6 +371,18 @@ class Face
      *  current form of the cell
      */
     double currentFormMatrix[2][2]= {{0.,0.},{0.,0.}};
+    /**
+     * After cell division,  To update the form matrix after the division
+     * Old Mu Matrix : the matrix that represents the 
+     *  Mu matrix (difference of currentForm and targetForm) of the cell before cell division
+     */
+    double oldMuMatrix[2][2]= {{0.,0.},{0.,0.}};
+    /**
+     * Simular to oldMuMatrix we need trace of current form matrix
+     * for targetFormMatrix for cells after divison
+     */
+    double oldcurrentFormMatrixTrace = 0.;
+    
     /**
      * function that prints the targetform matrix
      * this function ideally should be replaced by somethign that 
@@ -491,12 +533,16 @@ class Face
       * Set the values of Energy terms :- First, Second, Third term value of Energy 
       */
      void setEnergyTerms();
+
   // **********************************************************************// 
   /* -- friend classes ----------------------------------------------------- */
 
-  friend class centralisedDerivative;
+  friend class CentralisedDerivative;
 };
 /* ----- inline instance methods --------------------------------*/
+inline void Face::setDivisionThreshold(double newthreshold){
+    this->divisionThreshold = newthreshold;
+}
 inline double Face::getFirstTerm(){
     return firstTerm;
 }

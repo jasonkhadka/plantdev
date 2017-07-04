@@ -12,9 +12,27 @@ class CentralisedDerivative
 
 
 	 public:
-	 	// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
-	 	// %%%%%%%%%%%%%%%%%% MAIN FUNCTIONS %%%%%%%%%%%%%%%%%%%% //
-	 	// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+	 	//********** Numerical Energy Derivative ************************************** //
+	 	/**
+	 	 * Calculating the Energy derivative with respect to change in X-coordinate
+	 	 * of this vertex
+	 	 * calculation using Forward difference method
+	 	 */
+		double numericalEnergyXDerivative(Vertex*);
+		/**
+	 	 * Calculating the Energy derivative with respect to change in Y-coordinate
+	 	 * of this vertex
+	 	 * calculation using Forward difference method
+	 	 */
+		double numericalEnergyYDerivative(Vertex*);
+		/**
+	 	 * Calculating the Energy derivative with respect to change in Z-coordinate
+	 	 * of this vertex
+	 	 * calculation using Forward difference method
+	 	 */
+		double numericalEnergyZDerivative(Vertex*);
+
+
 
 	 	//~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~//
 	 	//  ~~~~~~~~~~~~~ Energy Derivatives ~~~~~~~~~~~~~~~~ //
@@ -43,7 +61,6 @@ class CentralisedDerivative
 	 	//~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~//
 	 	//~~~~~~~~~~~~~~~   y derivatives   ~~~~~~~~~~~~~~~ //
 	 	//~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~//
-	 	
 	 	
 
 
@@ -424,6 +441,7 @@ class CentralisedDerivative
 		 //&&*************************************************************************** //
 		 //&********************  Numerical Derivatives   ****************************** //
 		 //&*************************************************************************** //
+
 
 		 // ******** Numerical Derivative of Xtilde X derivative  ********************* //
 		double numericalXtildeXDerivative(Vertex*, Vertex*, Face*, double);

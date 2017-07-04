@@ -290,7 +290,7 @@ class Edge
 
   friend class QuadEdge;
 
-  friend class centralisedDerivative;
+  friend class CentralisedDerivative;
 
 };
 

@@ -726,7 +726,7 @@ class Vertex
   // **********************************************************************// 
   /* -- friend classes ----------------------------------------------------- */
 
-  friend class centralisedDerivative;
+  friend class CentralisedDerivative;
 };
 
 /* -- inline instance methods ---------------------------------------------- */

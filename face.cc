@@ -22,6 +22,11 @@
 #include "./eigen/Eigen/Dense"
 #include "./eigen/Eigen/Eigenvalues"
 
+//struct to store verticies
+struct vertex_coordinate {
+    unsigned int id;
+    double x,y,z;
+};
 /* ----------------------------------------------------------------------------
  * Face
  * ------------------------------------------------------------------------- */
@@ -168,7 +173,7 @@ void Face::setProjectedCoordinate(){
           totalarea += triangulatedArea[counter];// calculating total area of triange
       }
     //std::cout<<"xCentroid: "<< xCentroid<<" yCentroid : "<< yCentroid<<" zCentroid : "<< zCentroid<<std::endl;
-    //std::cout<<"totalarea : "<< totalarea<<std::endl;
+    std::cout<<"faceID: "<<this->getID()<<" totalarea : "<< totalarea<<std::endl;
     //now calculating weighted center
     xCentroid = xCentroid/totalarea;
     yCentroid = yCentroid/totalarea;
@@ -254,11 +259,38 @@ void Face::setProjectedCoordinate(){
     // getting the unit vector of 2d Plane
     double unitx[3], unity[3], vectorVertex[3];//new unit vector of x, y on the plane
     double dotproduct, xvertex, yvertex, zvertex;
+    //new way of getting intrinsic x axis
+    double wvector[3];
+    if ((normalX <= normalY) and (normalX <= normalZ)){
+        wvector[0] = 1.;
+        wvector[1] = 0.;
+        wvector[2] = 0.;   
+    } else if ((normalY <= normalZ) and (normalY <= normalZ)) {
+        wvector[0] = 0.;
+        wvector[1] = 1.;
+        wvector[2] = 0.;  
+      } else if ((normalZ <= normalX) and (normalZ <= normalY)) {
+        wvector[0] = 0.;
+        wvector[1] = 0.;
+        wvector[2] = 1.;  
+      };
+
     //to get the unit vector in X direction, lets project X axis (1,0,0) on to the plane
+    double cross_u[3];
+    //cross product of the two vectors
+    cross_u[0] = wvector[1]*normalZ - wvector[2]*normalY;
+    cross_u[1]=  wvector[2]*normalX - wvector[0]*normalZ;
+    cross_u[2] = wvector[0]*normalY - wvector[1]*normalX;
+    //final cross - product to given vector perpendicular to normal vector,
+    //cross product of the two vectors
+    wvector[0] = cross_u[1]*normalZ - cross_u[2]*normalY;
+    wvector[1]=  cross_u[2]*normalX - cross_u[0]*normalZ;
+    wvector[2] = cross_u[0]*normalY - cross_u[1]*normalX;
     //vector from (1,0,0)+(xCentroid,Ycentroid,Zcentroid) until xCentroid
     vectorVertex[0] = 1.;//1.+xCentroid-xCentroid; just directly writing the resulting answer
     vectorVertex[1] = 0.;//0.+yCentroid-yCentroid;
     vectorVertex[2] = 0.;//0.+zCentroid-zCentroid;
+    /*
     //dot product of vectorVertex and normal, which is equal to normalX; this is n^c_x = \phi_P
     dotproduct = normalX;//vectorVertex[0]*normalX+vectorVertex[1]*normalY+vectorVertex[2]*normalZ;
     //now calculating the projected vertices --at this stage unitx is storing pi_vector
@@ -269,10 +301,12 @@ void Face::setProjectedCoordinate(){
     double * pntPivector = unitx;
     this->setPivector(pntPivector);
     }
-    //getting the unitx = normalised[Projectedvertex1 - Origin]
-    unitx[0] = unitx[0]- xCentroid;
-    unitx[1] = unitx[1]- yCentroid;
-    unitx[2] = unitx[2]- zCentroid;
+    */
+    //now getting the vertex on the plane to take it as the x-direction
+    //unitx = Normalised[Origin + wvector]
+    unitx[0] = wvector[0]+ xCentroid;
+    unitx[1] = wvector[1]+ yCentroid;
+    unitx[2] = wvector[2]+ zCentroid;
     // normalising unitx
     double normUnitx   = sqrt(pow(unitx[0],2)+pow(unitx[1],2)+pow(unitx[2],2));
     unitx[0] = unitx[0]/normUnitx;
@@ -434,10 +468,15 @@ void Face::setAreaOfFace(){
 	//looping through all the edges in the face until exhausted
 	while ((newedge = edges.next())!=0){
     vertexOrg = newedge->Org();
-    //vertexOrg->setparameters();//setting parameters required to calculate area
+    vertexOrg->setparameters();//setting parameters required to calculate area
 		areasum += vertexOrg->getAk(faceid);//summing up all the Ak values for this face
 	}
 	this->areaOfFace = 0.5*areasum;//storing the area of the face in areaOfFace variable
+  //in case the area is calculated negative (for example the crossing of vertices)
+  //then assing max value to area
+  if (this->areaOfFace <0.){
+      this->areaOfFace = HUGE_VAL;
+  }
 }
 //******************added features********************************//
 /*
@@ -716,7 +755,220 @@ void Face::setTempTargetFormMatrixIdentity(){
   //now setting tracesq of Target Form Matrix
   this->setTraceSquaredTargetFormMatrix();
  }
+// *************************************************************** //
+ void Face::setDivisionThreshold(){
+     this->divisionThreshold = (this->divisionFactor)*(this->getAreaOfFace());
+ }
+ // ************************************************************** //
+ void Face::divideRandom(){
+    if (this->id == 1){
+      return;
+    };
+    // Checking if the Area of Face has crossed the division Threshold or not
+    // If the Area is greater than threshold then the cell can divide
+    if (this->getAreaOfFace() < this->divisionThreshold){
+        return;
+    }
+    //getting cell of this face
+    Cell * cell = this->getCell();
+    double phi = M_PI*(cell->getCellDivisionRandomNumber());//get a random angle for the cells to divide
+    unsigned int faceid = this->getID();
+    double vdirect[2] = {cos(phi), sin(phi)}; //taking the direction of the new wall
+    Edge * edge;
+    Edge * intersectedEdge[2];
+    Vertex * vertexA;
+    Vertex * vertexB;
+    double Cx(0.), Cy(0.), Ax,Ay,Bx,By,s;
+    double xintersect, yintersect, zintersect;
+    int counter;
+    vertex_coordinate intersection_points[2];
+    {//iterating through the edge to see the division
+      FaceEdgeIterator edges(this);
+      counter = 0;
+      while ((edge = edges.next())!= 0){
+            vertexA = edge->Org();
+            vertexB = edge->Dest();
+            //getting coordinates of A and B
+            Ax = vertexA->getProjectedXcoordinate(faceid);
+            Ay = vertexA->getProjectedYcoordinate(faceid);
+            Bx = vertexB->getProjectedXcoordinate(faceid);
+            By = vertexB->getProjectedYcoordinate(faceid);
+            //now calculating the intersection of the old walls to new walls
+            //calculating the denominator
+            double denominator = (By-Ay)*vdirect[0]-(Bx-Ax)*vdirect[1];
+            s = ((Cy-Ay)*vdirect[0]-(Cx-Ax)*vdirect[1])/denominator;
+            // now checking if the new cellwall intersects the current edge
+            if ((s>0) && (s<1)){
+                assert(counter<2);
+                intersectedEdge[counter] = edge;
+                xintersect = vertexA->getXcoordinate() + s*(vertexB->getXcoordinate()-vertexA->getXcoordinate());
+                yintersect = vertexA->getYcoordinate() + s*(vertexB->getYcoordinate()-vertexA->getYcoordinate());
+                zintersect = vertexA->getZcoordinate() + s*(vertexB->getZcoordinate()-vertexA->getZcoordinate());
+                //assinging the intersection points to the intertion_points array
+                intersection_points[counter].x = xintersect;
+                intersection_points[counter].y = yintersect;
+                intersection_points[counter].z = zintersect;
+                counter += 1;
+            }
+        }
+      }
+    //now we have two edges that are taking part in division
+    Face * left, * right;
+    Vertex * origin;
+    Vertex * addedVertex[2];
+    for (int i = 0; i <2 ; i++){
+        left = intersectedEdge[i]->Left();
+        right = intersectedEdge[i]->Right();
+        origin = intersectedEdge[i]->Org();
+        //making new edge on the origin of this edge
+        edge =cell->makeVertexEdge(origin, left,right);
+        origin = edge->Dest();
+        origin->setXcoordinate(intersection_points[i].x);
+        origin->setYcoordinate(intersection_points[i].y);
+        origin->setZcoordinate(intersection_points[i].z);
+        addedVertex[i] = origin;
+        }
+    // Now making the connecting vertex for new wall
+    //                   v2
+    //    left = this     |    right = new face
+    //                    v1
+    edge = cell->makeFaceEdge(this, addedVertex[0], addedVertex[1]); 
+    {//  TEST PART !!!!!
+      //check the vertices in this face
+        FaceEdgeIterator edges(this);
+        Edge * tempedge;
+        std::cout<<" Vertex IDs: "<<std::endl;
+        while ((tempedge = edges.next())!= 0 ){
+            std::cout<<(tempedge->Dest())->getID()<<std::endl;
+      }
+    }
+    right = edge->Right();//new face created
+    vertexA = edge->Org();
+    vertexB = edge->Dest();
+    //making the new vertex on the wall now.
+    edge =  cell->makeVertexEdge(vertexA, edge->Left(), edge->Right());
+    origin = edge->Dest();
+    //now setting hte vertex of this new vertex
+    origin->setXcoordinate((vertexA->getXcoordinate()+vertexB->getXcoordinate())/2.);
+    origin->setYcoordinate((vertexA->getYcoordinate()+vertexB->getYcoordinate())/2.);
+    origin->setZcoordinate((vertexA->getZcoordinate()+vertexB->getZcoordinate())/2.);
+    // saving the needed quantitites for the calculation of new Form Matrix of daugther cells
+    // Daughter cells share same quantities, inherited from Mother cell
+    // Newest Daughter cell (new face created above) inherits the same properties from Mother cell 
+    // Daughter cell 2
+    right->mu1 = this->mu1;
+    right->mu2 = this->mu2;
+    right->mu3 = this->mu3;
+    right->mu4 = this->mu4;
+    right->currentFormMatrix[0][0] = this->currentFormMatrix[0][0];
+    right->currentFormMatrix[0][1] = this->currentFormMatrix[0][1];
+    right->currentFormMatrix[1][0] = this->currentFormMatrix[1][0];
+    right->currentFormMatrix[1][1] = this->currentFormMatrix[1][1];
+    //Also updating the division threshold for the new daughter cell to be same as mother cells
+    right->setDivisionThreshold(this->divisionThreshold);
+    // Updating this cell's terms for Form Matrix calcualtion
+    this->oldMuMatrix[0][0] = this->mu1;
+    this->oldMuMatrix[0][1] = this->mu2;
+    this->oldMuMatrix[1][0] = this->mu3;
+    this->oldMuMatrix[1][1] = this->mu4;
+    this->oldcurrentFormMatrixTrace = this->currentFormMatrix[0][0]+this->currentFormMatrix[1][1];
+    // Now updating this cells neighbours to calculate the Form Matrix 
+    {
+      FaceEdgeIterator edges(this);
+      while ((edge = edges.next())!= 0 ){
+            right = edge->Right();//getting the right face
+            if (right->getID() == 1) continue;// continue if the right face is the external face
+            right->oldMuMatrix[0][0] = right->mu1;
+            right->oldMuMatrix[0][1] = right->mu2;
+            right->oldMuMatrix[1][0] = right->mu3;
+            right->oldMuMatrix[1][1] = right->mu4;
+            right->oldcurrentFormMatrixTrace = right->currentFormMatrix[0][0]+right->currentFormMatrix[1][1];
+      }
+    }
+    {//  TEST PART !!!!!
+      //check the vertices in this face
+        FaceEdgeIterator edges(this);
+        Edge * tempedge;
+        std::cout<<" Vertex IDs: "<<std::endl;
+        while ((tempedge = edges.next())!= 0 ){
+            std::cout<<(tempedge->Dest())->getID()<<std::endl;
+      }
+    }
+    // now as all the needed old need measures are stored 
+    //we update the parameters for this face and the neighbouring cells
+    this->setDivideFormMatrix();
+    cell->countCellDivision();
 
+ }
+ // *************************************************************** // 
+ void Face::setDivideFormMatrix(){
+  // update the parameters of all vertex and faces of this cell
+  Cell * cell = this->getCell();
+  {//  TEST PART !!!!!
+      //check the vertices in this face
+        FaceEdgeIterator edges(this);
+        Edge * tempedge;
+        std::cout<<" Vertex IDs: "<<std::endl;
+        while ((tempedge = edges.next())!= 0 ){
+            std::cout<<(tempedge->Dest())->getID()<<std::endl;
+      }
+    }
+  cell->setParameters();
+  {//  TEST PART !!!!!
+      //check the vertices in this face
+        FaceEdgeIterator edges(this);
+        Edge * tempedge;
+        std::cout<<" Vertex IDs: "<<"After parameters set"<<std::endl;
+        while ((tempedge = edges.next())!= 0 ){
+            std::cout<<(tempedge->Dest())->getID()<<std::endl;
+      }
+    }
+  //updating Form Matrix of this face
+  double traceRatio(0.);
+  //right = this;
+  traceRatio = (this->currentFormMatrix[0][0]+this->currentFormMatrix[1][1])/(this->oldcurrentFormMatrixTrace);
+  this->targetFormMatrix[0][0] = this->currentFormMatrix[0][0] - traceRatio*(this->oldMuMatrix[0][0]);
+  this->targetFormMatrix[0][1] = this->currentFormMatrix[0][1] - traceRatio*(this->oldMuMatrix[0][1]);
+  this->targetFormMatrix[1][0] = this->currentFormMatrix[1][0] - traceRatio*(this->oldMuMatrix[1][0]);
+  this->targetFormMatrix[1][1] = this->currentFormMatrix[1][1] - traceRatio*(this->oldMuMatrix[1][1]);
+
+  //updating Form Matrix of neighbouring faces
+  {
+      Face * newright;
+      FaceEdgeIterator newedges(this);
+      Edge * newedge;
+      while ((newedge = newedges.next())!= 0 ){
+            newright = newedge->Right();//getting the right face
+            if (newright->getID() == 1) continue;// continue if the right face is the external face
+            traceRatio = (newright->currentFormMatrix[0][0]+newright->currentFormMatrix[1][1])/(newright->oldcurrentFormMatrixTrace);
+            newright->targetFormMatrix[0][0] = newright->currentFormMatrix[0][0] - traceRatio*(newright->oldMuMatrix[0][0]);
+            newright->targetFormMatrix[0][1] = newright->currentFormMatrix[0][1] - traceRatio*(newright->oldMuMatrix[0][1]);
+            newright->targetFormMatrix[1][0] = newright->currentFormMatrix[1][0] - traceRatio*(newright->oldMuMatrix[1][0]);
+            newright->targetFormMatrix[1][1] = newright->currentFormMatrix[1][1] - traceRatio*(newright->oldMuMatrix[1][1]);
+
+      }
+    }
+    // Now setting final parameters for this total tissue
+    {//  TEST PART !!!!!
+      //check the vertices in this face
+        FaceEdgeIterator edges(this);
+        Edge * tempedge;
+        std::cout<<" Vertex IDs: "<<std::endl;
+        while ((tempedge = edges.next())!= 0 ){
+            std::cout<<(tempedge->Dest())->getID()<<std::endl;
+      }
+    }
+    cell->setParameters();
+    {//  TEST PART !!!!!
+      //check the vertices in this face
+        FaceEdgeIterator edges(this);
+        Edge * tempedge;
+        std::cout<<" Vertex IDs: "<<std::endl;
+        while ((tempedge = edges.next())!= 0 ){
+            std::cout<<(tempedge->Dest())->getID()<<std::endl;
+      }
+    }
+ }
   //****************** end added features********************************//
 /* -- protected instance methods ------------------------------------------- */
 

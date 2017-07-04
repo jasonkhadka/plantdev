@@ -159,6 +159,18 @@ class Cell(_object):
 
     def getCartesianVolume(self):
         return _quadedge.Cell_getCartesianVolume(self)
+
+    def setInitialParameters(self):
+        return _quadedge.Cell_setInitialParameters(self)
+
+    def setParameters(self):
+        return _quadedge.Cell_setParameters(self)
+
+    def countCellDivision(self):
+        return _quadedge.Cell_countCellDivision(self)
+
+    def getDivisionCounter(self):
+        return _quadedge.Cell_getDivisionCounter(self)
     __swig_setmethods__["thresholdMatrix"] = _quadedge.Cell_thresholdMatrix_set
     __swig_getmethods__["thresholdMatrix"] = _quadedge.Cell_thresholdMatrix_get
     if _newclass:
@@ -188,6 +200,12 @@ class Cell(_object):
 
     def getFourthTerm(self):
         return _quadedge.Cell_getFourthTerm(self)
+
+    def setLayer(self, arg2):
+        return _quadedge.Cell_setLayer(self, arg2)
+
+    def getLayer(self):
+        return _quadedge.Cell_getLayer(self)
 
     def setPressure(self, arg2):
         return _quadedge.Cell_setPressure(self, arg2)
@@ -228,11 +246,38 @@ class Cell(_object):
     def getRandomNumber(self):
         return _quadedge.Cell_getRandomNumber(self)
 
+    def getCellDivisionRandomNumber(self):
+        return _quadedge.Cell_getCellDivisionRandomNumber(self)
+
     def getGrowthVar(self):
         return _quadedge.Cell_getGrowthVar(self)
 
     def setGrowthVar(self, arg2):
         return _quadedge.Cell_setGrowthVar(self, arg2)
+
+    def getSqrtEpsilon(self):
+        return _quadedge.Cell_getSqrtEpsilon(self)
+
+    def setTolerance(self, arg2):
+        return _quadedge.Cell_setTolerance(self, arg2)
+
+    def getTolerance(self):
+        return _quadedge.Cell_getTolerance(self)
+
+    def setInitialStep(self, arg2):
+        return _quadedge.Cell_setInitialStep(self, arg2)
+
+    def getInitialStep(self):
+        return _quadedge.Cell_getInitialStep(self)
+
+    def setFunctionCallCounter(self, arg2):
+        return _quadedge.Cell_setFunctionCallCounter(self, arg2)
+
+    def getFunctionCallCounter(self):
+        return _quadedge.Cell_getFunctionCallCounter(self)
+
+    def relax(self):
+        return _quadedge.Cell_relax(self)
 Cell_swigregister = _quadedge.Cell_swigregister
 Cell_swigregister(Cell)
 
@@ -372,6 +417,23 @@ class Face(_object):
 
     def grow(self):
         return _quadedge.Face_grow(self)
+    __swig_setmethods__["divisionThreshold"] = _quadedge.Face_divisionThreshold_set
+    __swig_getmethods__["divisionThreshold"] = _quadedge.Face_divisionThreshold_get
+    if _newclass:
+        divisionThreshold = _swig_property(_quadedge.Face_divisionThreshold_get, _quadedge.Face_divisionThreshold_set)
+    __swig_setmethods__["divisionFactor"] = _quadedge.Face_divisionFactor_set
+    __swig_getmethods__["divisionFactor"] = _quadedge.Face_divisionFactor_get
+    if _newclass:
+        divisionFactor = _swig_property(_quadedge.Face_divisionFactor_get, _quadedge.Face_divisionFactor_set)
+
+    def setDivisionThreshold(self, *args):
+        return _quadedge.Face_setDivisionThreshold(self, *args)
+
+    def divideRandom(self):
+        return _quadedge.Face_divideRandom(self)
+
+    def setDivideFormMatrix(self):
+        return _quadedge.Face_setDivideFormMatrix(self)
     __swig_setmethods__["targetFormMatrix"] = _quadedge.Face_targetFormMatrix_set
     __swig_getmethods__["targetFormMatrix"] = _quadedge.Face_targetFormMatrix_get
     if _newclass:
@@ -384,6 +446,14 @@ class Face(_object):
     __swig_getmethods__["currentFormMatrix"] = _quadedge.Face_currentFormMatrix_get
     if _newclass:
         currentFormMatrix = _swig_property(_quadedge.Face_currentFormMatrix_get, _quadedge.Face_currentFormMatrix_set)
+    __swig_setmethods__["oldMuMatrix"] = _quadedge.Face_oldMuMatrix_set
+    __swig_getmethods__["oldMuMatrix"] = _quadedge.Face_oldMuMatrix_get
+    if _newclass:
+        oldMuMatrix = _swig_property(_quadedge.Face_oldMuMatrix_get, _quadedge.Face_oldMuMatrix_set)
+    __swig_setmethods__["oldcurrentFormMatrixTrace"] = _quadedge.Face_oldcurrentFormMatrixTrace_set
+    __swig_getmethods__["oldcurrentFormMatrixTrace"] = _quadedge.Face_oldcurrentFormMatrixTrace_get
+    if _newclass:
+        oldcurrentFormMatrixTrace = _swig_property(_quadedge.Face_oldcurrentFormMatrixTrace_get, _quadedge.Face_oldcurrentFormMatrixTrace_set)
 
     def printTargetFormMatrix(self):
         return _quadedge.Face_printTargetFormMatrix(self)
@@ -954,6 +1024,15 @@ class CentralisedDerivative(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, CentralisedDerivative, name)
     __repr__ = _swig_repr
+
+    def numericalEnergyXDerivative(self, arg2):
+        return _quadedge.CentralisedDerivative_numericalEnergyXDerivative(self, arg2)
+
+    def numericalEnergyYDerivative(self, arg2):
+        return _quadedge.CentralisedDerivative_numericalEnergyYDerivative(self, arg2)
+
+    def numericalEnergyZDerivative(self, arg2):
+        return _quadedge.CentralisedDerivative_numericalEnergyZDerivative(self, arg2)
 
     def xtildeXDerivative(self, first, second, face):
         return _quadedge.CentralisedDerivative_xtildeXDerivative(self, first, second, face)
