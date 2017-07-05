@@ -134,6 +134,7 @@ void Face::setProjectedCoordinate(){
           zmean += zcood[counter];
           counter += 1;//increasing the counter value
     }
+    //std::cout<<"Numberofvertex : "<<numOfVertex << "|  counter : "<< counter <<"|  ";
     xmean = xmean/numOfVertex;
     ymean = ymean/numOfVertex;
     zmean = zmean/numOfVertex;
@@ -152,18 +153,18 @@ void Face::setProjectedCoordinate(){
           zTriCen[counter] = 1./3.*(zmean+zcood[counter]+zcood[(counter+1)%numOfVertex]);
           //printf("counter = %d; center of triangles : %F ; %F ; %F \n", counter, xTriCen[counter], yTriCen[counter], zTriCen[counter]);
           //getting two vectors of this triangle
-          vector1[0] = xcood[counter]-xTriCen[counter];
-          vector1[1] = ycood[counter]-yTriCen[counter];
-          vector1[2] = zcood[counter]-zTriCen[counter];
-          vector2[0] = xcood[(counter+1)%numOfVertex]-xTriCen[counter];
-          vector2[1] = ycood[(counter+1)%numOfVertex]-yTriCen[counter];
-          vector2[2] = zcood[(counter+1)%numOfVertex]-zTriCen[counter];
+          vector1[0] = xcood[counter]-xmean;
+          vector1[1] = ycood[counter]-ymean;
+          vector1[2] = zcood[counter]-zmean;
+          vector2[0] = xcood[(counter+1)%numOfVertex]-xmean;
+          vector2[1] = ycood[(counter+1)%numOfVertex]-ymean;
+          vector2[2] = zcood[(counter+1)%numOfVertex]-zmean;
           //cross product of the two vectors
           crossProductVector[0] = vector1[1]*vector2[2] - vector1[2]*vector2[1];
           crossProductVector[1] = vector1[2]*vector2[0] - vector1[0]*vector2[2];
           crossProductVector[2] = vector1[0]*vector2[1] - vector1[1]*vector2[0];
           //maginitude of cross product
-          crossProductMagnitude = sqrt(abs(crossProductVector[0]*crossProductVector[0] + crossProductVector[1]+crossProductVector[1]+
+          crossProductMagnitude = sqrt(abs(crossProductVector[0]*crossProductVector[0] + crossProductVector[1]*crossProductVector[1]+
                                   crossProductVector[2]*crossProductVector[2]));
           triangulatedArea[counter] = 0.5*crossProductMagnitude;//area of this triangle
           xCentroid += xTriCen[counter]*triangulatedArea[counter];//adding the weigthed centroid
@@ -173,11 +174,13 @@ void Face::setProjectedCoordinate(){
           totalarea += triangulatedArea[counter];// calculating total area of triange
       }
     //std::cout<<"xCentroid: "<< xCentroid<<" yCentroid : "<< yCentroid<<" zCentroid : "<< zCentroid<<std::endl;
-    std::cout<<"faceID: "<<this->getID()<<" totalarea : "<< totalarea<<std::endl;
+    //std::cout<<"faceID: "<<this->getID()<<"| totalarea : "<< totalarea<<std::endl;
     //now calculating weighted center
     xCentroid = xCentroid/totalarea;
     yCentroid = yCentroid/totalarea;
     zCentroid = zCentroid/totalarea;
+    //std::cout<< "mean : "<<xmean<<"  " << ymean <<"  "<< zmean <<std::endl;
+    //std::cout<< "centroid : "<<xCentroid<<"  " << yCentroid <<"  "<< zCentroid<<std::endl;
     // setting the central coordinate of this face in terms of cartisian coordinate
     this->xCentralised = xCentroid;
     this->yCentralised = yCentroid;
