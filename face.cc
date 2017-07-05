@@ -382,6 +382,9 @@ void Face::setProjectedCoordinate(){
     // setting Mu values 
     //setting Mu values 
     //this->setMu();
+    // ***************************************************************************** //
+    //Setting Trace of Target Form Matrix Squared
+    this->setTraceSquaredTargetFormMatrix();
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
 void Face::setNormal(double * tempnormal){
@@ -722,6 +725,7 @@ void Face::setTempTargetFormMatrixIdentity(){
   double growthvar = cell->getGrowthVar();
   //growth rate of faces : kappa
   double kappa = cell->getKappa();
+  /*
   std::cout<< "***************************************************************************"<<std::endl;
   std::cout<<"face id : "<<this->getID()<<std::endl;
   std::cout<< "strain matrix : "<<std::endl<<strain<<std::endl;
@@ -730,17 +734,20 @@ void Face::setTempTargetFormMatrixIdentity(){
   std::cout<< "***************************************************************************"<<std::endl;
   std::cout<<"Growth fluctiuation"<<fluctuation<<std::endl;
   std::cout<<"growthrate (kappa) : "<<kappa << " | after fluctuation (k*growthfluc+other) : "<< kappa*(1+(2*growthvar*fluctuation-growthvar))<<std::endl;
+  */
   //for the growthrate (timederivative) calcualtion -> New_Mo = Old_mo + growthRate
   Eigen::Matrix2d growthRate;
   //to calculate the individual eigen direction of strain 
   Eigen::Matrix2d eigen1;
   Eigen::Matrix2d eigen2;
   //printing eigen values & vector//
+  /*
   std::cout<<"The eigenvalues are "<<std::endl<<eigensolver.eigenvalues()<<std::endl;
   std::cout<<"The vectors are "<<std::endl<<eigensolver.eigenvectors()<<std::endl;
   std::cout<<"The thresholdMatrix "<<std::endl;
   std::cout<<cell->thresholdMatrix[0][0]<<"    "<<cell->thresholdMatrix[0][1]<<std::endl;
   std::cout<<cell->thresholdMatrix[1][0]<<"    "<<cell->thresholdMatrix[1][1]<<std::endl;
+  */
   //calcuating the time derivative
   eigen1 = std::max(eigensolver.eigenvalues()[0]-cell->thresholdMatrix[0][0],0.0)*
                       ((eigensolver.eigenvectors().col(0))*(eigensolver.eigenvectors().col(0)).transpose());
@@ -748,8 +755,10 @@ void Face::setTempTargetFormMatrixIdentity(){
                       ((eigensolver.eigenvectors().col(1))*(eigensolver.eigenvectors().col(1)).transpose());
   //calculating the time derivative now
   growthRate = kappa*(1+(2*growthvar*fluctuation-growthvar))*(eigen1+eigen2);
+  /*
   std::cout<<"Growth Rate addition to TargetFormMatrix : (from Face::grow() : Faceid :"<<this->getID()<<std::endl;
   std::cout<<growthRate<<std::endl;
+  */
   //now setting the new targetFormMatrix
   this->targetFormMatrix[0][0] += growthRate(0,0);
   this->targetFormMatrix[1][0] += growthRate(1,0);
@@ -836,15 +845,6 @@ void Face::setTempTargetFormMatrixIdentity(){
     //    left = this     |    right = new face
     //                    v1
     edge = cell->makeFaceEdge(this, addedVertex[0], addedVertex[1]); 
-    {//  TEST PART !!!!!
-      //check the vertices in this face
-        FaceEdgeIterator edges(this);
-        Edge * tempedge;
-        std::cout<<" Vertex IDs: "<<std::endl;
-        while ((tempedge = edges.next())!= 0 ){
-            std::cout<<(tempedge->Dest())->getID()<<std::endl;
-      }
-    }
     right = edge->Right();//new face created
     vertexA = edge->Org();
     vertexB = edge->Dest();
@@ -888,15 +888,6 @@ void Face::setTempTargetFormMatrixIdentity(){
             right->oldcurrentFormMatrixTrace = right->currentFormMatrix[0][0]+right->currentFormMatrix[1][1];
       }
     }
-    {//  TEST PART !!!!!
-      //check the vertices in this face
-        FaceEdgeIterator edges(this);
-        Edge * tempedge;
-        std::cout<<" Vertex IDs: "<<std::endl;
-        while ((tempedge = edges.next())!= 0 ){
-            std::cout<<(tempedge->Dest())->getID()<<std::endl;
-      }
-    }
     // now as all the needed old need measures are stored 
     //we update the parameters for this face and the neighbouring cells
     this->setDivideFormMatrix();
@@ -907,25 +898,8 @@ void Face::setTempTargetFormMatrixIdentity(){
  void Face::setDivideFormMatrix(){
   // update the parameters of all vertex and faces of this cell
   Cell * cell = this->getCell();
-  {//  TEST PART !!!!!
-      //check the vertices in this face
-        FaceEdgeIterator edges(this);
-        Edge * tempedge;
-        std::cout<<" Vertex IDs: "<<std::endl;
-        while ((tempedge = edges.next())!= 0 ){
-            std::cout<<(tempedge->Dest())->getID()<<std::endl;
-      }
-    }
   cell->setParameters();
-  {//  TEST PART !!!!!
-      //check the vertices in this face
-        FaceEdgeIterator edges(this);
-        Edge * tempedge;
-        std::cout<<" Vertex IDs: "<<"After parameters set"<<std::endl;
-        while ((tempedge = edges.next())!= 0 ){
-            std::cout<<(tempedge->Dest())->getID()<<std::endl;
-      }
-    }
+  
   //updating Form Matrix of this face
   double traceRatio(0.);
   //right = this;
@@ -952,25 +926,7 @@ void Face::setTempTargetFormMatrixIdentity(){
       }
     }
     // Now setting final parameters for this total tissue
-    {//  TEST PART !!!!!
-      //check the vertices in this face
-        FaceEdgeIterator edges(this);
-        Edge * tempedge;
-        std::cout<<" Vertex IDs: "<<std::endl;
-        while ((tempedge = edges.next())!= 0 ){
-            std::cout<<(tempedge->Dest())->getID()<<std::endl;
-      }
-    }
     cell->setParameters();
-    {//  TEST PART !!!!!
-      //check the vertices in this face
-        FaceEdgeIterator edges(this);
-        Edge * tempedge;
-        std::cout<<" Vertex IDs: "<<std::endl;
-        while ((tempedge = edges.next())!= 0 ){
-            std::cout<<(tempedge->Dest())->getID()<<std::endl;
-      }
-    }
  }
   //****************** end added features********************************//
 /* -- protected instance methods ------------------------------------------- */
@@ -987,6 +943,7 @@ Face::Face(Cell *cell)
   this->vertices = new Vertex*[8];
   this->vertexCount = 0;
   this->vertexSize = 8;
+  this->divisionFactor = cell->getDivisionFactor();
   //***************end added features*******************************************//
   cell->addFace(this);
 }

@@ -336,7 +336,11 @@ class Face
     * divisionThreshold = divisionFactor*IntialArea;
     * initial set as 10%  extra growth
     */
-   double divisionFactor = 1.1;
+   double divisionFactor;
+   /**
+    * Function to set divisionFactor
+    */
+   void setDivisionFactor(double);
    /**
     * set the threshold for division as compared to Current Area of Face
    */
@@ -540,6 +544,9 @@ class Face
   friend class CentralisedDerivative;
 };
 /* ----- inline instance methods --------------------------------*/
+inline void Face::setDivisionFactor(double newfactor){
+    this->divisionFactor = newfactor;
+}
 inline void Face::setDivisionThreshold(double newthreshold){
     this->divisionThreshold = newthreshold;
 }

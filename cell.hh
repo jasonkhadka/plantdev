@@ -390,6 +390,10 @@ class Cell
     * cell division counter 
     */
    unsigned int divisionCounter;
+   /**
+    * division factor for cell division Threshold
+    */
+   double divisionFactor;
    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
   //    Random Number Generator : seeded with *some* seed 
   //      Right now it is just a number i chose for testing*
@@ -402,6 +406,15 @@ public:
   /**
    * Public members
    */
+
+  /**
+   * change division Factor for cell division threshold in this cell
+   */
+  void setDivisionFactor(double);
+  /**
+   * get the division factor
+   */
+  double getDivisionFactor();
   /**
    * register cell division
    */
@@ -580,6 +593,9 @@ public:
 };
 
 /* -- inline instance methods ---------------------------------------------- */
+inline double Cell::getDivisionFactor(){
+  return this->divisionFactor;
+}
 inline void Cell::countCellDivision(){
   this->divisionCounter = this->divisionCounter + 1;
 }

@@ -302,7 +302,7 @@ unsigned long int random_seed()
  void Cell::setInitialParameters(){
   
   Face * face;
-  Edge * edge;
+  //Edge * edge;
   Vertex * vertex;
   {
     CellFaceIterator faces(this);
@@ -370,7 +370,7 @@ unsigned long int random_seed()
  //********************************************************************************* //
 void Cell::setParameters(){
   Face * face;
-  Edge * edge;
+  //Edge * edge;
   Vertex * vertex;
   {
     CellFaceIterator faces(this);
@@ -413,6 +413,17 @@ void Cell::setParameters(){
   }
   //////////////////////////////////
  }
+
+ void Cell::setDivisionFactor(double newfactor){
+  this->divisionFactor = newfactor;
+  {
+    Face * face;
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          face->setDivisionFactor(newfactor);
+    }
+  }
+}
  //********************************************************************************* //
 
 
@@ -802,6 +813,7 @@ Cell::Cell()
   faceSize  = 6;
   faceID    = 1;
   divisionCounter = 0;
+  divisionFactor = 1.1;
   //setting the random number generator
   randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm
   randomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
@@ -955,9 +967,9 @@ int Cell::relax()
           coordinates[counter]= vertex.getZcoordinate();
           counter += 1;
       }
-      //*************************************************************** //
+      // *************************************************************** //
       //BOUNDS FOR OPTIMIZATION //
-      //*************************************************************** //
+      // *************************************************************** //
         double factor(4.), bound(0.);
         double epsbasefreedom = (1./10.)*2.*M_PI*radius/perimeterVertexNum;
         //array to store the bounds
@@ -990,9 +1002,9 @@ int Cell::relax()
                 }
                 vertcounter++;
             }
-        //*************************************************************** //
+        // *************************************************************** //
         //BOUNDS FOR FLOOR VERTICES//
-        //*************************************************************** //
+        // *************************************************************** //
         CellVertexIterator vertices(this);
         int vertcounter = 0;
         while ((vertex = vertices.next()!= 0))
@@ -1008,9 +1020,9 @@ int Cell::relax()
                 }
                 vertcounter++;
             }
-      //*************************************************************** //
+      // *************************************************************** //
       //                    NLOPT CONFIGURATION                         //
-      //*************************************************************** //
+      // *************************************************************** //
       //Initialising NLOPT optimizer -> Here using SBPLX
       nlopt:opt opt(nlopt::LN_SBPLX,numVertices*3);
       //setting the objective function
@@ -1027,9 +1039,9 @@ int Cell::relax()
       //checking optimisation result 
       */
       return 0;
-      //*************************************************************** //
+      // *************************************************************** //
       //                     Releasing the Memory                       //
-      //*************************************************************** //
+      // *************************************************************** //
 }
 
 // ********************************************************************************** //
