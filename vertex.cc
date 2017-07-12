@@ -151,6 +151,7 @@ Vertex::Vertex(Cell *cell)
   this->Ycoordinate = 0.0;
   this->Zcoordinate = 0.0;
   cell->addVertex(this);
+  this->domePosition = true;
 }
 
 Vertex::~Vertex()

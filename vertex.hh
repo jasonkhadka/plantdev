@@ -687,6 +687,20 @@ class Vertex
    *         must be nonnull
    */
   void removeEdge(Edge *edge);
+  /**
+   * Function to change the position of Vertex to Cylinder
+   */
+  void positionToCylinder();
+  /**
+   * Function  to change the position of vertex to Dome
+   */
+  void positionToDome();
+  /**
+   * Function to return Dome Position
+   *  True : Vertex is in Dome
+   *  False : Vertex is in Cylindrical Flanks
+   */
+  bool getDomePosition();
   /* -- protected instance methods ----------------------------------------- */
 
   protected:
@@ -723,6 +737,10 @@ class Vertex
    * Null if isolated.
    */
   Edge *edge;
+  /**
+   * Variable that notes if the vertex is in Dome or in Cylinder
+   */
+  bool domePosition;
   // **********************************************************************// 
   /* -- friend classes ----------------------------------------------------- */
 
@@ -730,6 +748,15 @@ class Vertex
 };
 
 /* -- inline instance methods ---------------------------------------------- */
+inline bool Vertex::getDomePosition(){
+  return this->domePosition;
+}
+inline void Vertex::positionToDome(){
+  this->domePosition = true;
+}
+inline void Vertex::positionToCylinder(){
+  this->domePosition = false;
+}
 
 inline Cell *Vertex::getCell()
 {

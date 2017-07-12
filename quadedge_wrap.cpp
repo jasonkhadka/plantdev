@@ -3340,6 +3340,13 @@ SWIGINTERNINLINE PyObject*
 #include "vertex.hh"
 
 
+SWIGINTERNINLINE PyObject*
+  SWIG_From_bool  (bool value)
+{
+  return PyBool_FromLong(value ? 1 : 0);
+}
+
+
 #include "jacobian.hh"
 
 
@@ -3952,6 +3959,58 @@ SWIGINTERN PyObject *_wrap_Cell_setParameters(PyObject *SWIGUNUSEDPARM(self), Py
   arg1 = reinterpret_cast< Cell * >(argp1);
   (arg1)->setParameters();
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_setDivisionFactor(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Cell_setDivisionFactor",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setDivisionFactor" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Cell_setDivisionFactor" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setDivisionFactor(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getDivisionFactor(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getDivisionFactor",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getDivisionFactor" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getDivisionFactor();
+  resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
   return NULL;
@@ -5807,6 +5866,36 @@ SWIGINTERN PyObject *_wrap_Face_divisionFactor_get(PyObject *SWIGUNUSEDPARM(self
   arg1 = reinterpret_cast< Face * >(argp1);
   result = (double) ((arg1)->divisionFactor);
   resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setDivisionFactor(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_setDivisionFactor",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setDivisionFactor" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Face_setDivisionFactor" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setDivisionFactor(arg2);
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -10272,6 +10361,70 @@ SWIGINTERN PyObject *_wrap_Vertex_removeEdge(PyObject *SWIGUNUSEDPARM(self), PyO
   arg2 = reinterpret_cast< Edge * >(argp2);
   (arg1)->removeEdge(arg2);
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_positionToCylinder(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_positionToCylinder",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_positionToCylinder" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->positionToCylinder();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_positionToDome(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_positionToDome",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_positionToDome" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->positionToDome();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getDomePosition(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_getDomePosition",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getDomePosition" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  result = (bool)(arg1)->getDomePosition();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
   return NULL;
@@ -15067,6 +15220,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_getCartesianVolume", _wrap_Cell_getCartesianVolume, METH_VARARGS, NULL},
 	 { (char *)"Cell_setInitialParameters", _wrap_Cell_setInitialParameters, METH_VARARGS, NULL},
 	 { (char *)"Cell_setParameters", _wrap_Cell_setParameters, METH_VARARGS, NULL},
+	 { (char *)"Cell_setDivisionFactor", _wrap_Cell_setDivisionFactor, METH_VARARGS, NULL},
+	 { (char *)"Cell_getDivisionFactor", _wrap_Cell_getDivisionFactor, METH_VARARGS, NULL},
 	 { (char *)"Cell_countCellDivision", _wrap_Cell_countCellDivision, METH_VARARGS, NULL},
 	 { (char *)"Cell_getDivisionCounter", _wrap_Cell_getDivisionCounter, METH_VARARGS, NULL},
 	 { (char *)"Cell_thresholdMatrix_set", _wrap_Cell_thresholdMatrix_set, METH_VARARGS, NULL},
@@ -15144,6 +15299,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_divisionThreshold_get", _wrap_Face_divisionThreshold_get, METH_VARARGS, NULL},
 	 { (char *)"Face_divisionFactor_set", _wrap_Face_divisionFactor_set, METH_VARARGS, NULL},
 	 { (char *)"Face_divisionFactor_get", _wrap_Face_divisionFactor_get, METH_VARARGS, NULL},
+	 { (char *)"Face_setDivisionFactor", _wrap_Face_setDivisionFactor, METH_VARARGS, NULL},
 	 { (char *)"Face_setDivisionThreshold", _wrap_Face_setDivisionThreshold, METH_VARARGS, NULL},
 	 { (char *)"Face_divideRandom", _wrap_Face_divideRandom, METH_VARARGS, NULL},
 	 { (char *)"Face_setDivideFormMatrix", _wrap_Face_setDivideFormMatrix, METH_VARARGS, NULL},
@@ -15314,6 +15470,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Vertex_getEdge", _wrap_Vertex_getEdge, METH_VARARGS, NULL},
 	 { (char *)"Vertex_addEdge", _wrap_Vertex_addEdge, METH_VARARGS, NULL},
 	 { (char *)"Vertex_removeEdge", _wrap_Vertex_removeEdge, METH_VARARGS, NULL},
+	 { (char *)"Vertex_positionToCylinder", _wrap_Vertex_positionToCylinder, METH_VARARGS, NULL},
+	 { (char *)"Vertex_positionToDome", _wrap_Vertex_positionToDome, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getDomePosition", _wrap_Vertex_getDomePosition, METH_VARARGS, NULL},
 	 { (char *)"Vertex_swigregister", Vertex_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_VertexEdgeIterator", _wrap_new_VertexEdgeIterator, METH_VARARGS, NULL},
 	 { (char *)"delete_VertexEdgeIterator", _wrap_delete_VertexEdgeIterator, METH_VARARGS, NULL},

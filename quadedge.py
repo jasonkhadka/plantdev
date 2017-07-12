@@ -166,6 +166,12 @@ class Cell(_object):
     def setParameters(self):
         return _quadedge.Cell_setParameters(self)
 
+    def setDivisionFactor(self, arg2):
+        return _quadedge.Cell_setDivisionFactor(self, arg2)
+
+    def getDivisionFactor(self):
+        return _quadedge.Cell_getDivisionFactor(self)
+
     def countCellDivision(self):
         return _quadedge.Cell_countCellDivision(self)
 
@@ -425,6 +431,9 @@ class Face(_object):
     __swig_getmethods__["divisionFactor"] = _quadedge.Face_divisionFactor_get
     if _newclass:
         divisionFactor = _swig_property(_quadedge.Face_divisionFactor_get, _quadedge.Face_divisionFactor_set)
+
+    def setDivisionFactor(self, arg2):
+        return _quadedge.Face_setDivisionFactor(self, arg2)
 
     def setDivisionThreshold(self, *args):
         return _quadedge.Face_setDivisionThreshold(self, *args)
@@ -956,6 +965,15 @@ class Vertex(_object):
 
     def removeEdge(self, edge):
         return _quadedge.Vertex_removeEdge(self, edge)
+
+    def positionToCylinder(self):
+        return _quadedge.Vertex_positionToCylinder(self)
+
+    def positionToDome(self):
+        return _quadedge.Vertex_positionToDome(self)
+
+    def getDomePosition(self):
+        return _quadedge.Vertex_getDomePosition(self)
 Vertex_swigregister = _quadedge.Vertex_swigregister
 Vertex_swigregister(Vertex)
 
