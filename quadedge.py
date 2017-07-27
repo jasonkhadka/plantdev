@@ -423,6 +423,9 @@ class Face(_object):
 
     def grow(self):
         return _quadedge.Face_grow(self)
+
+    def inflatedGrow(self):
+        return _quadedge.Face_inflatedGrow(self)
     __swig_setmethods__["divisionThreshold"] = _quadedge.Face_divisionThreshold_set
     __swig_getmethods__["divisionThreshold"] = _quadedge.Face_divisionThreshold_get
     if _newclass:

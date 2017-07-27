@@ -767,6 +767,41 @@ void Face::setTempTargetFormMatrixIdentity(){
   //now setting tracesq of Target Form Matrix
   this->setTraceSquaredTargetFormMatrix();
  }
+
+// *************************************************************** //
+
+ void Face::inflatedGrow(){
+  if (this->getID() == 1){
+    return;
+  }
+  
+  //growth fluctuation : calculated by same randomnumber generator set as property of cell
+  double fluctuation = cell->getRandomNumber();
+  //growth variation of face : Amplitude of fluctuation
+  double growthvar = cell->getGrowthVar();
+  std::cout<< "fluctuation : " << fluctuation << "/n Growthvar" << growthvar <<std::endl;
+  //growth rate of faces : kappa
+  double kappa = cell->getKappa();
+  //calculating the time derivative now
+  growthvar = kappa*(1+(2*growthvar*fluctuation-growthvar));
+  std::cout<<"Kappa : "<< kappa <<"/n Actual Growth Var  : "<<growthvar <<std::endl;
+
+  /*
+  std::cout<<"Growth Rate addition to TargetFormMatrix : (from Face::grow() : Faceid :"<<this->getID()<<std::endl;
+  std::cout<<growthRate<<std::endl;
+  */
+  //now setting the new targetFormMatrix
+  this->targetFormMatrix[0][0] += growthvar*(this->targetFormMatrix[0][0]);
+  this->targetFormMatrix[1][0] += growthvar*(this->targetFormMatrix[1][0]);
+  this->targetFormMatrix[0][1] += growthvar*(this->targetFormMatrix[0][1]);
+  this->targetFormMatrix[1][1] += growthvar*(this->targetFormMatrix[1][1]);
+  //now setting tracesq of Target Form Matrix
+  this->setTraceSquaredTargetFormMatrix();
+ }
+
+
+
+
 // *************************************************************** //
  void Face::setDivisionThreshold(){
      this->divisionThreshold = (this->divisionFactor)*(this->getAreaOfFace());

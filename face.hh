@@ -328,6 +328,12 @@ class Face
    */
    void grow();
    /**
+    * target form matrix grows proportionally to the itself
+    * without any mehcanics just pure inflate growth
+    */
+   void inflatedGrow();
+   
+   /**
     * The threshold for division
    */
    double divisionThreshold;
