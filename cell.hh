@@ -575,7 +575,14 @@ public:
    * get function call counter
    */
   int getFunctionCallCounter();
-
+  /**
+   * Set Cylindrical Coordinates from the Cartesian coordinates for all vertices
+   */
+  void setCylindrical();
+  /**
+   * Set Cartesian Coordinates from the Cylindrical coordinates for all vertices
+   */
+  void setCartesian();
   // ********************************************************************* //
   /**
    * Function to relax the tissue

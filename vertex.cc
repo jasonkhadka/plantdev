@@ -151,7 +151,7 @@ Vertex::Vertex(Cell *cell)
   this->Ycoordinate = 0.0;
   this->Zcoordinate = 0.0;
   cell->addVertex(this);
-  this->domePosition = true;
+  this->domePosition = true;//seting position to dome as True in default
 }
 
 Vertex::~Vertex()
@@ -671,6 +671,17 @@ void Vertex::setAlphaBetaGamma(){
         this->beta[innerid] = tempbeta;
         this->gamma[innerid] = tempgamma;
     }
+}
+// ******************************************************* //
+void Vertex::setCylindrical(){
+    this->rCoordinate = sqrt(pow(this->Xcoordinate,2)+pow(this->Ycoordinate,2));
+    this->thetaCoordinate = atan2((this->Ycoordinate),(this->Xcoordinate));//arctan2 is needed for this conversion
+}
+
+// ******************************************************* //
+void Vertex::setCartesian(){
+    this->Xcoordinate = (this->rCoordinate)*cos(this->thetaCoordinate);
+    this->Ycoordinate = (this->rCoordinate)*sin(this->thetaCoordinate);
 }
 // ******************************************************* //
 void Vertex::setparameters(){

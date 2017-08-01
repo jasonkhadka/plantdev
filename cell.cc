@@ -299,6 +299,23 @@ unsigned long int random_seed()
   return totalenergy;
  }
  //********************************************************************************* //
+ void Cell::setCylindrical(){
+    CellVertexIterator vertices(this);
+    Vertex * vertex;
+    while ((vertex = vertices.next())!= 0){
+      vertex->setCylindrical();
+    }
+ }
+//********************************************************************************* //
+ void Cell::setCartesian(){
+    CellVertexIterator vertices(this);
+    Vertex * vertex;
+    while ((vertex = vertices.next())!= 0){
+      vertex->setCartesian();
+    }
+ }
+
+ //********************************************************************************* //
  void Cell::setInitialParameters(){
   
   Face * face;

@@ -256,6 +256,10 @@ class Face
       * Total energy of The face 
       */
      double energy = 0;
+       /**
+       * Variable that notes if the Face is in Dome or in Cylinder
+       */
+       bool domePosition;
      
     //***************end added features****************************************//
   /* ----------Public instance methods ---------*/
@@ -367,6 +371,20 @@ class Face
    * 2. Neighbouring cells as those also got new vertex
    */
     void setDivideFormMatrix();
+    /**
+   * Function to change the position of Face to Cylinder
+   */
+  void positionToCylinder();
+  /**
+   * Function  to change the position of Face to Dome
+   */
+  void positionToDome();
+  /**
+   * Function to return Dome Position
+   *  True : Face is in Dome
+   *  False : Face is in Cylindrical Flanks
+   */
+  bool getDomePosition();
    /**
     * targetFormMatrix of this face (or cell in biological terms)
     * **for now this is jsut the form matrix of current shape
@@ -550,6 +568,15 @@ class Face
   friend class CentralisedDerivative;
 };
 /* ----- inline instance methods --------------------------------*/
+inline bool Face::getDomePosition(){
+  return this->domePosition;
+}
+inline void Face::positionToDome(){
+  this->domePosition = true;
+}
+inline void Face::positionToCylinder(){
+  this->domePosition = false;
+}
 inline void Face::setDivisionFactor(double newfactor){
     this->divisionFactor = newfactor;
 }

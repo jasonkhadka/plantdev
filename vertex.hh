@@ -38,6 +38,14 @@ class Vertex
   double Xcoordinate;
   double Ycoordinate;
   double Zcoordinate;
+  /**
+   * coordinates of vertex
+   * in Cylindrical coordinates
+   * Can be used instead of Cartesian Coordinates
+   * r and theta coordinates are to be set & Z coordinate is the same as Cartesian
+   */
+  double rCoordinate;
+  double thetaCoordinate; 
     /*
     * Associative array for storing the projected and CENTRALISED X coordinate
     * Key : Face ID -- unsigned int
@@ -264,6 +272,25 @@ class Vertex
    *    will be nonnull
    */
   Cell *getCell();
+
+  /**
+   * Function to set the Cylindrical Coordinates from Cartesian Coordinates
+   */
+  void setCylindrical();
+  /**
+   * Function to set Cartesian from Cylindrical
+   */
+  void setCartesian();
+  /**
+   * Function to set R and Theta coordinates
+   */
+  void setRcoordinate(double);
+  void setThetacoordinate(double);
+  /*
+    * Functions to get the Cylindrical Coordinates
+  */
+  double getRcoordinate();
+  double getThetacoordinate();
   /*
    * Return the x coordinate of this vertex.
    * xcoordinate -> the x coordinate of this vertex;
@@ -748,6 +775,18 @@ class Vertex
 };
 
 /* -- inline instance methods ---------------------------------------------- */
+inline double Vertex::getRcoordinate(){
+  return this->rCoordinate;
+}
+inline double Vertex::getThetacoordinate(){
+  return this->thetaCoordinate;
+}
+inline void Vertex::setRcoordinate(double r){
+  this->rCoordinate = r;
+}
+inline void Vertex::setThetacoordinate(double theta){
+  this->thetaCoordinate = theta;
+}
 inline bool Vertex::getDomePosition(){
   return this->domePosition;
 }

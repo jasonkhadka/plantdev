@@ -779,12 +779,12 @@ void Face::setTempTargetFormMatrixIdentity(){
   double fluctuation = cell->getRandomNumber();
   //growth variation of face : Amplitude of fluctuation
   double growthvar = cell->getGrowthVar();
-  std::cout<< "fluctuation : " << fluctuation << "/n Growthvar" << growthvar <<std::endl;
+  //std::cout<< "fluctuation : " << fluctuation << "/n Growthvar" << growthvar <<std::endl;
   //growth rate of faces : kappa
   double kappa = cell->getKappa();
   //calculating the time derivative now
   growthvar = kappa*(1+(2*growthvar*fluctuation-growthvar));
-  std::cout<<"Kappa : "<< kappa <<"/n Actual Growth Var  : "<<growthvar <<std::endl;
+  //std::cout<<"Kappa : "<< kappa <<"/n Actual Growth Var  : "<<growthvar <<std::endl;
 
   /*
   std::cout<<"Growth Rate addition to TargetFormMatrix : (from Face::grow() : Faceid :"<<this->getID()<<std::endl;
@@ -979,6 +979,7 @@ Face::Face(Cell *cell)
   this->vertexCount = 0;
   this->vertexSize = 8;
   this->divisionFactor = cell->getDivisionFactor();
+  this->domePosition = true;//seting position to dome as True in default
   //***************end added features*******************************************//
   cell->addFace(this);
 }

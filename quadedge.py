@@ -282,6 +282,12 @@ class Cell(_object):
     def getFunctionCallCounter(self):
         return _quadedge.Cell_getFunctionCallCounter(self)
 
+    def setCylindrical(self):
+        return _quadedge.Cell_setCylindrical(self)
+
+    def setCartesian(self):
+        return _quadedge.Cell_setCartesian(self)
+
     def relax(self):
         return _quadedge.Cell_relax(self)
 Cell_swigregister = _quadedge.Cell_swigregister
@@ -446,6 +452,15 @@ class Face(_object):
 
     def setDivideFormMatrix(self):
         return _quadedge.Face_setDivideFormMatrix(self)
+
+    def positionToCylinder(self):
+        return _quadedge.Face_positionToCylinder(self)
+
+    def positionToDome(self):
+        return _quadedge.Face_positionToDome(self)
+
+    def getDomePosition(self):
+        return _quadedge.Face_getDomePosition(self)
     __swig_setmethods__["targetFormMatrix"] = _quadedge.Face_targetFormMatrix_set
     __swig_getmethods__["targetFormMatrix"] = _quadedge.Face_targetFormMatrix_get
     if _newclass:
@@ -731,6 +746,24 @@ class Vertex(_object):
 
     def getCell(self):
         return _quadedge.Vertex_getCell(self)
+
+    def setCylindrical(self):
+        return _quadedge.Vertex_setCylindrical(self)
+
+    def setCartesian(self):
+        return _quadedge.Vertex_setCartesian(self)
+
+    def setRcoordinate(self, arg2):
+        return _quadedge.Vertex_setRcoordinate(self, arg2)
+
+    def setThetacoordinate(self, arg2):
+        return _quadedge.Vertex_setThetacoordinate(self, arg2)
+
+    def getRcoordinate(self):
+        return _quadedge.Vertex_getRcoordinate(self)
+
+    def getThetacoordinate(self):
+        return _quadedge.Vertex_getThetacoordinate(self)
 
     def getXcoordinate(self):
         return _quadedge.Vertex_getXcoordinate(self)
