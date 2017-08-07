@@ -461,6 +461,9 @@ class Face(_object):
 
     def getDomePosition(self):
         return _quadedge.Face_getDomePosition(self)
+
+    def isConvex(self):
+        return _quadedge.Face_isConvex(self)
     __swig_setmethods__["targetFormMatrix"] = _quadedge.Face_targetFormMatrix_set
     __swig_getmethods__["targetFormMatrix"] = _quadedge.Face_targetFormMatrix_get
     if _newclass:

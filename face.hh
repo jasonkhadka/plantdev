@@ -385,6 +385,21 @@ class Face
    *  False : Face is in Cylindrical Flanks
    */
   bool getDomePosition();
+  /**
+   * Function to test if this polygon is Convex or not
+   * Convex :- A convex polygon is a simple polygon (not self-intersecting) 
+   *           in which no line segment between two points on the boundary 
+   *           ever goes outside the polygon. Equivalently, it is a simple 
+   *           polygon whose interior is a convex set.[1] In a convex polygon,
+   *           all interior angles are less than or equal to 180 degrees, 
+   *           while in a strictly convex polygon all interior angles are 
+   *           strictly less than 180 degrees.
+   *           
+   * return :- True : if this polygon is Convex
+   *           False : if this polygon is non-Convex
+   */
+  bool isConvex();
+
    /**
     * targetFormMatrix of this face (or cell in biological terms)
     * **for now this is jsut the form matrix of current shape

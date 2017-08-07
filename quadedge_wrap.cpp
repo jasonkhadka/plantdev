@@ -6168,6 +6168,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_isConvex(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_isConvex",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_isConvex" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (bool)(arg1)->isConvex();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_targetFormMatrix_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -15582,6 +15604,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_positionToCylinder", _wrap_Face_positionToCylinder, METH_VARARGS, NULL},
 	 { (char *)"Face_positionToDome", _wrap_Face_positionToDome, METH_VARARGS, NULL},
 	 { (char *)"Face_getDomePosition", _wrap_Face_getDomePosition, METH_VARARGS, NULL},
+	 { (char *)"Face_isConvex", _wrap_Face_isConvex, METH_VARARGS, NULL},
 	 { (char *)"Face_targetFormMatrix_set", _wrap_Face_targetFormMatrix_set, METH_VARARGS, NULL},
 	 { (char *)"Face_targetFormMatrix_get", _wrap_Face_targetFormMatrix_get, METH_VARARGS, NULL},
 	 { (char *)"Face_targetArea_set", _wrap_Face_targetArea_set, METH_VARARGS, NULL},

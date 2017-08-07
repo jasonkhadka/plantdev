@@ -816,7 +816,7 @@ void Cell::removeFace(Face *face)
 
 /* -- protected instance methods ------------------------------------------- */
 
-Cell::Cell()
+Cell::Cell():gaussianWidth(1.0)
 {
   // preallocate enough elements for a cube
 
@@ -835,6 +835,7 @@ Cell::Cell()
   randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm
   randomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
   gsl_rng_set(randomNumberGenerator,38270);//some number as seed-> this can be set with another random number/time or /dev/random /urandom
+
   // RANDOM NUMBER GENERATOR FOR CELL DIVISION
   cellDivisionRandomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
   gsl_rng_set(cellDivisionRandomNumberGenerator, random_seed());//using /dev/urandom to seed this generator

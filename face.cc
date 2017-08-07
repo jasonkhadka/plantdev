@@ -387,6 +387,35 @@ void Face::setProjectedCoordinate(){
     this->setTraceSquaredTargetFormMatrix();
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+bool Face::isConvex(){
+  {
+    Edge * edge;
+    Vertex * first, * second, * third;
+    FaceEdgeIterator edges(this);
+    edge = edges.next();
+    first = edge->Org();
+    second = edge->Dest();
+    double x1,y1,x2,y2,zCross;
+    while ((edge = edges.next())!= 0){
+          third = edge->Dest();
+          //Gathering the two vectors from first & second Edge
+          x1 = second->getProjectedXcoordinate(this->getID())-first->getProjectedXcoordinate(this->getID());
+          y1 = second->getProjectedYcoordinate(this->getID())-first->getProjectedYcoordinate(this->getID());
+          x2 = third->getProjectedXcoordinate(this->getID())-second->getProjectedXcoordinate(this->getID());
+          y2 = third->getProjectedYcoordinate(this->getID())-second->getProjectedYcoordinate(this->getID());
+          //now calculating & checking the z-component of cross-product of this
+          zCross = x1*y2-y1*x2;
+          if (zCross<0){ return false;};
+          //if above condition is not satisfied, this polygon can still be Convex, so continuing with search
+          first = edge->Org();
+          second = edge->Dest();
+    }
+  }
+  //if all vertex has been checked for having angle >180 (here condition that z-cross product is positive)
+  //then this is a Convex polygon
+  return true;
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
 void Face::setNormal(double * tempnormal){
    for (int i = 0; i<3; i++){
       normal[i] = tempnormal[i];

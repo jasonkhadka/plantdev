@@ -12,6 +12,7 @@
 //random number generating
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_rng.h>
+#include <gsl/gsl_randist.h>//for gaussian distribution
 
 //for eigenvalue conputation
 #include "./eigen/Eigen/Dense"
@@ -401,6 +402,7 @@ class Cell
    gsl_rng * randomNumberGenerator; //Random number generator
    const gsl_rng_type * randomNumberGeneratorType; //type of random number generator
    gsl_rng * cellDivisionRandomNumberGenerator; //random number generator for cell division
+   const double gaussianWidth;
 
 public:
   /**
@@ -643,10 +645,11 @@ inline void Cell::setGrowthVar(double tempvar){
   growthvar = tempvar;
 }
 inline double Cell::getRandomNumber(){
-      return gsl_rng_uniform(randomNumberGenerator);
+      //using 
+      return gsl_ran_gaussian_ziggurat(randomNumberGenerator, this->gaussianWidth);
 }
 inline double Cell::getCellDivisionRandomNumber(){
-      return gsl_rng_uniform(cellDivisionRandomNumberGenerator);
+      return gsl_ran_gaussian_ziggurat(cellDivisionRandomNumberGenerator, this->gaussianWidth);
 }
 inline double Cell::getKappa(){
   return kappa;
