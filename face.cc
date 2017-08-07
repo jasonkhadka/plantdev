@@ -262,40 +262,27 @@ void Face::setProjectedCoordinate(){
     // getting the unit vector of 2d Plane
     double unitx[3], unity[3], vectorVertex[3];//new unit vector of x, y on the plane
     double dotproduct, xvertex, yvertex, zvertex;
-    //new way of getting intrinsic x axis
-    //double wvector[3];
-    //If normal is parralel to X-axis (or in this normalised case, eqaul to x-axis) then the projection is done using Y-Axis
-    if (((normalX - 1)<0.001) and((normalY - 0)<0.001) and ((normalZ - 0)<0.001) ){
+    //If normal is parralel to X-axis (or in this normalised case, eqaul to x-axis or negative x-axis) then the projection is done using Y-Axis
+    //vectorVertex : is the Vector direction to be used to add to the centroid and project it onto the face plane
+    /*
+      *Dot[normal, unitX] = (normalX*1+normalY*0+normalZ*0) = normalX
+      *if abs(Dot[normal,unitX])~ 1 : then the normal is parralel to unitX
+      *Also IMPORTANT : Normal is Normalized !!
+    */
+    if ((abs(normalX) - 1)< 0.001){
         vectorVertex[0] = 0.;
         vectorVertex[1] = 1.;
         vectorVertex[2] = 0.;
-        //std::cout<<"normal X"<<std::endl;   
+        //std::cout<<"Face Id : "<<this->getID()<<"  normal Y"<<std::endl;   
     } else {
         vectorVertex[0] = 1.;
         vectorVertex[1] = 0.;
         vectorVertex[2] = 0.;  
-        //std::cout<<"normal Y"<<std::endl;
+        //std::cout<<"Face Id : "<<this->getID()<<"  normal X"<<std::endl;
+        //std::cout<<"Normal : "<<normalX <<"  "<<normalY<<"  "<< normalZ<<std::endl;
       };
-
-    //to get the unit vector in X direction, lets project X axis (1,0,0) on to the plane
-    /*
-    double cross_u[3];
-    //cross product of the two vectors
-    cross_u[0] = wvector[1]*normalZ - wvector[2]*normalY;
-    cross_u[1]=  wvector[2]*normalX - wvector[0]*normalZ;
-    cross_u[2] = wvector[0]*normalY - wvector[1]*normalX;
-    //final cross - product to given vector perpendicular to normal vector,
-    //cross product of the two vectors
-    wvector[0] = cross_u[1]*normalZ - cross_u[2]*normalY;
-    wvector[1]=  cross_u[2]*normalX - cross_u[0]*normalZ;
-    wvector[2] = cross_u[0]*normalY - cross_u[1]*normalX;
-    */
-    //vector from (1,0,0)+(xCentroid,Ycentroid,Zcentroid) until xCentroid
-    //vectorVertex[0] = 1.;//1.+xCentroid-xCentroid; just directly writing the resulting answer
-    //vectorVertex[1] = 0.;//0.+yCentroid-yCentroid;
-    //vectorVertex[2] = 0.;//0.+zCentroid-zCentroid;
-    //dot product of vectorVertex and normal, which is equal to normalX; this is n^c_x = \phi_P
-    dotproduct = normalX;//vectorVertex[0]*normalX+vectorVertex[1]*normalY+vectorVertex[2]*normalZ;
+    //dot product of vectorVertex and normal
+    dotproduct = vectorVertex[0]*normalX+vectorVertex[1]*normalY+vectorVertex[2]*normalZ;
     //now calculating the projected vertices --at this stage unitx is storing pi_vector
     unitx[0]  = vectorVertex[0] +xCentroid- dotproduct*normalX;
     unitx[1] = vectorVertex[1]+yCentroid - dotproduct*normalY;
