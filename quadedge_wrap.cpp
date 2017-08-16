@@ -3328,17 +3328,17 @@ SWIGINTERNINLINE PyObject*
 }
 
 
-#include "list.hh"
-
-
-#include "face.hh"
-
-
 SWIGINTERNINLINE PyObject*
   SWIG_From_bool  (bool value)
 {
   return PyBool_FromLong(value ? 1 : 0);
 }
+
+
+#include "list.hh"
+
+
+#include "face.hh"
 
 
 #include "edge.hh"
@@ -3386,6 +3386,11 @@ double getCurrentFormMatrix(Face * face, int i, int j){
 
 double getTargetFormMatrix(Face * face, int i, int j){
 	return face->targetFormMatrix[i][j];
+}	
+
+
+double setTargetFormMatrix(Face * face, int i, int j,double newvalue){
+	face->targetFormMatrix[i][j] = newvalue;
 }	
 
 #ifdef __cplusplus
@@ -3959,6 +3964,110 @@ SWIGINTERN PyObject *_wrap_Cell_setParameters(PyObject *SWIGUNUSEDPARM(self), Py
   arg1 = reinterpret_cast< Cell * >(argp1);
   (arg1)->setParameters();
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_setBendingThreshold(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Cell_setBendingThreshold",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setBendingThreshold" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Cell_setBendingThreshold" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setBendingThreshold(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getBendingThreshold(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getBendingThreshold",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getBendingThreshold" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getBendingThreshold();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_setConvexAngleThreshold(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Cell_setConvexAngleThreshold",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setConvexAngleThreshold" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Cell_setConvexAngleThreshold" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setConvexAngleThreshold(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getConvexAngleThreshold(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getConvexAngleThreshold",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getConvexAngleThreshold" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getConvexAngleThreshold();
+  resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
   return NULL;
@@ -5006,6 +5115,28 @@ SWIGINTERN PyObject *_wrap_Cell_setCartesian(PyObject *SWIGUNUSEDPARM(self), PyO
   arg1 = reinterpret_cast< Cell * >(argp1);
   (arg1)->setCartesian();
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_isConvex(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_isConvex",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_isConvex" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (bool)(arg1)->isConvex();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
   return resultobj;
 fail:
   return NULL;
@@ -15491,6 +15622,55 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_setTargetFormMatrix(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  double arg4 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  double val4 ;
+  int ecode4 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  PyObject * obj3 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOOO:setTargetFormMatrix",&obj0,&obj1,&obj2,&obj3)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "setTargetFormMatrix" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "setTargetFormMatrix" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "setTargetFormMatrix" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  ecode4 = SWIG_AsVal_double(obj3, &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "setTargetFormMatrix" "', argument " "4"" of type '" "double""'");
+  } 
+  arg4 = static_cast< double >(val4);
+  result = (double)setTargetFormMatrix(arg1,arg2,arg3,arg4);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 static PyMethodDef SwigMethods[] = {
 	 { (char *)"SWIG_PyInstanceMethod_New", (PyCFunction)SWIG_PyInstanceMethod_New, METH_O, NULL},
 	 { (char *)"Cell_make", _wrap_Cell_make, METH_VARARGS, NULL},
@@ -15515,6 +15695,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_getCartesianVolume", _wrap_Cell_getCartesianVolume, METH_VARARGS, NULL},
 	 { (char *)"Cell_setInitialParameters", _wrap_Cell_setInitialParameters, METH_VARARGS, NULL},
 	 { (char *)"Cell_setParameters", _wrap_Cell_setParameters, METH_VARARGS, NULL},
+	 { (char *)"Cell_setBendingThreshold", _wrap_Cell_setBendingThreshold, METH_VARARGS, NULL},
+	 { (char *)"Cell_getBendingThreshold", _wrap_Cell_getBendingThreshold, METH_VARARGS, NULL},
+	 { (char *)"Cell_setConvexAngleThreshold", _wrap_Cell_setConvexAngleThreshold, METH_VARARGS, NULL},
+	 { (char *)"Cell_getConvexAngleThreshold", _wrap_Cell_getConvexAngleThreshold, METH_VARARGS, NULL},
 	 { (char *)"Cell_setDivisionFactor", _wrap_Cell_setDivisionFactor, METH_VARARGS, NULL},
 	 { (char *)"Cell_getDivisionFactor", _wrap_Cell_getDivisionFactor, METH_VARARGS, NULL},
 	 { (char *)"Cell_countCellDivision", _wrap_Cell_countCellDivision, METH_VARARGS, NULL},
@@ -15557,6 +15741,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_getFunctionCallCounter", _wrap_Cell_getFunctionCallCounter, METH_VARARGS, NULL},
 	 { (char *)"Cell_setCylindrical", _wrap_Cell_setCylindrical, METH_VARARGS, NULL},
 	 { (char *)"Cell_setCartesian", _wrap_Cell_setCartesian, METH_VARARGS, NULL},
+	 { (char *)"Cell_isConvex", _wrap_Cell_isConvex, METH_VARARGS, NULL},
 	 { (char *)"Cell_relax", _wrap_Cell_relax, METH_VARARGS, NULL},
 	 { (char *)"Cell_swigregister", Cell_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_CellVertexIterator", _wrap_new_CellVertexIterator, METH_VARARGS, NULL},
@@ -15893,6 +16078,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"doublearray_setitem", _wrap_doublearray_setitem, METH_VARARGS, NULL},
 	 { (char *)"getCurrentFormMatrix", _wrap_getCurrentFormMatrix, METH_VARARGS, NULL},
 	 { (char *)"getTargetFormMatrix", _wrap_getTargetFormMatrix, METH_VARARGS, NULL},
+	 { (char *)"setTargetFormMatrix", _wrap_setTargetFormMatrix, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 

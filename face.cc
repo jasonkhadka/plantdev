@@ -378,13 +378,20 @@ bool Face::isConvex(){
   {
     Edge * edge;
     Vertex * first, * second, * third;
+    unsigned int initialVertID;
+    double angleThreshold = (this->getCell())->getConvexAngleThreshold();
+    unsigned int faceid = this->getID();
+    /*
     FaceEdgeIterator edges(this);
     edge = edges.next();
     first = edge->Org();
     second = edge->Dest();
-    double x1,y1,x2,y2,zCross;
-    while ((edge = edges.next())!= 0){
+    double x1,y1,x2,y2,zCross; // variables declaration for z-component of cross product calcuation
+    //double vec1[3],vec2[3];//variables declaration for angle calculation
+    while ((edge = edges.next())!= 0){//NEED TO IMPLEMENT THE MECHANISM TO CALCULATE angle for all vertex
+            // NEED IMPROVED LOOPING ! 
           third = edge->Dest();
+          // Algorithm to calculate the z-component of cross-product between two vecs
           //Gathering the two vectors from first & second Edge
           x1 = second->getProjectedXcoordinate(this->getID())-first->getProjectedXcoordinate(this->getID());
           y1 = second->getProjectedYcoordinate(this->getID())-first->getProjectedYcoordinate(this->getID());
@@ -393,9 +400,48 @@ bool Face::isConvex(){
           //now calculating & checking the z-component of cross-product of this
           zCross = x1*y2-y1*x2;
           if (zCross<0){ return false;};
+          
           //if above condition is not satisfied, this polygon can still be Convex, so continuing with search
           first = edge->Org();
           second = edge->Dest();
+    }
+    */
+    std::cout<<" ============================== \n" << faceid << "\n ============================== \n";
+
+    edge = this->getEdge();
+    first = edge->Org();
+    second = edge->Dest();
+    initialVertID = first->getID();
+    //arrays to use for angle calculation
+    double firstvec[2], secondvec[2];
+    double dot, det, angle;
+    while (true){
+        edge = edge->Lnext();
+        third = edge->Dest();
+        // *****  Calculation of Angle  ***** //
+        // getting the two vectors for calculations
+        firstvec[0] = third->getProjectedXcoordinate(faceid) - second->getProjectedXcoordinate(faceid);
+        firstvec[1] = third->getProjectedYcoordinate(faceid) - second->getProjectedYcoordinate(faceid);
+        secondvec[0] = first->getProjectedXcoordinate(faceid) - second->getProjectedXcoordinate(faceid);
+        secondvec[1] = first->getProjectedYcoordinate(faceid) - second->getProjectedYcoordinate(faceid);
+        // dot product of two vectors //
+        dot = firstvec[0]*secondvec[0] + firstvec[1]*secondvec[1];
+        det = firstvec[0]*secondvec[1]-firstvec[1]*secondvec[0];
+        // now calculating the angle [0,360]
+        angle = fmod(((atan2(det,dot))/(M_PI)*180.+360.),360.);
+        std::cout << " Vert ID : "<< second->getID() << " Angle  : "<< angle << std::endl;
+        if (angle > angleThreshold){//check if angle is greater than the threshold
+          return false;
+        }
+        //std::cout<< " initialVertID : "<< initialVertID << "edge->Org()"<< (edge->Org())->getID()<<std::endl;
+        // checking the exit condition
+        if ((edge->Org())->getID() == initialVertID){
+            break;
+        }else
+        {
+          first = edge->Org();
+          second = edge->Dest();
+        }
     }
   }
   //if all vertex has been checked for having angle >180 (here condition that z-cross product is positive)

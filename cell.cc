@@ -8,6 +8,10 @@
 #include <math.h> //sqrt and others
 #include <vector>// for vector 
 #include <sys/time.h>//to get time of the day
+
+//to get Maximum double value 
+#include <limits> //std::numeric_limits
+
 //random number generating
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_rng.h>
@@ -102,6 +106,17 @@ unsigned long int random_seed()
   */
  double Cell::getEnergyCartesianVolume(){
       //iterating the faces
+      // First : check if the cell is convex or not
+      if (!(this->isConvex())){ //if the cell is not convex then return HIGHVALUE
+          //std::cout<<"Is Convex : "<<this->isConvex()<<std::endl;
+          return std::numeric_limits<double>::max();
+      }
+      double fourthterm = this->getFourthTerm();
+      // Second : check if the cell has bent than threshold
+      if (fourthterm > (this->getBendingThreshold())){
+        return std::numeric_limits<double>::max();
+      }
+      // If not continue with calculation of energy
       CellFaceIterator faces(this);
       Face * face;
       double totalenergy = 0.;
@@ -110,7 +125,8 @@ unsigned long int random_seed()
           totalenergy += face->getEnergy();
       }
       totalenergy -= this->getGamma()*this->getCartesianVolume();
-      totalenergy +=  this->getZeta()*this->getFourthTerm();//subtracting the fourth term : z_proj penalty
+      totalenergy +=  this->getZeta()*fourthterm;//subtracting the fourth term : z_proj penalty
+
       return totalenergy ;
  }
 //******************************************************************************* //
@@ -383,6 +399,9 @@ unsigned long int random_seed()
           face->setDivisionThreshold();
     }
   }
+  /////////////////////////////////////////
+  // Setting the bendingThreshold to initial bending energy value
+  this->setBendingThreshold(this->getFourthTerm());
  }
  //********************************************************************************* //
 void Cell::setParameters(){
@@ -430,7 +449,7 @@ void Cell::setParameters(){
   }
   //////////////////////////////////
  }
-
+//********************************************************************************* //
  void Cell::setDivisionFactor(double newfactor){
   this->divisionFactor = newfactor;
   {
@@ -440,6 +459,18 @@ void Cell::setParameters(){
           face->setDivisionFactor(newfactor);
     }
   }
+}
+//********************************************************************************* //
+bool Cell::isConvex(){
+  CellFaceIterator faces(this);
+  Face * face;
+  while ((face = faces.next())!=0){
+        if (face->getID() == 1) continue;
+        if (!(face->isConvex())){// if face->isConvex() condition returns False
+            return false;  
+        }
+      }
+  return true; // if non of the face return isConvex() == False, then all are convex, hence cell is Convex
 }
  //********************************************************************************* //
 
@@ -816,7 +847,8 @@ void Cell::removeFace(Face *face)
 
 /* -- protected instance methods ------------------------------------------- */
 
-Cell::Cell():gaussianWidth(1.0)
+Cell::Cell():gaussianWidth(1.0), //initialising the gaussian Widht to 1
+ randomNumberGeneratorType(gsl_rng_default) // initialising the random Num generator to be Mersenne Twister
 {
   // preallocate enough elements for a cube
 
@@ -831,8 +863,9 @@ Cell::Cell():gaussianWidth(1.0)
   faceID    = 1;
   divisionCounter = 0;
   divisionFactor = 1.1;
+  convexAngleThreshold = 180.;
   //setting the random number generator
-  randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm
+  // intialised in Initialising list :-> randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm
   randomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
   gsl_rng_set(randomNumberGenerator,38270);//some number as seed-> this can be set with another random number/time or /dev/random /urandom
 

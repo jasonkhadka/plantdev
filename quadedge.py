@@ -166,6 +166,18 @@ class Cell(_object):
     def setParameters(self):
         return _quadedge.Cell_setParameters(self)
 
+    def setBendingThreshold(self, arg2):
+        return _quadedge.Cell_setBendingThreshold(self, arg2)
+
+    def getBendingThreshold(self):
+        return _quadedge.Cell_getBendingThreshold(self)
+
+    def setConvexAngleThreshold(self, arg2):
+        return _quadedge.Cell_setConvexAngleThreshold(self, arg2)
+
+    def getConvexAngleThreshold(self):
+        return _quadedge.Cell_getConvexAngleThreshold(self)
+
     def setDivisionFactor(self, arg2):
         return _quadedge.Cell_setDivisionFactor(self, arg2)
 
@@ -287,6 +299,9 @@ class Cell(_object):
 
     def setCartesian(self):
         return _quadedge.Cell_setCartesian(self)
+
+    def isConvex(self):
+        return _quadedge.Cell_isConvex(self)
 
     def relax(self):
         return _quadedge.Cell_relax(self)
@@ -1390,6 +1405,10 @@ getCurrentFormMatrix = _quadedge.getCurrentFormMatrix
 def getTargetFormMatrix(face, i, j):
     return _quadedge.getTargetFormMatrix(face, i, j)
 getTargetFormMatrix = _quadedge.getTargetFormMatrix
+
+def setTargetFormMatrix(face, i, j, newvalue):
+    return _quadedge.setTargetFormMatrix(face, i, j, newvalue)
+setTargetFormMatrix = _quadedge.setTargetFormMatrix
 # This file is compatible with both classic and new-style classes.
 
 

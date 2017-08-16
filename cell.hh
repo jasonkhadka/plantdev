@@ -395,6 +395,14 @@ class Cell
     * division factor for cell division Threshold
     */
    double divisionFactor;
+   /**
+    * Angle threshold for decision for Cell is Convex or Not
+    */
+   double convexAngleThreshold;
+   /**
+    * Bending Threshold for cell for total Tissue
+    */
+   double bendingThreshold;
    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
   //    Random Number Generator : seeded with *some* seed 
   //      Right now it is just a number i chose for testing*
@@ -406,9 +414,24 @@ class Cell
 
 public:
   /**
-   * Public members
+   *                    Public members
    */
-
+  /**
+   * Function to set Bending threshold to find cell is convex or not
+   */
+  void setBendingThreshold(double);
+  /**
+   * Function to get back the Bending threshold to find cell is convex or not
+   */
+  double getBendingThreshold();
+  /**
+   * Function to set Angle threshold to find cell is convex or not
+   */
+  void setConvexAngleThreshold(double);
+  /**
+   * Function to get back the Angle threshold to find cell is convex or not
+   */
+  double getConvexAngleThreshold();
   /**
    * change division Factor for cell division threshold in this cell
    */
@@ -585,6 +608,13 @@ public:
    * Set Cartesian Coordinates from the Cylindrical coordinates for all vertices
    */
   void setCartesian();
+  /**
+   * Function to check if all the polygons (faces) in this Cell is convex or not
+   * Return : 
+   *        True : all are convex
+   *        False : if one is not-convex
+   */
+  bool isConvex();
   // ********************************************************************* //
   /**
    * Function to relax the tissue
@@ -602,6 +632,18 @@ public:
 };
 
 /* -- inline instance methods ---------------------------------------------- */
+inline double Cell::getBendingThreshold(){
+  return this->bendingThreshold;
+}
+inline void Cell::setBendingThreshold(double newthreshold){
+  this->bendingThreshold = newthreshold;
+}
+inline double Cell::getConvexAngleThreshold(){
+  return this->convexAngleThreshold;
+}
+inline void Cell::setConvexAngleThreshold(double newangle){
+  this->convexAngleThreshold = newangle;
+}
 inline double Cell::getDivisionFactor(){
   return this->divisionFactor;
 }
