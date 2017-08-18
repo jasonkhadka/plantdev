@@ -106,16 +106,20 @@ unsigned long int random_seed()
   */
  double Cell::getEnergyCartesianVolume(){
       //iterating the faces
+    double fourthterm = this->getFourthTerm();
+    /*
       // First : check if the cell is convex or not
       if (!(this->isConvex())){ //if the cell is not convex then return HIGHVALUE
-          //std::cout<<"Is Convex : "<<this->isConvex()<<std::endl;
+          //std::cout<<"Cell Is not Convex ! isConvex -> "<<this->isConvex()<<std::endl;
           return std::numeric_limits<double>::max();
       }
-      double fourthterm = this->getFourthTerm();
+      
       // Second : check if the cell has bent than threshold
-      if (fourthterm > (this->getBendingThreshold())){
+      if ((fourthterm - (this->getBendingThreshold())) > 0.){
+        //std::cout<<"Cell Crossed bendingThreshold : "<<fourthterm<<std::endl;
         return std::numeric_limits<double>::max();
       }
+      */
       // If not continue with calculation of energy
       CellFaceIterator faces(this);
       Face * face;
@@ -401,7 +405,8 @@ unsigned long int random_seed()
   }
   /////////////////////////////////////////
   // Setting the bendingThreshold to initial bending energy value
-  this->setBendingThreshold(this->getFourthTerm());
+  double fourthterm = this->getFourthTerm();
+  this->setBendingThreshold(fourthterm + 0.05*fourthterm);
  }
  //********************************************************************************* //
 void Cell::setParameters(){
