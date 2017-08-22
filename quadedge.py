@@ -207,6 +207,9 @@ class Cell(_object):
     def getEnergyCartesianVolume(self):
         return _quadedge.Cell_getEnergyCartesianVolume(self)
 
+    def getDerivativeEnergyCartesianVolume(self):
+        return _quadedge.Cell_getDerivativeEnergyCartesianVolume(self)
+
     def getFirstTerm(self):
         return _quadedge.Cell_getFirstTerm(self)
 

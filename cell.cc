@@ -108,14 +108,51 @@ unsigned long int random_seed()
       //iterating the faces
       // First : check if the cell is convex or not
       if (!(this->isConvex())){ //if the cell is not convex then return HIGHVALUE
-          //std::cout<<"Is Convex : "<<this->isConvex()<<std::endl;
+          std::cout<<"Convesity Reached ! : "<<this->isConvex()<<std::endl;
           return std::numeric_limits<double>::max();
       }
       double fourthterm = this->getFourthTerm();
       // Second : check if the cell has bent than threshold
       if (fourthterm > (this->getBendingThreshold())){
+        std::cout<<"Bending Threshold Reached"<<std::endl;
         return std::numeric_limits<double>::max();
       }
+      // If not continue with calculation of energy
+      CellFaceIterator faces(this);
+      Face * face;
+      double totalenergy = 0.;
+      while ((face = faces.next())!= 0){
+          if (face->getID()==1) continue;
+          totalenergy += face->getEnergy();
+      }
+      totalenergy -= this->getGamma()*this->getCartesianVolume();
+      totalenergy +=  this->getZeta()*fourthterm;//subtracting the fourth term : z_proj penalty
+
+      return totalenergy ;
+ }
+ //******************************************************************************* //
+   /**
+  * Energy of cell calculator,
+  * bascially go over faces and sum up the energies ->
+  * Volume : cartesian volume with centroid
+  */
+ double Cell::getDerivativeEnergyCartesianVolume(){
+      //iterating the faces
+      // First : check if the cell is convex or not
+      /*
+      if (!(this->isConvex())){ //if the cell is not convex then return HIGHVALUE
+          std::cout<<"Convesity Reached ! : "<<this->isConvex()<<std::endl;
+          return std::numeric_limits<double>::max();
+      }
+      */
+      double fourthterm = this->getFourthTerm();
+      /*
+      // Second : check if the cell has bent than threshold
+      if (fourthterm > (this->getBendingThreshold())){
+        std::cout<<"Bending Threshold Reached"<<std::endl;
+        return std::numeric_limits<double>::max();
+      }
+      */
       // If not continue with calculation of energy
       CellFaceIterator faces(this);
       Face * face;

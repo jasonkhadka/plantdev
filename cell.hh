@@ -474,6 +474,11 @@ public:
     */
    double getEnergyCartesianVolume();
    /**
+    * Energy Function to calculate for Energy for use in numerical derivative
+    */
+   double getDerivativeEnergyCartesianVolume();
+   
+   /**
     * 
     */
    /**

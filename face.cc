@@ -406,7 +406,7 @@ bool Face::isConvex(){
           second = edge->Dest();
     }
     */
-    std::cout<<" ============================== \n" << faceid << "\n ============================== \n";
+    //std::cout<<" ============================== \n" << faceid << "\n ============================== \n";
 
     edge = this->getEdge();
     first = edge->Org();
@@ -429,7 +429,7 @@ bool Face::isConvex(){
         det = firstvec[0]*secondvec[1]-firstvec[1]*secondvec[0];
         // now calculating the angle [0,360]
         angle = fmod(((atan2(det,dot))/(M_PI)*180.+360.),360.);
-        std::cout << " Vert ID : "<< second->getID() << " Angle  : "<< angle << std::endl;
+        //std::cout << " Vert ID : "<< second->getID() << " Angle  : "<< angle << std::endl;
         if (angle > angleThreshold){//check if angle is greater than the threshold
           return false;
         }

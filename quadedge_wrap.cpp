@@ -4353,6 +4353,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_getDerivativeEnergyCartesianVolume(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getDerivativeEnergyCartesianVolume",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getDerivativeEnergyCartesianVolume" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getDerivativeEnergyCartesianVolume();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_getFirstTerm(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -15710,6 +15732,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_getEnergy", _wrap_Cell_getEnergy, METH_VARARGS, NULL},
 	 { (char *)"Cell_getEnergyCartesianVolumeWOCentroid", _wrap_Cell_getEnergyCartesianVolumeWOCentroid, METH_VARARGS, NULL},
 	 { (char *)"Cell_getEnergyCartesianVolume", _wrap_Cell_getEnergyCartesianVolume, METH_VARARGS, NULL},
+	 { (char *)"Cell_getDerivativeEnergyCartesianVolume", _wrap_Cell_getDerivativeEnergyCartesianVolume, METH_VARARGS, NULL},
 	 { (char *)"Cell_getFirstTerm", _wrap_Cell_getFirstTerm, METH_VARARGS, NULL},
 	 { (char *)"Cell_getSecondTerm", _wrap_Cell_getSecondTerm, METH_VARARGS, NULL},
 	 { (char *)"Cell_getThirdTerm", _wrap_Cell_getThirdTerm, METH_VARARGS, NULL},
