@@ -8,7 +8,8 @@
 
 #include "edge.hh"
 #include "vertex.hh"
-
+#include "./eigen/Eigen/Dense"
+#include "./eigen/Eigen/Eigenvalues"
 class Cell;
 
 /* ----------------------------------------------------------------------------
@@ -239,6 +240,26 @@ class Face
      * unit vector in Z direction
      */
      double unitz[3]; 
+     /**
+      * Unit Vector with respect to cartesian coordinate
+      */
+     double nonCentralisedUnitx[3];
+     double nonCentralisedUnity[3];
+     double nonCentralisedUnitz[3];
+     /**
+      * Stress Eigen Directions & Eigen values
+      */
+     double stressEigenVector1[3];
+     double stressEigenVector2[3];
+     double stressEigenValue1, stressEigenValue2;
+    /**
+      * Strain Eigen Directions & Eigen values
+      */
+     double strainEigenVector1[3];
+     double strainEigenVector2[3];
+     double strainEigenValue1, strainEigenValue2;
+
+
      // ****************** ENERGY VALUES ************************************** //
      /**
       * First term value of Energy
@@ -265,6 +286,22 @@ class Face
   /* ----------Public instance methods ---------*/
  /* -- public instance methods ----------------------------------------- */
     public:
+    /**
+     * function to get stess Eigen Vectors & values
+     */
+    double * getStressEigenVector1();
+    double * getStressEigenVector2();
+    double getStressEigenValue1();
+    double getStressEigenValue2();    
+    /**
+     * function to get strain Eigen Vectors & values
+     */
+    
+    double * getStrainEigenVector1();
+    double * getStrainEigenVector2();
+    double getStrainEigenValue1();
+    double getStrainEigenValue2();    
+    
     /**
      * setting the number of vertices in this face
      */
@@ -322,6 +359,15 @@ class Face
        * function to get unit vector in Z direction
        */
        double * getUnitz();
+        /**
+         * function to get non-centralised unitvector in x y z
+         */
+        double * getNoncentralisedUnitx();
+        double * getNoncentralisedUnity();
+        double * getNoncentralisedUnitz();
+        void setNoncentralisedunitx(double*);
+        void setNoncentralisedunity(double*);
+        void setNoncentralisedunitz(double*);
   // ***************************************** //
   // TARGET FORM MATRIX //
   // ***************************************** //
@@ -414,6 +460,22 @@ class Face
      *  current form of the cell
      */
     double currentFormMatrix[2][2]= {{0.,0.},{0.,0.}};
+    /**
+     * Intrinsic Stress Matrix of Face 
+     */
+    Eigen::Matrix2d stress;
+    /**
+     * Intrinsic Strain Matrix of Face
+     */
+    Eigen::Matrix2d strain;
+    /**
+     * Function to calculate intrinsic stress matrix
+     */
+    void calculateStress();
+    /**
+     * Function to calculate the intrinsic strain matrix
+     */
+    void calculateStrain();
     /**
      * After cell division,  To update the form matrix after the division
      * Old Mu Matrix : the matrix that represents the 
@@ -525,15 +587,15 @@ class Face
      */
     
   /**
-   * get x centralised coordiante of this face
+   * get x coordiante of centroid of this face
    */
    double getXCentralised();
    /**
-   * set y centralised coordiante of this face
+   * set y coordiante of centroid of this face
    */
    double getYCentralised();
     /**
-   * set z centralised coordiante of this face
+   * set z coordiante of centroid of this face
    */
    double getZCentralised();
 
@@ -583,6 +645,18 @@ class Face
   friend class CentralisedDerivative;
 };
 /* ----- inline instance methods --------------------------------*/
+inline double Face::getStressEigenValue1(){
+  return this->stressEigenValue1;
+};
+inline double Face::getStressEigenValue2(){
+  return this->stressEigenValue2;
+};
+inline double Face::getStrainEigenValue1(){
+  return this->strainEigenValue1;
+};
+inline double Face::getStrainEigenValue2(){
+  return this->strainEigenValue2;
+};
 inline bool Face::getDomePosition(){
   return this->domePosition;
 }

@@ -106,15 +106,17 @@ unsigned long int random_seed()
   */
  double Cell::getEnergyCartesianVolume(){
       //iterating the faces
+    double fourthterm = this->getFourthTerm();
+    
       // First : check if the cell is convex or not
       if (!(this->isConvex())){ //if the cell is not convex then return HIGHVALUE
-          std::cout<<"Convesity Reached ! : "<<this->isConvex()<<std::endl;
+          //std::cout<<"Cell Is not Convex ! isConvex -> "<<this->isConvex()<<std::endl;
           return std::numeric_limits<double>::max();
       }
-      double fourthterm = this->getFourthTerm();
+      
       // Second : check if the cell has bent than threshold
       if (fourthterm > (this->getBendingThreshold())){
-        std::cout<<"Bending Threshold Reached"<<std::endl;
+        //std::cout<<"Bending Threshold Reached"<<std::endl;
         return std::numeric_limits<double>::max();
       }
       // If not continue with calculation of energy
@@ -285,6 +287,23 @@ unsigned long int random_seed()
   return tempVolume;
  }
 //******************************************************************************* //
+ void Cell::calculateVertexForce(){
+  CellVertexIterator vertices(this);
+  Vertex * vertex;
+  while ((vertex = vertices.next())!= 0){
+    vertex->calculateCartesianForce();
+  }
+ }
+ // ****************************************************************************** //
+ void Cell::calculateStressStrain(){
+  CellFaceIterator faces(this);
+  Face * face;
+  while ((face = faces.next())!= 0){
+      face->calculateStress();
+      face->calculateStrain();
+  }
+ }
+ //******************************************************************************* //
  /**
   * First term of Energy of cell calculator,
   * bascially go over faces and sum up the energies
@@ -438,7 +457,8 @@ unsigned long int random_seed()
   }
   /////////////////////////////////////////
   // Setting the bendingThreshold to initial bending energy value
-  this->setBendingThreshold(this->getFourthTerm());
+  double fourthterm = this->getFourthTerm();
+  this->setBendingThreshold(fourthterm + 0.05*fourthterm);
  }
  //********************************************************************************* //
 void Cell::setParameters(){

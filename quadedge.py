@@ -166,6 +166,12 @@ class Cell(_object):
     def setParameters(self):
         return _quadedge.Cell_setParameters(self)
 
+    def calculateVertexForce(self):
+        return _quadedge.Cell_calculateVertexForce(self)
+
+    def calculateStressStrain(self):
+        return _quadedge.Cell_calculateStressStrain(self)
+
     def setBendingThreshold(self, arg2):
         return _quadedge.Cell_setBendingThreshold(self, arg2)
 
@@ -403,6 +409,30 @@ class Face(_object):
     def removeEdge(self, edge):
         return _quadedge.Face_removeEdge(self, edge)
 
+    def getStressEigenVector1(self):
+        return _quadedge.Face_getStressEigenVector1(self)
+
+    def getStressEigenVector2(self):
+        return _quadedge.Face_getStressEigenVector2(self)
+
+    def getStressEigenValue1(self):
+        return _quadedge.Face_getStressEigenValue1(self)
+
+    def getStressEigenValue2(self):
+        return _quadedge.Face_getStressEigenValue2(self)
+
+    def getStrainEigenVector1(self):
+        return _quadedge.Face_getStrainEigenVector1(self)
+
+    def getStrainEigenVector2(self):
+        return _quadedge.Face_getStrainEigenVector2(self)
+
+    def getStrainEigenValue1(self):
+        return _quadedge.Face_getStrainEigenValue1(self)
+
+    def getStrainEigenValue2(self):
+        return _quadedge.Face_getStrainEigenValue2(self)
+
     def setVertexCount(self):
         return _quadedge.Face_setVertexCount(self)
 
@@ -444,6 +474,24 @@ class Face(_object):
 
     def getUnitz(self):
         return _quadedge.Face_getUnitz(self)
+
+    def getNoncentralisedUnitx(self):
+        return _quadedge.Face_getNoncentralisedUnitx(self)
+
+    def getNoncentralisedUnity(self):
+        return _quadedge.Face_getNoncentralisedUnity(self)
+
+    def getNoncentralisedUnitz(self):
+        return _quadedge.Face_getNoncentralisedUnitz(self)
+
+    def setNoncentralisedunitx(self, arg2):
+        return _quadedge.Face_setNoncentralisedunitx(self, arg2)
+
+    def setNoncentralisedunity(self, arg2):
+        return _quadedge.Face_setNoncentralisedunity(self, arg2)
+
+    def setNoncentralisedunitz(self, arg2):
+        return _quadedge.Face_setNoncentralisedunitz(self, arg2)
 
     def grow(self):
         return _quadedge.Face_grow(self)
@@ -494,6 +542,20 @@ class Face(_object):
     __swig_getmethods__["currentFormMatrix"] = _quadedge.Face_currentFormMatrix_get
     if _newclass:
         currentFormMatrix = _swig_property(_quadedge.Face_currentFormMatrix_get, _quadedge.Face_currentFormMatrix_set)
+    __swig_setmethods__["stress"] = _quadedge.Face_stress_set
+    __swig_getmethods__["stress"] = _quadedge.Face_stress_get
+    if _newclass:
+        stress = _swig_property(_quadedge.Face_stress_get, _quadedge.Face_stress_set)
+    __swig_setmethods__["strain"] = _quadedge.Face_strain_set
+    __swig_getmethods__["strain"] = _quadedge.Face_strain_get
+    if _newclass:
+        strain = _swig_property(_quadedge.Face_strain_get, _quadedge.Face_strain_set)
+
+    def calculateStress(self):
+        return _quadedge.Face_calculateStress(self)
+
+    def calculateStrain(self):
+        return _quadedge.Face_calculateStrain(self)
     __swig_setmethods__["oldMuMatrix"] = _quadedge.Face_oldMuMatrix_set
     __swig_getmethods__["oldMuMatrix"] = _quadedge.Face_oldMuMatrix_get
     if _newclass:
@@ -764,9 +826,19 @@ class Vertex(_object):
     __swig_getmethods__["data"] = _quadedge.Vertex_data_get
     if _newclass:
         data = _swig_property(_quadedge.Vertex_data_get, _quadedge.Vertex_data_set)
+    __swig_setmethods__["cartesianForce"] = _quadedge.Vertex_cartesianForce_set
+    __swig_getmethods__["cartesianForce"] = _quadedge.Vertex_cartesianForce_get
+    if _newclass:
+        cartesianForce = _swig_property(_quadedge.Vertex_cartesianForce_get, _quadedge.Vertex_cartesianForce_set)
 
     def getCell(self):
         return _quadedge.Vertex_getCell(self)
+
+    def calculateCartesianForce(self):
+        return _quadedge.Vertex_calculateCartesianForce(self)
+
+    def getCartesianForce(self):
+        return _quadedge.Vertex_getCartesianForce(self)
 
     def setCylindrical(self):
         return _quadedge.Vertex_setCylindrical(self)

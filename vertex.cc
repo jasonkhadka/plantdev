@@ -12,6 +12,7 @@
 #include "cell.hh"
 #include "edge.hh"
 #include "vertex.hh"
+#include "derivative.hh"
 
 /* ----------------------------------------------------------------------------
  * Vertex
@@ -102,7 +103,12 @@ double Vertex::getNonCentralisedProjectedYcoordinate(unsigned int faceid){
 double Vertex::getNonCentralisedProjectedZcoordinate(unsigned int faceid){
   return this->NonCentralisedProjectedZcoordinate[faceid];
 }
+
 ///////////////////////////////////////////////////////////////////////
+double * Vertex::getCartesianForce(){
+    double * pnt = this->cartesianForce;
+    return pnt;
+}
 ///////////////////////////////////////////////////////////////////////
 
 void Vertex::setID(unsigned int id)
@@ -671,6 +677,16 @@ void Vertex::setAlphaBetaGamma(){
         this->beta[innerid] = tempbeta;
         this->gamma[innerid] = tempgamma;
     }
+}
+// ******************************************************* //
+// ******************************************************* //
+void Vertex::calculateCartesianForce(){
+    // getting a derivative instance
+    CentralisedDerivative derivative;
+    //calculating the derivative now
+    this->cartesianForce[0] = derivative.numericalEnergyXDerivative(this);
+    this->cartesianForce[1] = derivative.numericalEnergyYDerivative(this);
+    this->cartesianForce[2] = derivative.numericalEnergyZDerivative(this);
 }
 // ******************************************************* //
 void Vertex::setCylindrical(){

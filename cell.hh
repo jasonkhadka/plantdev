@@ -225,8 +225,14 @@ class Cell
    * to prepare for the further calculation of Energy and other quantities
    */
   void setParameters();
-
-
+  /**
+   * Function to calculate the forces on the vertices
+   */
+  void calculateVertexForce();
+  /**
+   * Function to calculate stress and strain matrices in all the faces
+   */
+  void calculateStressStrain();
   /* -- protected instance methods ----------------------------------------- */
 
   protected:

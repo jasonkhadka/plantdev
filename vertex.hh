@@ -261,7 +261,13 @@ class Vertex
    * The data associated with this edge.
    */
   const void *data;
-
+  /**
+     * For storing Cartesian Forces on this vertex, 
+     * Fx = dE/dx
+     * Fy = dE/dy
+     * Fz = dE/dz
+     */
+     double cartesianForce[3];
   /* -- public instance methods -------------------------------------------- */
 
   public:
@@ -272,7 +278,12 @@ class Vertex
    *    will be nonnull
    */
   Cell *getCell();
-
+  /**
+   * Function to calculate Forces on this vertex with respect to Cartesian direction
+   * dE/dx, dE/dy, dE/dz
+   */
+  void calculateCartesianForce();
+  double * getCartesianForce();
   /**
    * Function to set the Cylindrical Coordinates from Cartesian Coordinates
    */

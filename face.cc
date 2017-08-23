@@ -269,11 +269,12 @@ void Face::setProjectedCoordinate(){
       *if abs(Dot[normal,unitX])~ 1 : then the normal is parralel to unitX
       *Also IMPORTANT : Normal is Normalized !!
     */
-    if ((abs(normalX) - 1)< 0.001){
+    if (abs(abs(normalX) - 1)< 0.001){
         vectorVertex[0] = 0.;
         vectorVertex[1] = 1.;
         vectorVertex[2] = 0.;
-        //std::cout<<"Face Id : "<<this->getID()<<"  normal Y"<<std::endl;   
+        std::cout<<"Face Id : "<<this->getID()<<"  normal Y"
+          <<"\n Normal : "<<normalX <<" "<<normalY <<" "<<normalZ <<" "<<std::endl;   
     } else {
         vectorVertex[0] = 1.;
         vectorVertex[1] = 0.;
@@ -335,7 +336,7 @@ void Face::setProjectedCoordinate(){
           currentVertex->insertProjectedYcoordinate(faceid,yprojection); 
           currentVertex->insertProjectedZcoordinate(faceid,zprojection); 
           //getting the vector form the real origin on new vertex
-          // NON CENTRALISED Projected Coordainte or coordinates in terms of CARTESIAN SYSTEM
+          // NON CENTRALISED Projected Coordinate or coordinates in terms of CARTESIAN SYSTEM
           vectorVertex[0] = xprojection;
           vectorVertex[1] = yprojection;
           //vectorVertex[2] = zprojection; //taking zproj means fully changing 3D shape to cartesian system
@@ -375,7 +376,6 @@ void Face::setProjectedCoordinate(){
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
 bool Face::isConvex(){
-  {
     Edge * edge;
     Vertex * first, * second, * third;
     unsigned int initialVertID;
@@ -443,11 +443,12 @@ bool Face::isConvex(){
           second = edge->Dest();
         }
     }
-  }
   //if all vertex has been checked for having angle >180 (here condition that z-cross product is positive)
   //then this is a Convex polygon
   return true;
 }
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
 void Face::setNormal(double * tempnormal){
    for (int i = 0; i<3; i++){
@@ -518,10 +519,62 @@ double * Face::getUnitz(){
   double * pntunit = unitz;
   return pntunit;
 }
-
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double * Face::getStressEigenVector1(){
+  double * pntunit = this->stressEigenVector1;
+  return pntunit;
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double * Face::getStressEigenVector2(){
+  double * pntunit = this->stressEigenVector2;
+  return pntunit;
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double * Face::getStrainEigenVector1(){
+  double * pntunit = this->strainEigenVector1;
+  return pntunit;
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double * Face::getStrainEigenVector2(){
+  double * pntunit = this->strainEigenVector2;
+  return pntunit;
+}
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
 double Face::getAreaOfFace(){
 	return this->areaOfFace;
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+double * Face::getNoncentralisedUnitx(){
+  double * pntunit = this->nonCentralisedUnitx;
+  return pntunit;
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+double * Face::getNoncentralisedUnity(){
+  double * pntunit = this->nonCentralisedUnity;
+  return pntunit;
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+double * Face::getNoncentralisedUnitz(){
+  double * pntunit = this->nonCentralisedUnitz;
+  return pntunit;
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+void Face::setNoncentralisedunitx(double * tempunit){
+  for (int i = 0; i<3; i++){
+      nonCentralisedUnitx[i] = tempunit[i];
+   }
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+void Face::setNoncentralisedunity(double * tempunit){
+  for (int i = 0; i<3; i++){
+      nonCentralisedUnity[i] = tempunit[i];
+   }
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+void Face::setNoncentralisedunitz(double * tempunit){
+  for (int i = 0; i<3; i++){
+      nonCentralisedUnitz[i] = tempunit[i];
+   }
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
 void Face::setAreaOfFace(){
@@ -763,6 +816,125 @@ void Face::setTempTargetFormMatrixIdentity(){
       this->thirdTerm = thirdterm;
       this->energy = energytemp;
   }
+ }
+ // *************************************************************** //
+ void Face::calculateStress(){
+    if (this->getID() == 1){
+    this->stress << 0.,0.,
+                    0.,0.;
+    return;
+    }
+    //Declarations
+    Vertex *first, *second;
+    //double to store the values
+    double sxx(0.), syy(0.), sxy(0.);
+    //coordinates
+    double x1,y1,z1, x2,y2,z2, length;
+    //unsigned int initialVertID;
+    Edge * edge;
+    //Vectors of cartesianForce calculated with respect to cartesian coordinates
+    Eigen::Vector3d forces1;
+    Eigen::Vector3d forces2;
+    Eigen::Vector3d intrinsicForces1;
+    Eigen::Vector3d intrinsicForces2;
+    //Transformation Matrix
+    Eigen::Matrix3d transformationMatrix;
+    transformationMatrix << this->unitx[0] , this->unitx[1], this->unitx[2],
+                            this->unity[0] , this->unity[1], this->unity[2],
+                            this->unitz[0] , this->unitz[1], this->unitz[2];
+    //******Start of Calculations ******** //
+    FaceEdgeIterator edges(this);
+    while ((edge=edges.next())!=0){
+          first = edge->Org();
+          second = edge->Dest();
+          //grabbing the coordinates
+          x1 = first->getProjectedXcoordinate(this->getID());
+          y1 = first->getProjectedYcoordinate(this->getID());
+          z1 = first->getProjectedZcoordinate(this->getID());
+          x2 = second->getProjectedXcoordinate(this->getID());
+          y2 = second->getProjectedYcoordinate(this->getID());
+          z2 = second->getProjectedZcoordinate(this->getID());
+          //calculating the length of the side
+          length = pow(pow((x2-x1),2)+pow((y2-y1),2),0.5);
+          //getting the cartesianForce
+          forces1 << first->cartesianForce[0],first->cartesianForce[1],first->cartesianForce[2];
+          forces2 << second->cartesianForce[0],second->cartesianForce[1],second->cartesianForce[2];
+          //now converting this too intrinsic coordinates
+          intrinsicForces1 = transformationMatrix*forces1;
+          intrinsicForces2 = transformationMatrix*forces2;
+          // now calculating the terms 
+          sxx += length*((intrinsicForces1[0]*x1 + intrinsicForces2[0]*x2)/3. + 
+                 (intrinsicForces1[0]*x2 + intrinsicForces2[0]*x1)/6.);
+          syy += length*((intrinsicForces1[1]*y1 + intrinsicForces2[1]*y2)/3. + 
+                 (intrinsicForces1[1]*y2 + intrinsicForces2[1]*y1)/6.);
+          sxy += length*((intrinsicForces1[0]*y1+intrinsicForces1[1]*x1+intrinsicForces2[0]*y2+intrinsicForces2[1]*x2)/6. +
+                 (intrinsicForces1[0]*y2+intrinsicForces1[1]*x2+intrinsicForces2[0]*y1+intrinsicForces2[1]*x1)/12.);
+
+      }
+      sxx /= this->getAreaOfFace();
+      syy /= this->getAreaOfFace();
+      sxy /= this->getAreaOfFace();
+    //Now setting the stress Matrix on the 
+      this->stress << sxx, sxy,
+                      sxy, syy;
+    // Now computing the Eigen values of the stress Matrix
+    Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
+    eigensolver.compute(this->stress);//computing the eigenvalues of stress
+    // Converting EigenVector in intrinsic coordinate to the back to cartesian
+    forces1 << eigensolver.eigenvectors().col(0)[0], eigensolver.eigenvectors().col(0)[1], 0.;
+    forces1 = (transformationMatrix.transpose())*forces1;
+    forces2 << eigensolver.eigenvectors().col(1)[0], eigensolver.eigenvectors().col(1)[1], 0.;
+    forces2 = (transformationMatrix.transpose())*forces2;
+    //saving the eigen values 
+    this->stressEigenValue1 = eigensolver.eigenvalues()[0];
+    this->stressEigenValue2 = eigensolver.eigenvalues()[1];
+    this->stressEigenVector1[0] = forces1[0];
+    this->stressEigenVector1[1] = forces1[1];
+    this->stressEigenVector1[2] = forces1[2];
+    this->stressEigenVector2[0] = forces2[0];
+    this->stressEigenVector2[1] = forces2[1];
+    this->stressEigenVector2[2] = forces2[2];
+    //returning //
+    return;
+ }
+ // *************************************************************** //
+ void Face::calculateStrain(){
+  if (this->getID() == 1){
+    this->strain << 0.,0.,
+                    0.,0.;
+    return;
+    }
+     //Vectors of cartesianForce calculated with respect to cartesian coordinates
+    Eigen::Vector3d forces1;
+    Eigen::Vector3d forces2;
+    //Transformation Matrix
+    Eigen::Matrix3d transformationMatrix;
+    transformationMatrix << this->unitx[0] , this->unitx[1], this->unitx[2],
+                            this->unity[0] , this->unity[1], this->unity[2],
+                            this->unitz[0] , this->unitz[1], this->unitz[2];
+  double traceofTargetForm = (this->targetFormMatrix[0][0]+ this->targetFormMatrix[1][1]);
+  // Strain matrix = Mu-Matrix
+  strain<< 1./traceofTargetForm*(this->getMu1()),  1./traceofTargetForm*(this->getMu2()),
+            1./traceofTargetForm*(this->getMu3()), 1./traceofTargetForm*(this->getMu4()); 
+  // Now computing the Eigen values of the Strain Matrix
+    Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
+    eigensolver.compute(this->strain);//computing the eigenvalues of strain
+    // Converting EigenVector in intrinsic coordinate to the back to cartesian
+    forces1 << eigensolver.eigenvectors().col(0)[0], eigensolver.eigenvectors().col(0)[1], 0.;
+    forces1 = (transformationMatrix.transpose())*forces1;
+    forces2 << eigensolver.eigenvectors().col(1)[0],eigensolver.eigenvectors().col(1)[1], 0.;
+    forces2 = (transformationMatrix.transpose())*forces2;
+    //saving the eigen values 
+    this->strainEigenValue1 = eigensolver.eigenvalues()[0];
+    this->strainEigenValue2 = eigensolver.eigenvalues()[1];
+    this->strainEigenVector1[0] = forces1[0];
+    this->strainEigenVector1[1] = forces1[1];
+    this->strainEigenVector1[2] = forces1[2];
+    this->strainEigenVector2[0] = forces2[0];
+    this->strainEigenVector2[1] = forces2[1];
+    this->strainEigenVector2[2] = forces2[2];
+
+  return;
  }
  // *************************************************************** //
  void Face::grow(){
