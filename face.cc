@@ -273,8 +273,8 @@ void Face::setProjectedCoordinate(){
         vectorVertex[0] = 0.;
         vectorVertex[1] = 1.;
         vectorVertex[2] = 0.;
-        std::cout<<"Face Id : "<<this->getID()<<"  normal Y"
-          <<"\n Normal : "<<normalX <<" "<<normalY <<" "<<normalZ <<" "<<std::endl;   
+        //std::cout<<"Face Id : "<<this->getID()<<"  normal Y"
+        // <<"\n Normal : "<<normalX <<" "<<normalY <<" "<<normalZ <<" "<<std::endl;   
     } else {
         vectorVertex[0] = 1.;
         vectorVertex[1] = 0.;
