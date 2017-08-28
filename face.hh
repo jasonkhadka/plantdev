@@ -258,7 +258,10 @@ class Face
      double strainEigenVector1[3];
      double strainEigenVector2[3];
      double strainEigenValue1, strainEigenValue2;
-
+     /**
+      * Normal Force on this Face
+      */
+     double normalForce[3];
 
      // ****************** ENERGY VALUES ************************************** //
      /**
@@ -291,6 +294,7 @@ class Face
      */
     double * getStressEigenVector1();
     double * getStressEigenVector2();
+    double * getNormalForce();
     double getStressEigenValue1();
     double getStressEigenValue2();    
     /**
@@ -645,6 +649,10 @@ class Face
   friend class CentralisedDerivative;
 };
 /* ----- inline instance methods --------------------------------*/
+inline double * Face::getNormalForce(){
+    double * pnt = this->normalForce;
+    return pnt;
+}
 inline double Face::getStressEigenValue1(){
   return this->stressEigenValue1;
 };

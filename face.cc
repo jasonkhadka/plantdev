@@ -829,7 +829,7 @@ void Face::setTempTargetFormMatrixIdentity(){
     //double to store the values
     double sxx(0.), syy(0.), sxy(0.);
     //coordinates
-    double x1,y1,z1, x2,y2,z2, length;
+    double x1,y1,z1, x2,y2,z2, length,normalforce(0.);
     //unsigned int initialVertID;
     Edge * edge;
     //Vectors of cartesianForce calculated with respect to cartesian coordinates
@@ -869,7 +869,7 @@ void Face::setTempTargetFormMatrixIdentity(){
                  (intrinsicForces1[1]*y2 + intrinsicForces2[1]*y1)/6.);
           sxy += length*((intrinsicForces1[0]*y1+intrinsicForces1[1]*x1+intrinsicForces2[0]*y2+intrinsicForces2[1]*x2)/6. +
                  (intrinsicForces1[0]*y2+intrinsicForces1[1]*x2+intrinsicForces2[0]*y1+intrinsicForces2[1]*x1)/12.);
-
+          normalforce += intrinsicForces1[2];//sum normal forces to calculate average force
       }
       sxx /= this->getAreaOfFace();
       syy /= this->getAreaOfFace();
@@ -894,7 +894,14 @@ void Face::setTempTargetFormMatrixIdentity(){
     this->stressEigenVector2[0] = forces2[0];
     this->stressEigenVector2[1] = forces2[1];
     this->stressEigenVector2[2] = forces2[2];
-    //returning //
+    // calculating normal force on the face 
+    double vertexNum = (double) this->getVertexCount();
+    forces1<< 0.,0.,normalforce/vertexNum;
+    forces1 = (transformationMatrix.transpose())*forces1;
+    this->normalForce[0] = forces1[0];
+    this->normalForce[1] = forces1[1];
+    this->normalForce[2] = forces1[2];
+    //returning//
     return;
  }
  // *************************************************************** //

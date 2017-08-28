@@ -415,6 +415,9 @@ class Face(_object):
     def getStressEigenVector2(self):
         return _quadedge.Face_getStressEigenVector2(self)
 
+    def getNormalForce(self):
+        return _quadedge.Face_getNormalForce(self)
+
     def getStressEigenValue1(self):
         return _quadedge.Face_getStressEigenValue1(self)
 

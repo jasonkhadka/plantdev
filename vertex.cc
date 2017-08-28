@@ -684,9 +684,9 @@ void Vertex::calculateCartesianForce(){
     // getting a derivative instance
     CentralisedDerivative derivative;
     //calculating the derivative now
-    this->cartesianForce[0] = derivative.numericalEnergyXDerivative(this);
-    this->cartesianForce[1] = derivative.numericalEnergyYDerivative(this);
-    this->cartesianForce[2] = derivative.numericalEnergyZDerivative(this);
+    this->cartesianForce[0] = -1*derivative.numericalEnergyXDerivative(this);
+    this->cartesianForce[1] = -1*derivative.numericalEnergyYDerivative(this);
+    this->cartesianForce[2] = -1*derivative.numericalEnergyZDerivative(this);
 }
 // ******************************************************* //
 void Vertex::setCylindrical(){

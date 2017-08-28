@@ -5674,6 +5674,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_getNormalForce(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getNormalForce",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getNormalForce" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double *)(arg1)->getNormalForce();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_getStressEigenValue1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -16428,6 +16450,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_removeEdge", _wrap_Face_removeEdge, METH_VARARGS, NULL},
 	 { (char *)"Face_getStressEigenVector1", _wrap_Face_getStressEigenVector1, METH_VARARGS, NULL},
 	 { (char *)"Face_getStressEigenVector2", _wrap_Face_getStressEigenVector2, METH_VARARGS, NULL},
+	 { (char *)"Face_getNormalForce", _wrap_Face_getNormalForce, METH_VARARGS, NULL},
 	 { (char *)"Face_getStressEigenValue1", _wrap_Face_getStressEigenValue1, METH_VARARGS, NULL},
 	 { (char *)"Face_getStressEigenValue2", _wrap_Face_getStressEigenValue2, METH_VARARGS, NULL},
 	 { (char *)"Face_getStrainEigenVector1", _wrap_Face_getStrainEigenVector1, METH_VARARGS, NULL},
