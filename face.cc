@@ -262,26 +262,13 @@ void Face::setProjectedCoordinate(){
     // getting the unit vector of 2d Plane
     double unitx[3], unity[3], vectorVertex[3];//new unit vector of x, y on the plane
     double dotproduct, xvertex, yvertex, zvertex;
-    //If normal is parralel to X-axis (or in this normalised case, eqaul to x-axis or negative x-axis) then the projection is done using Y-Axis
-    //vectorVertex : is the Vector direction to be used to add to the centroid and project it onto the face plane
-    /*
-      *Dot[normal, unitX] = (normalX*1+normalY*0+normalZ*0) = normalX
-      *if abs(Dot[normal,unitX])~ 1 : then the normal is parralel to unitX
-      *Also IMPORTANT : Normal is Normalized !!
-    */
-    if (abs(abs(normalX) - 1)< 0.001){
-        vectorVertex[0] = 0.;
-        vectorVertex[1] = 1.;
-        vectorVertex[2] = 0.;
-        //std::cout<<"Face Id : "<<this->getID()<<"  normal Y"
-        // <<"\n Normal : "<<normalX <<" "<<normalY <<" "<<normalZ <<" "<<std::endl;   
-    } else {
-        vectorVertex[0] = 1.;
-        vectorVertex[1] = 0.;
-        vectorVertex[2] = 0.;  
-        //std::cout<<"Face Id : "<<this->getID()<<"  normal X"<<std::endl;
-        //std::cout<<"Normal : "<<normalX <<"  "<<normalY<<"  "<< normalZ<<std::endl;
-      };
+    // Now choosing Unit vector in intrinsic X - Direction
+    // For that we need a perpendicular vector to Normal
+    // this can be achieved by switching any two coordinate of normal and 
+    // add a minus sign to one of them, and complete the vector with zeroes.
+    vectorVertex[0] = -1*normalY;
+    vectorVertex[1] = normalX;
+    vectorVertex[2] = 0;
     //dot product of vectorVertex and normal
     dotproduct = vectorVertex[0]*normalX+vectorVertex[1]*normalY+vectorVertex[2]*normalZ;
     //now calculating the projected vertices --at this stage unitx is storing pi_vector
@@ -828,6 +815,8 @@ void Face::setTempTargetFormMatrixIdentity(){
     Vertex *first, *second;
     //double to store the values
     double sxx(0.), syy(0.), sxy(0.);
+    // calculating normal force on the face 
+    double vertexNum = (double) this->getVertexCount();
     //coordinates
     double x1,y1,z1, x2,y2,z2, length,normalforce(0.);
     //unsigned int initialVertID;
@@ -894,8 +883,6 @@ void Face::setTempTargetFormMatrixIdentity(){
     this->stressEigenVector2[0] = forces2[0];
     this->stressEigenVector2[1] = forces2[1];
     this->stressEigenVector2[2] = forces2[2];
-    // calculating normal force on the face 
-    double vertexNum = (double) this->getVertexCount();
     forces1<< 0.,0.,normalforce/vertexNum;
     forces1 = (transformationMatrix.transpose())*forces1;
     this->normalForce[0] = forces1[0];
@@ -1010,7 +997,24 @@ void Face::setTempTargetFormMatrixIdentity(){
  }
 
 // *************************************************************** //
+void Face::feedbackGrow(){
+  // Before calculation of Growth : Vertex Forces & Stress-Strain should already be calculated
+  if(this->getID()== 1){
+      return;
+    }
+//getting traceless deviatoric matrix
+Eigen::Matrix2d deviatoric = (this->stress) - 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity();
+//current Form Matrix
+Eigen::Matrix2d M0;
+M0 << this->targetFormMatrix[0][0],this->targetFormMatrix[0][1],
+      this->targetFormMatrix[1][0],this->targetFormMatrix[1][1];
+//get the feedback matrix
+Eigen::Matrix2d feedback = deviatoric*M0 + M0*deviatoric;
 
+}
+
+// *************************************************************** //
+ 
  void Face::inflatedGrow(){
   if (this->getID() == 1){
     return;

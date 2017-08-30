@@ -386,7 +386,12 @@ class Face
     * without any mehcanics just pure inflate growth
     */
    void inflatedGrow();
-   
+   /**
+   * target form matrix growth function
+   * grows with the Feedback from the stress acting on the cell
+   * (mimicing microtubles re-enforcing)
+   */
+   void feedbackGrow();
    /**
     * The threshold for division
    */

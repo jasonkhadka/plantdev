@@ -931,6 +931,7 @@ Cell::Cell():gaussianWidth(1.0), //initialising the gaussian Widht to 1
   gsl_rng_set(cellDivisionRandomNumberGenerator, random_seed());//using /dev/urandom to seed this generator
   //calculating the square root of epsilon
   sqrtEpsilon = sqrt(std::numeric_limits<double>::epsilon());
+  //sqrtEpsilon = pow(10.,-12.);
 }
 
 Cell::~Cell()

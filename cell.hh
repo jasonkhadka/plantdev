@@ -376,6 +376,10 @@ class Cell
     */
    double growthvar = 0.5;
    /**
+    * Eta : The feedback strength of stress
+    */
+   double eta = 1.0;
+   /**
     * Square root of Epsilon to use for finite diference stepsize
     * as recommended step size for finite difference is = sqrt(eps)*x for x != 0
     * assigned in constructor

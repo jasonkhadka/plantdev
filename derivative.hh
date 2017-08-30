@@ -31,7 +31,25 @@ class CentralisedDerivative
 	 	 * calculation using Forward difference method
 	 	 */
 		double numericalEnergyZDerivative(Vertex*);
-
+		/********** Higher Order Numerical Energy Derivative ************************ //
+	 	/**
+	 	 * Calculating the Energy derivative with respect to change in X-coordinate
+	 	 * of this vertex
+	 	 * calculation using Forward difference method
+	 	 */
+		double numericalHigherOrderEnergyXDerivative(Vertex*);
+		/**
+	 	 * Calculating the Energy derivative with respect to change in Y-coordinate
+	 	 * of this vertex
+	 	 * calculation using Forward difference method
+	 	 */
+		double numericalHigherOrderEnergyYDerivative(Vertex*);
+		/**
+	 	 * Calculating the Energy derivative with respect to change in Z-coordinate
+	 	 * of this vertex
+	 	 * calculation using Forward difference method
+	 	 */
+		double numericalHigherOrderEnergyZDerivative(Vertex*);
 
 
 	 	//~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~ ~~~//

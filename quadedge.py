@@ -501,6 +501,9 @@ class Face(_object):
 
     def inflatedGrow(self):
         return _quadedge.Face_inflatedGrow(self)
+
+    def feedbackGrow(self):
+        return _quadedge.Face_feedbackGrow(self)
     __swig_setmethods__["divisionThreshold"] = _quadedge.Face_divisionThreshold_set
     __swig_getmethods__["divisionThreshold"] = _quadedge.Face_divisionThreshold_get
     if _newclass:
@@ -1183,6 +1186,15 @@ class CentralisedDerivative(_object):
 
     def numericalEnergyZDerivative(self, arg2):
         return _quadedge.CentralisedDerivative_numericalEnergyZDerivative(self, arg2)
+
+    def numericalHigherOrderEnergyXDerivative(self, arg2):
+        return _quadedge.CentralisedDerivative_numericalHigherOrderEnergyXDerivative(self, arg2)
+
+    def numericalHigherOrderEnergyYDerivative(self, arg2):
+        return _quadedge.CentralisedDerivative_numericalHigherOrderEnergyYDerivative(self, arg2)
+
+    def numericalHigherOrderEnergyZDerivative(self, arg2):
+        return _quadedge.CentralisedDerivative_numericalHigherOrderEnergyZDerivative(self, arg2)
 
     def xtildeXDerivative(self, first, second, face):
         return _quadedge.CentralisedDerivative_xtildeXDerivative(self, first, second, face)

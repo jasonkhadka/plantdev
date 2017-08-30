@@ -6381,6 +6381,27 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_feedbackGrow(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_feedbackGrow",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_feedbackGrow" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->feedbackGrow();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_divisionThreshold_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -11876,6 +11897,99 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_numericalHigherOrderEnergyXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CentralisedDerivative_numericalHigherOrderEnergyXDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_numericalHigherOrderEnergyXDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_numericalHigherOrderEnergyXDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  result = (double)(arg1)->numericalHigherOrderEnergyXDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_numericalHigherOrderEnergyYDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CentralisedDerivative_numericalHigherOrderEnergyYDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_numericalHigherOrderEnergyYDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_numericalHigherOrderEnergyYDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  result = (double)(arg1)->numericalHigherOrderEnergyYDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_CentralisedDerivative_numericalHigherOrderEnergyZDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
+  Vertex *arg2 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:CentralisedDerivative_numericalHigherOrderEnergyZDerivative",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_CentralisedDerivative, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "CentralisedDerivative_numericalHigherOrderEnergyZDerivative" "', argument " "1"" of type '" "CentralisedDerivative *""'"); 
+  }
+  arg1 = reinterpret_cast< CentralisedDerivative * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "CentralisedDerivative_numericalHigherOrderEnergyZDerivative" "', argument " "2"" of type '" "Vertex *""'"); 
+  }
+  arg2 = reinterpret_cast< Vertex * >(argp2);
+  result = (double)(arg1)->numericalHigherOrderEnergyZDerivative(arg2);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_CentralisedDerivative_xtildeXDerivative(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   CentralisedDerivative *arg1 = (CentralisedDerivative *) 0 ;
@@ -16479,6 +16593,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_setNoncentralisedunitz", _wrap_Face_setNoncentralisedunitz, METH_VARARGS, NULL},
 	 { (char *)"Face_grow", _wrap_Face_grow, METH_VARARGS, NULL},
 	 { (char *)"Face_inflatedGrow", _wrap_Face_inflatedGrow, METH_VARARGS, NULL},
+	 { (char *)"Face_feedbackGrow", _wrap_Face_feedbackGrow, METH_VARARGS, NULL},
 	 { (char *)"Face_divisionThreshold_set", _wrap_Face_divisionThreshold_set, METH_VARARGS, NULL},
 	 { (char *)"Face_divisionThreshold_get", _wrap_Face_divisionThreshold_get, METH_VARARGS, NULL},
 	 { (char *)"Face_divisionFactor_set", _wrap_Face_divisionFactor_set, METH_VARARGS, NULL},
@@ -16692,6 +16807,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"CentralisedDerivative_numericalEnergyXDerivative", _wrap_CentralisedDerivative_numericalEnergyXDerivative, METH_VARARGS, NULL},
 	 { (char *)"CentralisedDerivative_numericalEnergyYDerivative", _wrap_CentralisedDerivative_numericalEnergyYDerivative, METH_VARARGS, NULL},
 	 { (char *)"CentralisedDerivative_numericalEnergyZDerivative", _wrap_CentralisedDerivative_numericalEnergyZDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_numericalHigherOrderEnergyXDerivative", _wrap_CentralisedDerivative_numericalHigherOrderEnergyXDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_numericalHigherOrderEnergyYDerivative", _wrap_CentralisedDerivative_numericalHigherOrderEnergyYDerivative, METH_VARARGS, NULL},
+	 { (char *)"CentralisedDerivative_numericalHigherOrderEnergyZDerivative", _wrap_CentralisedDerivative_numericalHigherOrderEnergyZDerivative, METH_VARARGS, NULL},
 	 { (char *)"CentralisedDerivative_xtildeXDerivative", _wrap_CentralisedDerivative_xtildeXDerivative, METH_VARARGS, NULL},
 	 { (char *)"CentralisedDerivative_ytildeXDerivative", _wrap_CentralisedDerivative_ytildeXDerivative, METH_VARARGS, NULL},
 	 { (char *)"CentralisedDerivative_xiXDerivative", _wrap_CentralisedDerivative_xiXDerivative, METH_VARARGS, NULL},
