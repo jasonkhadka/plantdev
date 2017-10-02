@@ -172,6 +172,12 @@ class Cell(_object):
     def calculateStressStrain(self):
         return _quadedge.Cell_calculateStressStrain(self)
 
+    def setInitialStrain(self, arg2):
+        return _quadedge.Cell_setInitialStrain(self, arg2)
+
+    def getInitialStrain(self):
+        return _quadedge.Cell_getInitialStrain(self)
+
     def setBendingThreshold(self, arg2):
         return _quadedge.Cell_setBendingThreshold(self, arg2)
 
@@ -269,6 +275,12 @@ class Cell(_object):
 
     def setZeta(self, arg2):
         return _quadedge.Cell_setZeta(self, arg2)
+
+    def getEta(self):
+        return _quadedge.Cell_getEta(self)
+
+    def setEta(self, arg2):
+        return _quadedge.Cell_setEta(self, arg2)
 
     def getRandomNumber(self):
         return _quadedge.Cell_getRandomNumber(self)
@@ -409,6 +421,18 @@ class Face(_object):
     def removeEdge(self, edge):
         return _quadedge.Face_removeEdge(self, edge)
 
+    def getFaceRank(self):
+        return _quadedge.Face_getFaceRank(self)
+
+    def setFaceRank(self, arg2):
+        return _quadedge.Face_setFaceRank(self, arg2)
+
+    def getAlpha(self):
+        return _quadedge.Face_getAlpha(self)
+
+    def setAlpha(self, arg2):
+        return _quadedge.Face_setAlpha(self, arg2)
+
     def getStressEigenVector1(self):
         return _quadedge.Face_getStressEigenVector1(self)
 
@@ -502,8 +526,11 @@ class Face(_object):
     def inflatedGrow(self):
         return _quadedge.Face_inflatedGrow(self)
 
-    def feedbackGrow(self):
-        return _quadedge.Face_feedbackGrow(self)
+    def feedbackInflatedGrow(self):
+        return _quadedge.Face_feedbackInflatedGrow(self)
+
+    def feedbackStrainGrow(self):
+        return _quadedge.Face_feedbackStrainGrow(self)
     __swig_setmethods__["divisionThreshold"] = _quadedge.Face_divisionThreshold_set
     __swig_getmethods__["divisionThreshold"] = _quadedge.Face_divisionThreshold_get
     if _newclass:
@@ -621,8 +648,11 @@ class Face(_object):
     def setTempTargetFormMatrixIdentity(self):
         return _quadedge.Face_setTempTargetFormMatrixIdentity(self)
 
-    def setTempTargetFormMatrixCurrent(self):
-        return _quadedge.Face_setTempTargetFormMatrixCurrent(self)
+    def setInitialTargetFormMatrixCurrent(self):
+        return _quadedge.Face_setInitialTargetFormMatrixCurrent(self)
+
+    def setSkewedTargetFormMatrixCurrent(self):
+        return _quadedge.Face_setSkewedTargetFormMatrixCurrent(self)
 
     def setTraceSquaredTargetFormMatrix(self):
         return _quadedge.Face_setTraceSquaredTargetFormMatrix(self)

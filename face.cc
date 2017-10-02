@@ -266,9 +266,15 @@ void Face::setProjectedCoordinate(){
     // For that we need a perpendicular vector to Normal
     // this can be achieved by switching any two coordinate of normal and 
     // add a minus sign to one of them, and complete the vector with zeroes.
-    vectorVertex[0] = -1*normalY;
-    vectorVertex[1] = normalX;
-    vectorVertex[2] = 0;
+    if (pow(normalX*normalX + normalY*normalY,0.5) > pow(10.,-6)){//normal is not parrelel to z axis
+        vectorVertex[0] = -1*normalY;
+        vectorVertex[1] = normalX;
+        vectorVertex[2] = 0;
+    }else{//normal is parrelel to z axis
+        vectorVertex[0] = normalZ;
+        vectorVertex[1] = 0;
+        vectorVertex[2] = -1*normalX;
+    }
     //dot product of vectorVertex and normal
     dotproduct = vectorVertex[0]*normalX+vectorVertex[1]*normalY+vectorVertex[2]*normalZ;
     //now calculating the projected vertices --at this stage unitx is storing pi_vector
@@ -736,11 +742,32 @@ void Face::printTargetFormMatrix(){
 
 //***************************************************************************** //
 
-void Face::setTempTargetFormMatrixCurrent(){
-    this->targetFormMatrix[0][0] = (this->getMu1() + this->targetFormMatrix[0][0] );
-    this->targetFormMatrix[1][0] = (this->getMu2() + this->targetFormMatrix[1][0] );
-    this->targetFormMatrix[0][1] = (this->getMu3() + this->targetFormMatrix[0][1] );
-    this->targetFormMatrix[1][1] = (this->getMu4() + this->targetFormMatrix[1][1] );
+void Face::setInitialTargetFormMatrixCurrent(){
+    double facestrain = (this->getCell())->getInitialStrain();//getting the Initial strain to be used
+    this->targetFormMatrix[0][0] = ((1.-facestrain)*this->getMu1());
+    this->targetFormMatrix[1][0] = ((1.-facestrain)*this->getMu2());
+    this->targetFormMatrix[0][1] = ((1.-facestrain)*this->getMu3());
+    this->targetFormMatrix[1][1] = ((1.-facestrain)*this->getMu4());
+    this->setTraceSquaredTargetFormMatrix();
+    this->setTargetArea(this->getAreaOfFace());//area of current form matrix as target area
+}
+//***************************************************************************** //
+
+void Face::setSkewedTargetFormMatrixCurrent(){
+  if (this->domePosition == true ){// IF this is dome face
+    this->setInitialTargetFormMatrixCurrent();
+  }
+  else if (this->getMu1() > this->getMu4()){//Ixx > Iyy
+      this->targetFormMatrix[0][0] = (this->getMu1());
+      this->targetFormMatrix[1][0] = (this->getMu2());
+      this->targetFormMatrix[0][1] = (this->getMu3());
+      this->targetFormMatrix[1][1] = (0.5*this->getMu4());
+  }else{//Iyy>Ixx
+    this->targetFormMatrix[0][0] = (0.5*this->getMu1());
+    this->targetFormMatrix[1][0] = (this->getMu2());
+      this->targetFormMatrix[0][1] = (this->getMu3());
+      this->targetFormMatrix[1][1] = (this->getMu4());
+    }
     this->setTraceSquaredTargetFormMatrix();
     this->setTargetArea(this->getAreaOfFace());//area of current form matrix as target area
 }
@@ -770,7 +797,13 @@ void Face::setTempTargetFormMatrixIdentity(){
   if (this->getID() != 1){
       double area = this->getAreaOfFace();//area of face
       Cell *cell = this->getCell();//getting the cell on which this face lies
-      double alpha = cell->getAlpha();
+      double cellalpha;
+      if (this->alpha == 0){//means not update directly to face
+          cellalpha = cell->getAlpha();
+      }
+      else{
+          cellalpha = this->alpha;
+      }
       double beta = cell->getBeta();
       double pressure = cell->getPressure();
       //unsigned int faceid = this->getID();//getting the face id
@@ -794,9 +827,9 @@ void Face::setTempTargetFormMatrixIdentity(){
       thirdterm = area;
       // ****************************************************************************************** //
       //calculating energy
-      double energytemp = alpha*firstterm + beta*secondterm - pressure*thirdterm;
+      double energytemp = cellalpha*firstterm + beta*secondterm - pressure*thirdterm;
       //removing the area term
-      //double energytemp = alpha*firstterm + beta*secondterm;
+      //double energytemp = cellalpha*firstterm + beta*secondterm;
       //setting the energy values of face 
       this->firstTerm = firstterm;
       this->secondTerm = secondterm;
@@ -866,6 +899,10 @@ void Face::setTempTargetFormMatrixIdentity(){
     //Now setting the stress Matrix on the 
       this->stress << sxx, sxy,
                       sxy, syy;
+    //std::cout<< "====================== Calculation of Stress : facid :"<<this->getID()<<"====================== \n"<<
+    //sxx <<"   "<< sxy <<"\n"
+    //sxy <<"   "<< syy<<"\n"<<std::endl;
+
     // Now computing the Eigen values of the stress Matrix
     Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
     eigensolver.compute(this->stress);//computing the eigenvalues of stress
@@ -908,7 +945,7 @@ void Face::setTempTargetFormMatrixIdentity(){
                             this->unitz[0] , this->unitz[1], this->unitz[2];
   double traceofTargetForm = (this->targetFormMatrix[0][0]+ this->targetFormMatrix[1][1]);
   // Strain matrix = Mu-Matrix
-  strain<< 1./traceofTargetForm*(this->getMu1()),  1./traceofTargetForm*(this->getMu2()),
+  this->strain<< 1./traceofTargetForm*(this->getMu1()),  1./traceofTargetForm*(this->getMu2()),
             1./traceofTargetForm*(this->getMu3()), 1./traceofTargetForm*(this->getMu4()); 
   // Now computing the Eigen values of the Strain Matrix
     Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
@@ -947,12 +984,14 @@ void Face::setTempTargetFormMatrixIdentity(){
   //Eigensolver for strain
   Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
   eigensolver.compute(strain);//computing the eigenvalues of strain
-  //growth fluctuation : calculated by same randomnumber generator set as property of cell
-  double fluctuation = cell->getRandomNumber();
-  //growth variation of face : Amplitude of fluctuation
-  double growthvar = cell->getGrowthVar();
-  //growth rate of faces : kappa
-  double kappa = cell->getKappa();
+  //growth fluctuation : Calculated as multiplicative of gaussain noise N(0,0.5)
+double fluctuation = cell->getRandomNumber();
+//growth variation of face : Amplitude of fluctuation
+double growthvar;
+//growth rate of faces : kappa
+double kappa = cell->getKappa();
+//calculating the time derivative now
+growthvar = kappa*(1+fluctuation);
   /*
   std::cout<< "***************************************************************************"<<std::endl;
   std::cout<<"face id : "<<this->getID()<<std::endl;
@@ -982,7 +1021,7 @@ void Face::setTempTargetFormMatrixIdentity(){
   eigen2 = std::max(eigensolver.eigenvalues()[1]-cell->thresholdMatrix[1][1],0.0)*
                       ((eigensolver.eigenvectors().col(1))*(eigensolver.eigenvectors().col(1)).transpose());
   //calculating the time derivative now
-  growthRate = kappa*(1+(2*growthvar*fluctuation-growthvar))*(eigen1+eigen2);
+  growthRate = growthvar*(eigen1+eigen2);
   /*
   std::cout<<"Growth Rate addition to TargetFormMatrix : (from Face::grow() : Faceid :"<<this->getID()<<std::endl;
   std::cout<<growthRate<<std::endl;
@@ -997,11 +1036,15 @@ void Face::setTempTargetFormMatrixIdentity(){
  }
 
 // *************************************************************** //
-void Face::feedbackGrow(){
-  // Before calculation of Growth : Vertex Forces & Stress-Strain should already be calculated
+void Face::feedbackInflatedGrow(){
   if(this->getID()== 1){
       return;
     }
+// Before calculation of Growth : Calculate the stress-strain of this cell
+  this->calculateStress();
+  this->calculateStrain();
+Cell * cell = this->getCell();
+double eta = cell->getEta();
 //getting traceless deviatoric matrix
 Eigen::Matrix2d deviatoric = (this->stress) - 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity();
 //current Form Matrix
@@ -1010,9 +1053,158 @@ M0 << this->targetFormMatrix[0][0],this->targetFormMatrix[0][1],
       this->targetFormMatrix[1][0],this->targetFormMatrix[1][1];
 //get the feedback matrix
 Eigen::Matrix2d feedback = deviatoric*M0 + M0*deviatoric;
-
+//printing Feed back matrix
+/*
+std::cout<<"-------------------------face id "<<this->getID()<< "---------------------------"<<
+"\n identity*trace"<<
+"\n"<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(0,0)<<"  "<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(0,1)<<
+"\n"<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(1,0)<<"  "<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(1,1)<<
+"\n =========================================="<<
+"\n Stress"<<
+"\n"<<this->stress(0,0)<<"  "<<this->stress(0,1)<<
+"\n"<<this->stress(1,0)<<"  "<<this->stress(1,1)<<
+"\n =========================================="<<
+"\n TargetFormMatrix"<<
+"\n"<<M0(0,0)<<"  "<<M0(0,1)<<
+"\n"<<M0(1,0)<<"  "<<M0(1,1)<<
+"\n =========================================="<<
+"\n Deviatoric"<<
+"\n"<<deviatoric(0,0)<<"  "<<deviatoric(0,1)<<
+"\n"<<deviatoric(1,0)<<"  "<<deviatoric(1,1)<<
+"\n =========================================="<<
+"\n feedback matrix "<<
+"\n"<<feedback(0,0)<<"  "<<feedback(0,1)<<
+"\n"<<feedback(1,0)<<"  "<<feedback(1,1)<<std::endl;
+*/
+//growth fluctuation : calculated by same randomnumber generator set as property of cell
+double fluctuation = cell->getRandomNumber();
+//growth variation of face : Amplitude of fluctuation
+double growthvar = cell->getGrowthVar();
+//std::cout<< "fluctuation : " << fluctuation << "/n Growthvar" << growthvar <<std::endl;
+//growth rate of faces : kappa
+double kappa = cell->getKappa();
+//calculating the time derivative now
+growthvar = kappa*(1+(2*growthvar*fluctuation-growthvar));
+//std::cout<<"Kappa : "<< kappa <<"/n Actual Growth Var  : "<<growthvar <<std::endl;
+Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
+// Growth Matrix
+Eigen::Matrix2d growthMatrix;
+// dM0/dt = kappa*M0 - n/2*feedback
+growthMatrix<< growthvar*(this->targetFormMatrix[0][0]) - eta/2.*feedback(0,0),
+               growthvar*(this->targetFormMatrix[0][1]) - eta/2.*feedback(0,1),
+               growthvar*(this->targetFormMatrix[1][0]) - eta/2.*feedback(1,0),
+               growthvar*(this->targetFormMatrix[1][1]) - eta/2.*feedback(1,1); 
+eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
+//to calculate the individual growth eigen direction
+  Eigen::Matrix2d eigen1;
+  Eigen::Matrix2d eigen2;
+  eigen1 = std::max(eigensolver.eigenvalues()[0]-cell->thresholdMatrix[0][0],0.0)*
+                      ((eigensolver.eigenvectors().col(0))*(eigensolver.eigenvectors().col(0)).transpose());
+  eigen2 = std::max(eigensolver.eigenvalues()[1]-cell->thresholdMatrix[1][1],0.0)*
+                      ((eigensolver.eigenvectors().col(1))*(eigensolver.eigenvectors().col(1)).transpose());
+// Now combining growth in both direction
+  growthMatrix = eigen1 + eigen2;
+//now setting the new targetFormMatrix with feedback matrix
+this->targetFormMatrix[0][0] += growthMatrix(0,0);
+this->targetFormMatrix[1][0] += growthMatrix(1,0);
+this->targetFormMatrix[0][1] += growthMatrix(0,1);
+this->targetFormMatrix[1][1] += growthMatrix(1,1);
+/*
+std::cout<<
+"\n =========================================="<<
+"\n Face ID : : "<< this->getID() <<
+"\n eta : : "<< eta <<
+"\n =========================================="<<
+"\n Growth matrix "<<
+"\n"<<growthMatrix(0,0)<<"  "<<growthMatrix(0,1)<<
+"\n"<<growthMatrix(1,0)<<"  "<<growthMatrix(1,1)<<std::endl;*/
+//now setting tracesq of Target Form Matrix
+this->setTraceSquaredTargetFormMatrix();
 }
 
+// *************************************************************** //
+void Face::feedbackStrainGrow(){
+  if(this->getID()== 1){
+      return;
+    }
+// Before calculation of Growth : Calculate the stress-strain of this cell
+  this->calculateStress();
+  this->calculateStrain();
+Cell * cell = this->getCell();
+double eta = cell->getEta();
+//getting traceless deviatoric matrix
+Eigen::Matrix2d deviatoric = (this->stress) - 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity();
+//current Form Matrix
+Eigen::Matrix2d M0;
+M0 << this->targetFormMatrix[0][0],this->targetFormMatrix[0][1],
+      this->targetFormMatrix[1][0],this->targetFormMatrix[1][1];
+//get the feedback matrix
+Eigen::Matrix2d feedback = deviatoric*M0 + M0*deviatoric;
+//printing Feed back matrix
+/*
+std::cout<<"-------------------------face id "<<this->getID()<< "---------------------------"<<
+"\n identity*trace"<<
+"\n"<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(0,0)<<"  "<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(0,1)<<
+"\n"<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(1,0)<<"  "<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(1,1)<<
+"\n =========================================="<<
+"\n Stress"<<
+"\n"<<this->stress(0,0)<<"  "<<this->stress(0,1)<<
+"\n"<<this->stress(1,0)<<"  "<<this->stress(1,1)<<
+"\n =========================================="<<
+"\n TargetFormMatrix"<<
+"\n"<<M0(0,0)<<"  "<<M0(0,1)<<
+"\n"<<M0(1,0)<<"  "<<M0(1,1)<<
+"\n =========================================="<<
+"\n Deviatoric"<<
+"\n"<<deviatoric(0,0)<<"  "<<deviatoric(0,1)<<
+"\n"<<deviatoric(1,0)<<"  "<<deviatoric(1,1)<<
+"\n =========================================="<<
+"\n feedback matrix "<<
+"\n"<<feedback(0,0)<<"  "<<feedback(0,1)<<
+"\n"<<feedback(1,0)<<"  "<<feedback(1,1)<<std::endl;
+*/
+//growth fluctuation : Calculated as multiplicative of gaussain noise N(0,0.5)
+double fluctuation = cell->getRandomNumber();
+//growth variation of face : Amplitude of fluctuation
+double growthvar;
+//growth rate of faces : kappa
+double kappa = cell->getKappa();
+//calculating the time derivative now
+growthvar = kappa*(1+fluctuation);
+//std::cout<<"Kappa : "<< kappa <<"/n Actual Growth Var  : "<<growthvar <<std::endl;
+Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
+// Growth Matrix
+Eigen::Matrix2d growthMatrix;
+// dM0/dt = kappa*STRAIN - n/2*feedback
+growthMatrix<< growthvar*(this->strain(0,0)) - eta/2.*feedback(0,0),
+               growthvar*(this->strain(0,1)) - eta/2.*feedback(0,1),
+               growthvar*(this->strain(1,0)) - eta/2.*feedback(1,0),
+               growthvar*(this->strain(1,1)) - eta/2.*feedback(1,1); 
+eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
+//to calculate the individual growth eigen direction
+  Eigen::Matrix2d eigen1;
+  Eigen::Matrix2d eigen2;
+  eigen1 = std::max(eigensolver.eigenvalues()[0]-cell->thresholdMatrix[0][0],0.0)*
+                      ((eigensolver.eigenvectors().col(0))*(eigensolver.eigenvectors().col(0)).transpose());
+  eigen2 = std::max(eigensolver.eigenvalues()[1]-cell->thresholdMatrix[1][1],0.0)*
+                      ((eigensolver.eigenvectors().col(1))*(eigensolver.eigenvectors().col(1)).transpose());
+// Now combining growth in both direction
+  growthMatrix = eigen1 + eigen2;
+//now setting the new targetFormMatrix with feedback matrix
+this->targetFormMatrix[0][0] += growthMatrix(0,0);
+this->targetFormMatrix[1][0] += growthMatrix(1,0);
+this->targetFormMatrix[0][1] += growthMatrix(0,1);
+this->targetFormMatrix[1][1] += growthMatrix(1,1);
+/*
+std::cout<<
+"\n =========================================="<<
+"\n Growth matrix "<<
+"\n"<<growthMatrix(0,0)<<"  "<<growthMatrix(0,1)<<
+"\n"<<growthMatrix(1,0)<<"  "<<growthMatrix(1,1)<<std::endl;
+*/
+//now setting tracesq of Target Form Matrix
+this->setTraceSquaredTargetFormMatrix();
+}
 // *************************************************************** //
  
  void Face::inflatedGrow(){
@@ -1020,15 +1212,14 @@ Eigen::Matrix2d feedback = deviatoric*M0 + M0*deviatoric;
     return;
   }
   
-  //growth fluctuation : calculated by same randomnumber generator set as property of cell
-  double fluctuation = cell->getRandomNumber();
-  //growth variation of face : Amplitude of fluctuation
-  double growthvar = cell->getGrowthVar();
-  //std::cout<< "fluctuation : " << fluctuation << "/n Growthvar" << growthvar <<std::endl;
-  //growth rate of faces : kappa
-  double kappa = cell->getKappa();
-  //calculating the time derivative now
-  growthvar = kappa*(1+(2*growthvar*fluctuation-growthvar));
+//growth fluctuation : Calculated as multiplicative of gaussain noise N(0,0.5)
+double fluctuation = cell->getRandomNumber();
+//growth variation of face : Amplitude of fluctuation
+double growthvar;
+//growth rate of faces : kappa
+double kappa = cell->getKappa();
+//calculating the time derivative now
+growthvar = kappa*(1+fluctuation);
   //std::cout<<"Kappa : "<< kappa <<"/n Actual Growth Var  : "<<growthvar <<std::endl;
 
   /*

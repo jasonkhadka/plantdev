@@ -376,9 +376,14 @@ class Cell
     */
    double growthvar = 0.5;
    /**
-    * Eta : The feedback strength of stress
+    * Eta : The feedback strength of stress in FACE GROWTH
     */
    double eta = 1.0;
+   /**
+    * initialStrain : The strain to assign as Initial Condition
+    *                 In fraction of intial shape 
+    */
+   double initialStrain = 0.;
    /**
     * Square root of Epsilon to use for finite diference stepsize
     * as recommended step size for finite difference is = sqrt(eps)*x for x != 0
@@ -426,6 +431,12 @@ public:
   /**
    *                    Public members
    */
+
+  /**
+   * Setting & Getting intialStrain
+   */
+  void setInitialStrain(double);
+  double getInitialStrain();
   /**
    * Function to set Bending threshold to find cell is convex or not
    */
@@ -570,8 +581,14 @@ public:
    * set Zeta()
    */
   void setZeta(double);
+  /*
+    *set & get Eta()
+   */
+  double getEta();
+  void setEta(double);
   /**
-   * Get a UNIFORM RANDOM NUMBER from the random number generator of this cell
+   * Get a GAUSSIAN RANDOM NUMBER with width 
+   *    Standard Deviation = GaussianWidth (set in Cell initializer) from the random number generator of this cell
    * in range [0,1) exclusive 1
    */
   double getRandomNumber();
@@ -647,6 +664,12 @@ public:
 };
 
 /* -- inline instance methods ---------------------------------------------- */
+inline void Cell::setInitialStrain(double initial){
+  this->initialStrain = initial;
+}
+inline double Cell::getInitialStrain(){
+  return this->initialStrain;
+}
 inline double Cell::getBendingThreshold(){
   return this->bendingThreshold;
 }
@@ -739,6 +762,12 @@ inline void Cell::setZeta(double newzeta){
 }
 inline double Cell::getZeta(){
   return zeta;
+}
+inline double Cell::getEta(){
+  return eta;
+}
+inline void Cell::setEta(double neweta){
+    this->eta = neweta;
 }
 inline unsigned int Cell::countVertices()
 {

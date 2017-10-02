@@ -164,7 +164,12 @@ class Face
    * Positive.
    */
   unsigned int id;
-
+  /**
+   * Rank of the Face in Tissue
+   * 1 is the top most cell, 
+   * N is the bottom most cells
+   */
+  unsigned int faceRank;
   /*
    * An arbitrary adjacent edge to this face.
    * Null if degenerate.
@@ -284,11 +289,24 @@ class Face
        * Variable that notes if the Face is in Dome or in Cylinder
        */
        bool domePosition;
+       /**
+        * Alpha for this face
+        */
+       double alpha =0.;
      
     //***************end added features****************************************//
   /* ----------Public instance methods ---------*/
  /* -- public instance methods ----------------------------------------- */
     public:
+      /**
+       * set/get faceRank
+       */
+    unsigned int getFaceRank();
+    void setFaceRank(unsigned int);
+    
+      /**function to manupulate alpha**/
+    double getAlpha();
+    void setAlpha(double);
     /**
      * function to get stess Eigen Vectors & values
      */
@@ -387,11 +405,19 @@ class Face
     */
    void inflatedGrow();
    /**
-   * target form matrix growth function
+   * target form matrix growth function with base grow proportional
+   * to the targetformmatrix
    * grows with the Feedback from the stress acting on the cell
    * (mimicing microtubles re-enforcing)
    */
-   void feedbackGrow();
+   void feedbackInflatedGrow();
+   /**
+   * target form matrix growth function with base grow proportional
+   * to the strain
+   * grows with the Feedback from the stress acting on the cell
+   * (mimicing microtubles re-enforcing)
+   */
+   void feedbackStrainGrow();
    /**
     * The threshold for division
    */
@@ -557,7 +583,11 @@ class Face
   /**
    * set the target form matrix to be near to the current form
    */
-  void setTempTargetFormMatrixCurrent();
+  void setInitialTargetFormMatrixCurrent();
+  /**
+   * set the target form matrix to be bit narrower in cylindrical direction
+   */
+  void setSkewedTargetFormMatrixCurrent();
 
   /**function to set the trace of targetformmatrix
   */
@@ -654,6 +684,18 @@ class Face
   friend class CentralisedDerivative;
 };
 /* ----- inline instance methods --------------------------------*/
+inline unsigned int Face::getFaceRank(){
+      return this->faceRank;
+}
+inline void Face::setFaceRank(unsigned int newrank){
+      this->faceRank = newrank;
+}
+inline double Face::getAlpha(){
+  return this->alpha;
+}
+inline void Face::setAlpha(double newalpha){
+  this->alpha = newalpha;
+}
 inline double * Face::getNormalForce(){
     double * pnt = this->normalForce;
     return pnt;

@@ -113,12 +113,13 @@ unsigned long int random_seed()
           //std::cout<<"Cell Is not Convex ! isConvex -> "<<this->isConvex()<<std::endl;
           return std::numeric_limits<double>::max();
       }
-      
+      /*
       // Second : check if the cell has bent than threshold
       if (fourthterm > (this->getBendingThreshold())){
         //std::cout<<"Bending Threshold Reached"<<std::endl;
         return std::numeric_limits<double>::max();
       }
+      */
       // If not continue with calculation of energy
       CellFaceIterator faces(this);
       Face * face;
@@ -420,7 +421,7 @@ unsigned long int random_seed()
     CellFaceIterator faces(this);
     while((face = faces.next())!= 0){
           if (face->getID() == 1) continue;
-          face->setTempTargetFormMatrixCurrent();
+          face->setInitialTargetFormMatrixCurrent();
     }
   }
   /////////////////////////////////////////
@@ -904,7 +905,7 @@ void Cell::removeFace(Face *face)
 
 /* -- protected instance methods ------------------------------------------- */
 
-Cell::Cell():gaussianWidth(1.0), //initialising the gaussian Widht to 1
+Cell::Cell():gaussianWidth(0.5), //initialising the Standard Deviaton of Gaussian Noise = 0.5
  randomNumberGeneratorType(gsl_rng_default) // initialising the random Num generator to be Mersenne Twister
 {
   // preallocate enough elements for a cube
@@ -924,7 +925,7 @@ Cell::Cell():gaussianWidth(1.0), //initialising the gaussian Widht to 1
   //setting the random number generator
   // intialised in Initialising list :-> randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm
   randomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
-  gsl_rng_set(randomNumberGenerator,38270);//some number as seed-> this can be set with another random number/time or /dev/random /urandom
+  gsl_rng_set(randomNumberGenerator,482023);//some number as seed-> this can be set with another random number/time or /dev/random /urandom
 
   // RANDOM NUMBER GENERATOR FOR CELL DIVISION
   cellDivisionRandomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
