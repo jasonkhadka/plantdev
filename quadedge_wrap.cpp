@@ -4013,6 +4013,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_getGaussianWidth(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getGaussianWidth",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getGaussianWidth" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getGaussianWidth();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_setInitialStrain(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -16744,6 +16766,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_setParameters", _wrap_Cell_setParameters, METH_VARARGS, NULL},
 	 { (char *)"Cell_calculateVertexForce", _wrap_Cell_calculateVertexForce, METH_VARARGS, NULL},
 	 { (char *)"Cell_calculateStressStrain", _wrap_Cell_calculateStressStrain, METH_VARARGS, NULL},
+	 { (char *)"Cell_getGaussianWidth", _wrap_Cell_getGaussianWidth, METH_VARARGS, NULL},
 	 { (char *)"Cell_setInitialStrain", _wrap_Cell_setInitialStrain, METH_VARARGS, NULL},
 	 { (char *)"Cell_getInitialStrain", _wrap_Cell_getInitialStrain, METH_VARARGS, NULL},
 	 { (char *)"Cell_setBendingThreshold", _wrap_Cell_setBendingThreshold, METH_VARARGS, NULL},

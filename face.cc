@@ -1054,7 +1054,7 @@ M0 << this->targetFormMatrix[0][0],this->targetFormMatrix[0][1],
 //get the feedback matrix
 Eigen::Matrix2d feedback = deviatoric*M0 + M0*deviatoric;
 //printing Feed back matrix
-/*
+
 std::cout<<"-------------------------face id "<<this->getID()<< "---------------------------"<<
 "\n identity*trace"<<
 "\n"<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(0,0)<<"  "<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(0,1)<<
@@ -1075,17 +1075,18 @@ std::cout<<"-------------------------face id "<<this->getID()<< "---------------
 "\n feedback matrix "<<
 "\n"<<feedback(0,0)<<"  "<<feedback(0,1)<<
 "\n"<<feedback(1,0)<<"  "<<feedback(1,1)<<std::endl;
-*/
+
 //growth fluctuation : calculated by same randomnumber generator set as property of cell
 double fluctuation = cell->getRandomNumber();
 //growth variation of face : Amplitude of fluctuation
-double growthvar = cell->getGrowthVar();
+double growthvar;
 //std::cout<< "fluctuation : " << fluctuation << "/n Growthvar" << growthvar <<std::endl;
 //growth rate of faces : kappa
 double kappa = cell->getKappa();
 //calculating the time derivative now
-growthvar = kappa*(1+(2*growthvar*fluctuation-growthvar));
-//std::cout<<"Kappa : "<< kappa <<"/n Actual Growth Var  : "<<growthvar <<std::endl;
+growthvar = kappa*(1+fluctuation);
+std::cout<<"Kappa :: "<< kappa <<"\n Actual Growth Var  : "<<growthvar <<std::endl;
+std::cout<<"Feedback parameter : Eta :: " << eta <<std::endl;
 Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
 // Growth Matrix
 Eigen::Matrix2d growthMatrix;
@@ -1109,7 +1110,7 @@ this->targetFormMatrix[0][0] += growthMatrix(0,0);
 this->targetFormMatrix[1][0] += growthMatrix(1,0);
 this->targetFormMatrix[0][1] += growthMatrix(0,1);
 this->targetFormMatrix[1][1] += growthMatrix(1,1);
-/*
+
 std::cout<<
 "\n =========================================="<<
 "\n Face ID : : "<< this->getID() <<
@@ -1117,7 +1118,11 @@ std::cout<<
 "\n =========================================="<<
 "\n Growth matrix "<<
 "\n"<<growthMatrix(0,0)<<"  "<<growthMatrix(0,1)<<
-"\n"<<growthMatrix(1,0)<<"  "<<growthMatrix(1,1)<<std::endl;*/
+"\n"<<growthMatrix(1,0)<<"  "<<growthMatrix(1,1)<<
+"\n =========================================="<<
+"\n New Target Form matrix "<<
+"\n"<<this->targetFormMatrix[0][0]<<"  "<<this->targetFormMatrix[0][1]<<
+"\n"<< this->targetFormMatrix[1][0]<<"  "<< this->targetFormMatrix[1][1]<<std::endl;
 //now setting tracesq of Target Form Matrix
 this->setTraceSquaredTargetFormMatrix();
 }

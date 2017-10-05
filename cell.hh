@@ -431,7 +431,10 @@ public:
   /**
    *                    Public members
    */
-
+  /**
+   * Getting guassianwidth of growthRandomNumber
+   */
+  double getGaussianWidth();
   /**
    * Setting & Getting intialStrain
    */
@@ -664,6 +667,9 @@ public:
 };
 
 /* -- inline instance methods ---------------------------------------------- */
+inline double Cell::getGaussianWidth(){
+  return this->gaussianWidth;
+}
 inline void Cell::setInitialStrain(double initial){
   this->initialStrain = initial;
 }

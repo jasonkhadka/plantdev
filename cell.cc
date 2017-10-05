@@ -456,6 +456,7 @@ unsigned long int random_seed()
           face->setDivisionThreshold();
     }
   }
+
   /////////////////////////////////////////
   // Setting the bendingThreshold to initial bending energy value
   double fourthterm = this->getFourthTerm();
@@ -497,6 +498,7 @@ void Cell::setParameters(){
           face->setAreaOfFace();
     }
   }
+
   //////////////////////////////////
   {
     CellFaceIterator faces(this);
@@ -905,7 +907,7 @@ void Cell::removeFace(Face *face)
 
 /* -- protected instance methods ------------------------------------------- */
 
-Cell::Cell():gaussianWidth(0.5), //initialising the Standard Deviaton of Gaussian Noise = 0.5
+Cell::Cell():gaussianWidth(0.125), //initialising the Standard Deviaton of Gaussian Noise = 0.125
  randomNumberGeneratorType(gsl_rng_default) // initialising the random Num generator to be Mersenne Twister
 {
   // preallocate enough elements for a cube

@@ -172,6 +172,9 @@ class Cell(_object):
     def calculateStressStrain(self):
         return _quadedge.Cell_calculateStressStrain(self)
 
+    def getGaussianWidth(self):
+        return _quadedge.Cell_getGaussianWidth(self)
+
     def setInitialStrain(self, arg2):
         return _quadedge.Cell_setInitialStrain(self, arg2)
 
