@@ -178,6 +178,11 @@ void Face::setProjectedCoordinate(){
     this->xCentralised = xCentroid;
     this->yCentralised = yCentroid;
     this->zCentralised = zCentroid;
+    if (this->getID() == 1){
+      this->xCentralised = 0.;
+      this->yCentralised = 0.;
+      this->zCentralised = 0.;
+    }
     //printf("%s %u %F \n ", "calculating total area of Face :",faceid, totalarea);
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
     //Calculating normal of the triangles of the shape and then calculating weighted normal
