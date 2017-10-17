@@ -109,10 +109,11 @@ unsigned long int random_seed()
     double fourthterm = this->getFourthTerm();
     
       // First : check if the cell is convex or not
-      if (!(this->isConvex())){ //if the cell is not convex then return HIGHVALUE
+      /*if (!(this->isConvex())){ //if the cell is not convex then return HIGHVALUE
           //std::cout<<"Cell Is not Convex ! isConvex -> "<<this->isConvex()<<std::endl;
           return std::numeric_limits<double>::max();
       }
+      */
       /*
       // Second : check if the cell has bent than threshold
       if (fourthterm > (this->getBendingThreshold())){
@@ -216,6 +217,7 @@ unsigned long int random_seed()
   */
   double Cell::getVolume(){
   //iterating the faces
+  /*
   CellFaceIterator faces(this);
   Face * face;
   Edge * edge;
@@ -248,6 +250,28 @@ unsigned long int random_seed()
         //std::cout<<"Volume " << tempVolume<<std::endl;
   }
   return tempVolume;
+  */
+    // VOLUME USING DIVERGENCE THEOREM
+  CellFaceIterator faces(this);
+  Face * face;
+  Edge * edge;
+  Vertex * second;
+  Vertex * third;
+  double * normal;
+  double tempVolume = 0.;
+  double productVector[3];
+  double dotproduct,area;
+  while ((face= faces.next()) != 0){
+    //getting the centroid of face
+    double centroid[3] = {face->getXCentralised(),face->getYCentralised(),face->getZCentralised()};
+    normal = face->getNormal();
+    //-1 is there to correct for normal: As we need outward facing normal but the calculated normal is inward
+    dotproduct = (-1*normal[0])*centroid[0] + (-1*normal[1])*centroid[1] +(-1*normal[2])*centroid[2];
+    area = face->getAreaOfFace();
+    //calculating and summing over temp volume
+    tempVolume += dotproduct*area;
+  }
+  return abs(tempVolume)/3.;
  }
  /**
   * caculating the volume
@@ -397,7 +421,7 @@ unsigned long int random_seed()
   {
     CellFaceIterator faces(this);
     while((face = faces.next())!= 0){
-          if (face->getID() == 1) continue;
+          //if (face->getID() == 1) continue;
           face->setProjectedCoordinate();
     }
   }
@@ -436,7 +460,7 @@ unsigned long int random_seed()
   {
     CellFaceIterator faces(this);
     while((face = faces.next())!= 0){
-          if (face->getID() == 1) continue;
+          //if (face->getID() == 1) continue;
           face->setAreaOfFace();
     }
   }
@@ -471,7 +495,7 @@ void Cell::setParameters(){
     CellFaceIterator faces(this);
     
     while((face = faces.next())!= 0){
-          if (face->getID() == 1) continue;
+          //if (face->getID() == 1) continue;
           face->setProjectedCoordinate();
     }
   }
@@ -494,7 +518,7 @@ void Cell::setParameters(){
   {
     CellFaceIterator faces(this);
     while((face = faces.next())!= 0){
-          if (face->getID() == 1) continue;
+         //if (face->getID() == 1) continue;
           face->setAreaOfFace();
     }
   }

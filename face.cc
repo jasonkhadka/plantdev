@@ -104,13 +104,6 @@ void Face::setProjectedCoordinate(){
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
     // getting the mean center position of this face //
     unsigned int faceid = this->getID();// first grabbing id of  current face
-    if (faceid == 1){//if faceid == 1 then this is external face, that doesnot need projection or calculation
-        // setting the central coordinate of this face in terms of cartisian coordinate
-          this->xCentralised = 0.;
-          this->yCentralised = 0.;
-          this->zCentralised = 0.;
-        return;
-    } 
     //std::cout<<"face id : "<<faceid<< "numberOfvertex :"<<numOfVertex<<std::endl;
     double xCentroid(0), yCentroid(0), zCentroid(0); // coordinate of the cnetroid
     // array of vertices
@@ -571,6 +564,36 @@ void Face::setNoncentralisedunitz(double * tempunit){
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
 void Face::setAreaOfFace(){
+  /*
+      * Polygon calculation of Area of Face
+  */
+  //double vertexnumber =(double) this->countVertices();
+  double total[3] ={0.,0.,0.};
+  double cross[3] = {0.,0.,0.};
+  // Iterating through the edges of this face
+  FaceEdgeIterator edges(this);//iterator to iterate through the face
+  Edge *newedge;//a pointer to keep track of current edge
+  Vertex *first, *second;
+  //looping through all the edges in the face until exhausted
+  while ((newedge = edges.next())!=0){
+      first = newedge->Org();
+      second = newedge->Dest();
+      //cross product of two vertex vectors
+      cross[0] = first->getYcoordinate()*second->getZcoordinate()-first->getZcoordinate()*second->getYcoordinate();
+      cross[1] = first->getZcoordinate()*second->getXcoordinate()-first->getXcoordinate()*second->getZcoordinate();
+      cross[2] = first->getXcoordinate()*second->getYcoordinate()-first->getYcoordinate()*second->getXcoordinate();
+      // adding to total vector
+      total[0]+= cross[0];
+      total[1]+= cross[1];
+      total[2]+= cross[2];   
+    }
+  // now getting the unit normal to the face
+  double * unitnormal = this->getNormal();
+  double result = unitnormal[0]*total[0]+unitnormal[1]*total[1]+unitnormal[2]*total[2];
+this->areaOfFace = abs(result)/2;
+
+
+  /*
   if (this->getID() == 1){
     return;
   }
@@ -591,6 +614,7 @@ void Face::setAreaOfFace(){
   if (this->areaOfFace <0.){
       this->areaOfFace = HUGE_VAL;
   }
+  */
 }
 //******************added features********************************//
 /*

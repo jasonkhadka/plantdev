@@ -350,7 +350,7 @@ class Cell
   /**
    * Pressure of cells (faces) from inside the cells
    */
-  double pressure = 1.;
+  double pressure = 0.;
   /**
    * Alpha : coefficient of first term of Energy
    */
@@ -358,11 +358,11 @@ class Cell
    /**
    * Beta : coefficient of second term of Energy
    */
-   double beta = 1.;
+   double beta = 0.;
    /**
     * Kappa : the growth rate of faces
     */
-   double kappa = 1.;
+   double kappa = 0.1;
    /**
     * Gamma : the pressure from underneath the L1 layer
     */
@@ -370,7 +370,7 @@ class Cell
    /**
     * Zeta : penalty for the bending of cells off the projection plane
     */
-   double zeta = 1.;
+   double zeta = 10.;
    /**
     * Growth Variation in Face growth rate
     */
@@ -378,7 +378,7 @@ class Cell
    /**
     * Eta : The feedback strength of stress in FACE GROWTH
     */
-   double eta = 1.0;
+   double eta = 0.0;
    /**
     * initialStrain : The strain to assign as Initial Condition
     *                 In fraction of intial shape 
