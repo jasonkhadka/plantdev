@@ -976,6 +976,8 @@ void Face::setTempTargetFormMatrixIdentity(){
   // Strain matrix = Mu-Matrix
   this->strain<< 1./traceofTargetForm*(this->getMu1()),  1./traceofTargetForm*(this->getMu2()),
             1./traceofTargetForm*(this->getMu3()), 1./traceofTargetForm*(this->getMu4()); 
+  // saving the determinant 
+  this->strainDeterminant = strain.determinant();
   // Now computing the Eigen values of the Strain Matrix
     Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
     eigensolver.compute(this->strain);//computing the eigenvalues of strain
@@ -1018,9 +1020,9 @@ double fluctuation = cell->getRandomNumber();
 //growth variation of face : Amplitude of fluctuation
 double growthvar;
 //growth rate of faces : kappa
-double kappa = cell->getKappa();
+double growthrate = this->getKappa();;
 //calculating the time derivative now
-growthvar = kappa*(1+fluctuation);
+growthvar = growthrate*(1+fluctuation);
   /*
   std::cout<< "***************************************************************************"<<std::endl;
   std::cout<<"face id : "<<this->getID()<<std::endl;
@@ -1111,9 +1113,9 @@ double fluctuation = cell->getRandomNumber();
 double growthvar;
 //std::cout<< "fluctuation : " << fluctuation << "/n Growthvar" << growthvar <<std::endl;
 //growth rate of faces : kappa
-double kappa = cell->getKappa();
+double growthrate = this->getKappa();
 //calculating the time derivative now
-growthvar = kappa*(1+fluctuation);
+growthvar = growthrate*(1+fluctuation);
 std::cout<<"Kappa :: "<< kappa <<"\n Actual Growth Var  : "<<growthvar <<std::endl;
 std::cout<<"Feedback parameter : Eta :: " << eta <<std::endl;
 Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
@@ -1202,7 +1204,7 @@ double fluctuation = cell->getRandomNumber();
 //growth variation of face : Amplitude of fluctuation
 double growthvar;
 //growth rate of faces : kappa
-double kappa = cell->getKappa();
+double growthrate = this->getKappa();
 //calculating the time derivative now
 growthvar = kappa*(1+fluctuation);
 //std::cout<<"Kappa : "<< kappa <<"/n Actual Growth Var  : "<<growthvar <<std::endl;
@@ -1251,9 +1253,10 @@ double fluctuation = cell->getRandomNumber();
 //growth variation of face : Amplitude of fluctuation
 double growthvar;
 //growth rate of faces : kappa
-double kappa = cell->getKappa();
+//growth rate of faces : kappa
+double growthrate = this->getKappa();
 //calculating the time derivative now
-growthvar = kappa*(1+fluctuation);
+growthvar = growthrate*(1+fluctuation);
   //std::cout<<"Kappa : "<< kappa <<"/n Actual Growth Var  : "<<growthvar <<std::endl;
 
   /*

@@ -172,6 +172,9 @@ class Cell(_object):
     def calculateStressStrain(self):
         return _quadedge.Cell_calculateStressStrain(self)
 
+    def getMeanStrainDeterminant(self):
+        return _quadedge.Cell_getMeanStrainDeterminant(self)
+
     def getGaussianWidth(self):
         return _quadedge.Cell_getGaussianWidth(self)
 
@@ -592,6 +595,9 @@ class Face(_object):
 
     def calculateStrain(self):
         return _quadedge.Face_calculateStrain(self)
+
+    def getStrainDeterminant(self):
+        return _quadedge.Face_getStrainDeterminant(self)
     __swig_setmethods__["oldMuMatrix"] = _quadedge.Face_oldMuMatrix_set
     __swig_getmethods__["oldMuMatrix"] = _quadedge.Face_oldMuMatrix_get
     if _newclass:

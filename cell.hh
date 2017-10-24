@@ -226,6 +226,10 @@ class Cell
    */
   void setParameters();
   /**
+   * Function to set the growth rate of all faces
+   */
+  void setKappa();
+  /**
    * Function to calculate the forces on the vertices
    */
   void calculateVertexForce();
@@ -233,6 +237,11 @@ class Cell
    * Function to calculate stress and strain matrices in all the faces
    */
   void calculateStressStrain();
+  /**
+   * Function to get mean strain determinant
+   */
+  double getMeanStrainDeterminant();
+  
   /* -- protected instance methods ----------------------------------------- */
 
   protected:
@@ -735,7 +744,7 @@ inline double Cell::getRandomNumber(){
       return gsl_ran_gaussian_ziggurat(randomNumberGenerator, this->gaussianWidth);
 }
 inline double Cell::getCellDivisionRandomNumber(){
-      return gsl_ran_gaussian_ziggurat(cellDivisionRandomNumberGenerator, this->gaussianWidth);
+      return gsl_rng_uniform(cellDivisionRandomNumberGenerator);
 }
 inline double Cell::getKappa(){
   return kappa;

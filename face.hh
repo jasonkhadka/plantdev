@@ -293,7 +293,14 @@ class Face
         * Alpha for this face
         */
        double alpha =0.;
-     
+      /**
+       * Determinant of Strain
+      */
+      double strainDeterminant;
+      /*
+        * The growth of of this Face
+      */
+     double kappa;
     //***************end added features****************************************//
   /* ----------Public instance methods ---------*/
  /* -- public instance methods ----------------------------------------- */
@@ -303,6 +310,12 @@ class Face
        */
     unsigned int getFaceRank();
     void setFaceRank(unsigned int);
+
+    /**
+     * Functions to manipulate Kappa
+     */
+    double getKappa();
+    void setKappa(double);
     
       /**function to manupulate alpha**/
     double getAlpha();
@@ -512,6 +525,10 @@ class Face
      */
     void calculateStrain();
     /**
+     * get Strain Determinante
+     */
+    double getStrainDeterminant();
+    /**
      * After cell division,  To update the form matrix after the division
      * Old Mu Matrix : the matrix that represents the 
      *  Mu matrix (difference of currentForm and targetForm) of the cell before cell division
@@ -684,6 +701,15 @@ class Face
   friend class CentralisedDerivative;
 };
 /* ----- inline instance methods --------------------------------*/
+inline double Face::getKappa(){
+  return kappa;
+}
+inline void Face::setKappa(double newkappa){
+  kappa = newkappa;
+}
+inline double Face::getStrainDeterminant(){
+  return this->strainDeterminant;  
+};
 inline unsigned int Face::getFaceRank(){
       return this->faceRank;
 }

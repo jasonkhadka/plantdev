@@ -329,6 +329,17 @@ unsigned long int random_seed()
   }
  }
  //******************************************************************************* //
+ double Cell::getMeanStrainDeterminant(){
+  CellFaceIterator faces(this);
+  Face * face;
+  double  facecount = (double) this->countFaces();
+  double meanstrain(0.);
+  while ((face = faces.next())!= 0){
+      meanstrain += face->getStrainDeterminant();
+  }
+  return meanstrain/facecount;
+ }
+ //******************************************************************************* //
  /**
   * First term of Energy of cell calculator,
   * bascially go over faces and sum up the energies
@@ -411,7 +422,16 @@ unsigned long int random_seed()
       vertex->setCartesian();
     }
  }
-
+//********************************************************************************* //
+ void Cell::setKappa(){
+  Face * face;
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          face->setKappa(this->kappa);
+    }
+  }
+ }
  //********************************************************************************* //
  void Cell::setInitialParameters(){
   
@@ -480,7 +500,8 @@ unsigned long int random_seed()
           face->setDivisionThreshold();
     }
   }
-
+  //Setting the value of growth rate to all faces
+  this->setKappa();
   /////////////////////////////////////////
   // Setting the bendingThreshold to initial bending energy value
   double fourthterm = this->getFourthTerm();
@@ -946,7 +967,7 @@ Cell::Cell():gaussianWidth(0.125), //initialising the Standard Deviaton of Gauss
   faceSize  = 6;
   faceID    = 1;
   divisionCounter = 0;
-  divisionFactor = 1.1;
+  divisionFactor = 1.0;
   convexAngleThreshold = 180.;
   //setting the random number generator
   // intialised in Initialising list :-> randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm
@@ -955,7 +976,8 @@ Cell::Cell():gaussianWidth(0.125), //initialising the Standard Deviaton of Gauss
 
   // RANDOM NUMBER GENERATOR FOR CELL DIVISION
   cellDivisionRandomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
-  gsl_rng_set(cellDivisionRandomNumberGenerator, random_seed());//using /dev/urandom to seed this generator
+  //gsl_rng_set(cellDivisionRandomNumberGenerator, random_seed());//using /dev/urandom to seed this generator
+  gsl_rng_set(cellDivisionRandomNumberGenerator, 123194);
   //calculating the square root of epsilon
   sqrtEpsilon = sqrt(std::numeric_limits<double>::epsilon());
   //sqrtEpsilon = pow(10.,-12.);

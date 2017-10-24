@@ -4013,6 +4013,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_getMeanStrainDeterminant(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getMeanStrainDeterminant",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getMeanStrainDeterminant" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getMeanStrainDeterminant();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_getGaussianWidth(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -7352,6 +7374,28 @@ SWIGINTERN PyObject *_wrap_Face_calculateStrain(PyObject *SWIGUNUSEDPARM(self), 
   arg1 = reinterpret_cast< Face * >(argp1);
   (arg1)->calculateStrain();
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getStrainDeterminant(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getStrainDeterminant",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getStrainDeterminant" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getStrainDeterminant();
+  resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
   return NULL;
@@ -16766,6 +16810,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_setParameters", _wrap_Cell_setParameters, METH_VARARGS, NULL},
 	 { (char *)"Cell_calculateVertexForce", _wrap_Cell_calculateVertexForce, METH_VARARGS, NULL},
 	 { (char *)"Cell_calculateStressStrain", _wrap_Cell_calculateStressStrain, METH_VARARGS, NULL},
+	 { (char *)"Cell_getMeanStrainDeterminant", _wrap_Cell_getMeanStrainDeterminant, METH_VARARGS, NULL},
 	 { (char *)"Cell_getGaussianWidth", _wrap_Cell_getGaussianWidth, METH_VARARGS, NULL},
 	 { (char *)"Cell_setInitialStrain", _wrap_Cell_setInitialStrain, METH_VARARGS, NULL},
 	 { (char *)"Cell_getInitialStrain", _wrap_Cell_getInitialStrain, METH_VARARGS, NULL},
@@ -16900,6 +16945,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_strain_get", _wrap_Face_strain_get, METH_VARARGS, NULL},
 	 { (char *)"Face_calculateStress", _wrap_Face_calculateStress, METH_VARARGS, NULL},
 	 { (char *)"Face_calculateStrain", _wrap_Face_calculateStrain, METH_VARARGS, NULL},
+	 { (char *)"Face_getStrainDeterminant", _wrap_Face_getStrainDeterminant, METH_VARARGS, NULL},
 	 { (char *)"Face_oldMuMatrix_set", _wrap_Face_oldMuMatrix_set, METH_VARARGS, NULL},
 	 { (char *)"Face_oldMuMatrix_get", _wrap_Face_oldMuMatrix_get, METH_VARARGS, NULL},
 	 { (char *)"Face_oldcurrentFormMatrixTrace_set", _wrap_Face_oldcurrentFormMatrixTrace_set, METH_VARARGS, NULL},
