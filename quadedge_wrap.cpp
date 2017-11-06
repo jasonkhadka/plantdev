@@ -3329,6 +3329,17 @@ SWIGINTERNINLINE PyObject*
 }
 
 
+  #define SWIG_From_long   PyLong_FromLong 
+
+
+SWIGINTERNINLINE PyObject* 
+SWIG_From_unsigned_SS_long  (unsigned long value)
+{
+  return (value > LONG_MAX) ?
+    PyLong_FromUnsignedLong(value) : PyLong_FromLong(static_cast< long >(value)); 
+}
+
+
 SWIGINTERNINLINE PyObject*
   SWIG_From_bool  (bool value)
 {
@@ -3964,6 +3975,27 @@ SWIGINTERN PyObject *_wrap_Cell_setParameters(PyObject *SWIGUNUSEDPARM(self), Py
   }
   arg1 = reinterpret_cast< Cell * >(argp1);
   (arg1)->setParameters();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_setFaceKappa(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_setFaceKappa",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setFaceKappa" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  (arg1)->setFaceKappa();
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -5062,6 +5094,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_getSeedRandomInteger(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  unsigned long result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getSeedRandomInteger",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getSeedRandomInteger" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (unsigned long)(arg1)->getSeedRandomInteger();
+  resultobj = SWIG_From_unsigned_SS_long(static_cast< unsigned long >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_getGrowthVar(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -5078,6 +5132,27 @@ SWIGINTERN PyObject *_wrap_Cell_getGrowthVar(PyObject *SWIGUNUSEDPARM(self), PyO
   arg1 = reinterpret_cast< Cell * >(argp1);
   result = (double)(arg1)->getGrowthVar();
   resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_setFaceGrowthVar(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_setFaceGrowthVar",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setFaceGrowthVar" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  (arg1)->setFaceGrowthVar();
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -5778,6 +5853,50 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_getGrowthRandomNumber(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getGrowthRandomNumber",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getGrowthRandomNumber" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getGrowthRandomNumber();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getCellDivisionRandomNumber(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getCellDivisionRandomNumber",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getCellDivisionRandomNumber" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getCellDivisionRandomNumber();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_getFaceRank(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -5824,6 +5943,132 @@ SWIGINTERN PyObject *_wrap_Face_setFaceRank(PyObject *SWIGUNUSEDPARM(self), PyOb
   arg2 = static_cast< unsigned int >(val2);
   (arg1)->setFaceRank(arg2);
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getKappa(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getKappa",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getKappa" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getKappa();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setKappa(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_setKappa",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setKappa" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Face_setKappa" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setKappa(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getGrowthVar(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getGrowthVar",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getGrowthVar" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getGrowthVar();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setGrowthVar(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_setGrowthVar",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setGrowthVar" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Face_setGrowthVar" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setGrowthVar(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getLastGrowthRate(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getLastGrowthRate",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getLastGrowthRate" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getLastGrowthRate();
+  resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
   return NULL;
@@ -16808,6 +17053,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_getCartesianVolume", _wrap_Cell_getCartesianVolume, METH_VARARGS, NULL},
 	 { (char *)"Cell_setInitialParameters", _wrap_Cell_setInitialParameters, METH_VARARGS, NULL},
 	 { (char *)"Cell_setParameters", _wrap_Cell_setParameters, METH_VARARGS, NULL},
+	 { (char *)"Cell_setFaceKappa", _wrap_Cell_setFaceKappa, METH_VARARGS, NULL},
 	 { (char *)"Cell_calculateVertexForce", _wrap_Cell_calculateVertexForce, METH_VARARGS, NULL},
 	 { (char *)"Cell_calculateStressStrain", _wrap_Cell_calculateStressStrain, METH_VARARGS, NULL},
 	 { (char *)"Cell_getMeanStrainDeterminant", _wrap_Cell_getMeanStrainDeterminant, METH_VARARGS, NULL},
@@ -16852,7 +17098,9 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_setEta", _wrap_Cell_setEta, METH_VARARGS, NULL},
 	 { (char *)"Cell_getRandomNumber", _wrap_Cell_getRandomNumber, METH_VARARGS, NULL},
 	 { (char *)"Cell_getCellDivisionRandomNumber", _wrap_Cell_getCellDivisionRandomNumber, METH_VARARGS, NULL},
+	 { (char *)"Cell_getSeedRandomInteger", _wrap_Cell_getSeedRandomInteger, METH_VARARGS, NULL},
 	 { (char *)"Cell_getGrowthVar", _wrap_Cell_getGrowthVar, METH_VARARGS, NULL},
+	 { (char *)"Cell_setFaceGrowthVar", _wrap_Cell_setFaceGrowthVar, METH_VARARGS, NULL},
 	 { (char *)"Cell_setGrowthVar", _wrap_Cell_setGrowthVar, METH_VARARGS, NULL},
 	 { (char *)"Cell_getSqrtEpsilon", _wrap_Cell_getSqrtEpsilon, METH_VARARGS, NULL},
 	 { (char *)"Cell_setTolerance", _wrap_Cell_setTolerance, METH_VARARGS, NULL},
@@ -16884,8 +17132,15 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getEdge", _wrap_Face_getEdge, METH_VARARGS, NULL},
 	 { (char *)"Face_addEdge", _wrap_Face_addEdge, METH_VARARGS, NULL},
 	 { (char *)"Face_removeEdge", _wrap_Face_removeEdge, METH_VARARGS, NULL},
+	 { (char *)"Face_getGrowthRandomNumber", _wrap_Face_getGrowthRandomNumber, METH_VARARGS, NULL},
+	 { (char *)"Face_getCellDivisionRandomNumber", _wrap_Face_getCellDivisionRandomNumber, METH_VARARGS, NULL},
 	 { (char *)"Face_getFaceRank", _wrap_Face_getFaceRank, METH_VARARGS, NULL},
 	 { (char *)"Face_setFaceRank", _wrap_Face_setFaceRank, METH_VARARGS, NULL},
+	 { (char *)"Face_getKappa", _wrap_Face_getKappa, METH_VARARGS, NULL},
+	 { (char *)"Face_setKappa", _wrap_Face_setKappa, METH_VARARGS, NULL},
+	 { (char *)"Face_getGrowthVar", _wrap_Face_getGrowthVar, METH_VARARGS, NULL},
+	 { (char *)"Face_setGrowthVar", _wrap_Face_setGrowthVar, METH_VARARGS, NULL},
+	 { (char *)"Face_getLastGrowthRate", _wrap_Face_getLastGrowthRate, METH_VARARGS, NULL},
 	 { (char *)"Face_getAlpha", _wrap_Face_getAlpha, METH_VARARGS, NULL},
 	 { (char *)"Face_setAlpha", _wrap_Face_setAlpha, METH_VARARGS, NULL},
 	 { (char *)"Face_getStressEigenVector1", _wrap_Face_getStressEigenVector1, METH_VARARGS, NULL},

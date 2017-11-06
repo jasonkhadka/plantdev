@@ -228,7 +228,7 @@ class Cell
   /**
    * Function to set the growth rate of all faces
    */
-  void setKappa();
+  void setFaceKappa();
   /**
    * Function to calculate the forces on the vertices
    */
@@ -433,8 +433,13 @@ class Cell
   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
    gsl_rng * randomNumberGenerator; //Random number generator
    const gsl_rng_type * randomNumberGeneratorType; //type of random number generator
+   
    gsl_rng * cellDivisionRandomNumberGenerator; //random number generator for cell division
    const double gaussianWidth;
+   
+   // For the seed of faces
+   gsl_rng * seedRandomNumberGenerator;
+   const gsl_rng_type * seedNumberGeneratorType;
 
 public:
   /**
@@ -608,12 +613,18 @@ public:
    * get RANDOM NUMBER for CELL DIVISION
    */
   double getCellDivisionRandomNumber();
+  //Function to get Random Integer for seeds
+  unsigned long int getSeedRandomInteger();
   /**
    * get the growth variation
    */
   double getGrowthVar();
   /**
-   * set the growth variation
+   * set growth var for all the faces, copying from the cell->growthvar
+   */
+  void setFaceGrowthVar();
+  /**
+   * set the growth variation for this cell
    */
   void setGrowthVar(double);
   /**
@@ -736,21 +747,20 @@ inline double Cell::getSqrtEpsilon(){
 inline double Cell::getGrowthVar(){
   return growthvar;
 }
-inline void Cell::setGrowthVar(double tempvar){
-  growthvar = tempvar;
-}
+
 inline double Cell::getRandomNumber(){
       //using 
-      return gsl_ran_gaussian_ziggurat(randomNumberGenerator, this->gaussianWidth);
+     //return gsl_ran_gaussian_ziggurat(randomNumberGenerator, this->gaussianWidth);
+    return gsl_rng_uniform(randomNumberGenerator);
+}
+inline unsigned long int Cell::getSeedRandomInteger(){//get a Random integer (to act as a seed)
+  return gsl_rng_get(seedRandomNumberGenerator);
 }
 inline double Cell::getCellDivisionRandomNumber(){
       return gsl_rng_uniform(cellDivisionRandomNumberGenerator);
 }
 inline double Cell::getKappa(){
   return kappa;
-}
-inline void Cell::setKappa(double newkappa){
-  this->kappa = newkappa;
 }
 inline double Cell::getPressure()
 {

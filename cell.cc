@@ -422,8 +422,18 @@ unsigned long int random_seed()
       vertex->setCartesian();
     }
  }
+ //******************************************************************************* //
+ void Cell::setGrowthVar(double tempvar){
+  growthvar = tempvar;
+  this->setFaceGrowthVar();
+}
+ //********************************************************************************* //
+ void Cell::setKappa(double newkappa){
+  this->kappa = newkappa;
+  this->setFaceKappa();
+}
 //********************************************************************************* //
- void Cell::setKappa(){
+ void Cell::setFaceKappa(){
   Face * face;
   {
     CellFaceIterator faces(this);
@@ -500,14 +510,26 @@ unsigned long int random_seed()
           face->setDivisionThreshold();
     }
   }
-  //Setting the value of growth rate to all faces
-  this->setKappa();
   /////////////////////////////////////////
   // Setting the bendingThreshold to initial bending energy value
   double fourthterm = this->getFourthTerm();
   this->setBendingThreshold(fourthterm + 0.05*fourthterm);
  }
  //********************************************************************************* //
+void Cell::setFaceGrowthVar(){
+  Face * face;
+  //Edge * edge;
+  Vertex * vertex;
+  {
+    CellFaceIterator faces(this);    
+    while((face = faces.next())!= 0){
+          //if (face->getID() == 1) continue;
+          face->setGrowthVar(this->getGrowthVar());
+    }
+  }
+}
+ //********************************************************************************* //
+ 
 void Cell::setParameters(){
   Face * face;
   //Edge * edge;
@@ -953,7 +975,8 @@ void Cell::removeFace(Face *face)
 /* -- protected instance methods ------------------------------------------- */
 
 Cell::Cell():gaussianWidth(0.125), //initialising the Standard Deviaton of Gaussian Noise = 0.125
- randomNumberGeneratorType(gsl_rng_default) // initialising the random Num generator to be Mersenne Twister
+ randomNumberGeneratorType(gsl_rng_default), // initialising the random Num generator to be Mersenne Twister
+ seedNumberGeneratorType(gsl_rng_default)
 {
   // preallocate enough elements for a cube
 
@@ -973,6 +996,9 @@ Cell::Cell():gaussianWidth(0.125), //initialising the Standard Deviaton of Gauss
   // intialised in Initialising list :-> randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm
   randomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
   gsl_rng_set(randomNumberGenerator,482023);//some number as seed-> this can be set with another random number/time or /dev/random /urandom
+  // RandomNumberGenrator for Seed in growth for faces
+  seedRandomNumberGenerator = gsl_rng_alloc(seedNumberGeneratorType);
+  gsl_rng_set(seedRandomNumberGenerator,54341);//some number as seed-> this can be set with another random number/time or /dev/random /urandom
 
   // RANDOM NUMBER GENERATOR FOR CELL DIVISION
   cellDivisionRandomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);

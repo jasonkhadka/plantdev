@@ -166,6 +166,9 @@ class Cell(_object):
     def setParameters(self):
         return _quadedge.Cell_setParameters(self)
 
+    def setFaceKappa(self):
+        return _quadedge.Cell_setFaceKappa(self)
+
     def calculateVertexForce(self):
         return _quadedge.Cell_calculateVertexForce(self)
 
@@ -294,8 +297,14 @@ class Cell(_object):
     def getCellDivisionRandomNumber(self):
         return _quadedge.Cell_getCellDivisionRandomNumber(self)
 
+    def getSeedRandomInteger(self):
+        return _quadedge.Cell_getSeedRandomInteger(self)
+
     def getGrowthVar(self):
         return _quadedge.Cell_getGrowthVar(self)
+
+    def setFaceGrowthVar(self):
+        return _quadedge.Cell_setFaceGrowthVar(self)
 
     def setGrowthVar(self, arg2):
         return _quadedge.Cell_setGrowthVar(self, arg2)
@@ -427,11 +436,32 @@ class Face(_object):
     def removeEdge(self, edge):
         return _quadedge.Face_removeEdge(self, edge)
 
+    def getGrowthRandomNumber(self):
+        return _quadedge.Face_getGrowthRandomNumber(self)
+
+    def getCellDivisionRandomNumber(self):
+        return _quadedge.Face_getCellDivisionRandomNumber(self)
+
     def getFaceRank(self):
         return _quadedge.Face_getFaceRank(self)
 
     def setFaceRank(self, arg2):
         return _quadedge.Face_setFaceRank(self, arg2)
+
+    def getKappa(self):
+        return _quadedge.Face_getKappa(self)
+
+    def setKappa(self, arg2):
+        return _quadedge.Face_setKappa(self, arg2)
+
+    def getGrowthVar(self):
+        return _quadedge.Face_getGrowthVar(self)
+
+    def setGrowthVar(self, arg2):
+        return _quadedge.Face_setGrowthVar(self, arg2)
+
+    def getLastGrowthRate(self):
+        return _quadedge.Face_getLastGrowthRate(self)
 
     def getAlpha(self):
         return _quadedge.Face_getAlpha(self)

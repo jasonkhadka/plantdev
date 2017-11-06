@@ -10,6 +10,11 @@
 #include "vertex.hh"
 #include "./eigen/Eigen/Dense"
 #include "./eigen/Eigen/Eigenvalues"
+#include <algorithm>//for std::max
+//random number generating
+#include <gsl/gsl_math.h>
+#include <gsl/gsl_rng.h>
+#include <gsl/gsl_randist.h>//for gaussian distribution and flat distribution
 class Cell;
 
 /* ----------------------------------------------------------------------------
@@ -301,10 +306,32 @@ class Face
         * The growth of of this Face
       */
      double kappa;
+     /*
+        * Growth Variance for this face
+      */
+     double growthVar = 0.5;
+     /* 
+      * Variable to store last growth rate : For plotting the growth rate
+     */
+     double lastGrowthRate;
+     // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+      //    Random Number Generator : seeded with *some* seed 
+     //      Right now it is just a number i chose for testing*
+     // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+   gsl_rng * randomNumberGenerator; //Random number generator
+   const gsl_rng_type * randomNumberGeneratorType; //type of random number generator
+   gsl_rng * cellDivisionRandomNumberGenerator; //random number generator for cell division
+   const double gaussianWidth;
     //***************end added features****************************************//
   /* ----------Public instance methods ---------*/
  /* -- public instance methods ----------------------------------------- */
     public:
+  // Get the random Number //
+  double getGrowthRandomNumber();
+  /**
+   * get RANDOM NUMBER for CELL DIVISION
+   */
+  double getCellDivisionRandomNumber();
       /**
        * set/get faceRank
        */
@@ -316,6 +343,14 @@ class Face
      */
     double getKappa();
     void setKappa(double);
+
+    /**setting and getting growth var**/
+     double getGrowthVar();
+     void setGrowthVar(double);
+    /**
+     * get Last growthrate
+     */
+    double getLastGrowthRate();
     
       /**function to manupulate alpha**/
     double getAlpha();
@@ -695,12 +730,28 @@ class Face
       */
      void setEnergyTerms();
 
+
   // **********************************************************************// 
   /* -- friend classes ----------------------------------------------------- */
 
   friend class CentralisedDerivative;
 };
 /* ----- inline instance methods --------------------------------*/
+inline double Face::getGrowthVar(){
+  return growthVar;
+}
+inline void Face::setGrowthVar(double newvar){
+  this->growthVar = newvar;
+}
+inline double Face::getLastGrowthRate(){
+  return lastGrowthRate;
+}
+inline double Face::getGrowthRandomNumber(){//getting random number between kappa-growthvar to kappa+growthvar
+    return gsl_ran_flat(randomNumberGenerator, std::max(0.,kappa-growthVar),kappa+growthVar);
+}
+inline double Face::getCellDivisionRandomNumber(){
+      return gsl_rng_uniform(cellDivisionRandomNumberGenerator);
+}
 inline double Face::getKappa(){
   return kappa;
 }

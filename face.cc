@@ -779,6 +779,7 @@ void Face::setInitialTargetFormMatrixCurrent(){
     this->targetFormMatrix[1][1] = ((1.-facestrain)*this->getMu4());
     this->setTraceSquaredTargetFormMatrix();
     this->setTargetArea(this->getAreaOfFace());//area of current form matrix as target area
+    this->lastGrowthRate = this->getGrowthRandomNumber();
 }
 //***************************************************************************** //
 
@@ -1015,14 +1016,11 @@ void Face::setTempTargetFormMatrixIdentity(){
   //Eigensolver for strain
   Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
   eigensolver.compute(strain);//computing the eigenvalues of strain
-  //growth fluctuation : Calculated as multiplicative of gaussain noise N(0,0.5)
-double fluctuation = cell->getRandomNumber();
-//growth variation of face : Amplitude of fluctuation
-double growthvar;
-//growth rate of faces : kappa
-double growthrate = this->getKappa();;
+//growth rate of faces : randomized number between (kappa-0.5 to kappa + 0.5)
+double growthfactor = this->getGrowthRandomNumber();
+lastGrowthRate = growthfactor; //saving growth rate for plotting
 //calculating the time derivative now
-growthvar = growthrate*(1+fluctuation);
+
   /*
   std::cout<< "***************************************************************************"<<std::endl;
   std::cout<<"face id : "<<this->getID()<<std::endl;
@@ -1052,7 +1050,7 @@ growthvar = growthrate*(1+fluctuation);
   eigen2 = std::max(eigensolver.eigenvalues()[1]-cell->thresholdMatrix[1][1],0.0)*
                       ((eigensolver.eigenvectors().col(1))*(eigensolver.eigenvectors().col(1)).transpose());
   //calculating the time derivative now
-  growthRate = growthvar*(eigen1+eigen2);
+  growthRate = growthfactor*(eigen1+eigen2);
   /*
   std::cout<<"Growth Rate addition to TargetFormMatrix : (from Face::grow() : Faceid :"<<this->getID()<<std::endl;
   std::cout<<growthRate<<std::endl;
@@ -1085,7 +1083,7 @@ M0 << this->targetFormMatrix[0][0],this->targetFormMatrix[0][1],
 //get the feedback matrix
 Eigen::Matrix2d feedback = deviatoric*M0 + M0*deviatoric;
 //printing Feed back matrix
-
+/*
 std::cout<<"-------------------------face id "<<this->getID()<< "---------------------------"<<
 "\n identity*trace"<<
 "\n"<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(0,0)<<"  "<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(0,1)<<
@@ -1106,26 +1104,22 @@ std::cout<<"-------------------------face id "<<this->getID()<< "---------------
 "\n feedback matrix "<<
 "\n"<<feedback(0,0)<<"  "<<feedback(0,1)<<
 "\n"<<feedback(1,0)<<"  "<<feedback(1,1)<<std::endl;
-
-//growth fluctuation : calculated by same randomnumber generator set as property of cell
-double fluctuation = cell->getRandomNumber();
-//growth variation of face : Amplitude of fluctuation
-double growthvar;
-//std::cout<< "fluctuation : " << fluctuation << "/n Growthvar" << growthvar <<std::endl;
-//growth rate of faces : kappa
-double growthrate = this->getKappa();
-//calculating the time derivative now
-growthvar = growthrate*(1+fluctuation);
+*/
+//growth rate of faces : randomized number between (kappa-0.5 to kappa + 0.5)
+double growthfactor = this->getGrowthRandomNumber();
+lastGrowthRate = growthfactor; //saving growth rate for plotting
+/*
 std::cout<<"Kappa :: "<< kappa <<"\n Actual Growth Var  : "<<growthvar <<std::endl;
 std::cout<<"Feedback parameter : Eta :: " << eta <<std::endl;
+*/
 Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
 // Growth Matrix
 Eigen::Matrix2d growthMatrix;
 // dM0/dt = kappa*M0 - n/2*feedback
-growthMatrix<< growthvar*(this->targetFormMatrix[0][0]) - eta/2.*feedback(0,0),
-               growthvar*(this->targetFormMatrix[0][1]) - eta/2.*feedback(0,1),
-               growthvar*(this->targetFormMatrix[1][0]) - eta/2.*feedback(1,0),
-               growthvar*(this->targetFormMatrix[1][1]) - eta/2.*feedback(1,1); 
+growthMatrix<< growthfactor*(this->targetFormMatrix[0][0]) - eta/2.*feedback(0,0),
+               growthfactor*(this->targetFormMatrix[0][1]) - eta/2.*feedback(0,1),
+               growthfactor*(this->targetFormMatrix[1][0]) - eta/2.*feedback(1,0),
+               growthfactor*(this->targetFormMatrix[1][1]) - eta/2.*feedback(1,1); 
 eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
 //to calculate the individual growth eigen direction
   Eigen::Matrix2d eigen1;
@@ -1141,7 +1135,7 @@ this->targetFormMatrix[0][0] += growthMatrix(0,0);
 this->targetFormMatrix[1][0] += growthMatrix(1,0);
 this->targetFormMatrix[0][1] += growthMatrix(0,1);
 this->targetFormMatrix[1][1] += growthMatrix(1,1);
-
+/*
 std::cout<<
 "\n =========================================="<<
 "\n Face ID : : "<< this->getID() <<
@@ -1154,6 +1148,7 @@ std::cout<<
 "\n New Target Form matrix "<<
 "\n"<<this->targetFormMatrix[0][0]<<"  "<<this->targetFormMatrix[0][1]<<
 "\n"<< this->targetFormMatrix[1][0]<<"  "<< this->targetFormMatrix[1][1]<<std::endl;
+*/
 //now setting tracesq of Target Form Matrix
 this->setTraceSquaredTargetFormMatrix();
 }
@@ -1187,6 +1182,10 @@ std::cout<<"-------------------------face id "<<this->getID()<< "---------------
 "\n"<<this->stress(0,0)<<"  "<<this->stress(0,1)<<
 "\n"<<this->stress(1,0)<<"  "<<this->stress(1,1)<<
 "\n =========================================="<<
+"\n Strain"<<
+"\n"<<this->strain(0,0)<<"  "<<this->strain(0,1)<<
+"\n"<<this->strain(1,0)<<"  "<<this->strain(1,1)<<
+"\n =========================================="<<
 "\n TargetFormMatrix"<<
 "\n"<<M0(0,0)<<"  "<<M0(0,1)<<
 "\n"<<M0(1,0)<<"  "<<M0(1,1)<<
@@ -1199,23 +1198,18 @@ std::cout<<"-------------------------face id "<<this->getID()<< "---------------
 "\n"<<feedback(0,0)<<"  "<<feedback(0,1)<<
 "\n"<<feedback(1,0)<<"  "<<feedback(1,1)<<std::endl;
 */
-//growth fluctuation : Calculated as multiplicative of gaussain noise N(0,0.5)
-double fluctuation = cell->getRandomNumber();
-//growth variation of face : Amplitude of fluctuation
-double growthvar;
-//growth rate of faces : kappa
-double growthrate = this->getKappa();
-//calculating the time derivative now
-growthvar = kappa*(1+fluctuation);
+//growth rate of faces : randomized number between (kappa-0.5 to kappa + 0.5)
+double growthfactor = this->getGrowthRandomNumber();
+lastGrowthRate = growthfactor; //saving growth rate for plotting
 //std::cout<<"Kappa : "<< kappa <<"/n Actual Growth Var  : "<<growthvar <<std::endl;
 Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
 // Growth Matrix
 Eigen::Matrix2d growthMatrix;
 // dM0/dt = kappa*STRAIN - n/2*feedback
-growthMatrix<< growthvar*(this->strain(0,0)) - eta/2.*feedback(0,0),
-               growthvar*(this->strain(0,1)) - eta/2.*feedback(0,1),
-               growthvar*(this->strain(1,0)) - eta/2.*feedback(1,0),
-               growthvar*(this->strain(1,1)) - eta/2.*feedback(1,1); 
+growthMatrix<< growthfactor*(this->strain(0,0)) - eta/2.*feedback(0,0),
+               growthfactor*(this->strain(0,1)) - eta/2.*feedback(0,1),
+               growthfactor*(this->strain(1,0)) - eta/2.*feedback(1,0),
+               growthfactor*(this->strain(1,1)) - eta/2.*feedback(1,1); 
 eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
 //to calculate the individual growth eigen direction
   Eigen::Matrix2d eigen1;
@@ -1236,7 +1230,9 @@ std::cout<<
 "\n =========================================="<<
 "\n Growth matrix "<<
 "\n"<<growthMatrix(0,0)<<"  "<<growthMatrix(0,1)<<
-"\n"<<growthMatrix(1,0)<<"  "<<growthMatrix(1,1)<<std::endl;
+"\n"<<growthMatrix(1,0)<<"  "<<growthMatrix(1,1)<<
+"\n =============================================================================================="<<
+std::endl;
 */
 //now setting tracesq of Target Form Matrix
 this->setTraceSquaredTargetFormMatrix();
@@ -1248,15 +1244,9 @@ this->setTraceSquaredTargetFormMatrix();
     return;
   }
   
-//growth fluctuation : Calculated as multiplicative of gaussain noise N(0,0.5)
-double fluctuation = cell->getRandomNumber();
-//growth variation of face : Amplitude of fluctuation
-double growthvar;
-//growth rate of faces : kappa
-//growth rate of faces : kappa
-double growthrate = this->getKappa();
-//calculating the time derivative now
-growthvar = growthrate*(1+fluctuation);
+//growth rate of faces : randomized number between (kappa-0.5 to kappa + 0.5)
+double growthfactor = this->getGrowthRandomNumber();
+lastGrowthRate = growthfactor; //saving growth rate for plotting
   //std::cout<<"Kappa : "<< kappa <<"/n Actual Growth Var  : "<<growthvar <<std::endl;
 
   /*
@@ -1264,10 +1254,10 @@ growthvar = growthrate*(1+fluctuation);
   std::cout<<growthRate<<std::endl;
   */
   //now setting the new targetFormMatrix
-  this->targetFormMatrix[0][0] += growthvar*(this->targetFormMatrix[0][0]);
-  this->targetFormMatrix[1][0] += growthvar*(this->targetFormMatrix[1][0]);
-  this->targetFormMatrix[0][1] += growthvar*(this->targetFormMatrix[0][1]);
-  this->targetFormMatrix[1][1] += growthvar*(this->targetFormMatrix[1][1]);
+  this->targetFormMatrix[0][0] += growthfactor*(this->targetFormMatrix[0][0]);
+  this->targetFormMatrix[1][0] += growthfactor*(this->targetFormMatrix[1][0]);
+  this->targetFormMatrix[0][1] += growthfactor*(this->targetFormMatrix[0][1]);
+  this->targetFormMatrix[1][1] += growthfactor*(this->targetFormMatrix[1][1]);
   //now setting tracesq of Target Form Matrix
   this->setTraceSquaredTargetFormMatrix();
  }
@@ -1439,7 +1429,7 @@ growthvar = growthrate*(1+fluctuation);
   //****************** end added features********************************//
 /* -- protected instance methods ------------------------------------------- */
 
-Face::Face(Cell *cell)
+Face::Face(Cell *cell):gaussianWidth(0.125), randomNumberGeneratorType(gsl_rng_default) 
 {
   assert(cell!=0);
 
@@ -1453,6 +1443,18 @@ Face::Face(Cell *cell)
   this->vertexSize = 8;
   this->divisionFactor = cell->getDivisionFactor();
   this->domePosition = true;//seting position to dome as True in default
+  this->lastGrowthRate = 0.;
+  this->growthVar = cell->getGrowthVar();
+  //setting the random number generator
+  // intialised in Initialising list :-> randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm
+  randomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
+  gsl_rng_set(randomNumberGenerator,cell->getSeedRandomInteger());//some number as seed-> this can be set with another random number/time or /dev/random /urandom
+
+  // RANDOM NUMBER GENERATOR FOR CELL DIVISION
+  cellDivisionRandomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
+  //gsl_rng_set(cellDivisionRandomNumberGenerator, random_seed());//using /dev/urandom to seed this generator
+  gsl_rng_set(cellDivisionRandomNumberGenerator, cell->getCellDivisionRandomNumber());
+  //calculating the square root of epsilon
   //***************end added features*******************************************//
   cell->addFace(this);
 }
@@ -1465,6 +1467,9 @@ Face::~Face()
       Vertex::kill(vertices[i-1]);
   }
   delete[] vertices;
+  //release the randomNumberGenerator
+  gsl_rng_free(randomNumberGenerator);
+  gsl_rng_free(cellDivisionRandomNumberGenerator);
   //***************end added features*************************************//
   cell->removeFace(this);
 }
