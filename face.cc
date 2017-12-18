@@ -879,7 +879,7 @@ void Face::setTempTargetFormMatrixIdentity(){
     //double to store the values
     double sxx(0.), syy(0.), sxy(0.);
     // calculating normal force on the face 
-    double vertexNum = (double) this->getVertexCount();
+    double vertexNum = 0;
     //coordinates
     double x1,y1,z1, x2,y2,z2, length,normalforce(0.);
     //unsigned int initialVertID;
@@ -922,6 +922,7 @@ void Face::setTempTargetFormMatrixIdentity(){
           sxy += length*((intrinsicForces1[0]*y1+intrinsicForces1[1]*x1+intrinsicForces2[0]*y2+intrinsicForces2[1]*x2)/6. +
                  (intrinsicForces1[0]*y2+intrinsicForces1[1]*x2+intrinsicForces2[0]*y1+intrinsicForces2[1]*x1)/12.);
           normalforce += intrinsicForces1[2];//sum normal forces to calculate average force
+          vertexNum += 1.;
       }
       sxx /= this->getAreaOfFace();
       syy /= this->getAreaOfFace();

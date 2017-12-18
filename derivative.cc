@@ -70,14 +70,15 @@ double CentralisedDerivative::numericalEnergyXDerivative(Vertex* vertex){
 	else{
 		stepsize = cell->getSqrtEpsilon();
 	}
-	double powercounter = 0;
+	//std::cout << "Computing X-derivative, vertid : "<< vertex->getID()<<std::endl;
+	//double powercounter = 0;
 	double derivative = 0;
-		if (powercounter > 0){
+		/*if (powercounter > 0){
 		//printf ("Redoing :  powercounter %d \n derivative = %f \n stepsize  : %.16f \n", (powercounter,derivative,stepsize));
 			std::cout << "REDOING : Powercounter = "<<powercounter
 					  << "\n last derivative = "<<derivative
 					  <<"\n new stepsize = "<<stepsize<<std::endl;
-		}
+		}*/
 		//now caculating the new energy by increasing the X-coordinate
 		vertex->setXcoordinate(currentXCoordinate+stepsize);
 		cell->setParameters();
@@ -96,7 +97,7 @@ double CentralisedDerivative::numericalEnergyXDerivative(Vertex* vertex){
 		stepsize = (currentXCoordinate +stepsize)- currentXCoordinate;
 		//double derivative = (plusEnergy-minusEnergy)/(2*stepsize);
 		derivative = (plusEnergy-minusEnergy)/(2*stepsize);
-		powercounter += 1.;
+		//powercounter += 1.;
 	//to check if the values are reset to previous values
 	/*std::cout<< "Vertex ID : "<< vertex->getID() 
 	<<"\n Start Energy" << currentEnergy 
@@ -127,10 +128,9 @@ double CentralisedDerivative::numericalEnergyYDerivative(Vertex* vertex){
 	else{
 		stepsize = cell->getSqrtEpsilon();
 	}
-	double powercounter = 0;
+	//double powercounter = 0;
 	double derivative = 0;
-	do {
-		stepsize = pow(10.,(-10.-powercounter));
+	//std::cout << "Computing Y-derivative, vertid : "<< vertex->getID()<<std::endl;
 		//stepsize = pow(10.,-10.);
 		//now caculating the new energy by increasing the Y-coordinate
 		vertex->setYcoordinate(currentYCoordinate+stepsize);
@@ -151,11 +151,6 @@ double CentralisedDerivative::numericalEnergyYDerivative(Vertex* vertex){
 		stepsize = (currentYCoordinate +stepsize)- currentYCoordinate;
 		//double derivative = (plusEnergy-minusEnergy)/(2*stepsize);
 		derivative = (plusEnergy-minusEnergy)/(stepsize);
-	}while((derivative > 10.)&&(powercounter <4.));
-	if (powercounter >= 4){
-		printf ("ERROR: COULD NOT CONVERGE Y DERIVATIVE");
-		exit(EXIT_FAILURE);
-	}
 	//to check if the values are reset to previous values
 	/*
 	std::cout
@@ -190,9 +185,8 @@ double CentralisedDerivative::numericalEnergyZDerivative(Vertex* vertex){
 		stepsize = cell->getSqrtEpsilon();
 	}
 	double derivative = 0;
-	double powercounter = 0;
-	do {
-		stepsize = pow(10.,(-10.-powercounter));
+	//double powercounter = 0;
+	//std::cout << "Computing Z-derivative, vertid : "<< vertex->getID()<<std::endl;
 		//stepsize = pow(10.,-10.);
 		//now caculating the new energy by increasing the Z-coordinate
 		vertex->setZcoordinate(currentZCoordinate+stepsize);
@@ -213,11 +207,6 @@ double CentralisedDerivative::numericalEnergyZDerivative(Vertex* vertex){
 		stepsize = (currentZCoordinate +stepsize)- currentZCoordinate;
 		//double derivative = (plusEnergy-minusEnergy)/(2*stepsize);
 		derivative = (plusEnergy-minusEnergy)/(stepsize);
-	}while((derivative > 10.)&&(powercounter <4.));
-	if (powercounter >= 4){
-		printf ("ERROR: COULD NOT CONVERGE Z DERIVATIVE");
-		exit(EXIT_FAILURE);
-	}
 	//to check if the values are reset to previous values
 	/*std::cout<< "Vertex ID : "<< vertex->getID() 
 	<<"\n Start Energy" << currentEnergy 
@@ -232,6 +221,12 @@ double CentralisedDerivative::numericalEnergyZDerivative(Vertex* vertex){
 	// returning the derivative value
 	return derivative;
 }
+
+//****************************************************************************************** //
+//				HIGHER ORDER CALCULATION OF DERIVATIVE (FOURTH ORDER)
+//****************************************************************************************** //
+
+
 //****************************************************************************************** //
 //				HIGHER ORDER CALCULATION OF DERIVATIVE (FOURTH ORDER)
 //****************************************************************************************** //

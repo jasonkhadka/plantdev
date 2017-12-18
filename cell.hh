@@ -393,6 +393,10 @@ class Cell
     *                 In fraction of intial shape 
     */
    double initialStrain = 0.;
+   /*
+      Average Area of face in this Cell
+    */
+   double averageFaceArea;
    /**
     * Square root of Epsilon to use for finite diference stepsize
     * as recommended step size for finite difference is = sqrt(eps)*x for x != 0
@@ -445,6 +449,9 @@ public:
   /**
    *                    Public members
    */
+  //Functions to calculate average area of face in this cell and get  it
+  void setAverageFaceArea();
+  double getAverageFaceArea();
   /**
    * Getting guassianwidth of growthRandomNumber
    */
@@ -663,6 +670,7 @@ public:
    * Set Cartesian Coordinates from the Cylindrical coordinates for all vertices
    */
   void setCartesian();
+
   /**
    * Function to check if all the polygons (faces) in this Cell is convex or not
    * Return : 
@@ -687,6 +695,9 @@ public:
 };
 
 /* -- inline instance methods ---------------------------------------------- */
+inline double Cell::getAverageFaceArea(){
+  return this->averageFaceArea;
+}
 inline double Cell::getGaussianWidth(){
   return this->gaussianWidth;
 }

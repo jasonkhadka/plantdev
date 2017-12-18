@@ -277,14 +277,56 @@ unsigned long int random_seed()
   * caculating the volume
   */
   double Cell::getCartesianVolume(){
-  //iterating the faces
+
+  //Divergence theorem  ::
+  /*
+    * Important Change :: 
+              The Volume calculation is changed for removing Volume Pressure dependence on Area of Face
+               -> Thus, Volume = <A> * SUM_c (V_c/A_c)
+               volume is normalised by cell area and calcualted with respect to average area
+  */
+    /*
+  CellFaceIterator faces(this);
+  Face * face;
+  //Edge * edge;
+  //Vertex * second;
+  //Vertex * third;
+  double tempVolume = 0.;
+  double dotproduct;
+  double *normalofface;
+  //double areaofface;
+  while ((face= faces.next()) != 0){
+    if (face->getID()==1) continue;
+    //getting the centroid of face
+    double centroid[3] = {face->getXCentralised(),face->getYCentralised(),face->getZCentralised()};
+    //areaofface = face->getAreaOfFace();
+    normalofface = face->getNormal();
+    dotproduct = normalofface[0]*centroid[0]+
+                 normalofface[1]*centroid[1]+
+                 normalofface[2]*centroid[2];
+    //tempVolume+= dotproduct*areaofface;
+    tempVolume += dotproduct;
+    }
+  //return 1./3.*abs(tempVolume)*(this->averageFaceArea);
+  return 1./3.*abs(tempVolume);
+  */
+  //Summing over the triangles
   CellFaceIterator faces(this);
   Face * face;
   Edge * edge;
   Vertex * second;
   Vertex * third;
-  double tempVolume = 0.;
+  double localVolume = 0.;
   double productVector[3];
+  double triCen[3];
+  double vector1[3], vector2[3];
+  double sumArea = 0;
+  double counter = 0;
+  double triArea = 0;
+  double norm =0.;
+  double trivec1[3], trivec2[3], trivec3[3];
+  double trivecarea[3],sumtrivecarea;
+  double faceVolume;
   while ((face= faces.next()) != 0){
     if (face->getID()==1) continue;
     //getting the centroid of face
@@ -295,27 +337,147 @@ unsigned long int random_seed()
     while ((edge = edges.next()) != 0){
           second = edge->Org();
           third = edge->Dest();
-          double secondCoordinate[3] = {second->getXcoordinate(),second->getYcoordinate(),second->getZcoordinate()};
-          double thirdCoordinate[3] = {third->getXcoordinate(),third->getYcoordinate(),third->getZcoordinate()};
-          //calculating cross product of two vectors first and second
-          productVector[0] = secondCoordinate[1]*thirdCoordinate[2] - secondCoordinate[2]*thirdCoordinate[1];//also definition of alpha
-          productVector[1] = secondCoordinate[2]*thirdCoordinate[0] - secondCoordinate[0]*thirdCoordinate[2];//also definition of beta
-          productVector[2] = secondCoordinate[0]*thirdCoordinate[1] - secondCoordinate[1]*thirdCoordinate[0];//also definition of gamma
-          //calculating dot product and resulting volumne
-          //std::cout<< " centroid : "<< centroid[0] <<centroid[1]<<centroid[2]<<std::endl;
-          tempVolume += (1./6.)*abs(productVector[0]*centroid[0]+
-                                    productVector[1]*centroid[1]+
-                                    productVector[2]*centroid[2]);
+          double secondCoordinate[3] = {second->getXcoordinate(),
+                                        second->getYcoordinate(),
+                                        second->getZcoordinate()};
+          double thirdCoordinate[3] = {third->getXcoordinate(),
+                                        third->getYcoordinate(),
+                                        third->getZcoordinate()};
+          //now calculating the Center of triangle : Weighted Centroid
+          triCen[0] = 1./3.*(centroid[0]+secondCoordinate[0]+thirdCoordinate[0]);
+          triCen[1] = 1./3.*(centroid[1]+secondCoordinate[1]+thirdCoordinate[1]);
+          triCen[2] = 1./3.*(centroid[2]+secondCoordinate[2]+thirdCoordinate[2]);
+          /*
+          // centers of smaller triangles
+          double firstcen[3] = {1./3.*(secondCoordinate[0]+thirdCoordinate[0]+triCen[0]),
+                                1./3.*(secondCoordinate[1]+thirdCoordinate[1]+triCen[1]),
+                                1./3.*(secondCoordinate[2]+thirdCoordinate[2]+triCen[2])};
+          double secondcen[3] = {1./3.*(centroid[0]+thirdCoordinate[0]+triCen[0]),
+                                 1./3.*(centroid[1]+thirdCoordinate[1]+triCen[1]),
+                                 1./3.*(centroid[2]+thirdCoordinate[2]+triCen[2])};
+          double thirdcen[3] = {1./3.*(centroid[0]+secondCoordinate[0]+triCen[0]),
+                                1./3.*(centroid[1]+secondCoordinate[1]+triCen[1]),
+                                1./3.*(centroid[2]+secondCoordinate[2]+triCen[2])};
+          
+          //trivec1 
+          trivec1[0] = secondCoordinate[0]-triCen[0];
+          trivec1[1] = secondCoordinate[1]-triCen[1];
+          trivec1[2] = secondCoordinate[2]-triCen[2];
+          //trivec2
+          trivec2[0] = thirdCoordinate[0]-triCen[0];
+          trivec2[1] = thirdCoordinate[1]-triCen[1];
+          trivec2[2] = thirdCoordinate[2]-triCen[2];
+          // trivec3
+          trivec3[0] = centroid[0]-triCen[0];
+          trivec3[1] = centroid[1]-triCen[1];
+          trivec3[2] = centroid[2]-triCen[2];
+          // area of small triangles
+          //mini triangle 1
+          productVector[0] = trivec1[1]*trivec2[2] - trivec1[2]*trivec2[1];
+          productVector[1] = trivec1[2]*trivec2[0] - trivec1[0]*trivec2[2];
+          productVector[2] = trivec1[0]*trivec2[1] - trivec1[1]*trivec2[0];
+          trivecarea[0] = 0.5*sqrt(pow(productVector[0],2)+pow(productVector[1],2)+pow(productVector[2],2));
+          //mini triangle 2
+          productVector[0] = trivec2[1]*trivec3[2] - trivec2[2]*trivec3[1];
+          productVector[1] = trivec2[2]*trivec3[0] - trivec2[0]*trivec3[2];
+          productVector[2] = trivec2[0]*trivec3[1] - trivec2[1]*trivec3[0];
+          trivecarea[1] = 0.5*sqrt(pow(productVector[0],2)+pow(productVector[1],2)+pow(productVector[2],2));
+          //mini triangle 3
+          productVector[0] = trivec3[1]*trivec1[2] - trivec3[2]*trivec1[1];
+          productVector[1] = trivec3[2]*trivec1[0] - trivec3[0]*trivec1[2];
+          productVector[2] = trivec3[0]*trivec1[1] - trivec3[1]*trivec1[0];
+          trivecarea[2] = 0.5*sqrt(pow(productVector[0],2)+pow(productVector[1],2)+pow(productVector[2],2));
+          sumtrivecarea = trivecarea[0]+trivecarea[1]+trivecarea[2];
+          // Weighted triCen
+          triCen[0] = 1./sumtrivecarea*(firstcen[0]*trivecarea[0]+
+                                        secondcen[0]*trivecarea[1]+
+                                        thirdcen[0]*trivecarea[2]);
+          triCen[1] = 1./sumtrivecarea*(firstcen[1]*trivecarea[0]+
+                                        secondcen[1]*trivecarea[1]+
+                                        thirdcen[1]*trivecarea[2]);
+          triCen[2] = 1./sumtrivecarea*(firstcen[2]*trivecarea[0]+
+                                        secondcen[2]*trivecarea[1]+
+                                        thirdcen[2]*trivecarea[2]);
+          */
+          // Get the vectors on the Triangle
+          //Vector 1
+          vector1[0] = secondCoordinate[0]-centroid[0];
+          vector1[1] = secondCoordinate[1]-centroid[1];
+          vector1[2] = secondCoordinate[2]-centroid[2];
+          //Vector 2
+          vector2[0] = thirdCoordinate[0]-centroid[0];
+          vector2[1] = thirdCoordinate[1]-centroid[1];
+          vector2[2] = thirdCoordinate[2]-centroid[2];
+          //cross product of the two vectors
+          productVector[0] = vector1[1]*vector2[2] - vector1[2]*vector2[1];
+          productVector[1] = vector1[2]*vector2[0] - vector1[0]*vector2[2];
+          productVector[2] = vector1[0]*vector2[1] - vector1[1]*vector2[0];
+          //maginitude of cross product :: 2*Area Of this Triangle
+          norm = sqrt(pow(productVector[0],2)+pow(productVector[1],2)+pow(productVector[2],2));
+          triArea= 1./2.*norm;
+          // Normal of Triangle
+          productVector[0] /= norm;
+          productVector[1] /= norm;
+          productVector[2] /= norm;
+          // Now calculating the height and then Volume of this tetrahedron by projecting the triCen to Normal
+          faceVolume =  1./3.*(triCen[0]*productVector[0]+
+                               triCen[1]*productVector[1]+
+                               triCen[2]*productVector[2]);
+           localVolume += faceVolume;
+           face->setFaceVolume(faceVolume);
+          // Summing the Areas of triangle and counting the number of triangles
+          sumArea += triArea;
+          counter += 1;
         }
         //std::cout<<"Volume " << tempVolume<<std::endl;
   }
-  return tempVolume;
+  //returning the Total Volume : Sum over local volume*average area
+return localVolume*(sumArea/counter);
+//return localVolume;
+    /*
+  // Summing the distance to origin of all vertices
+  CellVertexIterator vertices(this);
+  Vertex *vertex;
+  //Edge * edge;
+  //Vertex * second;
+  //Vertex * third;
+  double tempVolume = 0.;
+  double dotproduct;
+  double *normalofface;
+  //double areaofface;
+  while ((vertex= vertices.next()) != 0){
+    //if (face->getID()==1) continue;
+    //getting the centroid of face
+    double coordinates[3] = {vertex->getXcoordinate(),
+                              vertex->getYcoordinate(),
+                              vertex->getZcoordinate()};
+    tempVolume += sqrt(pow(coordinates[0],2)+pow(coordinates[1],2)+pow(coordinates[2],2));
+    //tempVolume+= dotproduct*areaofface;
+    }
+  //return 1./3.*abs(tempVolume)*(this->averageFaceArea);
+  return abs(tempVolume);
+  */
+ }
+
+ //******************************************************************************* //
+ void Cell::setAverageFaceArea(){
+  CellFaceIterator faces(this);
+  Face * face;
+  double areaofface = 0.;
+  double  facecount = (double) this->countFaces();
+  while ((face = faces.next())!= 0){
+      if (face->getID()==1) continue;
+      areaofface += face->getAreaOfFace();
+  }
+  this->averageFaceArea = areaofface/facecount;
  }
 //******************************************************************************* //
  void Cell::calculateVertexForce(){
   CellVertexIterator vertices(this);
   Vertex * vertex;
+  //std::cout<<"Start of Computation "<<std::endl;
   while ((vertex = vertices.next())!= 0){
+    //std::cout<<"vertex ID : "<< vertex->getID()<<std::endl;
     vertex->calculateCartesianForce();
   }
  }
@@ -466,7 +628,7 @@ unsigned long int random_seed()
   {
     CellFaceIterator faces(this);
     while((face = faces.next())!= 0){
-          if (face->getID() == 1) continue;
+          //if (face->getID() == 1) continue;
           face->setMu();
     }
   }
@@ -474,7 +636,7 @@ unsigned long int random_seed()
   {
     CellFaceIterator faces(this);
     while((face = faces.next())!= 0){
-          if (face->getID() == 1) continue;
+          //if (face->getID() == 1) continue;
           face->setInitialTargetFormMatrixCurrent();
     }
   }
@@ -482,7 +644,7 @@ unsigned long int random_seed()
   {
     CellFaceIterator faces(this);
     while((face = faces.next())!= 0){
-          if (face->getID() == 1) continue;
+          //if (face->getID() == 1) continue;
           face->setMu();
     }
   }
@@ -498,7 +660,7 @@ unsigned long int random_seed()
   {
     CellFaceIterator faces(this);
     while((face = faces.next())!= 0){
-          if (face->getID() == 1) continue;
+          //if (face->getID() == 1) continue;
           face->setEnergyTerms();
     }
   }
@@ -506,11 +668,13 @@ unsigned long int random_seed()
   {
     CellFaceIterator faces(this);
     while((face = faces.next())!= 0){
-          if (face->getID() == 1) continue;
+          //if (face->getID() == 1) continue;
           face->setDivisionThreshold();
     }
   }
   /////////////////////////////////////////
+  //seting average face area
+  this->setAverageFaceArea();
   // Setting the bendingThreshold to initial bending energy value
   double fourthterm = this->getFourthTerm();
   this->setBendingThreshold(fourthterm + 0.05*fourthterm);
@@ -574,6 +738,8 @@ void Cell::setParameters(){
           face->setEnergyTerms();
     }
   }
+  //seting average face area
+  this->setAverageFaceArea();
   //////////////////////////////////
  }
 //********************************************************************************* //

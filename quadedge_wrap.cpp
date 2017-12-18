@@ -4067,6 +4067,49 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_setAverageFaceArea(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_setAverageFaceArea",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setAverageFaceArea" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  (arg1)->setAverageFaceArea();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getAverageFaceArea(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getAverageFaceArea",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getAverageFaceArea" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getAverageFaceArea();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_getGaussianWidth(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -5846,6 +5889,58 @@ SWIGINTERN PyObject *_wrap_Face_removeEdge(PyObject *SWIGUNUSEDPARM(self), PyObj
   }
   arg2 = reinterpret_cast< Edge * >(argp2);
   (arg1)->removeEdge(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getFaceVolume(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getFaceVolume",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getFaceVolume" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getFaceVolume();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setFaceVolume(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_setFaceVolume",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setFaceVolume" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Face_setFaceVolume" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setFaceVolume(arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -17057,6 +17152,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_calculateVertexForce", _wrap_Cell_calculateVertexForce, METH_VARARGS, NULL},
 	 { (char *)"Cell_calculateStressStrain", _wrap_Cell_calculateStressStrain, METH_VARARGS, NULL},
 	 { (char *)"Cell_getMeanStrainDeterminant", _wrap_Cell_getMeanStrainDeterminant, METH_VARARGS, NULL},
+	 { (char *)"Cell_setAverageFaceArea", _wrap_Cell_setAverageFaceArea, METH_VARARGS, NULL},
+	 { (char *)"Cell_getAverageFaceArea", _wrap_Cell_getAverageFaceArea, METH_VARARGS, NULL},
 	 { (char *)"Cell_getGaussianWidth", _wrap_Cell_getGaussianWidth, METH_VARARGS, NULL},
 	 { (char *)"Cell_setInitialStrain", _wrap_Cell_setInitialStrain, METH_VARARGS, NULL},
 	 { (char *)"Cell_getInitialStrain", _wrap_Cell_getInitialStrain, METH_VARARGS, NULL},
@@ -17132,6 +17229,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getEdge", _wrap_Face_getEdge, METH_VARARGS, NULL},
 	 { (char *)"Face_addEdge", _wrap_Face_addEdge, METH_VARARGS, NULL},
 	 { (char *)"Face_removeEdge", _wrap_Face_removeEdge, METH_VARARGS, NULL},
+	 { (char *)"Face_getFaceVolume", _wrap_Face_getFaceVolume, METH_VARARGS, NULL},
+	 { (char *)"Face_setFaceVolume", _wrap_Face_setFaceVolume, METH_VARARGS, NULL},
 	 { (char *)"Face_getGrowthRandomNumber", _wrap_Face_getGrowthRandomNumber, METH_VARARGS, NULL},
 	 { (char *)"Face_getCellDivisionRandomNumber", _wrap_Face_getCellDivisionRandomNumber, METH_VARARGS, NULL},
 	 { (char *)"Face_getFaceRank", _wrap_Face_getFaceRank, METH_VARARGS, NULL},

@@ -314,6 +314,8 @@ class Face
       * Variable to store last growth rate : For plotting the growth rate
      */
      double lastGrowthRate;
+     //Volume of this face
+     double faceVolume;
      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
       //    Random Number Generator : seeded with *some* seed 
      //      Right now it is just a number i chose for testing*
@@ -326,6 +328,9 @@ class Face
   /* ----------Public instance methods ---------*/
  /* -- public instance methods ----------------------------------------- */
     public:
+   //Function to get faceVoume
+    double getFaceVolume();
+    void setFaceVolume(double);
   // Get the random Number //
   double getGrowthRandomNumber();
   /**
@@ -737,6 +742,12 @@ class Face
   friend class CentralisedDerivative;
 };
 /* ----- inline instance methods --------------------------------*/
+inline double Face::getFaceVolume(){
+  return this->faceVolume;
+}
+inline void  Face::setFaceVolume(double newvol){
+  this->faceVolume = newvol;
+};
 inline double Face::getGrowthVar(){
   return growthVar;
 }

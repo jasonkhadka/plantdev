@@ -178,6 +178,12 @@ class Cell(_object):
     def getMeanStrainDeterminant(self):
         return _quadedge.Cell_getMeanStrainDeterminant(self)
 
+    def setAverageFaceArea(self):
+        return _quadedge.Cell_setAverageFaceArea(self)
+
+    def getAverageFaceArea(self):
+        return _quadedge.Cell_getAverageFaceArea(self)
+
     def getGaussianWidth(self):
         return _quadedge.Cell_getGaussianWidth(self)
 
@@ -435,6 +441,12 @@ class Face(_object):
 
     def removeEdge(self, edge):
         return _quadedge.Face_removeEdge(self, edge)
+
+    def getFaceVolume(self):
+        return _quadedge.Face_getFaceVolume(self)
+
+    def setFaceVolume(self, arg2):
+        return _quadedge.Face_setFaceVolume(self, arg2)
 
     def getGrowthRandomNumber(self):
         return _quadedge.Face_getGrowthRandomNumber(self)
