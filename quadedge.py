@@ -1553,6 +1553,18 @@ CentralisedDerivative_swigregister = _quadedge.CentralisedDerivative_swigregiste
 CentralisedDerivative_swigregister(CentralisedDerivative)
 
 
+def objReadCell(name):
+    return _quadedge.objReadCell(name)
+objReadCell = _quadedge.objReadCell
+
+def objWriteCell(cell, name):
+    return _quadedge.objWriteCell(cell, name)
+objWriteCell = _quadedge.objWriteCell
+
+def objCloneCell(cell):
+    return _quadedge.objCloneCell(cell)
+objCloneCell = _quadedge.objCloneCell
+
 def new_doublearray(nelements):
     return _quadedge.new_doublearray(nelements)
 new_doublearray = _quadedge.new_doublearray

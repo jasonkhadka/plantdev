@@ -10,6 +10,7 @@
 %include vertex.i
 %include jacobian.i
 %include derivative.i
+%include obj.i
 %include "carrays.i"
 
 %array_functions(double, doublearray)
