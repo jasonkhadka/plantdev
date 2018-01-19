@@ -420,7 +420,9 @@ static void makeFace(Cell *cell, Tface *f)
 
       v->vertex      = cell->makeVertexEdge(vertex, face, right)->Dest();
       v->vertex->pos = v->p;
-
+      v->vertex->setXcoordinate(v->p[0]);
+      v->vertex->setYcoordinate(v->p[1]);
+      v->vertex->setZcoordinate(v->p[2]);
       v->vertex->setID(v->no);
     }
 
@@ -553,7 +555,9 @@ static Cell *build_quadedge(Array<Tvert> verts, List<Tface> faces) {
 
     v->vertex      = vertex1;
     v->vertex->pos = v->p;
-
+    v->vertex->setXcoordinate(v->p[0]);
+    v->vertex->setYcoordinate(v->p[1]);
+    v->vertex->setZcoordinate(v->p[2]);
     v->vertex->setID(v->no);
 
     makeFace(cell, v->arclist.first()->obj->first()->obj->f);

@@ -1366,8 +1366,9 @@ lastGrowthRate = growthfactor; //saving growth rate for plotting
     right->currentFormMatrix[0][1] = this->currentFormMatrix[0][1];
     right->currentFormMatrix[1][0] = this->currentFormMatrix[1][0];
     right->currentFormMatrix[1][1] = this->currentFormMatrix[1][1];
-    //Also updating the division threshold for the new daughter cell to be same as mother cells
+    //Also updating the division threshold and target Area for the new daughter cell to be same as mother cells
     right->setDivisionThreshold(this->divisionThreshold);
+    right->setTargetArea(this->getAreaOfFace());
     // Updating this cell's terms for Form Matrix calcualtion
     this->oldMuMatrix[0][0] = this->mu1;
     this->oldMuMatrix[0][1] = this->mu2;

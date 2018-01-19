@@ -542,7 +542,7 @@ class Face
     /**
      * target Area: the ideal area of this cell (area from target Form)
      */
-    double targetArea = 0.;
+    double targetArea = 1.;
     /**
      * current form Matrix : the matrix that represents the 
      *  current form of the cell

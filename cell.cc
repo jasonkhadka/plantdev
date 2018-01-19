@@ -1156,7 +1156,7 @@ Cell::Cell():gaussianWidth(0.125), //initialising the Standard Deviaton of Gauss
   faceSize  = 6;
   faceID    = 1;
   divisionCounter = 0;
-  divisionFactor = 1.0;
+  divisionFactor = 1.5;
   convexAngleThreshold = 180.;
   //setting the random number generator
   // intialised in Initialising list :-> randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm
