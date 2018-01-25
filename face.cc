@@ -87,7 +87,11 @@ void Face::setVertexCount(){
   this->vertexCount = counter;//putting the number of vertices in the vertexCount
 }
 
-
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+void Face::setKappa(double newkappa){
+  kappa = newkappa;
+  this->lastGrowthRate = this->getGrowthRandomNumber();
+}
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
 void Face::setCentralisedCoordinate(double xcent, double ycent, double zcent){
   
@@ -699,8 +703,8 @@ this->areaOfFace = abs(result)/2;
       this->currentFormMatrix[1][1] = term22;
       //setting mu
       this->mu1 = term11 - targetFormMatrix[0][0];
-      this->mu2 = term12 - targetFormMatrix[1][0];
-      this->mu3 = this->mu2;//as mu2 and mu3 are equal
+      this->mu2 = term12 - targetFormMatrix[0][1];
+      this->mu3 = term12 - targetFormMatrix[1][0];//this->mu2;//as mu2 and mu3 are equal
       this->mu4 = term22 - targetFormMatrix[1][1];
       //Also calculating the area of this face
       this->setAreaOfFace();
@@ -975,7 +979,7 @@ void Face::setTempTargetFormMatrixIdentity(){
                             this->unity[0] , this->unity[1], this->unity[2],
                             this->unitz[0] , this->unitz[1], this->unitz[2];
   double traceofTargetForm = (this->targetFormMatrix[0][0]+ this->targetFormMatrix[1][1]);
-  // Strain matrix = Mu-Matrix
+  // Strain matrix = (M-M0)/trace(M0)
   this->strain<< 1./traceofTargetForm*(this->getMu1()),  1./traceofTargetForm*(this->getMu2()),
             1./traceofTargetForm*(this->getMu3()), 1./traceofTargetForm*(this->getMu4()); 
   // saving the determinant 
@@ -1369,6 +1373,8 @@ lastGrowthRate = growthfactor; //saving growth rate for plotting
     //Also updating the division threshold and target Area for the new daughter cell to be same as mother cells
     right->setDivisionThreshold(this->divisionThreshold);
     right->setTargetArea(this->getAreaOfFace());
+    right->setKappa(this->getKappa()); // Updating the Daughter cell with same growth rate as  Mother cell
+    right->setGrowthVar(this->getGrowthVar());
     // Updating this cell's terms for Form Matrix calcualtion
     this->oldMuMatrix[0][0] = this->mu1;
     this->oldMuMatrix[0][1] = this->mu2;

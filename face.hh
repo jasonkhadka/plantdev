@@ -766,9 +766,6 @@ inline double Face::getCellDivisionRandomNumber(){
 inline double Face::getKappa(){
   return kappa;
 }
-inline void Face::setKappa(double newkappa){
-  kappa = newkappa;
-}
 inline double Face::getStrainDeterminant(){
   return this->strainDeterminant;  
 };

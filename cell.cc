@@ -109,11 +109,10 @@ unsigned long int random_seed()
     double fourthterm = this->getFourthTerm();
     
       // First : check if the cell is convex or not
-      /*if (!(this->isConvex())){ //if the cell is not convex then return HIGHVALUE
+      if (!(this->isConvex())){ //if the cell is not convex then return HIGHVALUE
           //std::cout<<"Cell Is not Convex ! isConvex -> "<<this->isConvex()<<std::endl;
           return std::numeric_limits<double>::max();
       }
-      */
       /*
       // Second : check if the cell has bent than threshold
       if (fourthterm > (this->getBendingThreshold())){
