@@ -3500,6 +3500,11 @@ double setTargetFormMatrix(Face * face, int i, int j,double newvalue){
 	face->targetFormMatrix[i][j] = newvalue;
 }	
 
+
+double getEigenMatrix(Eigen::Matrix2d matrix, int i, int j){
+	return matrix(i,j);
+}	
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -7830,6 +7835,28 @@ SWIGINTERN PyObject *_wrap_Face_getStrainDeterminant(PyObject *SWIGUNUSEDPARM(se
   }
   arg1 = reinterpret_cast< Face * >(argp1);
   result = (double)(arg1)->getStrainDeterminant();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getStrainTrace(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getStrainTrace",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getStrainTrace" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getStrainTrace();
   resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
@@ -17299,6 +17326,54 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_getEigenMatrix(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Eigen::Matrix2d arg1 ;
+  int arg2 ;
+  int arg3 ;
+  void *argp1 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:getEigenMatrix",&obj0,&obj1,&obj2)) SWIG_fail;
+  {
+    res1 = SWIG_ConvertPtr(obj0, &argp1, SWIGTYPE_p_Eigen__Matrix2d,  0  | 0);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "getEigenMatrix" "', argument " "1"" of type '" "Eigen::Matrix2d""'"); 
+    }  
+    if (!argp1) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "getEigenMatrix" "', argument " "1"" of type '" "Eigen::Matrix2d""'");
+    } else {
+      Eigen::Matrix2d * temp = reinterpret_cast< Eigen::Matrix2d * >(argp1);
+      arg1 = *temp;
+      if (SWIG_IsNewObj(res1)) delete temp;
+    }
+  }
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "getEigenMatrix" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "getEigenMatrix" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  result = (double)getEigenMatrix(arg1,arg2,arg3);
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 static PyMethodDef SwigMethods[] = {
 	 { (char *)"SWIG_PyInstanceMethod_New", (PyCFunction)SWIG_PyInstanceMethod_New, METH_O, NULL},
 	 { (char *)"Cell_make", _wrap_Cell_make, METH_VARARGS, NULL},
@@ -17475,6 +17550,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_calculateStress", _wrap_Face_calculateStress, METH_VARARGS, NULL},
 	 { (char *)"Face_calculateStrain", _wrap_Face_calculateStrain, METH_VARARGS, NULL},
 	 { (char *)"Face_getStrainDeterminant", _wrap_Face_getStrainDeterminant, METH_VARARGS, NULL},
+	 { (char *)"Face_getStrainTrace", _wrap_Face_getStrainTrace, METH_VARARGS, NULL},
 	 { (char *)"Face_oldMuMatrix_set", _wrap_Face_oldMuMatrix_set, METH_VARARGS, NULL},
 	 { (char *)"Face_oldMuMatrix_get", _wrap_Face_oldMuMatrix_get, METH_VARARGS, NULL},
 	 { (char *)"Face_oldcurrentFormMatrixTrace_set", _wrap_Face_oldcurrentFormMatrixTrace_set, METH_VARARGS, NULL},
@@ -17769,6 +17845,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"getCurrentFormMatrix", _wrap_getCurrentFormMatrix, METH_VARARGS, NULL},
 	 { (char *)"getTargetFormMatrix", _wrap_getTargetFormMatrix, METH_VARARGS, NULL},
 	 { (char *)"setTargetFormMatrix", _wrap_setTargetFormMatrix, METH_VARARGS, NULL},
+	 { (char *)"getEigenMatrix", _wrap_getEigenMatrix, METH_VARARGS, NULL},
 	 { NULL, NULL, 0, NULL }
 };
 

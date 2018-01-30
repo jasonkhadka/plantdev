@@ -302,6 +302,11 @@ class Face
        * Determinant of Strain
       */
       double strainDeterminant;
+      /**
+       * Trace of Strain
+      */
+      double strainTrace;
+      
       /*
         * The growth of of this Face
       */
@@ -565,9 +570,10 @@ class Face
      */
     void calculateStrain();
     /**
-     * get Strain Determinante
+     * get Strain Determinant and trace
      */
     double getStrainDeterminant();
+    double getStrainTrace();
     /**
      * After cell division,  To update the form matrix after the division
      * Old Mu Matrix : the matrix that represents the 
@@ -769,6 +775,9 @@ inline double Face::getKappa(){
 inline double Face::getStrainDeterminant(){
   return this->strainDeterminant;  
 };
+inline double Face::getStrainTrace(){
+  return this->strainTrace;
+}
 inline unsigned int Face::getFaceRank(){
       return this->faceRank;
 }

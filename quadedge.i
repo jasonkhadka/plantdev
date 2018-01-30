@@ -34,3 +34,10 @@ double setTargetFormMatrix(Face * face, int i, int j,double newvalue){
 	face->targetFormMatrix[i][j] = newvalue;
 }	
 %}
+
+%inline %{
+double getEigenMatrix(Eigen::Matrix2d matrix, int i, int j){
+	return matrix(i,j);
+}	
+%}
+

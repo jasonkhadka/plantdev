@@ -692,9 +692,9 @@ this->areaOfFace = abs(result)/2;
             f2 = vertOrg->getFunction2(faceid);
             f3 = vertOrg->getFunction3(faceid);
             //calculating the sumterms
-            term11 += (1./12.)*ak*f1;
+            term22 += (1./12.)*ak*f1;
             term12 += (1./24.)*ak*f2;
-            term22 += (1./12.)*ak*f3;
+            term11 += (1./12.)*ak*f3;
       }
       //setting the current form matrix
       this->currentFormMatrix[0][0] = term11;
@@ -984,6 +984,7 @@ void Face::setTempTargetFormMatrixIdentity(){
             1./traceofTargetForm*(this->getMu3()), 1./traceofTargetForm*(this->getMu4()); 
   // saving the determinant 
   this->strainDeterminant = strain.determinant();
+  this->strainTrace = strain.trace();
   // Now computing the Eigen values of the Strain Matrix
     Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
     eigensolver.compute(this->strain);//computing the eigenvalues of strain

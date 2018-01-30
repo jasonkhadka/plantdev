@@ -640,6 +640,9 @@ class Face(_object):
 
     def getStrainDeterminant(self):
         return _quadedge.Face_getStrainDeterminant(self)
+
+    def getStrainTrace(self):
+        return _quadedge.Face_getStrainTrace(self)
     __swig_setmethods__["oldMuMatrix"] = _quadedge.Face_oldMuMatrix_set
     __swig_getmethods__["oldMuMatrix"] = _quadedge.Face_oldMuMatrix_get
     if _newclass:
@@ -1592,6 +1595,10 @@ getTargetFormMatrix = _quadedge.getTargetFormMatrix
 def setTargetFormMatrix(face, i, j, newvalue):
     return _quadedge.setTargetFormMatrix(face, i, j, newvalue)
 setTargetFormMatrix = _quadedge.setTargetFormMatrix
+
+def getEigenMatrix(matrix, i, j):
+    return _quadedge.getEigenMatrix(matrix, i, j)
+getEigenMatrix = _quadedge.getEigenMatrix
 # This file is compatible with both classic and new-style classes.
 
 
