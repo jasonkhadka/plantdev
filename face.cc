@@ -691,7 +691,9 @@ this->areaOfFace = abs(result)/2;
             f1 = vertOrg->getFunction1(faceid);
             f2 = vertOrg->getFunction2(faceid);
             f3 = vertOrg->getFunction3(faceid);
-            //calculating the sumterms
+            //calculating the sumterms // switched term11 and term22's definition as now 
+            // term11 takes in to account area distribution in x - direction 
+            // term22 takes in to account area distribution in y - direction
             term22 += (1./12.)*ak*f1;
             term12 += (1./24.)*ak*f2;
             term11 += (1./12.)*ak*f3;
@@ -1165,12 +1167,20 @@ void Face::feedbackStrainGrow(){
       return;
     }
 // Before calculation of Growth : Calculate the stress-strain of this cell
-  this->calculateStress();
+/* --------------------------------------------------------------------------------------
+// CHANGE : This has been edited to calculate the stress matrix from Strain
+// Stess = alpha*Area*Strain
+   as, Stiffness = alpha*Area
+   --------------------------------------------------------------------------------------
+*/
+  //this->calculateStress();
   this->calculateStrain();
 Cell * cell = this->getCell();
 double eta = cell->getEta();
+double alpha = cell->getAlpha();
+Eigen::Matrix2d stressMatrix = alpha*(this->getAreaOfFace())*(this->strain);
 //getting traceless deviatoric matrix
-Eigen::Matrix2d deviatoric = (this->stress) - 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity();
+Eigen::Matrix2d deviatoric = (stressMatrix) - 0.5*(stressMatrix.trace())*Eigen::Matrix2d::Identity();
 //current Form Matrix
 Eigen::Matrix2d M0;
 M0 << this->targetFormMatrix[0][0],this->targetFormMatrix[0][1],
