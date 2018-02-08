@@ -175,6 +175,9 @@ class Cell(_object):
     def calculateStressStrain(self):
         return _quadedge.Cell_calculateStressStrain(self)
 
+    def calculateStrain(self):
+        return _quadedge.Cell_calculateStrain(self)
+
     def getMeanStrainDeterminant(self):
         return _quadedge.Cell_getMeanStrainDeterminant(self)
 
@@ -507,6 +510,9 @@ class Face(_object):
 
     def getStrainEigenValue2(self):
         return _quadedge.Face_getStrainEigenValue2(self)
+
+    def getStrainValue(self, arg2, arg3):
+        return _quadedge.Face_getStrainValue(self, arg2, arg3)
 
     def setVertexCount(self):
         return _quadedge.Face_setVertexCount(self)

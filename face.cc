@@ -1177,8 +1177,14 @@ void Face::feedbackStrainGrow(){
   this->calculateStrain();
 Cell * cell = this->getCell();
 double eta = cell->getEta();
-double alpha = cell->getAlpha();
-Eigen::Matrix2d stressMatrix = alpha*(this->getAreaOfFace())*(this->strain);
+double cellalpha;
+if (this->alpha == 0){//means not update directly to face
+          cellalpha = cell->getAlpha();
+      }
+      else{
+          cellalpha = this->alpha;
+      }
+Eigen::Matrix2d stressMatrix = cellalpha*(this->getAreaOfFace())*(this->strain);
 //getting traceless deviatoric matrix
 Eigen::Matrix2d deviatoric = (stressMatrix) - 0.5*(stressMatrix.trace())*Eigen::Matrix2d::Identity();
 //current Form Matrix

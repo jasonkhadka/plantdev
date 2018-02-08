@@ -237,6 +237,10 @@ class Cell
    * Function to calculate stress and strain matrices in all the faces
    */
   void calculateStressStrain();
+   /**
+   * Function to calculate strain matrices in all the faces
+   */
+  void calculateStrain();
   /**
    * Function to get mean strain determinant
    */

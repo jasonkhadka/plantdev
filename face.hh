@@ -381,7 +381,7 @@ class Face
     double * getStrainEigenVector2();
     double getStrainEigenValue1();
     double getStrainEigenValue2();    
-    
+    double getStrainValue(int, int);
     /**
      * setting the number of vertices in this face
      */
@@ -771,6 +771,9 @@ inline double Face::getCellDivisionRandomNumber(){
 }
 inline double Face::getKappa(){
   return kappa;
+}
+inline double Face::getStrainValue(int a, int b){
+  return this->strain(a,b);
 }
 inline double Face::getStrainDeterminant(){
   return this->strainDeterminant;  

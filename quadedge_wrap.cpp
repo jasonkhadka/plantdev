@@ -4145,6 +4145,27 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_calculateStrain(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_calculateStrain",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_calculateStrain" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  (arg1)->calculateStrain();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_getMeanStrainDeterminant(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -6513,6 +6534,46 @@ SWIGINTERN PyObject *_wrap_Face_getStrainEigenValue2(PyObject *SWIGUNUSEDPARM(se
   }
   arg1 = reinterpret_cast< Face * >(argp1);
   result = (double)(arg1)->getStrainEigenValue2();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getStrainValue(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  PyObject * obj2 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OOO:Face_getStrainValue",&obj0,&obj1,&obj2)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getStrainValue" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  ecode2 = SWIG_AsVal_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Face_getStrainValue" "', argument " "2"" of type '" "int""'");
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_int(obj2, &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), "in method '" "Face_getStrainValue" "', argument " "3"" of type '" "int""'");
+  } 
+  arg3 = static_cast< int >(val3);
+  result = (double)(arg1)->getStrainValue(arg2,arg3);
   resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
@@ -17401,6 +17462,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_setFaceKappa", _wrap_Cell_setFaceKappa, METH_VARARGS, NULL},
 	 { (char *)"Cell_calculateVertexForce", _wrap_Cell_calculateVertexForce, METH_VARARGS, NULL},
 	 { (char *)"Cell_calculateStressStrain", _wrap_Cell_calculateStressStrain, METH_VARARGS, NULL},
+	 { (char *)"Cell_calculateStrain", _wrap_Cell_calculateStrain, METH_VARARGS, NULL},
 	 { (char *)"Cell_getMeanStrainDeterminant", _wrap_Cell_getMeanStrainDeterminant, METH_VARARGS, NULL},
 	 { (char *)"Cell_setAverageFaceArea", _wrap_Cell_setAverageFaceArea, METH_VARARGS, NULL},
 	 { (char *)"Cell_getAverageFaceArea", _wrap_Cell_getAverageFaceArea, METH_VARARGS, NULL},
@@ -17501,6 +17563,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getStrainEigenVector2", _wrap_Face_getStrainEigenVector2, METH_VARARGS, NULL},
 	 { (char *)"Face_getStrainEigenValue1", _wrap_Face_getStrainEigenValue1, METH_VARARGS, NULL},
 	 { (char *)"Face_getStrainEigenValue2", _wrap_Face_getStrainEigenValue2, METH_VARARGS, NULL},
+	 { (char *)"Face_getStrainValue", _wrap_Face_getStrainValue, METH_VARARGS, NULL},
 	 { (char *)"Face_setVertexCount", _wrap_Face_setVertexCount, METH_VARARGS, NULL},
 	 { (char *)"Face_getVertexCount", _wrap_Face_getVertexCount, METH_VARARGS, NULL},
 	 { (char *)"Face_setNormal", _wrap_Face_setNormal, METH_VARARGS, NULL},

@@ -489,6 +489,15 @@ return localVolume*(sumArea/counter);
       face->calculateStrain();
   }
  }
+ // ****************************************************************************** //
+ void Cell::calculateStrain(){
+  CellFaceIterator faces(this);
+  Face * face;
+  while ((face = faces.next())!= 0){
+      face->calculateStress();
+      face->calculateStrain();
+  }
+ }
  //******************************************************************************* //
  double Cell::getMeanStrainDeterminant(){
   CellFaceIterator faces(this);
