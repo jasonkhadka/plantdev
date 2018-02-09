@@ -880,6 +880,7 @@ void Face::setTempTargetFormMatrixIdentity(){
                     0.,0.;
     return;
     }
+    /*
     //Declarations
     Vertex *first, *second;
     //double to store the values
@@ -936,6 +937,29 @@ void Face::setTempTargetFormMatrixIdentity(){
     //Now setting the stress Matrix on the 
       this->stress << sxx, sxy,
                       sxy, syy;
+    */
+this->calculateStrain();
+Cell * cell = this->getCell();
+double eta = cell->getEta();
+double cellalpha;
+if (this->alpha == 0){//means not update directly to face
+          cellalpha = cell->getAlpha();
+      }
+      else{
+          cellalpha = this->alpha;
+      }
+//Vectors of cartesianForce calculated with respect to cartesian coordinates
+    Eigen::Vector3d forces1;
+    Eigen::Vector3d forces2;
+//Transformation Matrix
+    Eigen::Matrix3d transformationMatrix;
+    transformationMatrix << this->unitx[0] , this->unitx[1], this->unitx[2],
+                            this->unity[0] , this->unity[1], this->unity[2],
+                            this->unitz[0] , this->unitz[1], this->unitz[2];
+Eigen::Matrix2d stressMatrix = cellalpha*(this->getAreaOfFace())*(this->strain);
+// Saving Stress Matrix
+this->stress<<stressMatrix(0,0),stressMatrix(0,1),
+              stressMatrix(1,0),stressMatrix(1,1);
     //std::cout<< "====================== Calculation of Stress : facid :"<<this->getID()<<"====================== \n"<<
     //sxx <<"   "<< sxy <<"\n"
     //sxy <<"   "<< syy<<"\n"<<std::endl;
@@ -957,12 +981,15 @@ void Face::setTempTargetFormMatrixIdentity(){
     this->stressEigenVector2[0] = forces2[0];
     this->stressEigenVector2[1] = forces2[1];
     this->stressEigenVector2[2] = forces2[2];
-    forces1<< 0.,0.,normalforce/vertexNum;
-    forces1 = (transformationMatrix.transpose())*forces1;
-    this->normalForce[0] = forces1[0];
-    this->normalForce[1] = forces1[1];
-    this->normalForce[2] = forces1[2];
     //returning//
+// Before calculation of Growth : Calculate the stress-strain of this cell
+/* --------------------------------------------------------------------------------------
+// CHANGE : This has been edited to calculate the stress matrix from Strain
+// Stess = alpha*Area*Strain
+   as, Stiffness = alpha*Area
+   --------------------------------------------------------------------------------------
+*/
+
     return;
  }
  // *************************************************************** //
@@ -1007,6 +1034,105 @@ void Face::setTempTargetFormMatrixIdentity(){
 
   return;
  }
+ // *************************************************************** //
+void Face::feedbackStrainGrow(){
+  if(this->getID()== 1){
+      return;
+    }
+// Before calculation of Growth : Calculate the stress-strain of this cell
+/* --------------------------------------------------------------------------------------
+// CHANGE : This has been edited to calculate the stress matrix from Strain
+// Stess = alpha*Area*Strain
+   as, Stiffness = alpha*Area
+   --------------------------------------------------------------------------------------
+*/
+
+this->calculateStrain();
+this->calculateStress();
+Cell * cell = this->getCell();
+double eta = cell->getEta();
+double cellalpha;
+if (this->alpha == 0){//means not update directly to face
+          cellalpha = cell->getAlpha();
+      }
+      else{
+          cellalpha = this->alpha;
+      }
+Eigen::Matrix2d stressMatrix = cellalpha*(this->getAreaOfFace())*(this->strain);
+//getting traceless deviatoric matrix
+Eigen::Matrix2d deviatoric = (stressMatrix) - 0.5*(stressMatrix.trace())*Eigen::Matrix2d::Identity();
+//current Form Matrix
+Eigen::Matrix2d M0;
+M0 << this->targetFormMatrix[0][0],this->targetFormMatrix[0][1],
+      this->targetFormMatrix[1][0],this->targetFormMatrix[1][1];
+//get the feedback matrix
+Eigen::Matrix2d feedback = deviatoric*M0 + M0*deviatoric;
+//printing Feed back matrix
+/*
+std::cout<<"-------------------------face id "<<this->getID()<< "---------------------------"<<
+"\n identity*trace"<<
+"\n"<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(0,0)<<"  "<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(0,1)<<
+"\n"<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(1,0)<<"  "<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(1,1)<<
+"\n =========================================="<<
+"\n Stress"<<
+"\n"<<this->stress(0,0)<<"  "<<this->stress(0,1)<<
+"\n"<<this->stress(1,0)<<"  "<<this->stress(1,1)<<
+"\n =========================================="<<
+"\n Strain"<<
+"\n"<<this->strain(0,0)<<"  "<<this->strain(0,1)<<
+"\n"<<this->strain(1,0)<<"  "<<this->strain(1,1)<<
+"\n =========================================="<<
+"\n TargetFormMatrix"<<
+"\n"<<M0(0,0)<<"  "<<M0(0,1)<<
+"\n"<<M0(1,0)<<"  "<<M0(1,1)<<
+"\n =========================================="<<
+"\n Deviatoric"<<
+"\n"<<deviatoric(0,0)<<"  "<<deviatoric(0,1)<<
+"\n"<<deviatoric(1,0)<<"  "<<deviatoric(1,1)<<
+"\n =========================================="<<
+"\n feedback matrix "<<
+"\n"<<feedback(0,0)<<"  "<<feedback(0,1)<<
+"\n"<<feedback(1,0)<<"  "<<feedback(1,1)<<std::endl;
+*/
+//growth rate of faces : randomized number between (kappa-0.5 to kappa + 0.5)
+double growthfactor = this->getGrowthRandomNumber();
+lastGrowthRate = growthfactor; //saving growth rate for plotting
+//std::cout<<"Kappa : "<< kappa <<"/n Actual Growth Var  : "<<growthvar <<std::endl;
+Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
+// Growth Matrix
+Eigen::Matrix2d growthMatrix;
+// dM0/dt = kappa*STRAIN - n/2*feedback
+growthMatrix<< growthfactor*(this->strain(0,0)) - eta/2.*feedback(0,0),
+               growthfactor*(this->strain(0,1)) - eta/2.*feedback(0,1),
+               growthfactor*(this->strain(1,0)) - eta/2.*feedback(1,0),
+               growthfactor*(this->strain(1,1)) - eta/2.*feedback(1,1); 
+eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
+//to calculate the individual growth eigen direction
+  Eigen::Matrix2d eigen1;
+  Eigen::Matrix2d eigen2;
+  eigen1 = std::max(eigensolver.eigenvalues()[0]-cell->thresholdMatrix[0][0],0.0)*
+                      ((eigensolver.eigenvectors().col(0))*(eigensolver.eigenvectors().col(0)).transpose());
+  eigen2 = std::max(eigensolver.eigenvalues()[1]-cell->thresholdMatrix[1][1],0.0)*
+                      ((eigensolver.eigenvectors().col(1))*(eigensolver.eigenvectors().col(1)).transpose());
+// Now combining growth in both direction
+  growthMatrix = eigen1 + eigen2;
+//now setting the new targetFormMatrix with feedback matrix
+this->targetFormMatrix[0][0] += growthMatrix(0,0);
+this->targetFormMatrix[1][0] += growthMatrix(1,0);
+this->targetFormMatrix[0][1] += growthMatrix(0,1);
+this->targetFormMatrix[1][1] += growthMatrix(1,1);
+/*
+std::cout<<
+"\n =========================================="<<
+"\n Growth matrix "<<
+"\n"<<growthMatrix(0,0)<<"  "<<growthMatrix(0,1)<<
+"\n"<<growthMatrix(1,0)<<"  "<<growthMatrix(1,1)<<
+"\n =============================================================================================="<<
+std::endl;
+*/
+//now setting tracesq of Target Form Matrix
+this->setTraceSquaredTargetFormMatrix();
+}
  // *************************************************************** //
  void Face::grow(){
   if (this->getID() == 1){
@@ -1161,104 +1287,7 @@ std::cout<<
 this->setTraceSquaredTargetFormMatrix();
 }
 
-// *************************************************************** //
-void Face::feedbackStrainGrow(){
-  if(this->getID()== 1){
-      return;
-    }
-// Before calculation of Growth : Calculate the stress-strain of this cell
-/* --------------------------------------------------------------------------------------
-// CHANGE : This has been edited to calculate the stress matrix from Strain
-// Stess = alpha*Area*Strain
-   as, Stiffness = alpha*Area
-   --------------------------------------------------------------------------------------
-*/
-  //this->calculateStress();
-  this->calculateStrain();
-Cell * cell = this->getCell();
-double eta = cell->getEta();
-double cellalpha;
-if (this->alpha == 0){//means not update directly to face
-          cellalpha = cell->getAlpha();
-      }
-      else{
-          cellalpha = this->alpha;
-      }
-Eigen::Matrix2d stressMatrix = cellalpha*(this->getAreaOfFace())*(this->strain);
-//getting traceless deviatoric matrix
-Eigen::Matrix2d deviatoric = (stressMatrix) - 0.5*(stressMatrix.trace())*Eigen::Matrix2d::Identity();
-//current Form Matrix
-Eigen::Matrix2d M0;
-M0 << this->targetFormMatrix[0][0],this->targetFormMatrix[0][1],
-      this->targetFormMatrix[1][0],this->targetFormMatrix[1][1];
-//get the feedback matrix
-Eigen::Matrix2d feedback = deviatoric*M0 + M0*deviatoric;
-//printing Feed back matrix
-/*
-std::cout<<"-------------------------face id "<<this->getID()<< "---------------------------"<<
-"\n identity*trace"<<
-"\n"<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(0,0)<<"  "<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(0,1)<<
-"\n"<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(1,0)<<"  "<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(1,1)<<
-"\n =========================================="<<
-"\n Stress"<<
-"\n"<<this->stress(0,0)<<"  "<<this->stress(0,1)<<
-"\n"<<this->stress(1,0)<<"  "<<this->stress(1,1)<<
-"\n =========================================="<<
-"\n Strain"<<
-"\n"<<this->strain(0,0)<<"  "<<this->strain(0,1)<<
-"\n"<<this->strain(1,0)<<"  "<<this->strain(1,1)<<
-"\n =========================================="<<
-"\n TargetFormMatrix"<<
-"\n"<<M0(0,0)<<"  "<<M0(0,1)<<
-"\n"<<M0(1,0)<<"  "<<M0(1,1)<<
-"\n =========================================="<<
-"\n Deviatoric"<<
-"\n"<<deviatoric(0,0)<<"  "<<deviatoric(0,1)<<
-"\n"<<deviatoric(1,0)<<"  "<<deviatoric(1,1)<<
-"\n =========================================="<<
-"\n feedback matrix "<<
-"\n"<<feedback(0,0)<<"  "<<feedback(0,1)<<
-"\n"<<feedback(1,0)<<"  "<<feedback(1,1)<<std::endl;
-*/
-//growth rate of faces : randomized number between (kappa-0.5 to kappa + 0.5)
-double growthfactor = this->getGrowthRandomNumber();
-lastGrowthRate = growthfactor; //saving growth rate for plotting
-//std::cout<<"Kappa : "<< kappa <<"/n Actual Growth Var  : "<<growthvar <<std::endl;
-Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
-// Growth Matrix
-Eigen::Matrix2d growthMatrix;
-// dM0/dt = kappa*STRAIN - n/2*feedback
-growthMatrix<< growthfactor*(this->strain(0,0)) - eta/2.*feedback(0,0),
-               growthfactor*(this->strain(0,1)) - eta/2.*feedback(0,1),
-               growthfactor*(this->strain(1,0)) - eta/2.*feedback(1,0),
-               growthfactor*(this->strain(1,1)) - eta/2.*feedback(1,1); 
-eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
-//to calculate the individual growth eigen direction
-  Eigen::Matrix2d eigen1;
-  Eigen::Matrix2d eigen2;
-  eigen1 = std::max(eigensolver.eigenvalues()[0]-cell->thresholdMatrix[0][0],0.0)*
-                      ((eigensolver.eigenvectors().col(0))*(eigensolver.eigenvectors().col(0)).transpose());
-  eigen2 = std::max(eigensolver.eigenvalues()[1]-cell->thresholdMatrix[1][1],0.0)*
-                      ((eigensolver.eigenvectors().col(1))*(eigensolver.eigenvectors().col(1)).transpose());
-// Now combining growth in both direction
-  growthMatrix = eigen1 + eigen2;
-//now setting the new targetFormMatrix with feedback matrix
-this->targetFormMatrix[0][0] += growthMatrix(0,0);
-this->targetFormMatrix[1][0] += growthMatrix(1,0);
-this->targetFormMatrix[0][1] += growthMatrix(0,1);
-this->targetFormMatrix[1][1] += growthMatrix(1,1);
-/*
-std::cout<<
-"\n =========================================="<<
-"\n Growth matrix "<<
-"\n"<<growthMatrix(0,0)<<"  "<<growthMatrix(0,1)<<
-"\n"<<growthMatrix(1,0)<<"  "<<growthMatrix(1,1)<<
-"\n =============================================================================================="<<
-std::endl;
-*/
-//now setting tracesq of Target Form Matrix
-this->setTraceSquaredTargetFormMatrix();
-}
+
 // *************************************************************** //
  
  void Face::inflatedGrow(){
