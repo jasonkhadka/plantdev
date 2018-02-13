@@ -490,6 +490,7 @@ class Face
     * Function to set divisionFactor
     */
    void setDivisionFactor(double);
+   double getDivisionThreshold();
    /**
     * set the threshold for division as compared to Current Area of Face
    */
@@ -823,6 +824,9 @@ inline void Face::setDivisionFactor(double newfactor){
 }
 inline void Face::setDivisionThreshold(double newthreshold){
     this->divisionThreshold = newthreshold;
+}
+inline double Face::getDivisionThreshold(){
+    return this->divisionThreshold;
 }
 inline double Face::getFirstTerm(){
     return firstTerm;
