@@ -7310,6 +7310,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_getDivisionThreshold(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getDivisionThreshold",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getDivisionThreshold" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getDivisionThreshold();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_setDivisionThreshold__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -17593,6 +17615,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_divisionFactor_set", _wrap_Face_divisionFactor_set, METH_VARARGS, NULL},
 	 { (char *)"Face_divisionFactor_get", _wrap_Face_divisionFactor_get, METH_VARARGS, NULL},
 	 { (char *)"Face_setDivisionFactor", _wrap_Face_setDivisionFactor, METH_VARARGS, NULL},
+	 { (char *)"Face_getDivisionThreshold", _wrap_Face_getDivisionThreshold, METH_VARARGS, NULL},
 	 { (char *)"Face_setDivisionThreshold", _wrap_Face_setDivisionThreshold, METH_VARARGS, NULL},
 	 { (char *)"Face_divideRandom", _wrap_Face_divideRandom, METH_VARARGS, NULL},
 	 { (char *)"Face_setDivideFormMatrix", _wrap_Face_setDivideFormMatrix, METH_VARARGS, NULL},

@@ -367,7 +367,7 @@ void Face::setProjectedCoordinate(){
     //this->setMu();
     // ***************************************************************************** //
     //Setting Trace of Target Form Matrix Squared
-    this->setTraceSquaredTargetFormMatrix();
+    //this->setTraceSquaredTargetFormMatrix();
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
 bool Face::isConvex(){
@@ -1460,6 +1460,8 @@ lastGrowthRate = growthfactor; //saving growth rate for plotting
   this->targetFormMatrix[0][1] = this->currentFormMatrix[0][1] - traceRatio*(this->oldMuMatrix[0][1]);
   this->targetFormMatrix[1][0] = this->currentFormMatrix[1][0] - traceRatio*(this->oldMuMatrix[1][0]);
   this->targetFormMatrix[1][1] = this->currentFormMatrix[1][1] - traceRatio*(this->oldMuMatrix[1][1]);
+  // updating the trace squared 
+  this->setTraceSquaredTargetFormMatrix();
 
   //updating Form Matrix of neighbouring faces
   {
@@ -1474,7 +1476,8 @@ lastGrowthRate = growthfactor; //saving growth rate for plotting
             newright->targetFormMatrix[0][1] = newright->currentFormMatrix[0][1] - traceRatio*(newright->oldMuMatrix[0][1]);
             newright->targetFormMatrix[1][0] = newright->currentFormMatrix[1][0] - traceRatio*(newright->oldMuMatrix[1][0]);
             newright->targetFormMatrix[1][1] = newright->currentFormMatrix[1][1] - traceRatio*(newright->oldMuMatrix[1][1]);
-
+            // updating trace squared
+            newright->setTraceSquaredTargetFormMatrix();
       }
     }
     // Now setting final parameters for this total tissue

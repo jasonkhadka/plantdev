@@ -597,6 +597,9 @@ class Face(_object):
     def setDivisionFactor(self, arg2):
         return _quadedge.Face_setDivisionFactor(self, arg2)
 
+    def getDivisionThreshold(self):
+        return _quadedge.Face_getDivisionThreshold(self)
+
     def setDivisionThreshold(self, *args):
         return _quadedge.Face_setDivisionThreshold(self, *args)
 

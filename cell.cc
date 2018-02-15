@@ -339,7 +339,7 @@ unsigned long int random_seed()
           double secondCoordinate[3] = {second->getXcoordinate(),
                                         second->getYcoordinate(),
                                         second->getZcoordinate()};
-          double thirdCoordinate[3] = {third->getXcoordinate(),
+          double thirdCoordinate[3] =  {third->getXcoordinate(),
                                         third->getYcoordinate(),
                                         third->getZcoordinate()};
           //now calculating the Center of triangle : Weighted Centroid
@@ -758,6 +758,7 @@ void Cell::setParameters(){
     CellFaceIterator faces(this);
     while((face = faces.next())!= 0){
           face->setDivisionFactor(newfactor);
+          face->setDivisionThreshold();
     }
   }
 }
