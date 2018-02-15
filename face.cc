@@ -1133,6 +1133,7 @@ std::endl;
 //now setting tracesq of Target Form Matrix
 this->setTraceSquaredTargetFormMatrix();
 }
+
  // *************************************************************** //
  void Face::grow(){
   if (this->getID() == 1){
@@ -1287,6 +1288,95 @@ std::cout<<
 this->setTraceSquaredTargetFormMatrix();
 }
 
+// *************************************************************** //
+
+void Face::feedbackConstantGrow(){
+  if(this->getID()== 1){
+      return;
+    }
+// Before calculation of Growth : Calculate the stress-strain of this cell
+  this->calculateStrain();
+  this->calculateStress();
+Cell * cell = this->getCell();
+double eta = cell->getEta();
+//getting traceless deviatoric matrix
+Eigen::Matrix2d deviatoric = (this->stress) - 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity();
+// Constant Growth Matrix
+Eigen::Matrix2d MG;
+MG << this->constantGrowthMatrix[0][0],this->constantGrowthMatrix[0][1],
+      this->constantGrowthMatrix[1][0],this->constantGrowthMatrix[1][1];
+//get the feedback matrix
+Eigen::Matrix2d feedback = deviatoric*MG + MG*deviatoric;
+//printing Feed back matrix
+/*
+std::cout<<"-------------------------face id "<<this->getID()<< "---------------------------"<<
+"\n identity*trace"<<
+"\n"<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(0,0)<<"  "<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(0,1)<<
+"\n"<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(1,0)<<"  "<< 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity()(1,1)<<
+"\n =========================================="<<
+"\n Stress"<<
+"\n"<<this->stress(0,0)<<"  "<<this->stress(0,1)<<
+"\n"<<this->stress(1,0)<<"  "<<this->stress(1,1)<<
+"\n =========================================="<<
+"\n TargetFormMatrix"<<
+"\n"<<M0(0,0)<<"  "<<M0(0,1)<<
+"\n"<<M0(1,0)<<"  "<<M0(1,1)<<
+"\n =========================================="<<
+"\n Deviatoric"<<
+"\n"<<deviatoric(0,0)<<"  "<<deviatoric(0,1)<<
+"\n"<<deviatoric(1,0)<<"  "<<deviatoric(1,1)<<
+"\n =========================================="<<
+"\n feedback matrix "<<
+"\n"<<feedback(0,0)<<"  "<<feedback(0,1)<<
+"\n"<<feedback(1,0)<<"  "<<feedback(1,1)<<std::endl;
+*/
+//growth rate of faces : randomized number between (kappa-0.5 to kappa + 0.5)
+double growthfactor = this->getGrowthRandomNumber();
+this->lastGrowthRate = growthfactor; //saving growth rate for plotting
+/*
+std::cout<<"Kappa :: "<< kappa <<"\n Actual Growth Var  : "<<growthvar <<std::endl;
+std::cout<<"Feedback parameter : Eta :: " << eta <<std::endl;
+*/
+Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
+// Growth Matrix
+Eigen::Matrix2d growthMatrix;
+// dM0/dt = kappa*M0 - n/2*feedback
+growthMatrix<< growthfactor*(MG(0,0)) - eta/2.*feedback(0,0),
+               growthfactor*(MG(0,1)) - eta/2.*feedback(0,1),
+               growthfactor*(MG(1,0)) - eta/2.*feedback(1,0),
+               growthfactor*(MG(1,1)) - eta/2.*feedback(1,1); 
+eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
+//to calculate the individual growth eigen direction
+  Eigen::Matrix2d eigen1;
+  Eigen::Matrix2d eigen2;
+  eigen1 = std::max(eigensolver.eigenvalues()[0]-cell->thresholdMatrix[0][0],0.0)*
+                      ((eigensolver.eigenvectors().col(0))*(eigensolver.eigenvectors().col(0)).transpose());
+  eigen2 = std::max(eigensolver.eigenvalues()[1]-cell->thresholdMatrix[1][1],0.0)*
+                      ((eigensolver.eigenvectors().col(1))*(eigensolver.eigenvectors().col(1)).transpose());
+// Now combining growth in both direction
+  growthMatrix = eigen1 + eigen2;
+//now setting the new targetFormMatrix with feedback matrix
+this->targetFormMatrix[0][0] += growthMatrix(0,0);
+this->targetFormMatrix[1][0] += growthMatrix(1,0);
+this->targetFormMatrix[0][1] += growthMatrix(0,1);
+this->targetFormMatrix[1][1] += growthMatrix(1,1);
+/*
+std::cout<<
+"\n =========================================="<<
+"\n Face ID : : "<< this->getID() <<
+"\n eta : : "<< eta <<
+"\n =========================================="<<
+"\n Growth matrix "<<
+"\n"<<growthMatrix(0,0)<<"  "<<growthMatrix(0,1)<<
+"\n"<<growthMatrix(1,0)<<"  "<<growthMatrix(1,1)<<
+"\n =========================================="<<
+"\n New Target Form matrix "<<
+"\n"<<this->targetFormMatrix[0][0]<<"  "<<this->targetFormMatrix[0][1]<<
+"\n"<< this->targetFormMatrix[1][0]<<"  "<< this->targetFormMatrix[1][1]<<std::endl;
+*/
+//now setting tracesq of Target Form Matrix
+this->setTraceSquaredTargetFormMatrix();
+}
 
 // *************************************************************** //
  
@@ -1501,7 +1591,12 @@ Face::Face(Cell *cell):gaussianWidth(0.125), randomNumberGeneratorType(gsl_rng_d
   this->divisionFactor = cell->getDivisionFactor();
   this->domePosition = true;//seting position to dome as True in default
   this->lastGrowthRate = 0.;
+  this->targetArea = 1.;
   this->growthVar = cell->getGrowthVar();
+  this->constantGrowthMatrix[0][0] = 0.;
+  this->constantGrowthMatrix[0][1] = 0.;
+  this->constantGrowthMatrix[1][0] = 0.;
+  this->constantGrowthMatrix[1][1] = 0.;
   //setting the random number generator
   // intialised in Initialising list :-> randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm
   randomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);

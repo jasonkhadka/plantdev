@@ -7176,6 +7176,27 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_feedbackConstantGrow(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_feedbackConstantGrow",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_feedbackConstantGrow" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->feedbackConstantGrow();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_divisionThreshold_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -7616,6 +7637,72 @@ SWIGINTERN PyObject *_wrap_Face_targetFormMatrix_get(PyObject *SWIGUNUSEDPARM(se
   }
   arg1 = reinterpret_cast< Face * >(argp1);
   result = (double (*)[2])(double (*)[2]) ((arg1)->targetFormMatrix);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_a_2__double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_constantGrowthMatrix_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  double (*arg2)[2] ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_constantGrowthMatrix_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_constantGrowthMatrix_set" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_a_2__double, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Face_constantGrowthMatrix_set" "', argument " "2"" of type '" "double [2][2]""'"); 
+  } 
+  arg2 = reinterpret_cast< double (*)[2] >(argp2);
+  {
+    if (arg2) {
+      size_t ii = 0;
+      for (; ii < (size_t)2; ++ii) {
+        if (arg2[ii]) {
+          size_t jj = 0;
+          for (; jj < (size_t)2; ++jj) arg1->constantGrowthMatrix[ii][jj] = arg2[ii][jj];
+        } else {
+          SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in variable '""constantGrowthMatrix""' of type '""double [2][2]""'");
+        }
+      }
+    } else {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in variable '""constantGrowthMatrix""' of type '""double [2][2]""'");
+    }
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_constantGrowthMatrix_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double (*result)[2] = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_constantGrowthMatrix_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_constantGrowthMatrix_get" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double (*)[2])(double (*)[2]) ((arg1)->constantGrowthMatrix);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_a_2__double, 0 |  0 );
   return resultobj;
 fail:
@@ -17610,6 +17697,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_inflatedGrow", _wrap_Face_inflatedGrow, METH_VARARGS, NULL},
 	 { (char *)"Face_feedbackInflatedGrow", _wrap_Face_feedbackInflatedGrow, METH_VARARGS, NULL},
 	 { (char *)"Face_feedbackStrainGrow", _wrap_Face_feedbackStrainGrow, METH_VARARGS, NULL},
+	 { (char *)"Face_feedbackConstantGrow", _wrap_Face_feedbackConstantGrow, METH_VARARGS, NULL},
 	 { (char *)"Face_divisionThreshold_set", _wrap_Face_divisionThreshold_set, METH_VARARGS, NULL},
 	 { (char *)"Face_divisionThreshold_get", _wrap_Face_divisionThreshold_get, METH_VARARGS, NULL},
 	 { (char *)"Face_divisionFactor_set", _wrap_Face_divisionFactor_set, METH_VARARGS, NULL},
@@ -17625,6 +17713,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_isConvex", _wrap_Face_isConvex, METH_VARARGS, NULL},
 	 { (char *)"Face_targetFormMatrix_set", _wrap_Face_targetFormMatrix_set, METH_VARARGS, NULL},
 	 { (char *)"Face_targetFormMatrix_get", _wrap_Face_targetFormMatrix_get, METH_VARARGS, NULL},
+	 { (char *)"Face_constantGrowthMatrix_set", _wrap_Face_constantGrowthMatrix_set, METH_VARARGS, NULL},
+	 { (char *)"Face_constantGrowthMatrix_get", _wrap_Face_constantGrowthMatrix_get, METH_VARARGS, NULL},
 	 { (char *)"Face_targetArea_set", _wrap_Face_targetArea_set, METH_VARARGS, NULL},
 	 { (char *)"Face_targetArea_get", _wrap_Face_targetArea_get, METH_VARARGS, NULL},
 	 { (char *)"Face_currentFormMatrix_set", _wrap_Face_currentFormMatrix_set, METH_VARARGS, NULL},

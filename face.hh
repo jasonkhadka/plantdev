@@ -463,19 +463,27 @@ class Face
     */
    void inflatedGrow();
    /**
-   * target form matrix growth function with base grow proportional
+   * target form matrix growth function with base growth proportional
    * to the targetformmatrix
    * grows with the Feedback from the stress acting on the cell
    * (mimicing microtubles re-enforcing)
    */
    void feedbackInflatedGrow();
    /**
-   * target form matrix growth function with base grow proportional
+   * target form matrix growth function with base growth proportional
    * to the strain
    * grows with the Feedback from the stress acting on the cell
    * (mimicing microtubles re-enforcing)
    */
    void feedbackStrainGrow();
+   /**
+   * target form matrix growth function with base growth proportional
+   * to a constant matrix : Cell have intrinsic rate of adding material
+   * grows with the Feedback from the stress acting on the cell
+   * (mimicing microtubles re-enforcing)
+   */
+   void feedbackConstantGrow();
+   
    /**
     * The threshold for division
    */
@@ -546,9 +554,14 @@ class Face
     */
     double targetFormMatrix[2][2] = {{0.,0.},{0.,0.}};
     /**
+     * constant Growth Matrix : Intrisic rate for cells to grow in case of
+     * growth being driven by a constant growth equation
+     */
+    double constantGrowthMatrix[2][2];
+    /**
      * target Area: the ideal area of this cell (area from target Form)
      */
-    double targetArea = 1.;
+    double targetArea;
     /**
      * current form Matrix : the matrix that represents the 
      *  current form of the cell
