@@ -784,6 +784,12 @@ void Face::setInitialTargetFormMatrixCurrent(){
     this->targetFormMatrix[0][1] = ((1.-facestrain)*this->getMu3());
     this->targetFormMatrix[1][1] = ((1.-facestrain)*this->getMu4());
     this->setTraceSquaredTargetFormMatrix();
+    // Setting the intrinsic constant growth rate for FeedbackConstantGrow
+    // currently, constantgrowthmatrix = 1% of TFM
+    this->constantGrowthMatrix[0][0] = 0.01*this->targetFormMatrix[0][0];
+    this->constantGrowthMatrix[0][1] = 0.01*this->targetFormMatrix[0][1];
+    this->constantGrowthMatrix[1][0] = 0.01*this->targetFormMatrix[1][0];
+    this->constantGrowthMatrix[1][1] = 0.01*this->targetFormMatrix[1][1];
     this->setTargetArea(this->getAreaOfFace());//area of current form matrix as target area
     this->lastGrowthRate = this->getGrowthRandomNumber();
 }
