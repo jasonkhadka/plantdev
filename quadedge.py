@@ -162,6 +162,16 @@ class Cell(_object):
 
     def setInitialParameters(self):
         return _quadedge.Cell_setInitialParameters(self)
+    __swig_setmethods__["averageTargetFormMatrix"] = _quadedge.Cell_averageTargetFormMatrix_set
+    __swig_getmethods__["averageTargetFormMatrix"] = _quadedge.Cell_averageTargetFormMatrix_get
+    if _newclass:
+        averageTargetFormMatrix = _swig_property(_quadedge.Cell_averageTargetFormMatrix_get, _quadedge.Cell_averageTargetFormMatrix_set)
+
+    def calculateAverageTFM(self):
+        return _quadedge.Cell_calculateAverageTFM(self)
+
+    def setAverageTFM(self):
+        return _quadedge.Cell_setAverageTFM(self)
 
     def setParameters(self):
         return _quadedge.Cell_setParameters(self)

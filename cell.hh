@@ -215,11 +215,31 @@ class Cell
    */
   double getCartesianVolume();
   /**
+   * calculate the volume with projected coordinate
+   */
+  double getProjectedCoordinateVolume();
+  /**
    * Function to Initially set all the parameters to all the Faces & Vertices
    * the targetFormMatrix for faces is set to be current Form Matrix
    * to prepare for the further calculation of Energy and other quantities
    */
   void setInitialParameters();
+  
+  /**
+   * Avearge Target Form matrix for the faces of this cell
+   */
+  double averageTargetFormMatrix[2][2];
+
+  /**
+   * Function to calculate average Target Form Matrix for all the cells
+   * in this structure
+   */
+  void calculateAverageTFM();
+  /**
+   * Function to set average TFM of this structure on all cells
+   * to be used to set initial conidition
+   */
+  void setAverageTFM();
   /**
    * Function to set all the parameters to all the Faces & Vertices
    * to prepare for the further calculation of Energy and other quantities

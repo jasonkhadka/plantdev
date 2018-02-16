@@ -458,6 +458,84 @@ return localVolume*(sumArea/counter);
   */
  }
 
+double Cell::getProjectedCoordinateVolume(){
+
+  //Divergence theorem  ::
+  /*
+    * Important Change :: 
+              The Volume calculation is changed for removing Volume Pressure dependence on Area of Face
+               -> Thus, Volume = <A> * SUM_c (V_c/A_c)
+               volume is normalised by cell area and calcualted with respect to average area
+  */
+  CellFaceIterator faces(this);
+  Face * face;
+  Edge * edge;
+  Vertex * second;
+  Vertex * third;
+  double localVolume = 0.;
+  double productVector[3];
+  double triCen[3];
+  double vector1[3], vector2[3];
+  double sumArea = 0;
+  double counter = 0;
+  double triArea = 0;
+  double norm =0.;
+  double trivec1[3], trivec2[3], trivec3[3];
+  double trivecarea[3],sumtrivecarea;
+  double faceVolume;
+  while ((face= faces.next()) != 0){
+    if (face->getID()==1) continue;
+    //getting the centroid of face
+    FaceEdgeIterator edges(face);
+    double centroid[3] = {face->getXCentralised(),face->getYCentralised(),face->getZCentralised()};
+    //double centroid[3] = {face->getXCentralised(),face->getYCentralised(),face->getZCentralised()};
+    // iterating the faces
+    while ((edge = edges.next()) != 0){
+          second = edge->Org();
+          third = edge->Dest();
+          double secondCoordinate[3] = {second->getXcoordinate(),
+                                        second->getYcoordinate(),
+                                        second->getZcoordinate()};
+          double thirdCoordinate[3] =  {third->getXcoordinate(),
+                                        third->getYcoordinate(),
+                                        third->getZcoordinate()};
+          //now calculating the Center of triangle : Weighted Centroid
+          triCen[0] = 1./3.*(centroid[0]+secondCoordinate[0]+thirdCoordinate[0]);
+          triCen[1] = 1./3.*(centroid[1]+secondCoordinate[1]+thirdCoordinate[1]);
+          triCen[2] = 1./3.*(centroid[2]+secondCoordinate[2]+thirdCoordinate[2]);
+          
+          vector1[0] = secondCoordinate[0]-centroid[0];
+          vector1[1] = secondCoordinate[1]-centroid[1];
+          vector1[2] = secondCoordinate[2]-centroid[2];
+          //Vector 2
+          vector2[0] = thirdCoordinate[0]-centroid[0];
+          vector2[1] = thirdCoordinate[1]-centroid[1];
+          vector2[2] = thirdCoordinate[2]-centroid[2];
+          //cross product of the two vectors
+          productVector[0] = vector1[1]*vector2[2] - vector1[2]*vector2[1];
+          productVector[1] = vector1[2]*vector2[0] - vector1[0]*vector2[2];
+          productVector[2] = vector1[0]*vector2[1] - vector1[1]*vector2[0];
+          //maginitude of cross product :: 2*Area Of this Triangle
+          norm = sqrt(pow(productVector[0],2)+pow(productVector[1],2)+pow(productVector[2],2));
+          triArea= 1./2.*norm;
+          // Normal of Triangle
+          productVector[0] /= norm;
+          productVector[1] /= norm;
+          productVector[2] /= norm;
+          // Now calculating the height and then Volume of this tetrahedron by projecting the triCen to Normal
+          faceVolume =  1./3.*(triCen[0]*productVector[0]+
+                               triCen[1]*productVector[1]+
+                               triCen[2]*productVector[2]);
+           localVolume += faceVolume;
+           face->setFaceVolume(faceVolume);
+          // Summing the Areas of triangle and counting the number of triangles
+          sumArea += triArea;
+          counter += 1;
+        }
+  }
+return localVolume*(sumArea/counter);
+ }
+
  //******************************************************************************* //
  void Cell::setAverageFaceArea(){
   CellFaceIterator faces(this);
@@ -613,6 +691,71 @@ return localVolume*(sumArea/counter);
   }
  }
  //********************************************************************************* //
+ void Cell::calculateAverageTFM(){
+  Face * face;
+  double facecount = ((double) this->countFaces())-1;//number of faces in this structure (minus face 1)
+  double tfm[2][2] = {{0,0},{0,0}};
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+      if (face->getID() == 1 ) continue;
+          tfm[0][0] += face->targetFormMatrix[0][0];
+          tfm[0][1] += face->targetFormMatrix[0][1];
+          tfm[1][0] += face->targetFormMatrix[1][0];
+          tfm[1][1] += face->targetFormMatrix[1][1];
+    }
+  }
+  tfm[0][0] /= facecount;
+  tfm[0][1] /= facecount;
+  tfm[1][0] /= facecount;
+  tfm[1][1] /= facecount;
+  //setting average tfm
+  this->averageTargetFormMatrix[0][0] = tfm[0][0];
+  this->averageTargetFormMatrix[0][1] = tfm[0][1];
+  this->averageTargetFormMatrix[1][0] = tfm[1][0];
+  this->averageTargetFormMatrix[1][1] = tfm[1][1];
+ }
+  //********************************************************************************* //
+ void Cell::setAverageTFM(){
+  // Calculating the Average TFM for all the faces in this Structure
+  this->calculateAverageTFM();
+  // Now Setting Average TFM to all the faces
+  Face * face;
+    {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+      if (face->getID() == 1 ) continue;
+      // setting Average Target Form Matrix as  TFM for the faces
+      face->targetFormMatrix[0][0] = this->averageTargetFormMatrix[0][0];
+      face->targetFormMatrix[0][1] = this->averageTargetFormMatrix[0][1];
+      face->targetFormMatrix[1][0] = this->averageTargetFormMatrix[1][0];
+      face->targetFormMatrix[1][1] = this->averageTargetFormMatrix[1][1];
+      // setting respectively proportional constantMatrix for growth
+      face->constantGrowthMatrix[0][0] = 0.01*face->targetFormMatrix[0][0];
+      face->constantGrowthMatrix[0][1] = 0.01*face->targetFormMatrix[0][1];
+      face->constantGrowthMatrix[1][0] = 0.01*face->targetFormMatrix[1][0];
+      face->constantGrowthMatrix[1][1] = 0.01*face->targetFormMatrix[1][1];
+      }
+    }
+  // Now recalculating the energy terms
+   {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          if (face->getID() == 1) continue;
+          face->setMu();
+    }
+   }
+  //////////////////////////////////
+    {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          if (face->getID() == 1) continue;
+          face->setEnergyTerms();
+      }
+    }
+  /////////////////////////////////
+ }
+ //********************************************************************************* //
  void Cell::setInitialParameters(){
   
   Face * face;
@@ -687,6 +830,8 @@ return localVolume*(sumArea/counter);
   double fourthterm = this->getFourthTerm();
   this->setBendingThreshold(fourthterm + 0.05*fourthterm);
  }
+
+
  //********************************************************************************* //
 void Cell::setFaceGrowthVar(){
   Face * face;
