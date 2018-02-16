@@ -403,7 +403,11 @@ class Cell
    /**
     * Zeta : penalty for the bending of cells off the projection plane
     */
-   double zeta = 10.;
+   double zeta = 1.;
+   /**
+    * Sigma : line tension on the walls
+    */
+   double sigma;
    /**
     * Growth Variation in Face growth rate
     */
@@ -566,6 +570,10 @@ public:
     * Fourth term of energy for this cell
     */
    double getFourthTerm();
+   /**
+    * Get Sum of all edge length of this structure
+    */
+    double getSumEdgeLength();
 
   // **************************************************************** //
   // Public instance method //
@@ -634,6 +642,9 @@ public:
    */
   double getEta();
   void setEta(double);
+  // set and get sigma
+  double getSigma();
+  void setSigma(double);
   /**
    * Get a GAUSSIAN RANDOM NUMBER with width 
    *    Standard Deviation = GaussianWidth (set in Cell initializer) from the random number generator of this cell
@@ -719,6 +730,12 @@ public:
 };
 
 /* -- inline instance methods ---------------------------------------------- */
+inline double Cell::getSigma(){
+  return this->sigma;
+}
+inline void Cell::setSigma(double newsigma){
+  this->sigma = newsigma;
+}
 inline double Cell::getAverageFaceArea(){
   return this->averageFaceArea;
 }

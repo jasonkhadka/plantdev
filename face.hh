@@ -290,6 +290,9 @@ class Face
       * Total energy of The face 
       */
      double energy = 0;
+
+     // Sum of All the Edge Length
+     double sumEdgeLength;
        /**
        * Variable that notes if the Face is in Dome or in Cylinder
        */
@@ -321,6 +324,7 @@ class Face
      double lastGrowthRate;
      //Volume of this face
      double faceVolume;
+     
      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
       //    Random Number Generator : seeded with *some* seed 
      //      Right now it is just a number i chose for testing*
@@ -734,6 +738,7 @@ class Face
    */
   unsigned int countVertices();
   // ****************** ENERGY VALUES Setters/ Getters ************************************** //
+
      /**
       * get First term value of Energy
       */
@@ -754,6 +759,14 @@ class Face
       * Set the values of Energy terms :- First, Second, Third term value of Energy 
       */
      void setEnergyTerms();
+     /**
+      * double count Edge Lengths (perimeter) in this face
+      */
+     void setSumEdgeLength();
+     /**
+      * get sum of edge Length
+      */
+     double getSumEdgeLength();
 
 
   // **********************************************************************// 
@@ -762,6 +775,9 @@ class Face
   friend class CentralisedDerivative;
 };
 /* ----- inline instance methods --------------------------------*/
+inline double Face::getSumEdgeLength(){
+  return this->sumEdgeLength;
+}
 inline double Face::getFaceVolume(){
   return this->faceVolume;
 }

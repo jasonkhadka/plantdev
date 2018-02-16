@@ -160,6 +160,9 @@ class Cell(_object):
     def getCartesianVolume(self):
         return _quadedge.Cell_getCartesianVolume(self)
 
+    def getProjectedCoordinateVolume(self):
+        return _quadedge.Cell_getProjectedCoordinateVolume(self)
+
     def setInitialParameters(self):
         return _quadedge.Cell_setInitialParameters(self)
     __swig_setmethods__["averageTargetFormMatrix"] = _quadedge.Cell_averageTargetFormMatrix_set
@@ -262,6 +265,9 @@ class Cell(_object):
     def getFourthTerm(self):
         return _quadedge.Cell_getFourthTerm(self)
 
+    def getSumEdgeLength(self):
+        return _quadedge.Cell_getSumEdgeLength(self)
+
     def setLayer(self, arg2):
         return _quadedge.Cell_setLayer(self, arg2)
 
@@ -309,6 +315,12 @@ class Cell(_object):
 
     def setEta(self, arg2):
         return _quadedge.Cell_setEta(self, arg2)
+
+    def getSigma(self):
+        return _quadedge.Cell_getSigma(self)
+
+    def setSigma(self, arg2):
+        return _quadedge.Cell_setSigma(self, arg2)
 
     def getRandomNumber(self):
         return _quadedge.Cell_getRandomNumber(self)
@@ -787,6 +799,12 @@ class Face(_object):
 
     def setEnergyTerms(self):
         return _quadedge.Face_setEnergyTerms(self)
+
+    def setSumEdgeLength(self):
+        return _quadedge.Face_setSumEdgeLength(self)
+
+    def getSumEdgeLength(self):
+        return _quadedge.Face_getSumEdgeLength(self)
 Face_swigregister = _quadedge.Face_swigregister
 Face_swigregister(Face)
 

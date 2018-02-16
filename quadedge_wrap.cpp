@@ -4040,6 +4040,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_getProjectedCoordinateVolume(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getProjectedCoordinateVolume",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getProjectedCoordinateVolume" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getProjectedCoordinateVolume();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_setInitialParameters(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -4906,6 +4928,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_getSumEdgeLength(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getSumEdgeLength",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getSumEdgeLength" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getSumEdgeLength();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_setLayer(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -5315,6 +5359,58 @@ SWIGINTERN PyObject *_wrap_Cell_setEta(PyObject *SWIGUNUSEDPARM(self), PyObject 
   } 
   arg2 = static_cast< double >(val2);
   (arg1)->setEta(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getSigma(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getSigma",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getSigma" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getSigma();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_setSigma(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Cell_setSigma",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setSigma" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Cell_setSigma" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setSigma(arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -9206,6 +9302,49 @@ SWIGINTERN PyObject *_wrap_Face_setEnergyTerms(PyObject *SWIGUNUSEDPARM(self), P
   arg1 = reinterpret_cast< Face * >(argp1);
   (arg1)->setEnergyTerms();
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setSumEdgeLength(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_setSumEdgeLength",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setSumEdgeLength" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->setSumEdgeLength();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getSumEdgeLength(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getSumEdgeLength",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getSumEdgeLength" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getSumEdgeLength();
+  resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
   return NULL;
@@ -17674,6 +17813,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_getVolume", _wrap_Cell_getVolume, METH_VARARGS, NULL},
 	 { (char *)"Cell_getCartesianVolumeWOCentroid", _wrap_Cell_getCartesianVolumeWOCentroid, METH_VARARGS, NULL},
 	 { (char *)"Cell_getCartesianVolume", _wrap_Cell_getCartesianVolume, METH_VARARGS, NULL},
+	 { (char *)"Cell_getProjectedCoordinateVolume", _wrap_Cell_getProjectedCoordinateVolume, METH_VARARGS, NULL},
 	 { (char *)"Cell_setInitialParameters", _wrap_Cell_setInitialParameters, METH_VARARGS, NULL},
 	 { (char *)"Cell_averageTargetFormMatrix_set", _wrap_Cell_averageTargetFormMatrix_set, METH_VARARGS, NULL},
 	 { (char *)"Cell_averageTargetFormMatrix_get", _wrap_Cell_averageTargetFormMatrix_get, METH_VARARGS, NULL},
@@ -17710,6 +17850,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_getSecondTerm", _wrap_Cell_getSecondTerm, METH_VARARGS, NULL},
 	 { (char *)"Cell_getThirdTerm", _wrap_Cell_getThirdTerm, METH_VARARGS, NULL},
 	 { (char *)"Cell_getFourthTerm", _wrap_Cell_getFourthTerm, METH_VARARGS, NULL},
+	 { (char *)"Cell_getSumEdgeLength", _wrap_Cell_getSumEdgeLength, METH_VARARGS, NULL},
 	 { (char *)"Cell_setLayer", _wrap_Cell_setLayer, METH_VARARGS, NULL},
 	 { (char *)"Cell_getLayer", _wrap_Cell_getLayer, METH_VARARGS, NULL},
 	 { (char *)"Cell_setPressure", _wrap_Cell_setPressure, METH_VARARGS, NULL},
@@ -17726,6 +17867,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_setZeta", _wrap_Cell_setZeta, METH_VARARGS, NULL},
 	 { (char *)"Cell_getEta", _wrap_Cell_getEta, METH_VARARGS, NULL},
 	 { (char *)"Cell_setEta", _wrap_Cell_setEta, METH_VARARGS, NULL},
+	 { (char *)"Cell_getSigma", _wrap_Cell_getSigma, METH_VARARGS, NULL},
+	 { (char *)"Cell_setSigma", _wrap_Cell_setSigma, METH_VARARGS, NULL},
 	 { (char *)"Cell_getRandomNumber", _wrap_Cell_getRandomNumber, METH_VARARGS, NULL},
 	 { (char *)"Cell_getCellDivisionRandomNumber", _wrap_Cell_getCellDivisionRandomNumber, METH_VARARGS, NULL},
 	 { (char *)"Cell_getSeedRandomInteger", _wrap_Cell_getSeedRandomInteger, METH_VARARGS, NULL},
@@ -17883,6 +18026,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getThirdTerm", _wrap_Face_getThirdTerm, METH_VARARGS, NULL},
 	 { (char *)"Face_getEnergy", _wrap_Face_getEnergy, METH_VARARGS, NULL},
 	 { (char *)"Face_setEnergyTerms", _wrap_Face_setEnergyTerms, METH_VARARGS, NULL},
+	 { (char *)"Face_setSumEdgeLength", _wrap_Face_setSumEdgeLength, METH_VARARGS, NULL},
+	 { (char *)"Face_getSumEdgeLength", _wrap_Face_getSumEdgeLength, METH_VARARGS, NULL},
 	 { (char *)"Face_swigregister", Face_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_FaceEdgeIterator", _wrap_new_FaceEdgeIterator, METH_VARARGS, NULL},
 	 { (char *)"delete_FaceEdgeIterator", _wrap_delete_FaceEdgeIterator, METH_VARARGS, NULL},

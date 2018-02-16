@@ -130,7 +130,7 @@ unsigned long int random_seed()
       }
       totalenergy -= this->getGamma()*this->getCartesianVolume();
       totalenergy +=  this->getZeta()*fourthterm;//subtracting the fourth term : z_proj penalty
-
+      totalenergy += this->getSigma()*this->getSumEdgeLength();
       return totalenergy ;
  }
  //******************************************************************************* //
@@ -653,6 +653,17 @@ return localVolume*(sumArea/counter);
       }
     }
   return totalenergy;
+ }
+ //********************************************************************************* //
+ double Cell::getSumEdgeLength(){
+  CellFaceIterator faces(this);
+    Face * face;
+    double sumlength = 0.;
+    while((face = faces.next()) != 0){
+       sumlength += face->getSumEdgeLength();
+    }
+  sumlength /= 2.;//As each edge length is calculated for twice
+  return sumlength;
  }
  //********************************************************************************* //
  void Cell::setCylindrical(){
@@ -1312,6 +1323,7 @@ Cell::Cell():gaussianWidth(0.125), //initialising the Standard Deviaton of Gauss
   divisionCounter = 0;
   divisionFactor = 1.5;
   convexAngleThreshold = 180.;
+  this->sigma = 0.;
   //setting the random number generator
   // intialised in Initialising list :-> randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm
   randomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);

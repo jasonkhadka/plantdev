@@ -880,6 +880,32 @@ void Face::setTempTargetFormMatrixIdentity(){
   }
  }
  // *************************************************************** //
+ // Calculate and set the sum of Edge Length of this face
+ void Face::setSumEdgeLength(){
+    double sumlength = 0.;
+    Vertex *first, *second;
+    double x1,y1,z1,x2,y2,z2;
+    FaceEdgeIterator edges(this);
+    // Summing over all the edges
+    while ((edge=edges.next())!=0){
+          first = edge->Org();
+          second = edge->Dest();
+          // getting the coordinates of the vertices
+          // first vertex
+          x1 = first->getXcoordinate();
+          y1 = first->getYcoordinate();
+          z1 = first->getZcoordinate();
+          // second vertex
+          x2 = second->getXcoordinate();
+          y2 = second->getYcoordinate();
+          z2 = second->getZcoordinate();
+          // calculate and sum the length of edge
+          sumlength += pow(pow(x2-x1,2)+pow(y2-y1,2)+pow(z2-z1,2),2);
+        }
+    // setting the sum Edge Length 
+    this->sumEdgeLength = sumlength;
+ }
+ // *************************************************************** //
  void Face::calculateStress(){
     if (this->getID() == 1){
     this->stress << 0.,0.,
@@ -1590,6 +1616,7 @@ Face::Face(Cell *cell):gaussianWidth(0.125), randomNumberGeneratorType(gsl_rng_d
   this->id   = cell->makeFaceID();
   this->data = 0;
   this->edge = 0;
+  this->sumEdgeLength = 0;
   //***************added features*******************************************//
   this->vertices = new Vertex*[8];
   this->vertexCount = 0;
