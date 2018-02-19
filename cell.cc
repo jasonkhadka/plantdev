@@ -280,7 +280,7 @@ unsigned long int random_seed()
   * caculating the volume
   */
   double Cell::getCartesianVolume(){
-
+    return this->getNonConvexVolume();//volume computed using triangular faces
   //Divergence theorem  ::
   /*
     * Important Change :: 
@@ -313,6 +313,7 @@ unsigned long int random_seed()
   //return 1./3.*abs(tempVolume)*(this->averageFaceArea);
   return 1./3.*abs(tempVolume);
   */
+  /*
   //Summing over the triangles
   CellFaceIterator faces(this);
   Face * face;
@@ -401,7 +402,7 @@ unsigned long int random_seed()
           triCen[2] = 1./sumtrivecarea*(firstcen[2]*trivecarea[0]+
                                         secondcen[2]*trivecarea[1]+
                                         thirdcen[2]*trivecarea[2]);
-          */
+          
           // Get the vectors on the Triangle
           //Vector 1
           vector1[0] = secondCoordinate[0]-centroid[0];
@@ -434,8 +435,8 @@ unsigned long int random_seed()
         }
         //std::cout<<"Volume " << tempVolume<<std::endl;
   }
-  //returning the Total Volume : Sum over local volume*average area
-return localVolume*(sumArea/counter);
+*/
+//return localVolume*(sumArea/counter);
 //return localVolume;
     /*
   // Summing the distance to origin of all vertices
