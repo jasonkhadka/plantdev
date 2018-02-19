@@ -882,28 +882,34 @@ void Face::setTempTargetFormMatrixIdentity(){
  // *************************************************************** //
  // Calculate and set the sum of Edge Length of this face
  void Face::setSumEdgeLength(){
-    double sumlength = 0.;
-    Vertex *first, *second;
+    double tempsumlength = 0.;
+    Vertex *vertexA;
+    Vertex *vertexB;
+    Edge * newedge;
     double x1,y1,z1,x2,y2,z2;
-    FaceEdgeIterator edges(this);
+    {
+      FaceEdgeIterator edges(this);
     // Summing over all the edges
-    while ((edge=edges.next())!=0){
-          first = edge->Org();
-          second = edge->Dest();
+    while ((newedge = edges.next())!=0){
+          vertexA = newedge->Org();
+          vertexB = newedge->Dest();
           // getting the coordinates of the vertices
           // first vertex
-          x1 = first->getXcoordinate();
-          y1 = first->getYcoordinate();
-          z1 = first->getZcoordinate();
+          x1 = vertexA->getXcoordinate();
+          y1 = vertexA->getYcoordinate();
+          z1 = vertexA->getZcoordinate();
+          //std::cout << vertexA->getID()<<x1<<" "<<y1<<" "<<z1<<" "<<std::endl;
           // second vertex
-          x2 = second->getXcoordinate();
-          y2 = second->getYcoordinate();
-          z2 = second->getZcoordinate();
+          x2 = vertexB->getXcoordinate();
+          y2 = vertexB->getYcoordinate();
+          z2 = vertexB->getZcoordinate();
+          //std::cout << vertexB->getID()<<x2<<" "<<y2<<" "<<z2<<" "<<std::endl;
           // calculate and sum the length of edge
-          sumlength += pow(pow(x2-x1,2)+pow(y2-y1,2)+pow(z2-z1,2),2);
+          tempsumlength += pow(pow(x2-x1,2)+pow(y2-y1,2)+pow(z2-z1,2),0.5);
         }
+    }
     // setting the sum Edge Length 
-    this->sumEdgeLength = sumlength;
+    this->sumEdgeLength = tempsumlength;
  }
  // *************************************************************** //
  void Face::calculateStress(){

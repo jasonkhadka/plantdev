@@ -157,6 +157,9 @@ class Cell(_object):
     def getCartesianVolumeWOCentroid(self):
         return _quadedge.Cell_getCartesianVolumeWOCentroid(self)
 
+    def getNonConvexVolume(self):
+        return _quadedge.Cell_getNonConvexVolume(self)
+
     def getCartesianVolume(self):
         return _quadedge.Cell_getCartesianVolume(self)
 

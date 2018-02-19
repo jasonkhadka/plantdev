@@ -4018,6 +4018,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_getNonConvexVolume(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getNonConvexVolume",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getNonConvexVolume" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getNonConvexVolume();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_getCartesianVolume(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -17812,6 +17834,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_makeFaceID", _wrap_Cell_makeFaceID, METH_VARARGS, NULL},
 	 { (char *)"Cell_getVolume", _wrap_Cell_getVolume, METH_VARARGS, NULL},
 	 { (char *)"Cell_getCartesianVolumeWOCentroid", _wrap_Cell_getCartesianVolumeWOCentroid, METH_VARARGS, NULL},
+	 { (char *)"Cell_getNonConvexVolume", _wrap_Cell_getNonConvexVolume, METH_VARARGS, NULL},
 	 { (char *)"Cell_getCartesianVolume", _wrap_Cell_getCartesianVolume, METH_VARARGS, NULL},
 	 { (char *)"Cell_getProjectedCoordinateVolume", _wrap_Cell_getProjectedCoordinateVolume, METH_VARARGS, NULL},
 	 { (char *)"Cell_setInitialParameters", _wrap_Cell_setInitialParameters, METH_VARARGS, NULL},

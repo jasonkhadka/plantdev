@@ -24,6 +24,10 @@
 #include "face.hh"
 #include "vertex.hh"
 
+//for eigenvalue conputation
+#include "./eigen/Eigen/Dense"
+#include "./eigen/Eigen/Eigenvalues"
+
 //Macro to change 2d index to linear index [i.j] = i*numOfRow + j
 #define getIndex(i,j) (i*3 + j)
 // ***************************************************************** //
@@ -458,6 +462,42 @@ return localVolume*(sumArea/counter);
   */
  }
 
+ /**
+  * Volume calculation using the non-convex generalised method
+  * this assumes faces have arranged triangular faces, which is true 
+  * if faces are iterated as triangle with respect to centroid of face
+  */
+ double Cell::getNonConvexVolume(){
+  //Summing over the triangles
+  CellFaceIterator faces(this);
+  Face * face;
+  Edge * edge;
+  Vertex * second;
+  Vertex * third;
+  double determinantsum = 0.;
+  Eigen::Matrix3f trimat;
+  while ((face= faces.next()) != 0){
+    // iterating the faces
+    FaceEdgeIterator edges(face);
+    while ((edge = edges.next()) != 0){
+        // getting the 2 vertex to form triangle with the centroid
+        // as the edge iteration is always anti-clockwise
+        // the repeated edges are always oriented in opposite direction
+        // when they are counted twice
+        second = edge->Org();
+        third = edge->Dest();
+        //Forming the matrix to calcualted determinant
+        // 3x3 matrix is of form : {A,B,C}, with A,B,C as column vector for the vertex of this triangle
+        trimat<< second->getXcoordinate(), third->getXcoordinate(), face->getXCentralised(),
+                                          second->getYcoordinate(), third->getYcoordinate(), face->getYCentralised(),
+                                          second->getZcoordinate(), third->getZcoordinate(), face->getZCentralised();
+        determinantsum += trimat.determinant();// calculated the derterminant and summing it up
+      }
+    }
+  // after summing over all the triangular faces on the surface of this polyhedron returning the volume
+    return abs(determinantsum/6.);
+ }
+
 double Cell::getProjectedCoordinateVolume(){
 
   //Divergence theorem  ::
@@ -791,6 +831,14 @@ return localVolume*(sumArea/counter);
     CellFaceIterator faces(this);
     while((face = faces.next())!= 0){
           //if (face->getID() == 1) continue;
+          face->setSumEdgeLength();
+    }
+  }
+  /////////////////////////////////////////
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          //if (face->getID() == 1) continue;
           face->setMu();
     }
   }
@@ -876,6 +924,14 @@ void Cell::setParameters(){
     while ((vertex = vertices.next())!= 0){
       vertex->setparameters();
     } 
+  }
+  /////////////////////////////////////////
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          //if (face->getID() == 1) continue;
+          face->setSumEdgeLength();
+    }
   }
   //////////////////////////////////
   {

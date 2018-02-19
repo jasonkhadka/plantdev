@@ -211,6 +211,11 @@ class Cell
    */
   double getCartesianVolumeWOCentroid();
   /**
+   * calculating the volume of the structure 
+   * using the non-convex generalised method
+   */
+  double getNonConvexVolume();
+  /**
    * calculate the volume with cartesian (or actual) coordiantes
    */
   double getCartesianVolume();
