@@ -464,6 +464,10 @@ class Cell
     * Bending Threshold for cell for total Tissue
     */
    double bendingThreshold;
+   /**
+    * initial volume
+    */
+   double initialVolume;
    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
   //    Random Number Generator : seeded with *some* seed 
   //      Right now it is just a number i chose for testing*

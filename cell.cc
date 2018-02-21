@@ -132,7 +132,7 @@ unsigned long int random_seed()
           if (face->getID()==1) continue;
           totalenergy += face->getEnergy();
       }
-      totalenergy -= this->getGamma()*this->getCartesianVolume();
+      totalenergy -= (this->getGamma()/this->initialVolume)*this->getCartesianVolume();
       totalenergy +=  this->getZeta()*fourthterm;//subtracting the fourth term : z_proj penalty
       totalenergy += this->getSigma()*this->getSumEdgeLength();
       return totalenergy ;
@@ -490,8 +490,8 @@ unsigned long int random_seed()
         //Forming the matrix to calcualted determinant
         // 3x3 matrix is of form : {A,B,C}, with A,B,C as column vector for the vertex of this triangle
         trimat<< second->getXcoordinate(), third->getXcoordinate(), face->getXCentralised(),
-                                          second->getYcoordinate(), third->getYcoordinate(), face->getYCentralised(),
-                                          second->getZcoordinate(), third->getZcoordinate(), face->getZCentralised();
+                second->getYcoordinate(), third->getYcoordinate(), face->getYCentralised(),
+                second->getZcoordinate(), third->getZcoordinate(), face->getZCentralised();
         determinantsum += trimat.determinant();// calculated the derterminant and summing it up
       }
     }
@@ -889,6 +889,8 @@ return localVolume*(sumArea/counter);
   // Setting the bendingThreshold to initial bending energy value
   double fourthterm = this->getFourthTerm();
   this->setBendingThreshold(fourthterm + 0.05*fourthterm);
+  // Calculate and set the initial volume of this cell
+  this->initialVolume = this->getCartesianVolume();
  }
 
 
