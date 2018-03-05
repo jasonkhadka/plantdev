@@ -164,6 +164,17 @@ Vertex::~Vertex()
 {
   cell->removeVertex(this);
 }
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+void Vertex::setLBOperator(double tempLBO[]){
+    this->LBOperator[0] = tempLBO[0];
+    this->LBOperator[1] = tempLBO[1];
+    this->LBOperator[2] = tempLBO[2];
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
+double * Vertex::getLBOperator(){
+  double * pnt = this->LBOperator;
+  return pnt;
+}
 // ******************************************************* //
 void Vertex::setAk(){
   VertexEdgeIterator vertEdges(this);//iterator to iterate through the vertex for outgoign edge

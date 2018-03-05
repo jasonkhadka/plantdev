@@ -197,6 +197,21 @@ class Cell(_object):
     def getMeanStrainDeterminant(self):
         return _quadedge.Cell_getMeanStrainDeterminant(self)
 
+    def setMeanCurvature(self):
+        return _quadedge.Cell_setMeanCurvature(self)
+
+    def setInitialMeanCurvature(self):
+        return _quadedge.Cell_setInitialMeanCurvature(self)
+
+    def getTotalAreaMixed(self):
+        return _quadedge.Cell_getTotalAreaMixed(self)
+
+    def getInitialVolume(self):
+        return _quadedge.Cell_getInitialVolume(self)
+
+    def getInitialFourthTerm(self):
+        return _quadedge.Cell_getInitialFourthTerm(self)
+
     def setAverageFaceArea(self):
         return _quadedge.Cell_setAverageFaceArea(self)
 
@@ -211,6 +226,12 @@ class Cell(_object):
 
     def getInitialStrain(self):
         return _quadedge.Cell_getInitialStrain(self)
+
+    def getBendingEnergy(self):
+        return _quadedge.Cell_getBendingEnergy(self)
+
+    def calculateBendingEnergy(self):
+        return _quadedge.Cell_calculateBendingEnergy(self)
 
     def setBendingThreshold(self, arg2):
         return _quadedge.Cell_setBendingThreshold(self, arg2)
@@ -312,6 +333,12 @@ class Cell(_object):
 
     def setZeta(self, arg2):
         return _quadedge.Cell_setZeta(self, arg2)
+
+    def getOmega(self):
+        return _quadedge.Cell_getOmega(self)
+
+    def setOmega(self, arg2):
+        return _quadedge.Cell_setOmega(self, arg2)
 
     def getEta(self):
         return _quadedge.Cell_getEta(self)
@@ -469,6 +496,30 @@ class Face(_object):
 
     def removeEdge(self, edge):
         return _quadedge.Face_removeEdge(self, edge)
+
+    def setMeanCurvature(self, arg2):
+        return _quadedge.Face_setMeanCurvature(self, arg2)
+
+    def getMeanCurvature(self):
+        return _quadedge.Face_getMeanCurvature(self)
+
+    def setInitialMeanCurvature(self, arg2):
+        return _quadedge.Face_setInitialMeanCurvature(self, arg2)
+
+    def getInitialMeanCurvature(self):
+        return _quadedge.Face_getInitialMeanCurvature(self)
+
+    def setLBOperator(self, tempLBO):
+        return _quadedge.Face_setLBOperator(self, tempLBO)
+
+    def getLBOperator(self):
+        return _quadedge.Face_getLBOperator(self)
+
+    def getAreaMixed(self):
+        return _quadedge.Face_getAreaMixed(self)
+
+    def setAreaMixed(self, arg2):
+        return _quadedge.Face_setAreaMixed(self, arg2)
 
     def getFaceVolume(self):
         return _quadedge.Face_getFaceVolume(self)
@@ -745,6 +796,9 @@ class Face(_object):
 
     def setInitialTargetFormMatrixCurrent(self):
         return _quadedge.Face_setInitialTargetFormMatrixCurrent(self)
+
+    def setConstantGrowthMatrix(self):
+        return _quadedge.Face_setConstantGrowthMatrix(self)
 
     def setSkewedTargetFormMatrixCurrent(self):
         return _quadedge.Face_setSkewedTargetFormMatrixCurrent(self)
@@ -1216,6 +1270,30 @@ class Vertex(_object):
 
     def getMu4(self, faceid):
         return _quadedge.Vertex_getMu4(self, faceid)
+
+    def getAreaMixed(self):
+        return _quadedge.Vertex_getAreaMixed(self)
+
+    def setAreaMixed(self, arg2):
+        return _quadedge.Vertex_setAreaMixed(self, arg2)
+
+    def setMeanCurvature(self, arg2):
+        return _quadedge.Vertex_setMeanCurvature(self, arg2)
+
+    def getMeanCurvature(self):
+        return _quadedge.Vertex_getMeanCurvature(self)
+
+    def setInitialMeanCurvature(self, arg2):
+        return _quadedge.Vertex_setInitialMeanCurvature(self, arg2)
+
+    def getInitialMeanCurvature(self):
+        return _quadedge.Vertex_getInitialMeanCurvature(self)
+
+    def setLBOperator(self, tempLBO):
+        return _quadedge.Vertex_setLBOperator(self, tempLBO)
+
+    def getLBOperator(self):
+        return _quadedge.Vertex_getLBOperator(self)
 
     def setparameters(self):
         return _quadedge.Vertex_setparameters(self)

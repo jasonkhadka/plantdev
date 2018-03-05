@@ -232,6 +232,21 @@ class Vertex
     */
    std::map<unsigned int, double> Ak;
 
+    /**
+     * Area Mixed : For calculate of mean curvature at this vertex
+     */
+     double areaMixed;
+     /**
+      * Laplace Beltrami Operator
+      */
+     double LBOperator[3];
+     /**
+      * mean Curvature at the centroid of this face
+      */
+     double meanCurvature;
+     // Intial mean curvature for the centroid of this face
+     double initialMeanCurvature;
+
   /* -- public class methods ----------------------------------------------- */
   public:
   /*
@@ -690,7 +705,24 @@ class Vertex
      */
     double getMu4(unsigned int faceid);
     ///////////////////////////////////////////////////////////////////////
-
+    /*
+    * Function to Get and set areaMixed for centroid of this vertex
+    */
+    double getAreaMixed();
+    void setAreaMixed(double);
+    /*
+      * setting and getting mean curvature
+     */
+    void setMeanCurvature(double);
+    double getMeanCurvature();
+    // setting and getting initial mean curvature
+    void setInitialMeanCurvature(double);
+    double getInitialMeanCurvature();
+    /*
+      *setting and getting Laplace-Beltrami Operator
+    */
+    void setLBOperator(double tempLBO[]);
+    double * getLBOperator();
 
     // **************************************************************//
     // Single Function that sets all paramenters need for calculation//
@@ -786,6 +818,24 @@ class Vertex
 };
 
 /* -- inline instance methods ---------------------------------------------- */
+inline double Vertex::getMeanCurvature(){
+  return this->meanCurvature;
+}
+inline void Vertex::setMeanCurvature(double mean){
+  this->meanCurvature = mean;
+}
+inline void Vertex::setInitialMeanCurvature(double mean){
+  this->initialMeanCurvature = mean;
+}
+inline double Vertex::getInitialMeanCurvature(){
+  return initialMeanCurvature;
+}
+inline double Vertex::getAreaMixed(){
+  return this->areaMixed;
+}
+inline void Vertex::setAreaMixed(double newarea){
+  this->areaMixed = newarea;
+}
 inline double Vertex::getRcoordinate(){
   return this->rCoordinate;
 }

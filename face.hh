@@ -324,6 +324,20 @@ class Face
      double lastGrowthRate;
      //Volume of this face
      double faceVolume;
+     /**
+     * Area Mixed : For calculate of mean curvature at the centroid of this face
+     */
+     double areaMixed;
+      /**
+      * Laplace Beltrami Operator
+      */
+     double LBOperator[3];
+     /**
+      * mean Curvature at the centroid of this face
+      */
+     double meanCurvature;
+     // Intial mean curvature for the centroid of this face
+     double initialMeanCurvature;
      
      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
       //    Random Number Generator : seeded with *some* seed 
@@ -337,6 +351,24 @@ class Face
   /* ----------Public instance methods ---------*/
  /* -- public instance methods ----------------------------------------- */
     public:
+  /*
+    * setting and getting mean curvature
+  */
+  void setMeanCurvature(double);
+  double getMeanCurvature();
+// setting and getting initial mean curvature
+  void setInitialMeanCurvature(double);
+  double getInitialMeanCurvature();
+  /*
+    *setting and getting Laplace-Beltrami Operator
+  */
+  void setLBOperator(double tempLBO[]);
+  double * getLBOperator();
+  /*
+    * Function to Get and set areaMixed for centroid of this face
+    */
+  double getAreaMixed();
+  void setAreaMixed(double);
    //Function to get faceVoume
     double getFaceVolume();
     void setFaceVolume(double);
@@ -623,6 +655,7 @@ class Face
      double mu2 = 0.;
      double mu3 = 0.;
      double mu4 = 0.;
+
   /**
    * function to set the value of mu1, mu2, mu3, mu4
    */
@@ -665,6 +698,10 @@ class Face
    * set the target form matrix to be near to the current form
    */
   void setInitialTargetFormMatrixCurrent();
+  /**
+   * set constant growth matrix
+   */
+  void setConstantGrowthMatrix();
   /**
    * set the target form matrix to be bit narrower in cylindrical direction
    */
@@ -775,6 +812,24 @@ class Face
   friend class CentralisedDerivative;
 };
 /* ----- inline instance methods --------------------------------*/
+inline double Face::getMeanCurvature(){
+  return this->meanCurvature;
+}
+inline void Face::setMeanCurvature(double mean){
+  this->meanCurvature = mean;
+}
+inline void Face::setInitialMeanCurvature(double mean){
+  this->initialMeanCurvature = mean;
+}
+inline double Face::getInitialMeanCurvature(){
+  return initialMeanCurvature;
+}
+inline double Face::getAreaMixed(){
+  return this->areaMixed;
+}
+inline void Face::setAreaMixed(double newarea){
+  this->areaMixed = newarea;
+}
 inline double Face::getSumEdgeLength(){
   return this->sumEdgeLength;
 }

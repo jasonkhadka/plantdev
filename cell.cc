@@ -110,8 +110,7 @@ unsigned long int random_seed()
   */
  double Cell::getEnergyCartesianVolume(){
       //iterating the faces
-    double fourthterm = this->getFourthTerm();
-    
+      //double fourthterm = this->getFourthTerm();
       // First : check if the cell is convex or not
       if (!(this->isConvex())){ //if the cell is not convex then return HIGHVALUE
           //std::cout<<"Cell Is not Convex ! isConvex -> "<<this->isConvex()<<std::endl;
@@ -132,9 +131,12 @@ unsigned long int random_seed()
           if (face->getID()==1) continue;
           totalenergy += face->getEnergy();
       }
-      totalenergy -= (this->getGamma()/this->initialVolume)*this->getCartesianVolume();
-      totalenergy +=  this->getZeta()*fourthterm;//subtracting the fourth term : z_proj penalty
+      //totalenergy -= (this->getGamma()/this->initialVolume)*this->getCartesianVolume();
+      //totalenergy +=  (this->getZeta()/this->initialFourthTerm)*fourthterm;//subtracting the fourth term : z_proj penalty
+      totalenergy -= (this->getGamma())*this->getCartesianVolume();
+      //totalenergy +=  (this->getZeta())*fourthterm;//subtracting the fourth term : z_proj penalty
       totalenergy += this->getSigma()*this->getSumEdgeLength();
+      totalenergy += this->getBendingEnergy();//adding the Helfrich bending energy
       return totalenergy ;
  }
  //******************************************************************************* //
@@ -696,6 +698,320 @@ return localVolume*(sumArea/counter);
   return totalenergy;
  }
  //********************************************************************************* //
+ //   Calculating the Helfirch Energy
+ //   The mean curvature should be already calculated
+void Cell::calculateBendingEnergy(){
+    // E = 2(k_b)*sum[Ai_mix(H-H0)^2] 
+    // here, omega = k_b
+    CellFaceIterator faces(this);
+    Face * face;
+    Vertex * vertex;
+    double bending = 0.;
+    {
+      CellFaceIterator faces(this);
+      while((face = faces.next())!= 0){
+            if (face->getID() == 1) continue;
+            
+            bending += (face->getAreaMixed())*pow((face->getMeanCurvature() - face->getInitialMeanCurvature()),2);
+        }
+    }
+    // on all the vertices
+    {
+      CellVertexIterator vertices(this);
+      while ((vertex = vertices.next())!= 0){
+            bending += (vertex->getAreaMixed())*pow((vertex->getMeanCurvature() - vertex->getInitialMeanCurvature()),2);
+        }
+    }
+    // now final calculation with bending stifness
+    bending *= 2.*(this->omega);
+    //setting bending
+    this->bendingEnergy = bending;
+}
+//********************************************************************************* //
+// function to return norm of a vector
+double getVectorNorm(double A[]){
+    return sqrt(pow(A[0],2)+
+                pow(A[1],2)+
+                pow(A[2],2)
+                );
+}
+//********************************************************************************* //
+// function to return norm of a vector
+double getVectorDotProduct(double A[],double B[]){
+    return A[0]*B[0]+
+           A[1]*B[1]+
+           A[2]*B[2];
+}
+//********************************************************************************* //
+// function to return cot(angle)
+double getCot(double angle){
+  return tan(M_PI_2 - angle);//as cot(angle) = tan(pi/2 - angle)
+}
+//********************************************************************************* //
+//Function to check the triangle is obtuse or not
+// return : True if obtuse
+//          False if not obtuse
+bool checkObtuseTriangle(double A[],double B[], double C[]){ 
+    // getting the vector
+    double AC[3] = {C[0]- A[0],C[1]- A[1],C[2]- A[2]};
+    double AB[3] = {B[0]- A[0],B[1]- A[1],B[2]- A[2]};
+    double BC[3] = {C[0]- B[0],C[1]- B[1],C[2]- B[2]};
+    // dot products
+    double d1 = AC[0]*AB[0]+AC[1]*AB[1]+AC[2]*AB[2];
+    double d2 = AC[0]*BC[0]+AC[1]*BC[1]+AC[2]*BC[2];
+    double d3 = AB[0]*BC[0]+AB[1]*BC[1]+AB[2]*BC[2];
+    if (d1*d2*d3 < 0.) {//meaning one of the dot product is negative
+                      // or the angle between any two of the vectors should be more than 90 degrees
+      return true;//this triangle is obtuse
+    }
+    return false;// this triangle is not obtuse
+}
+//********************************************************************************* //
+//Function to check if angle between centroid (reference point) and other two vertex is obtuse or not 
+bool checkAngleObtuse(double A[],double B[], double C[]){ 
+    // getting the vector
+    double AC[3] = {C[0]- A[0],C[1]- A[1],C[2]- A[2]};
+    double AB[3] = {B[0]- A[0],B[1]- A[1],B[2]- A[2]};
+    //Angle at A
+    double angle = acos(getVectorDotProduct(AC,AB)/(getVectorNorm(AC)*getVectorNorm(AB)));
+    if (angle > (M_PI_2)) {//meaning angle is greater than 90 degrees or is Obtuse
+      return true;//this angle at reference point is obtuse
+    }
+    return false;// this angle at reference point is not obtuse
+}
+//********************************************************************************* //
+ // Function to calculate the area of a given triangle
+double getAreaOfTriangle(double A[],double B[], double C[]){ 
+    // getting the vector
+    double AC[3] = {C[0]- A[0],C[1]- A[1],C[2]- A[2]};
+    double AB[3] = {B[0]- A[0],B[1]- A[1],B[2]- A[2]};
+    double BC[3] = {C[0]- B[0],C[1]- B[1],C[2]- B[2]};
+    // Area = 1/2*(Norm(CrossProduct of Two vectors of triangle))
+    //calculating cross product of two vectors ABxAC
+    double productVector[3];
+      productVector[0] = AB[1]*AC[2] - AB[2]*AC[1];
+      productVector[1] = AB[2]*AC[0] - AB[0]*AC[2];
+      productVector[2] = AB[0]*AC[1] - AB[1]*AC[0];
+    //Calculating area and returning
+    return 0.5*(sqrt(pow(productVector[0],2)+
+                      pow(productVector[1],2)+
+                      pow(productVector[2],2)
+                    )
+                );
+}
+//********************************************************************************* //
+ // Function to calculate non-obtuse voronoi area for a given vertex
+ //   IMPORTANT :: VERTEX A (passed below) is the reference for calculating the voronoi component
+//     (reference) A ------- B
+//                  \       /
+//                   \     /
+//                    \   /
+//                     \ /
+//                      C
+//********************************************************************************* //
+double getAreaVoronoiOfTriangle(double A[],double B[], double C[]){ 
+    // getting the vector
+    double CA[3] = {A[0]- C[0],A[1]- C[1],A[2]- C[2]};
+    double CB[3] = {B[0]- C[0],B[1]- C[1],B[2]- C[2]};
+    double BA[3] = {A[0]- B[0],A[1]- B[1],A[2]- B[2]};
+    double BC[3] = {-1*CB[0],-1*CB[1],-1*CB[2]};
+    // Getting anlge on the either side of triangle (angle B, angle C)
+    double angleC = acos(getVectorDotProduct(CB,CA)/(getVectorNorm(CB)*getVectorNorm(CA)));
+    double angleB = acos(getVectorDotProduct(BA,BC)/(getVectorNorm(BA)*getVectorNorm(BC)));
+    // now calculating the voronoi area
+    return 1./8. * (pow(getVectorNorm(BA),2)*getCot(angleC)+
+                    pow(getVectorNorm(CA),2)*getCot(angleB)
+                   );
+}
+//********************************************************************************* //
+//Function to calculate area Mixed with three given vertices, centroid needs to be the reference vertex !!
+// check if the triangle is obtuse
+  double calculateAreaMixedComponent(double centroid[], double vertex1coordinate[],double vertex2coordinate[]) {
+          double areacomponent  = 0.;
+          if (checkObtuseTriangle(centroid, vertex1coordinate,vertex2coordinate)){
+                //True == obtuse triangle, so special calculation
+                // Check if the angle at centroid (reference point) is obtuse or not
+                if (checkAngleObtuse(centroid,vertex1coordinate,vertex2coordinate)){
+                      //True == angle at centroid for this triangle is Obtuse, hence areaMixed += area(T)/2
+                     areacomponent= 0.5*getAreaOfTriangle(centroid, vertex1coordinate,vertex2coordinate);
+                  }
+                else{
+                      //False == angle at centroid is not obtuse, and hence areaMixed += area(T)/4
+                      areacomponent= 0.25*getAreaOfTriangle(centroid, vertex1coordinate,vertex2coordinate);
+                }
+            }
+          else{
+                //False == this triangle is not obtuse triangle, so voronoi component for this vertex is calculated
+                areacomponent=  getAreaVoronoiOfTriangle(centroid, vertex1coordinate, vertex2coordinate);
+            }
+          return areacomponent;
+  }
+
+
+ 
+
+//********************************************************************************* //
+ // Function to calculate Laplace-Beltrami Operator for a given vertex
+ //   IMPORTANT :: VERTEX A (passed below) is the reference for calculating the voronoi component
+//     (reference) A ------- B
+//                  \       /
+//                   \     /
+//                    \   /
+//                     \ /
+//                      C
+//  LBOperator[3] would be the array that will be edited with the calculated LB values
+//********************************************************************************* //
+void getLaplaceBeltrami(double A[],double B[], double C[], double LBOperator[]){ 
+    // getting the vector
+    double CA[3] = {A[0]- C[0],A[1]- C[1],A[2]- C[2]};
+    double CB[3] = {B[0]- C[0],B[1]- C[1],B[2]- C[2]};
+    double BA[3] = {A[0]- B[0],A[1]- B[1],A[2]- B[2]};
+    double BC[3] = {-1*CB[0],-1*CB[1],-1*CB[2]};
+    // Getting anlge on the either side of triangle (angle B, angle C)
+    double angleC = acos(getVectorDotProduct(CB,CA)/(getVectorNorm(CB)*getVectorNorm(CA)));
+    double angleB = acos(getVectorDotProduct(BA,BC)/(getVectorNorm(BA)*getVectorNorm(BC)));
+    // Calculating half of cot(angles)
+    double cotC = getCot(angleC);
+    double cotB = getCot(angleB);
+    // calculating the Laplace-Beltrami Operator
+    LBOperator[0] = cotB*CA[0] + cotC*BA[0];
+    LBOperator[1] = cotB*CA[1] + cotC*BA[1];
+    LBOperator[2] = cotB*CA[2] + cotC*BA[2];  
+};
+//********************************************************************************* //
+void Cell::setMeanCurvature(){
+  Face * face;
+  Edge * edge1,*edge2;
+  Vertex * vertex1,*vertex2, *vertex3; 
+  double totalAreaMixed = 0.;
+  // First iterating through all the faces to set areaMixed for the centroid of faces
+  CellFaceIterator faces(this);
+  while((face = faces.next()) != 0){
+      if (face->getID() == 1) continue; // not calculating for the external face
+                                        // imagine this is constant
+      FaceEdgeIterator edges(face);
+      double areaMixed = 0.;
+      double centroid[3] = {face->getXCentralised(),
+                            face->getYCentralised(),
+                            face->getZCentralised()};
+      double LBOperator[3] = {0.,0.,0.};
+      while ((edge1 = edges.next())!= 0){
+          //getting vertices
+          /*          centroid
+                      /     \ 
+                     /       \
+                  v1 --------v2
+
+          */
+          vertex1 = edge1->Org();
+          vertex2 = edge1->Dest();
+          double vertex1coordinate[3] =  {vertex1->getXcoordinate(),
+                                          vertex1->getYcoordinate(),
+                                          vertex1->getZcoordinate()};
+          double vertex2coordinate[3] =  {vertex2->getXcoordinate(),
+                                          vertex2->getYcoordinate(),
+                                          vertex2->getZcoordinate()};
+          //caculate AreaMixedComponent
+          areaMixed += calculateAreaMixedComponent(centroid,vertex1coordinate,vertex2coordinate);
+          // calculating the Laplace Beltrami operator for this vector on this triangle
+          double tempLBOperator[3];
+          getLaplaceBeltrami(centroid, vertex1coordinate, vertex2coordinate,tempLBOperator);
+          // value is stored in LBO operator
+          LBOperator[0] += tempLBOperator[0];
+          LBOperator[1] += tempLBOperator[1];
+          LBOperator[2] += tempLBOperator[2];
+          }
+        totalAreaMixed += areaMixed;
+        // dividing the LB-Operator by 2*(AreaMixed of this vertex) as final step of its calculation
+        LBOperator[0] /= (2.*areaMixed);
+        LBOperator[1] /= (2.*areaMixed);
+        LBOperator[2] /= (2.*areaMixed);
+        //now setting the LBOperator value for this vertex (which is face for this case)
+        face->setLBOperator(LBOperator);
+        //Calcuating Mean curvature = 0.5*norm(LBO)
+        face->setMeanCurvature((0.5*getVectorNorm(LBOperator)));
+        //saving the areaMixed for the centroid of this face
+        face->setAreaMixed(areaMixed);
+      }
+  // with this all the faces are iterated over and the areaMixed for all the centroid of faces are summed on areaMixed
+  //  =============================================================================================================
+  // Now iterating over all the vertices on the Structure
+  CellVertexIterator vertices(this);
+  Vertex * referenceVertex;
+  Face * right, *left;
+  while((referenceVertex = vertices.next()) != 0){
+      // iterating around all the edges from this vertex
+      VertexEdgeIterator edges(referenceVertex);
+      double areaMixed = 0.;
+      //referenceVertex is the centroid of its vertex orbit, similar to centroid for face above
+      double centroid[3] = {referenceVertex->getXcoordinate(),
+                            referenceVertex->getYcoordinate(),
+                            referenceVertex->getZcoordinate()};
+      double LBOperator[3] = {0.,0.,0.};
+      while ((edge1 = edges.next())!= 0){
+          //getting vertices
+          /*           refVert
+                      /  |   \ 
+                left /   |e   \ right
+                    /    |     \
+                  v1 ----v2-----v3
+                  where: v1,v3 = face Centroid left and right, respectively
+                          e : iterated edge
+                          v2 : e->Dest()
+
+          */
+          right = edge1->Right();
+          left = edge1->Left();
+          vertex2 = edge1->Dest();
+          double vertex1coordinate[3] =   {left->getXCentralised(),
+                                           left->getYCentralised(),
+                                           left->getZCentralised()};
+          double vertex2coordinate[3] =  {vertex2->getXcoordinate(),
+                                          vertex2->getYcoordinate(),
+                                          vertex2->getZcoordinate()};
+          double vertex3coordinate[3] =  {right->getXCentralised(),
+                                          right->getYCentralised(),
+                                          right->getZCentralised()};
+
+          // first areaMixedComponent for refVert-v1-v2
+          if (left->getID() != 1){// Keeping a check to not calculate the outer face
+                areaMixed += calculateAreaMixedComponent(centroid,vertex1coordinate,vertex2coordinate);
+                // calculating the Laplace Beltrami operator for this vector on this triangle
+                double tempLBOperator[3];
+                getLaplaceBeltrami(centroid, vertex1coordinate, vertex2coordinate,tempLBOperator);
+                // value is stored in LBO operator
+                LBOperator[0] += tempLBOperator[0];
+                LBOperator[1] += tempLBOperator[1];
+                LBOperator[2] += tempLBOperator[2];
+              }
+          // second areaMixedComponent for refVert-v2-v3
+          if (right->getID() != 1){
+                areaMixed += calculateAreaMixedComponent(centroid,vertex2coordinate,vertex3coordinate);
+                // calculating the Laplace Beltrami operator for this vector on this triangle
+                double tempLBOperator[3];
+                getLaplaceBeltrami(centroid, vertex1coordinate, vertex2coordinate,tempLBOperator);
+                // value is stored in LBO operator
+                LBOperator[0] += tempLBOperator[0];
+                LBOperator[1] += tempLBOperator[1];
+                LBOperator[2] += tempLBOperator[2];
+              }
+          }  
+      totalAreaMixed += areaMixed;
+      // dividing the LB-Operator by 2*(AreaMixed of this vertex) as final step of its calculation
+      LBOperator[0] /= (2.*areaMixed);
+      LBOperator[1] /= (2.*areaMixed);
+      LBOperator[2] /= (2.*areaMixed);
+      //now setting the LBOperator value for this vertex (which is face for this case)
+      referenceVertex->setLBOperator(LBOperator);
+      //Calcuating Mean curvature = 0.5*norm(LBO)
+      referenceVertex->setMeanCurvature((0.5*getVectorNorm(LBOperator)));
+      //saving the areaMixed for the centroid of this face
+      referenceVertex->setAreaMixed(areaMixed);
+      }
+  this->totalAreaMixed = totalAreaMixed;
+}
+
+ //********************************************************************************* //
  double Cell::getSumEdgeLength(){
   CellFaceIterator faces(this);
     Face * face;
@@ -807,6 +1123,31 @@ return localVolume*(sumArea/counter);
     }
   /////////////////////////////////
  }
+  //********************************************************************************* //
+ void Cell::setInitialMeanCurvature(){
+    //first calculating the mean curvature
+    this->setMeanCurvature();
+    // now setting it as initial mean curvature on the structure
+    Face * face;
+    //Edge * edge;
+    Vertex * vertex;
+    // on all the faces
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          if (face->getID() == 1) continue;
+          face->setInitialMeanCurvature(face->getMeanCurvature());
+    }
+  }
+    // on all the vertices
+  {
+    CellVertexIterator vertices(this);
+    while ((vertex = vertices.next())!= 0){
+      vertex->setInitialMeanCurvature(vertex->getMeanCurvature());
+    }
+  }
+ }
+
  //********************************************************************************* //
  void Cell::setInitialParameters(){
   
@@ -828,6 +1169,8 @@ return localVolume*(sumArea/counter);
     }
   }
   /////////////////////////////////////////
+  this->initialFourthTerm = this->getFourthTerm();// setting the initial fourth term
+  /////////////////////////////////////////
   {
     CellFaceIterator faces(this);
     while((face = faces.next())!= 0){
@@ -835,6 +1178,8 @@ return localVolume*(sumArea/counter);
           face->setSumEdgeLength();
     }
   }
+  /////////////////////////////////////////
+  this->setInitialMeanCurvature();
   /////////////////////////////////////////
   {
     CellFaceIterator faces(this);
@@ -852,6 +1197,17 @@ return localVolume*(sumArea/counter);
     }
   }
   /////////////////////////////////////////
+  this->calculateAverageTFM(); //calculatign averag TFM for the face
+  /////////////////////////////////////////
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          //if (face->getID() == 1) continue;
+          face->setConstantGrowthMatrix();
+    }
+  }
+  /////////////////////////////////////////
+  
   {
     CellFaceIterator faces(this);
     while((face = faces.next())!= 0){
@@ -886,6 +1242,8 @@ return localVolume*(sumArea/counter);
   /////////////////////////////////////////
   //seting average face area
   this->setAverageFaceArea();
+  // calculating Average TFM for faces
+  this->calculateAverageTFM();
   // Setting the bendingThreshold to initial bending energy value
   double fourthterm = this->getFourthTerm();
   this->setBendingThreshold(fourthterm + 0.05*fourthterm);
@@ -936,6 +1294,8 @@ void Cell::setParameters(){
           face->setSumEdgeLength();
     }
   }
+  /////////////////////////////////////////
+  this->setMeanCurvature();
   //////////////////////////////////
   {
     CellFaceIterator faces(this);
@@ -1389,7 +1749,7 @@ Cell::Cell():gaussianWidth(0.125), //initialising the Standard Deviaton of Gauss
   gsl_rng_set(randomNumberGenerator,482023);//some number as seed-> this can be set with another random number/time or /dev/random /urandom
   // RandomNumberGenrator for Seed in growth for faces
   seedRandomNumberGenerator = gsl_rng_alloc(seedNumberGeneratorType);
-  gsl_rng_set(seedRandomNumberGenerator,54341);//some number as seed-> this can be set with another random number/time or /dev/random /urandom
+  gsl_rng_set(seedRandomNumberGenerator,76500);//some number as seed-> this can be set with another random number/time or /dev/random /urandom
 
   // RANDOM NUMBER GENERATOR FOR CELL DIVISION
   cellDivisionRandomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);

@@ -270,6 +270,15 @@ class Cell
    * Function to get mean strain determinant
    */
   double getMeanStrainDeterminant();
+  /**
+   * Function to set areaMixed and Laplace-Beltrami operator for all vertices and the centroid of all faces
+   * Also calculates the mean curvature for all centroid of faces and vertices
+   */
+  void setMeanCurvature();
+  /**
+   * Functioin to set the intiail mean curvature on all the vertex and face of this structure
+   */
+  void setInitialMeanCurvature();
   
   /* -- protected instance methods ----------------------------------------- */
 
@@ -422,6 +431,10 @@ class Cell
     */
    double eta = 0.0;
    /**
+    * Omega : the bending stiffness for Helfrich bending energy
+    */
+   double omega;
+   /**
     * initialStrain : The strain to assign as Initial Condition
     *                 In fraction of intial shape 
     */
@@ -430,6 +443,10 @@ class Cell
       Average Area of face in this Cell
     */
    double averageFaceArea;
+   /*
+    * total Area Mixed calcualted
+    */
+   double totalAreaMixed;
    /**
     * Square root of Epsilon to use for finite diference stepsize
     * as recommended step size for finite difference is = sqrt(eps)*x for x != 0
@@ -468,6 +485,14 @@ class Cell
     * initial volume
     */
    double initialVolume;
+   /**
+    * initial fourth term
+    */
+   double initialFourthTerm;
+   /**
+    * Helfrich bending energy
+    */
+   double bendingEnergy;
    // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
   //    Random Number Generator : seeded with *some* seed 
   //      Right now it is just a number i chose for testing*
@@ -483,9 +508,17 @@ class Cell
    const gsl_rng_type * seedNumberGeneratorType;
 
 public:
+  /*
+    * get total area mixed
+    */
+  double getTotalAreaMixed();
   /**
    *                    Public members
    */
+  // function to get initialVolume
+  double getInitialVolume();
+  // function to get initial Fourth term
+  double getInitialFourthTerm();
   //Functions to calculate average area of face in this cell and get  it
   void setAverageFaceArea();
   double getAverageFaceArea();
@@ -498,6 +531,14 @@ public:
    */
   void setInitialStrain(double);
   double getInitialStrain();
+  /*
+    *get Bending Energy
+  */
+  double getBendingEnergy();
+  /*
+    * calculate bending energy
+  */
+  void calculateBendingEnergy();
   /**
    * Function to set Bending threshold to find cell is convex or not
    */
@@ -646,6 +687,11 @@ public:
    * set Zeta()
    */
   void setZeta(double);
+  /**
+   * function to set and get Omega
+   */
+  double getOmega();
+  void setOmega(double);
   /*
     *set & get Eta()
    */
@@ -739,6 +785,18 @@ public:
 };
 
 /* -- inline instance methods ---------------------------------------------- */
+inline double Cell::getBendingEnergy(){
+  return bendingEnergy;
+}
+inline double Cell::getTotalAreaMixed(){
+  return this->totalAreaMixed;
+}
+inline double Cell::getInitialVolume(){
+  return initialVolume;
+}
+inline double Cell::getInitialFourthTerm(){
+  return initialFourthTerm;
+}
 inline double Cell::getSigma(){
   return this->sigma;
 }
@@ -826,6 +884,12 @@ inline double Cell::getKappa(){
 inline double Cell::getPressure()
 {
   return pressure;
+}
+inline void Cell::setOmega(double tempo){
+  this->omega = tempo;
+}
+inline double Cell::getOmega(){
+  return this->omega;
 }
 inline double Cell::getAlpha()
 {
