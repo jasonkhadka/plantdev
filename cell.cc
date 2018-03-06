@@ -135,7 +135,7 @@ unsigned long int random_seed()
       //totalenergy +=  (this->getZeta()/this->initialFourthTerm)*fourthterm;//subtracting the fourth term : z_proj penalty
       totalenergy -= (this->getGamma())*this->getCartesianVolume();
       //totalenergy +=  (this->getZeta())*fourthterm;//subtracting the fourth term : z_proj penalty
-      totalenergy += this->getSigma()*this->getSumEdgeLength();
+      //totalenergy += this->getSigma()*this->getSumEdgeLength();
       totalenergy += this->getBendingEnergy();//adding the Helfrich bending energy
       return totalenergy ;
  }
@@ -1009,6 +1009,8 @@ void Cell::setMeanCurvature(){
       referenceVertex->setAreaMixed(areaMixed);
       }
   this->totalAreaMixed = totalAreaMixed;
+  // Now Calculate Bending Energy :: on newly calculated mean curvature
+  this->calculateBendingEnergy();
 }
 
  //********************************************************************************* //
@@ -1743,6 +1745,7 @@ Cell::Cell():gaussianWidth(0.125), //initialising the Standard Deviaton of Gauss
   divisionFactor = 1.5;
   convexAngleThreshold = 180.;
   this->sigma = 0.;
+  this->omega = 0.;
   //setting the random number generator
   // intialised in Initialising list :-> randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm
   randomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
