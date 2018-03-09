@@ -1542,10 +1542,22 @@ lastGrowthRate = growthfactor; //saving growth rate for plotting
     //making the new vertex on the wall now.
     edge =  cell->makeVertexEdge(vertexA, edge->Left(), edge->Right());
     origin = edge->Dest();
-    //now setting hte vertex of this new vertex
+    //now setting the vertex of this new vertex
     origin->setXcoordinate((vertexA->getXcoordinate()+vertexB->getXcoordinate())/2.);
     origin->setYcoordinate((vertexA->getYcoordinate()+vertexB->getYcoordinate())/2.);
     origin->setZcoordinate((vertexA->getZcoordinate()+vertexB->getZcoordinate())/2.);
+    /*
+      * setting initial Mean curvature for all the vertices of 
+      * this face and new face
+      * And also this face and new face store the mean curvature for respective centroid
+    */
+    cell->setMeanCurvature();
+    this->setInitialMeanCurvature(this->getInitialMeanCurvature());
+    right->setInitialMeanCurvature(right->getInitialMeanCurvature());
+    vertexA->setInitialMeanCurvature(vertexA->getInitialMeanCurvature());
+    vertexB->setInitialMeanCurvature(vertexB->getInitialMeanCurvature());
+    origin->setInitialMeanCurvature(origin->getInitialMeanCurvature());
+    //
     // saving the needed quantitites for the calculation of new Form Matrix of daugther cells
     // Daughter cells share same quantities, inherited from Mother cell
     // Newest Daughter cell (new face created above) inherits the same properties from Mother cell 
