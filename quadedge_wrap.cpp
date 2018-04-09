@@ -4361,7 +4361,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_Cell_setInitialMeanCurvature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+SWIGINTERN PyObject *_wrap_Cell_setInitialMeanCurvature__SWIG_0(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
   void *argp1 = 0 ;
@@ -4379,6 +4379,82 @@ SWIGINTERN PyObject *_wrap_Cell_setInitialMeanCurvature(PyObject *SWIGUNUSEDPARM
   return resultobj;
 fail:
   return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_setInitialMeanCurvature__SWIG_1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Cell_setInitialMeanCurvature",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setInitialMeanCurvature" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Cell_setInitialMeanCurvature" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setInitialMeanCurvature(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_setInitialMeanCurvature(PyObject *self, PyObject *args) {
+  int argc;
+  PyObject *argv[3] = {
+    0
+  };
+  int ii;
+  
+  if (!PyTuple_Check(args)) SWIG_fail;
+  argc = args ? (int)PyObject_Length(args) : 0;
+  for (ii = 0; (ii < 2) && (ii < argc); ii++) {
+    argv[ii] = PyTuple_GET_ITEM(args,ii);
+  }
+  if (argc == 1) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_Cell, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      return _wrap_Cell_setInitialMeanCurvature__SWIG_0(self, args);
+    }
+  }
+  if (argc == 2) {
+    int _v;
+    void *vptr = 0;
+    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_Cell, 0);
+    _v = SWIG_CheckState(res);
+    if (_v) {
+      {
+        int res = SWIG_AsVal_double(argv[1], NULL);
+        _v = SWIG_CheckState(res);
+      }
+      if (_v) {
+        return _wrap_Cell_setInitialMeanCurvature__SWIG_1(self, args);
+      }
+    }
+  }
+  
+fail:
+  SWIG_SetErrorMsg(PyExc_NotImplementedError,"Wrong number or type of arguments for overloaded function 'Cell_setInitialMeanCurvature'.\n"
+    "  Possible C/C++ prototypes are:\n"
+    "    Cell::setInitialMeanCurvature()\n"
+    "    Cell::setInitialMeanCurvature(double)\n");
+  return 0;
 }
 
 
@@ -7806,6 +7882,27 @@ SWIGINTERN PyObject *_wrap_Face_feedbackStrainGrow(PyObject *SWIGUNUSEDPARM(self
   }
   arg1 = reinterpret_cast< Face * >(argp1);
   (arg1)->feedbackStrainGrow();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_feedbackStrainProportionalGrow(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_feedbackStrainProportionalGrow",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_feedbackStrainProportionalGrow" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->feedbackStrainProportionalGrow();
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -18632,6 +18729,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_inflatedGrow", _wrap_Face_inflatedGrow, METH_VARARGS, NULL},
 	 { (char *)"Face_feedbackInflatedGrow", _wrap_Face_feedbackInflatedGrow, METH_VARARGS, NULL},
 	 { (char *)"Face_feedbackStrainGrow", _wrap_Face_feedbackStrainGrow, METH_VARARGS, NULL},
+	 { (char *)"Face_feedbackStrainProportionalGrow", _wrap_Face_feedbackStrainProportionalGrow, METH_VARARGS, NULL},
 	 { (char *)"Face_feedbackConstantGrow", _wrap_Face_feedbackConstantGrow, METH_VARARGS, NULL},
 	 { (char *)"Face_divisionThreshold_set", _wrap_Face_divisionThreshold_set, METH_VARARGS, NULL},
 	 { (char *)"Face_divisionThreshold_get", _wrap_Face_divisionThreshold_get, METH_VARARGS, NULL},

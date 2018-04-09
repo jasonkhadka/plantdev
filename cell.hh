@@ -279,6 +279,11 @@ class Cell
    * Functioin to set the intiail mean curvature on all the vertex and face of this structure
    */
   void setInitialMeanCurvature();
+    /**
+   * Functioin to set the intiail mean curvature to a given value 
+   * on all the vertex and face of this structure
+   */
+  void setInitialMeanCurvature(double);
   
   /* -- protected instance methods ----------------------------------------- */
 

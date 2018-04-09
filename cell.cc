@@ -756,10 +756,14 @@ bool checkObtuseTriangle(double A[],double B[], double C[]){
     double AC[3] = {C[0]- A[0],C[1]- A[1],C[2]- A[2]};
     double AB[3] = {B[0]- A[0],B[1]- A[1],B[2]- A[2]};
     double BC[3] = {C[0]- B[0],C[1]- B[1],C[2]- B[2]};
+    double BA[3] = {-1.*AB[0],-1.*AB[1],-1.*AB[2]};
+    double CA[3] =  {-1.*AC[0],-1.*AC[1],-1.*AC[2]};
+    double CB[3] =  {-1.*BC[0],-1.*BC[1],-1.*BC[2]};
+
     // dot products
-    double d1 = AC[0]*AB[0]+AC[1]*AB[1]+AC[2]*AB[2];
-    double d2 = AC[0]*BC[0]+AC[1]*BC[1]+AC[2]*BC[2];
-    double d3 = AB[0]*BC[0]+AB[1]*BC[1]+AB[2]*BC[2];
+    double d1 = getVectorDotProduct(AC,AB);
+    double d2 = getVectorDotProduct(BC,BA);
+    double d3 = getVectorDotProduct(CA,CB);
     if (d1*d2*d3 < 0.) {//meaning one of the dot product is negative
                       // or the angle between any two of the vectors should be more than 90 degrees
       return true;//this triangle is obtuse
@@ -829,18 +833,22 @@ double getAreaVoronoiOfTriangle(double A[],double B[], double C[]){
   double calculateAreaMixedComponent(double centroid[], double vertex1coordinate[],double vertex2coordinate[]) {
           double areacomponent  = 0.;
           if (checkObtuseTriangle(centroid, vertex1coordinate,vertex2coordinate)){
+            //std::cout<< " Check Obtuse True" ;
                 //True == obtuse triangle, so special calculation
                 // Check if the angle at centroid (reference point) is obtuse or not
                 if (checkAngleObtuse(centroid,vertex1coordinate,vertex2coordinate)){
                       //True == angle at centroid for this triangle is Obtuse, hence areaMixed += area(T)/2
                      areacomponent= 0.5*getAreaOfTriangle(centroid, vertex1coordinate,vertex2coordinate);
+                     //std::cout<< ":: angle at centroid Obtuse" << areacomponent;
                   }
                 else{
                       //False == angle at centroid is not obtuse, and hence areaMixed += area(T)/4
                       areacomponent= 0.25*getAreaOfTriangle(centroid, vertex1coordinate,vertex2coordinate);
+                      //std::cout<< ":: angle at centroid not Obtuse" << areacomponent;
                 }
             }
           else{
+             //std::cout<< " Check Obtuse False" ;
                 //False == this triangle is not obtuse triangle, so voronoi component for this vertex is calculated
                 areacomponent=  getAreaVoronoiOfTriangle(centroid, vertex1coordinate, vertex2coordinate);
             }
@@ -913,9 +921,13 @@ void Cell::setMeanCurvature(){
                                           vertex2->getZcoordinate()};
           //caculate AreaMixedComponent
           areaMixed += calculateAreaMixedComponent(centroid,vertex1coordinate,vertex2coordinate);
+          /*if (face->getID() == 113){
+            std::cout<<std::endl<<"113  areaMixed component  :v1 =  "<< vertex1->getID()<<" v2 = "<< vertex2->getID()<<" AM = "<< calculateAreaMixedComponent(centroid,vertex1coordinate,vertex2coordinate) << std::endl;
+          }*/
           // calculating the Laplace Beltrami operator for this vector on this triangle
           double tempLBOperator[3];
           getLaplaceBeltrami(centroid, vertex1coordinate, vertex2coordinate,tempLBOperator);
+
           // value is stored in LBO operator
           LBOperator[0] += tempLBOperator[0];
           LBOperator[1] += tempLBOperator[1];
@@ -983,18 +995,27 @@ void Cell::setMeanCurvature(){
                 LBOperator[0] += tempLBOperator[0];
                 LBOperator[1] += tempLBOperator[1];
                 LBOperator[2] += tempLBOperator[2];
+                /*std::cout<< std::endl<<"Ref "<<referenceVertex->getID()<<"  Face ::"<<left->getID()<<" Vertex ::"<<vertex2->getID()
+           <<"LBO OPERATOR "<< tempLBOperator[0] <<tempLBOperator[1] <<tempLBOperator[2] <<std::endl;
+           */
               }
+          
           // second areaMixedComponent for refVert-v2-v3
           if (right->getID() != 1){
                 areaMixed += calculateAreaMixedComponent(centroid,vertex2coordinate,vertex3coordinate);
                 // calculating the Laplace Beltrami operator for this vector on this triangle
                 double tempLBOperator[3];
-                getLaplaceBeltrami(centroid, vertex1coordinate, vertex2coordinate,tempLBOperator);
+                getLaplaceBeltrami(centroid, vertex2coordinate, vertex3coordinate,tempLBOperator);
                 // value is stored in LBO operator
                 LBOperator[0] += tempLBOperator[0];
                 LBOperator[1] += tempLBOperator[1];
                 LBOperator[2] += tempLBOperator[2];
+                /*
+                std::cout<< std::endl<<"Ref "<<referenceVertex->getID()<<"  Face ::"<<right->getID()<<" Vertex ::"<<vertex2->getID()
+           <<"LBO OPERATOR "<< tempLBOperator[0] <<tempLBOperator[1] <<tempLBOperator[2] <<std::endl;
+           */
               }
+          
           }  
       totalAreaMixed += areaMixed;
       // dividing the LB-Operator by 2*(AreaMixed of this vertex) as final step of its calculation
@@ -1146,6 +1167,28 @@ void Cell::setMeanCurvature(){
     CellVertexIterator vertices(this);
     while ((vertex = vertices.next())!= 0){
       vertex->setInitialMeanCurvature(vertex->getMeanCurvature());
+    }
+  }
+ }
+ //********************************************************************************* //
+ void Cell::setInitialMeanCurvature(double initialCurvature){
+    // now setting it as initial mean curvature on the structure
+    Face * face;
+    //Edge * edge;
+    Vertex * vertex;
+    // on all the faces
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          if (face->getID() == 1) continue;
+          face->setInitialMeanCurvature(initialCurvature);
+    }
+  }
+    // on all the vertices
+  {
+    CellVertexIterator vertices(this);
+    while ((vertex = vertices.next())!= 0){
+      vertex->setInitialMeanCurvature(initialCurvature);
     }
   }
  }

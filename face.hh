@@ -512,6 +512,15 @@ class Face
    * (mimicing microtubles re-enforcing)
    */
    void feedbackStrainGrow();
+    /**
+   * target form matrix growth rate function with base growth proportional
+   * to the strain and the initial shape
+   * grows with the Feedback from the stress acting on the cell
+   * (mimicing microtubles re-enforcing)
+   * thus, bigger cells still grow faster but proportionally to 
+   * the strain on the cell
+   */
+   void feedbackStrainProportionalGrow();
    /**
    * target form matrix growth function with base growth proportional
    * to a constant matrix : Cell have intrinsic rate of adding material

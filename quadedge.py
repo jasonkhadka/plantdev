@@ -200,8 +200,8 @@ class Cell(_object):
     def setMeanCurvature(self):
         return _quadedge.Cell_setMeanCurvature(self)
 
-    def setInitialMeanCurvature(self):
-        return _quadedge.Cell_setInitialMeanCurvature(self)
+    def setInitialMeanCurvature(self, *args):
+        return _quadedge.Cell_setInitialMeanCurvature(self, *args)
 
     def getTotalAreaMixed(self):
         return _quadedge.Cell_getTotalAreaMixed(self)
@@ -661,6 +661,9 @@ class Face(_object):
 
     def feedbackStrainGrow(self):
         return _quadedge.Face_feedbackStrainGrow(self)
+
+    def feedbackStrainProportionalGrow(self):
+        return _quadedge.Face_feedbackStrainProportionalGrow(self)
 
     def feedbackConstantGrow(self):
         return _quadedge.Face_feedbackConstantGrow(self)
