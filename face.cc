@@ -22,6 +22,8 @@
 #include "./eigen/Eigen/Dense"
 #include "./eigen/Eigen/Eigenvalues"
 
+//define 2pi
+#define M_2PI 6.283185307179586476925286766559005768394338798750211641949
 //struct to store verticies
 struct vertex_coordinate {
     unsigned int id;
@@ -262,7 +264,7 @@ void Face::setProjectedCoordinate(){
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
     //now need to get this projected 3d plane coordinates onto rotated 2d coordinate system
     // getting the unit vector of 2d Plane
-    double unitx[3], unity[3], vectorVertex[3];//new unit vector of x, y on the plane
+    double unitx1[3], unity1[3], vectorVertex[3];//new unit vector of x, y on the plane
     double dotproduct, xvertex, yvertex, zvertex;
     // Now choosing Unit vector in intrinsic X - Direction
     // For that we need a perpendicular vector to Normal
@@ -280,33 +282,33 @@ void Face::setProjectedCoordinate(){
     //dot product of vectorVertex and normal
     dotproduct = vectorVertex[0]*normalX+vectorVertex[1]*normalY+vectorVertex[2]*normalZ;
     //now calculating the projected vertices --at this stage unitx is storing pi_vector
-    unitx[0]  = vectorVertex[0] +xCentroid- dotproduct*normalX;
-    unitx[1] = vectorVertex[1]+yCentroid - dotproduct*normalY;
-    unitx[2] = vectorVertex[2]+zCentroid - dotproduct*normalZ;
+    unitx1[0]  = vectorVertex[0] +xCentroid- dotproduct*normalX;
+    unitx1[1] = vectorVertex[1]+yCentroid - dotproduct*normalY;
+    unitx1[2] = vectorVertex[2]+zCentroid - dotproduct*normalZ;
     {//saving the pi_vector of this face
-    double * pntPivector = unitx;
+    double * pntPivector = unitx1;
     this->setPivector(pntPivector);
     }
     ////getting the unitx = normalised[Projectedvertex1 - Origin]
    //    Failed one : -> //now getting the vertex on the plane to take it as the x-direction
     //unitx = Normalised[Origin + wvector]
-    unitx[0] = unitx[0]- xCentroid;
-    unitx[1] = unitx[1]- yCentroid;
-    unitx[2] = unitx[2]- zCentroid;
+    unitx1[0] = unitx1[0]- xCentroid;
+    unitx1[1] = unitx1[1]- yCentroid;
+    unitx1[2] = unitx1[2]- zCentroid;
     // normalising unitx
-    double normUnitx   = sqrt(pow(unitx[0],2)+pow(unitx[1],2)+pow(unitx[2],2));
-    unitx[0] = unitx[0]/normUnitx;
-    unitx[1] = unitx[1]/normUnitx;
-    unitx[2] = unitx[2]/normUnitx;
+    double normUnitx   = sqrt(pow(unitx1[0],2)+pow(unitx1[1],2)+pow(unitx1[2],2));
+    unitx1[0] = unitx1[0]/normUnitx;
+    unitx1[1] = unitx1[1]/normUnitx;
+    unitx1[2] = unitx1[2]/normUnitx;
     // now getting unity : it is the cross product of  normal and unitx to the plane. 
-    unity[0] = normalY*unitx[2]-normalZ*unitx[1];
-    unity[1] = normalZ*unitx[0]-normalX*unitx[2];
-    unity[2] = normalX*unitx[1]-normalY*unitx[0];
+    unity1[0] = normalY*unitx1[2]-normalZ*unitx1[1];
+    unity1[1] = normalZ*unitx1[0]-normalX*unitx1[2];
+    unity1[2] = normalX*unitx1[1]-normalY*unitx1[0];
     //normalising unity
-    double normUnity = sqrt(pow(unity[0],2)+pow(unity[1],2)+pow(unity[2],2));
-    unity[0] = unity[0]/normUnity;
-    unity[1] = unity[1]/normUnity;
-    unity[2] = unity[2]/normUnity;
+    double normUnity = sqrt(pow(unity1[0],2)+pow(unity1[1],2)+pow(unity1[2],2));
+    unity1[0] = unity1[0]/normUnity;
+    unity1[1] = unity1[1]/normUnity;
+    unity1[2] = unity1[2]/normUnity;
     //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%//
     // now projecting the 3d coordinates to the 2D coordinates and assinging the vertices
     double xprojection, yprojection, zprojection;
@@ -323,8 +325,8 @@ void Face::setProjectedCoordinate(){
           vectorVertex[1] = yvertex-yCentroid;
           vectorVertex[2] = zvertex-zCentroid;
           //now getting the new x, y coordinates, dot product of unit vector with the vectorVertex
-          xprojection = unitx[0]*vectorVertex[0]+unitx[1]*vectorVertex[1]+unitx[2]*vectorVertex[2];
-          yprojection = unity[0]*vectorVertex[0]+unity[1]*vectorVertex[1]+unity[2]*vectorVertex[2];
+          xprojection = unitx1[0]*vectorVertex[0]+unitx1[1]*vectorVertex[1]+unitx1[2]*vectorVertex[2];
+          yprojection = unity1[0]*vectorVertex[0]+unity1[1]*vectorVertex[1]+unity1[2]*vectorVertex[2];
           zprojection = normalX*vectorVertex[0]+normalY*vectorVertex[1]+normalZ*vectorVertex[2];
           //now setting the projected coordinates in the vertex properties
           currentVertex->insertProjectedXcoordinate(faceid,xprojection);
@@ -338,18 +340,51 @@ void Face::setProjectedCoordinate(){
           vectorVertex[2] = 0.; //taking zproj = 0. means changing only x-y projection to cartesian system
           //now getting the new x, y coordinates, dot product of unit vector with the vectorVertex
           //This converts fully the projected coordinates to cartesian
-          gamma1 = unitx[0]*vectorVertex[0]+unity[0]*vectorVertex[1]+unitz[0]*vectorVertex[2] + xCentroid;
-          gamma2 = unitx[1]*vectorVertex[0]+unity[1]*vectorVertex[1]+unitz[1]*vectorVertex[2] + yCentroid;
-          gamma3 = unitx[2]*vectorVertex[0]+unity[2]*vectorVertex[1]+unitz[2]*vectorVertex[2] + zCentroid;
+          gamma1 = unitx1[0]*vectorVertex[0]+unity1[0]*vectorVertex[1]+normalX*vectorVertex[2] + xCentroid;
+          gamma2 = unitx1[1]*vectorVertex[0]+unity1[1]*vectorVertex[1]+normalY*vectorVertex[2] + yCentroid;
+          gamma3 = unitx1[2]*vectorVertex[0]+unity1[2]*vectorVertex[1]+normalZ*vectorVertex[2] + zCentroid;
           //now setting the projected coordinates in the vertex properties
           currentVertex->insertNonCentralisedProjectedXcoordinate(faceid,gamma1);
           currentVertex->insertNonCentralisedProjectedYcoordinate(faceid,gamma2); 
           currentVertex->insertNonCentralisedProjectedZcoordinate(faceid,gamma3); 
         }
+    // Rotating target form matrix after computing the new set of unit vectors
+    if ((pow(this->unitx[0],2)+pow(this->unitx[1],2)+pow(this->unitx[2],2))>0.){
+    //if (false){
+        //std::cout<< " rotating the targetfomr" <<std::endl;
+        Eigen::Matrix2d rotationMatrix;
+        // dot product of two vectors //
+        double dot,det;
+        dot = this->unitx[0]*unitx1[0] + this->unitx[1]*unitx1[1];
+        det = this->unitx[0]*unitx1[1]- this->unitx[1]*unitx1[0];
+        // now calculating the angle [0,2Pi]
+        double rotationAngle = fmod(((atan2(det,dot))+(M_2PI)),M_2PI);
+        /*double rotationAngle = acos(((this->unitx[0]*unitx1[0])+
+                                    (this->unitx[1]*unitx1[1])+
+                                    (this->unitx[2]*unitx1[2]))
+                                    );
+        */
+        //std::cout<< " face id "<<this->getID()<<"    "<<rotationAngle <<std::endl;
+        //std:: cout<< "old Ux "<< this->unitx[0]<<"    "<< this->unitx[1]<<"    "<< this->unitx[2] <<std::endl;
+        //std:: cout<< "new Ux "<< unitx1[0]<<"    "<< unitx1[1]<<"    "<< unitx1[2] <<std::endl;
+        // rotation in opposite direction to compensate of axis rotation
+        rotationMatrix<< cos(rotationAngle), sin(rotationAngle),
+                         -1.*sin(rotationAngle), cos(rotationAngle);
+        Eigen::Matrix2d M0;
+        M0 << this->targetFormMatrix[0][0],this->targetFormMatrix[0][1],
+              this->targetFormMatrix[1][0],this->targetFormMatrix[1][1];
+        // rotating the matrix now
+        M0 = rotationMatrix*M0;
+        //setting the new target form 
+        this->targetFormMatrix[0][0] = M0(0,0);
+        this->targetFormMatrix[0][1] = M0(0,1);
+        this->targetFormMatrix[1][0] = M0(1,0);
+        this->targetFormMatrix[1][1] = M0(1,1);
+    }
     //saving unit vectors
    {
-    double * pntunitx = unitx;
-    double * pntunity = unity;
+    double * pntunitx = unitx1;
+    double * pntunity = unity1;
     double * pntunitz = normalOfFace;
     this->setUnitx(pntunitx);
     this->setUnity(pntunity);
@@ -357,7 +392,7 @@ void Face::setProjectedCoordinate(){
     }
     //Calculating the Angle of tilt to the cartesian x axis
     // dor product between the unitx vector and cartesian x unit vector [1,0,0]
-    dotproduct = unitx[0]; // as second and third terms are multiplied by 0
+    dotproduct = unitx1[0]; // as second and third terms are multiplied by 0
     //double theta = acos(dotproduct);//since both unitx and x unit vector have 1 magnitude, just dividing by 1
     //this->setAngleOfTilt(theta);
     //setting areas for the face
@@ -790,10 +825,10 @@ void Face::printTargetFormMatrix(){
 
 void Face::setInitialTargetFormMatrixCurrent(){
     double facestrain = (this->getCell())->getInitialStrain();//getting the Initial strain to be used
-    this->targetFormMatrix[0][0] = ((1.-facestrain)*this->getMu1());
-    this->targetFormMatrix[1][0] = ((1.-facestrain)*this->getMu2());
-    this->targetFormMatrix[0][1] = ((1.-facestrain)*this->getMu3());
-    this->targetFormMatrix[1][1] = ((1.-facestrain)*this->getMu4());
+    this->targetFormMatrix[0][0] = ((1.-facestrain)*this->currentFormMatrix[0][0]);
+    this->targetFormMatrix[1][0] = ((1.-facestrain)*this->currentFormMatrix[1][0]);
+    this->targetFormMatrix[0][1] = ((1.-facestrain)*this->currentFormMatrix[0][1]);
+    this->targetFormMatrix[1][1] = ((1.-facestrain)*this->currentFormMatrix[1][1]);
     this->setTraceSquaredTargetFormMatrix();
     // Setting the intrinsic constant growth rate for FeedbackConstantGrow
     this->setTargetArea(this->getAreaOfFace());//area of current form matrix as target area
@@ -1749,6 +1784,16 @@ Face::Face(Cell *cell):gaussianWidth(0.125), randomNumberGeneratorType(gsl_rng_d
   this->edge = 0;
   this->sumEdgeLength = 0;
   //***************added features*******************************************//
+  this->unitx[0] = 0;
+  this->unitx[1] = 0;
+  this->unitx[2] = 0;
+  this->unity[0] = 0;
+  this->unity[1] = 0;
+  this->unity[2] = 0;
+  this->unitz[0] = 0;
+  this->unitz[1] = 0;
+  this->unitz[2] = 0;
+  // ************************************************************************ //
   this->vertices = new Vertex*[8];
   this->vertexCount = 0;
   this->vertexSize = 8;
