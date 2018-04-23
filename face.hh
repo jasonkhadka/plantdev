@@ -277,19 +277,19 @@ class Face
      /**
       * First term value of Energy
       */
-     double firstTerm = 0;
+     double firstTerm;
      /**
       * Second term value of Energy
       */
-     double secondTerm = 0;
+     double secondTerm;
      /**
       * third term value of Energy
       */
-     double thirdTerm = 0;
+     double thirdTerm;
      /**
       * Total energy of The face 
       */
-     double energy = 0;
+     double energy;
 
      // Sum of All the Edge Length
      double sumEdgeLength;
@@ -300,7 +300,11 @@ class Face
        /**
         * Alpha for this face
         */
-       double alpha =0.;
+       double alpha;
+       /**
+        * Eta for this face
+        */
+       double eta;
       /**
        * Determinant of Strain
       */
@@ -317,7 +321,7 @@ class Face
      /*
         * Growth Variance for this face
       */
-     double growthVar = 0.5;
+     double growthVar;
      /* 
       * Variable to store last growth rate : For plotting the growth rate
      */
@@ -336,6 +340,11 @@ class Face
       * mean Curvature at the centroid of this face
       */
      double meanCurvature;
+     /**
+      * gaussioan Curvature at the centroid of this face
+      */
+     double gaussianCurvature;
+     
      // Intial mean curvature for the centroid of this face
      double initialMeanCurvature;
      
@@ -351,6 +360,11 @@ class Face
   /* ----------Public instance methods ---------*/
  /* -- public instance methods ----------------------------------------- */
     public:
+      /*
+      * setting and getting Gaussian curvature
+     */
+    void setGaussianCurvature(double);
+    double getGaussianCurvature();
   /*
     * setting and getting mean curvature
   */
@@ -401,6 +415,9 @@ class Face
       /**function to manupulate alpha**/
     double getAlpha();
     void setAlpha(double);
+       /**function to manupulate eta**/
+    double getEta();
+    void setEta(double);
     /**
      * function to get stess Eigen Vectors & values
      */
@@ -821,6 +838,12 @@ class Face
   friend class CentralisedDerivative;
 };
 /* ----- inline instance methods --------------------------------*/
+inline void Face::setGaussianCurvature(double gaus){
+    this->gaussianCurvature = gaus;
+}
+inline double Face::getGaussianCurvature(){
+    return this->gaussianCurvature;
+}
 inline double Face::getMeanCurvature(){
   return this->meanCurvature;
 }
@@ -886,6 +909,12 @@ inline double Face::getAlpha(){
 }
 inline void Face::setAlpha(double newalpha){
   this->alpha = newalpha;
+}
+inline double Face::getEta(){
+  return this->eta;
+}
+inline void Face::setEta(double neweta){
+  this->eta = neweta;
 }
 inline double * Face::getNormalForce(){
     double * pnt = this->normalForce;

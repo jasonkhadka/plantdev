@@ -349,8 +349,8 @@ void Face::setProjectedCoordinate(){
           currentVertex->insertNonCentralisedProjectedZcoordinate(faceid,gamma3); 
         }
     // Rotating target form matrix after computing the new set of unit vectors
-    if ((pow(this->unitx[0],2)+pow(this->unitx[1],2)+pow(this->unitx[2],2))>0.){
-    //if (false){
+    //if ((pow(this->unitx[0],2)+pow(this->unitx[1],2)+pow(this->unitx[2],2))>0.){
+    if (false){
         //std::cout<< " rotating the targetfomr" <<std::endl;
         Eigen::Matrix2d rotationMatrix;
         // dot product of two vectors //
@@ -1138,12 +1138,18 @@ this->calculateStrain();
 this->calculateStress();
 Cell * cell = this->getCell();
 double eta = cell->getEta();
-double cellalpha;
+double cellalpha,celleta;
 if (this->alpha == 0){//means not update directly to face
           cellalpha = cell->getAlpha();
       }
       else{
           cellalpha = this->alpha;
+      }
+if (this->eta == 0){//means not update directly to face
+          celleta = cell->getEta();
+      }
+      else{
+          celleta = this->eta;
       }
 Eigen::Matrix2d stressMatrix = cellalpha*(this->getAreaOfFace())*(this->strain);
 //getting traceless deviatoric matrix
@@ -1189,10 +1195,10 @@ Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
 // Growth Matrix
 Eigen::Matrix2d growthMatrix;
 // dM0/dt = kappa*STRAIN - n/2*feedback
-growthMatrix<< growthfactor*(this->strain(0,0)) - eta/2.*feedback(0,0),
-               growthfactor*(this->strain(0,1)) - eta/2.*feedback(0,1),
-               growthfactor*(this->strain(1,0)) - eta/2.*feedback(1,0),
-               growthfactor*(this->strain(1,1)) - eta/2.*feedback(1,1); 
+growthMatrix<< growthfactor*(this->strain(0,0)) - celleta/2.*feedback(0,0),
+               growthfactor*(this->strain(0,1)) - celleta/2.*feedback(0,1),
+               growthfactor*(this->strain(1,0)) - celleta/2.*feedback(1,0),
+               growthfactor*(this->strain(1,1)) - celleta/2.*feedback(1,1); 
 eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
 //to calculate the individual growth eigen direction
   Eigen::Matrix2d eigen1;
@@ -1806,6 +1812,14 @@ Face::Face(Cell *cell):gaussianWidth(0.125), randomNumberGeneratorType(gsl_rng_d
   this->constantGrowthMatrix[0][1] = 0.;
   this->constantGrowthMatrix[1][0] = 0.;
   this->constantGrowthMatrix[1][1] = 0.;
+  this->initialMeanCurvature = 0.;
+  this->eta = 0.;
+  this->alpha = 0.;
+  this->firstTerm = 0;
+  this->secondTerm = 0;
+  this->thirdTerm = 0;
+  this->energy = 0;
+  this->growthVar = 0.5;
   //setting the random number generator
   // intialised in Initialising list :-> randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm
   randomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);

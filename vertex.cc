@@ -157,6 +157,7 @@ Vertex::Vertex(Cell *cell)
   this->Ycoordinate = 0.0;
   this->Zcoordinate = 0.0;
   cell->addVertex(this);
+  this->initialMeanCurvature = 0.;
   this->domePosition = true;//seting position to dome as True in default
 }
 

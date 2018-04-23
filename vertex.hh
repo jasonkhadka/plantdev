@@ -244,6 +244,10 @@ class Vertex
       * mean Curvature at the centroid of this face
       */
      double meanCurvature;
+     /**
+      * gaussioan Curvature at the centroid of this face
+      */
+     double gaussianCurvature;
      // Intial mean curvature for the centroid of this face
      double initialMeanCurvature;
 
@@ -715,6 +719,11 @@ class Vertex
      */
     void setMeanCurvature(double);
     double getMeanCurvature();
+    /*
+      * setting and getting Gaussian curvature
+     */
+    void setGaussianCurvature(double);
+    double getGaussianCurvature();
     // setting and getting initial mean curvature
     void setInitialMeanCurvature(double);
     double getInitialMeanCurvature();
@@ -818,6 +827,12 @@ class Vertex
 };
 
 /* -- inline instance methods ---------------------------------------------- */
+inline void Vertex::setGaussianCurvature(double gaus){
+    this->gaussianCurvature = gaus;
+}
+inline double Vertex::getGaussianCurvature(){
+    return this->gaussianCurvature;
+}
 inline double Vertex::getMeanCurvature(){
   return this->meanCurvature;
 }

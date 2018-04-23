@@ -497,6 +497,12 @@ class Face(_object):
     def removeEdge(self, edge):
         return _quadedge.Face_removeEdge(self, edge)
 
+    def setGaussianCurvature(self, arg2):
+        return _quadedge.Face_setGaussianCurvature(self, arg2)
+
+    def getGaussianCurvature(self):
+        return _quadedge.Face_getGaussianCurvature(self)
+
     def setMeanCurvature(self, arg2):
         return _quadedge.Face_setMeanCurvature(self, arg2)
 
@@ -559,6 +565,12 @@ class Face(_object):
 
     def setAlpha(self, arg2):
         return _quadedge.Face_setAlpha(self, arg2)
+
+    def getEta(self):
+        return _quadedge.Face_getEta(self)
+
+    def setEta(self, arg2):
+        return _quadedge.Face_setEta(self, arg2)
 
     def getStressEigenVector1(self):
         return _quadedge.Face_getStressEigenVector1(self)
@@ -1285,6 +1297,12 @@ class Vertex(_object):
 
     def getMeanCurvature(self):
         return _quadedge.Vertex_getMeanCurvature(self)
+
+    def setGaussianCurvature(self, arg2):
+        return _quadedge.Vertex_setGaussianCurvature(self, arg2)
+
+    def getGaussianCurvature(self):
+        return _quadedge.Vertex_getGaussianCurvature(self)
 
     def setInitialMeanCurvature(self, arg2):
         return _quadedge.Vertex_setInitialMeanCurvature(self, arg2)

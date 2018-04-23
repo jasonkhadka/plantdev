@@ -6522,6 +6522,58 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_setGaussianCurvature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_setGaussianCurvature",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setGaussianCurvature" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Face_setGaussianCurvature" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setGaussianCurvature(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getGaussianCurvature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getGaussianCurvature",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getGaussianCurvature" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getGaussianCurvature();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_setMeanCurvature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -7049,6 +7101,58 @@ SWIGINTERN PyObject *_wrap_Face_setAlpha(PyObject *SWIGUNUSEDPARM(self), PyObjec
   } 
   arg2 = static_cast< double >(val2);
   (arg1)->setAlpha(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getEta(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getEta",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getEta" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getEta();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setEta(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_setEta",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setEta" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Face_setEta" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setEta(arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -13223,6 +13327,58 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Vertex_setGaussianCurvature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_setGaussianCurvature",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setGaussianCurvature" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_setGaussianCurvature" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setGaussianCurvature(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getGaussianCurvature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_getGaussianCurvature",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getGaussianCurvature" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  result = (double)(arg1)->getGaussianCurvature();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Vertex_setInitialMeanCurvature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Vertex *arg1 = (Vertex *) 0 ;
@@ -18674,6 +18830,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getEdge", _wrap_Face_getEdge, METH_VARARGS, NULL},
 	 { (char *)"Face_addEdge", _wrap_Face_addEdge, METH_VARARGS, NULL},
 	 { (char *)"Face_removeEdge", _wrap_Face_removeEdge, METH_VARARGS, NULL},
+	 { (char *)"Face_setGaussianCurvature", _wrap_Face_setGaussianCurvature, METH_VARARGS, NULL},
+	 { (char *)"Face_getGaussianCurvature", _wrap_Face_getGaussianCurvature, METH_VARARGS, NULL},
 	 { (char *)"Face_setMeanCurvature", _wrap_Face_setMeanCurvature, METH_VARARGS, NULL},
 	 { (char *)"Face_getMeanCurvature", _wrap_Face_getMeanCurvature, METH_VARARGS, NULL},
 	 { (char *)"Face_setInitialMeanCurvature", _wrap_Face_setInitialMeanCurvature, METH_VARARGS, NULL},
@@ -18695,6 +18853,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getLastGrowthRate", _wrap_Face_getLastGrowthRate, METH_VARARGS, NULL},
 	 { (char *)"Face_getAlpha", _wrap_Face_getAlpha, METH_VARARGS, NULL},
 	 { (char *)"Face_setAlpha", _wrap_Face_setAlpha, METH_VARARGS, NULL},
+	 { (char *)"Face_getEta", _wrap_Face_getEta, METH_VARARGS, NULL},
+	 { (char *)"Face_setEta", _wrap_Face_setEta, METH_VARARGS, NULL},
 	 { (char *)"Face_getStressEigenVector1", _wrap_Face_getStressEigenVector1, METH_VARARGS, NULL},
 	 { (char *)"Face_getStressEigenVector2", _wrap_Face_getStressEigenVector2, METH_VARARGS, NULL},
 	 { (char *)"Face_getNormalForce", _wrap_Face_getNormalForce, METH_VARARGS, NULL},
@@ -18934,6 +19094,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Vertex_setAreaMixed", _wrap_Vertex_setAreaMixed, METH_VARARGS, NULL},
 	 { (char *)"Vertex_setMeanCurvature", _wrap_Vertex_setMeanCurvature, METH_VARARGS, NULL},
 	 { (char *)"Vertex_getMeanCurvature", _wrap_Vertex_getMeanCurvature, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setGaussianCurvature", _wrap_Vertex_setGaussianCurvature, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getGaussianCurvature", _wrap_Vertex_getGaussianCurvature, METH_VARARGS, NULL},
 	 { (char *)"Vertex_setInitialMeanCurvature", _wrap_Vertex_setInitialMeanCurvature, METH_VARARGS, NULL},
 	 { (char *)"Vertex_getInitialMeanCurvature", _wrap_Vertex_getInitialMeanCurvature, METH_VARARGS, NULL},
 	 { (char *)"Vertex_setLBOperator", _wrap_Vertex_setLBOperator, METH_VARARGS, NULL},
