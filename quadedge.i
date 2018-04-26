@@ -41,3 +41,11 @@ double getEigenMatrix(Eigen::Matrix2d matrix, int i, int j){
 }	
 %}
 
+// Type map double *  (pointer) to array 
+
+%typemap(out) double* {
+	$result = PyList_New(3);
+	for (int i = 0; i<3 ; ++ i){
+		PyList_SetItem($result, i , PyFloat_FromDouble($1[i]));
+	}
+}
