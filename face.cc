@@ -1158,8 +1158,13 @@ Eigen::Matrix2d deviatoric = (stressMatrix) - 0.5*(stressMatrix.trace())*Eigen::
 Eigen::Matrix2d M0;
 M0 << this->targetFormMatrix[0][0],this->targetFormMatrix[0][1],
       this->targetFormMatrix[1][0],this->targetFormMatrix[1][1];
-//get the feedback matrix
-Eigen::Matrix2d feedback = deviatoric*M0 + M0*deviatoric;
+//Strain Matrix 
+Eigen::Matrix2d strainOfCell;
+strainOfCell << this->strain(0,0), this->strain(0,1),
+                this->strain(1,0), this->strain(1,1);
+
+//get the feedback matrix:: Feedback is dependent on the direct growth equation 
+Eigen::Matrix2d feedback = deviatoric*strainOfCell + strainOfCell*deviatoric;
 //printing Feed back matrix
 /*
 std::cout<<"-------------------------face id "<<this->getID()<< "---------------------------"<<
@@ -1257,8 +1262,13 @@ Eigen::Matrix2d deviatoric = (stressMatrix) - 0.5*(stressMatrix.trace())*Eigen::
 Eigen::Matrix2d M0;
 M0 << this->targetFormMatrix[0][0],this->targetFormMatrix[0][1],
       this->targetFormMatrix[1][0],this->targetFormMatrix[1][1];
-//get the feedback matrix
-Eigen::Matrix2d feedback = deviatoric*M0 + M0*deviatoric;
+//Strain Matrix 
+Eigen::Matrix2d proportionalStrain;
+proportionalStrain << this->strain(0,0)*M0(0,0), this->strain(0,1)*M0(0,1),
+                this->strain(1,0)*M0(1,0), this->strain(1,1)*M0(1,1);
+
+//get the feedback matrix:: Feedback is dependent on the direct growth equation 
+Eigen::Matrix2d feedback = deviatoric*proportionalStrain +proportionalStrain*deviatoric;
 //printing Feed back matrix
 /*
 std::cout<<"-------------------------face id "<<this->getID()<< "---------------------------"<<
