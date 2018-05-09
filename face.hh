@@ -529,6 +529,15 @@ class Face
    * (mimicing microtubles re-enforcing)
    */
    void feedbackStrainGrow();
+   /**
+   * target form matrix growth function with base growth proportional
+   * to the strain
+   * grows with the Feedback from the stress acting on the cell
+   * This limits growth in high stress direction and 
+   * and no change in low stress direction
+   * (mimicing microtubles re-enforcing)
+   */
+   void feedbackLimitingStrainGrow();
     /**
    * target form matrix growth rate function with base growth proportional
    * to the strain and the initial shape

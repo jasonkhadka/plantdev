@@ -674,6 +674,9 @@ class Face(_object):
     def feedbackStrainGrow(self):
         return _quadedge.Face_feedbackStrainGrow(self)
 
+    def feedbackLimitingStrainGrow(self):
+        return _quadedge.Face_feedbackLimitingStrainGrow(self)
+
     def feedbackStrainProportionalGrow(self):
         return _quadedge.Face_feedbackStrainProportionalGrow(self)
 

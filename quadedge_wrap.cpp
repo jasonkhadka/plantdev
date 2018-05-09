@@ -7993,6 +7993,27 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_feedbackLimitingStrainGrow(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_feedbackLimitingStrainGrow",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_feedbackLimitingStrainGrow" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->feedbackLimitingStrainGrow();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_feedbackStrainProportionalGrow(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -18889,6 +18910,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_inflatedGrow", _wrap_Face_inflatedGrow, METH_VARARGS, NULL},
 	 { (char *)"Face_feedbackInflatedGrow", _wrap_Face_feedbackInflatedGrow, METH_VARARGS, NULL},
 	 { (char *)"Face_feedbackStrainGrow", _wrap_Face_feedbackStrainGrow, METH_VARARGS, NULL},
+	 { (char *)"Face_feedbackLimitingStrainGrow", _wrap_Face_feedbackLimitingStrainGrow, METH_VARARGS, NULL},
 	 { (char *)"Face_feedbackStrainProportionalGrow", _wrap_Face_feedbackStrainProportionalGrow, METH_VARARGS, NULL},
 	 { (char *)"Face_feedbackConstantGrow", _wrap_Face_feedbackConstantGrow, METH_VARARGS, NULL},
 	 { (char *)"Face_divisionThreshold_set", _wrap_Face_divisionThreshold_set, METH_VARARGS, NULL},
