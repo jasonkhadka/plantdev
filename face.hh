@@ -299,6 +299,10 @@ class Face
        */
        bool domePosition;
        /**
+       * Variable that notes if the Face is external face or not
+       */
+       bool externalPosition;
+       /**
         * Alpha for this face
         */
        double alpha;
@@ -620,6 +624,10 @@ class Face
    *  False : Face is in Cylindrical Flanks
    */
   bool getDomePosition();
+  /** function to get and set externalposition */
+
+  bool getExternalPosition();
+  void setExternalPosition(bool);
   /**
    * Function to test if this polygon is Convex or not
    * Convex :- A convex polygon is a simple polygon (not self-intersecting) 
@@ -971,6 +979,12 @@ inline void Face::positionToDome(){
 }
 inline void Face::positionToCylinder(){
   this->domePosition = false;
+}
+inline bool Face::getExternalPosition(){
+  return this->externalPosition;
+}
+inline void Face::setExternalPosition(bool condition){
+  this->externalPosition = condition;
 }
 inline void Face::setDivisionFactor(double newfactor){
     this->divisionFactor = newfactor;

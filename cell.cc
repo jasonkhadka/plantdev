@@ -68,6 +68,44 @@ unsigned long int random_seed()
  void Cell::setBeta(double inputBeta){
       this->beta = inputBeta;
  }
+ // ********************************************************************************** //
+bool checkExternalVertex(Vertex * vertex)
+{
+    VertexEdgeIterator edges(vertex);
+    Edge * edge;
+    Face * face;
+    while ((edge = edges.next())!= 0)
+    {
+          face = edge->Left();
+          if (face->getID() == 1)
+          {
+              return true;
+          }
+    }
+    return false;
+}
+
+
+// ********************************************************************************** //
+bool checkExternalFace(Face * face)
+{
+    if (face->getID() == 1){return true;};
+    FaceEdgeIterator edges(face);
+    Edge * edge;
+    Face * faceright;
+    while ((edge = edges.next())!= 0)
+    {
+          faceright = edge->Right();
+          if (faceright->getID() == 1)
+          {
+              return true;
+          }
+    }
+    return false;
+}
+// ********************************************************************************** //
+
+
  /**
   * Energy of cell calculator,
   * bascially go over faces and sum up the energies
@@ -1467,6 +1505,15 @@ void Cell::calculateBendingForce(){
     }
   }
   /////////////////////////////////////////
+  // setting external position true for all the faces that are external faces
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          //if (face->getID() == 1) continue;
+          face->setExternalPosition(checkExternalFace(face));
+    }
+  }
+  /////////////////////////////////////////
   //seting average face area
   this->setAverageFaceArea();
   // calculating Average TFM for faces
@@ -2231,23 +2278,3 @@ double objectiveEnergyFunction(const double * inputcoordinates, double * grad, C
 }
 
 */
-// ********************************************************************************** //
-bool checkExternalVertex(Vertex * vertex)
-{
-    VertexEdgeIterator edges(vertex);
-    Edge * edge;
-    Face * face;
-    while ((edge = edges.next())!= 0)
-    {
-          face = edge->Left();
-          if (face->getID() == 1)
-          {
-              return true;
-          }
-    }
-    return false;
-}
-
-
-
-

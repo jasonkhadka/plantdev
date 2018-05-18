@@ -1040,8 +1040,13 @@ void Face::setTempTargetFormMatrixIdentity(){
     */
 this->calculateStrain();
 Cell * cell = this->getCell();
-double eta = cell->getEta();
-double cellalpha;
+double cellalpha,celleta;
+if (externalPosition){
+  celleta = 0.;
+}else{
+  celleta = cell->getEta();
+}
+
 if (this->alpha == 0){//means not update directly to face
           cellalpha = cell->getAlpha();
       }
@@ -1152,8 +1157,12 @@ this->calculateStress();
 //growth rate of faces : randomized number between (kappa-0.5 to kappa + 0.5)
 double growthfactor = this->getGrowthRandomNumber();
 Cell * cell = this->getCell();
-double eta = cell->getEta();
 double cellalpha,celleta;
+if (externalPosition){
+  celleta = 0.;
+}else{
+  celleta = cell->getEta();
+}
 if (this->alpha == 0){//means not update directly to face
           cellalpha = cell->getAlpha();
       }
@@ -1264,19 +1273,18 @@ this->calculateStress();
 //growth rate of faces : randomized number between (kappa-0.5 to kappa + 0.5)
 double growthfactor = this->getGrowthRandomNumber();
 Cell * cell = this->getCell();
-double eta = cell->getEta();
 double cellalpha,celleta;
+if (externalPosition){
+  celleta = 0.;
+}else{
+  celleta = cell->getEta();
+}
+
 if (this->alpha == 0){//means not update directly to face
           cellalpha = cell->getAlpha();
       }
       else{
           cellalpha = this->alpha;
-      }
-if (this->eta == 0){//means not update directly to face
-          celleta = cell->getEta();
-      }
-      else{
-          celleta = this->eta;
       }
 Eigen::Matrix2d stressMatrix = cellalpha*(this->getAreaOfFace())*(this->strain);
 //getting traceless deviatoric matrix
@@ -1378,8 +1386,15 @@ void Face::feedbackStrainProportionalGrow(){
 this->calculateStrain();
 this->calculateStress();
 Cell * cell = this->getCell();
-double eta = cell->getEta();
-double cellalpha;
+//getting eta :  if this is external face there is no feedback 
+double cellalpha,celleta;
+if (externalPosition){
+  celleta = 0.;
+}
+else{
+  celleta = cell->getEta();
+}
+
 if (this->alpha == 0){//means not update directly to face
           cellalpha = cell->getAlpha();
       }
@@ -1539,7 +1554,13 @@ void Face::feedbackInflatedGrow(){
   this->calculateStress();
   this->calculateStrain();
 Cell * cell = this->getCell();
-double eta = cell->getEta();
+double celleta;
+if (externalPosition){
+  celleta = 0.;
+}else{
+  celleta = cell->getEta();
+}
+
 //getting traceless deviatoric matrix
 Eigen::Matrix2d deviatoric = (this->stress) - 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity();
 //current Form Matrix
@@ -1629,7 +1650,13 @@ void Face::feedbackConstantGrow(){
   this->calculateStrain();
   this->calculateStress();
 Cell * cell = this->getCell();
-double eta = cell->getEta();
+double celleta;
+if (externalPosition){
+  celleta = 0.;
+}else{
+  celleta = cell->getEta();
+}
+
 //getting traceless deviatoric matrix
 Eigen::Matrix2d deviatoric = (this->stress) - 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity();
 // Constant Growth Matrix
@@ -1950,6 +1977,7 @@ Face::Face(Cell *cell):gaussianWidth(0.125), randomNumberGeneratorType(gsl_rng_d
   this->vertexSize = 8;
   this->divisionFactor = cell->getDivisionFactor();
   this->domePosition = true;//seting position to dome as True in default
+  this->externalPosition = false; // default position false for external 
   this->lastGrowthRate = 0.;
   this->targetArea = 1.;
   this->growthVar = cell->getGrowthVar();

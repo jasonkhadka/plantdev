@@ -3353,6 +3353,20 @@ SWIGINTERNINLINE PyObject*
 #include "face.hh"
 
 
+SWIGINTERN int
+SWIG_AsVal_bool (PyObject *obj, bool *val)
+{
+  int r;
+  if (!PyBool_Check(obj))
+    return SWIG_ERROR;
+  r = PyObject_IsTrue(obj);
+  if (r == -1)
+    return SWIG_ERROR;
+  if (val) *val = r ? true : false;
+  return SWIG_OK;
+}
+
+
 #include "edge.hh"
 
 
@@ -8525,6 +8539,58 @@ SWIGINTERN PyObject *_wrap_Face_getDomePosition(PyObject *SWIGUNUSEDPARM(self), 
   arg1 = reinterpret_cast< Face * >(argp1);
   result = (bool)(arg1)->getDomePosition();
   resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getExternalPosition(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  bool result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getExternalPosition",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getExternalPosition" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (bool)(arg1)->getExternalPosition();
+  resultobj = SWIG_From_bool(static_cast< bool >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setExternalPosition(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  bool arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_setExternalPosition",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setExternalPosition" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  ecode2 = SWIG_AsVal_bool(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Face_setExternalPosition" "', argument " "2"" of type '" "bool""'");
+  } 
+  arg2 = static_cast< bool >(val2);
+  (arg1)->setExternalPosition(arg2);
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -19311,6 +19377,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_positionToCylinder", _wrap_Face_positionToCylinder, METH_VARARGS, NULL},
 	 { (char *)"Face_positionToDome", _wrap_Face_positionToDome, METH_VARARGS, NULL},
 	 { (char *)"Face_getDomePosition", _wrap_Face_getDomePosition, METH_VARARGS, NULL},
+	 { (char *)"Face_getExternalPosition", _wrap_Face_getExternalPosition, METH_VARARGS, NULL},
+	 { (char *)"Face_setExternalPosition", _wrap_Face_setExternalPosition, METH_VARARGS, NULL},
 	 { (char *)"Face_isConvex", _wrap_Face_isConvex, METH_VARARGS, NULL},
 	 { (char *)"Face_targetFormMatrix_set", _wrap_Face_targetFormMatrix_set, METH_VARARGS, NULL},
 	 { (char *)"Face_targetFormMatrix_get", _wrap_Face_targetFormMatrix_get, METH_VARARGS, NULL},
