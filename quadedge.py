@@ -233,6 +233,9 @@ class Cell(_object):
     def calculateBendingEnergy(self):
         return _quadedge.Cell_calculateBendingEnergy(self)
 
+    def calculateBendingForce(self):
+        return _quadedge.Cell_calculateBendingForce(self)
+
     def setBendingThreshold(self, arg2):
         return _quadedge.Cell_setBendingThreshold(self, arg2)
 
@@ -497,6 +500,12 @@ class Face(_object):
     def removeEdge(self, edge):
         return _quadedge.Face_removeEdge(self, edge)
 
+    def calculateBendingForce(self):
+        return _quadedge.Face_calculateBendingForce(self)
+
+    def getBendingForce(self):
+        return _quadedge.Face_getBendingForce(self)
+
     def setGaussianCurvature(self, arg2):
         return _quadedge.Face_setGaussianCurvature(self, arg2)
 
@@ -520,6 +529,12 @@ class Face(_object):
 
     def getLBOperator(self):
         return _quadedge.Face_getLBOperator(self)
+
+    def setLBOperatorOnMeanCurvature(self, tempLBO):
+        return _quadedge.Face_setLBOperatorOnMeanCurvature(self, tempLBO)
+
+    def getLBOperatorOnMeanCurvature(self):
+        return _quadedge.Face_getLBOperatorOnMeanCurvature(self)
 
     def getAreaMixed(self):
         return _quadedge.Face_getAreaMixed(self)
@@ -1039,6 +1054,14 @@ class Vertex(_object):
     __swig_getmethods__["cartesianForce"] = _quadedge.Vertex_cartesianForce_get
     if _newclass:
         cartesianForce = _swig_property(_quadedge.Vertex_cartesianForce_get, _quadedge.Vertex_cartesianForce_set)
+    __swig_setmethods__["bendingForce"] = _quadedge.Vertex_bendingForce_set
+    __swig_getmethods__["bendingForce"] = _quadedge.Vertex_bendingForce_get
+    if _newclass:
+        bendingForce = _swig_property(_quadedge.Vertex_bendingForce_get, _quadedge.Vertex_bendingForce_set)
+    __swig_setmethods__["normal"] = _quadedge.Vertex_normal_set
+    __swig_getmethods__["normal"] = _quadedge.Vertex_normal_get
+    if _newclass:
+        normal = _swig_property(_quadedge.Vertex_normal_get, _quadedge.Vertex_normal_set)
 
     def getCell(self):
         return _quadedge.Vertex_getCell(self)
@@ -1048,6 +1071,12 @@ class Vertex(_object):
 
     def getCartesianForce(self):
         return _quadedge.Vertex_getCartesianForce(self)
+
+    def calculateBendingForce(self):
+        return _quadedge.Vertex_calculateBendingForce(self)
+
+    def getBendingForce(self):
+        return _quadedge.Vertex_getBendingForce(self)
 
     def setCylindrical(self):
         return _quadedge.Vertex_setCylindrical(self)
@@ -1319,11 +1348,23 @@ class Vertex(_object):
     def getLBOperator(self):
         return _quadedge.Vertex_getLBOperator(self)
 
+    def setLBOperatorOnMeanCurvature(self, tempLBO):
+        return _quadedge.Vertex_setLBOperatorOnMeanCurvature(self, tempLBO)
+
+    def getLBOperatorOnMeanCurvature(self):
+        return _quadedge.Vertex_getLBOperatorOnMeanCurvature(self)
+
     def setparameters(self):
         return _quadedge.Vertex_setparameters(self)
 
     def setDerivatives(self):
         return _quadedge.Vertex_setDerivatives(self)
+
+    def setNormal(self, arg2):
+        return _quadedge.Vertex_setNormal(self, arg2)
+
+    def getNormal(self):
+        return _quadedge.Vertex_getNormal(self)
 
     def getEdge(self):
         return _quadedge.Vertex_getEdge(self)

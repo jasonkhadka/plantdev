@@ -272,7 +272,8 @@ class Face
       * Normal Force on this Face
       */
      double normalForce[3];
-
+     // Bending Force
+     double bendingForce[3];
      // ****************** ENERGY VALUES ************************************** //
      /**
       * First term value of Energy
@@ -337,6 +338,10 @@ class Face
       */
      double LBOperator[3];
      /**
+      * Laplace Beltrami Operator on Mean curvature
+      */
+     double LBOperatorOnMeanCurvature;
+     /**
       * mean Curvature at the centroid of this face
       */
      double meanCurvature;
@@ -347,6 +352,7 @@ class Face
      
      // Intial mean curvature for the centroid of this face
      double initialMeanCurvature;
+
      
      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
       //    Random Number Generator : seeded with *some* seed 
@@ -360,6 +366,11 @@ class Face
   /* ----------Public instance methods ---------*/
  /* -- public instance methods ----------------------------------------- */
     public:
+      /*
+      * Calculating the Bending Force
+      */
+      void calculateBendingForce();
+      double * getBendingForce();
       /*
       * setting and getting Gaussian curvature
      */
@@ -378,6 +389,11 @@ class Face
   */
   void setLBOperator(double tempLBO[]);
   double * getLBOperator();
+    /*
+    *setting and getting Laplace-Beltrami Operator on Mean Curvature
+  */
+  void setLBOperatorOnMeanCurvature(double tempLBO);
+  double getLBOperatorOnMeanCurvature();
   /*
     * Function to Get and set areaMixed for centroid of this face
     */
@@ -847,6 +863,12 @@ class Face
   friend class CentralisedDerivative;
 };
 /* ----- inline instance methods --------------------------------*/
+inline void Face::setLBOperatorOnMeanCurvature(double lbo){
+    this->LBOperatorOnMeanCurvature = lbo;
+}
+inline double Face::getLBOperatorOnMeanCurvature(){
+    return this->LBOperatorOnMeanCurvature;
+}
 inline void Face::setGaussianCurvature(double gaus){
     this->gaussianCurvature = gaus;
 }

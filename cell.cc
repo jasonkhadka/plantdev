@@ -898,6 +898,32 @@ void getLaplaceBeltrami(double A[],double B[], double C[], double LBOperator[]){
     LBOperator[2] = cotB*CA[2] + cotC*BA[2];  
 };
 //********************************************************************************* //
+ // Function to calculate Laplace-Beltrami Operator on Mean Curvature for a given vertex
+ //   IMPORTANT :: VERTEX A (passed below) is the reference for calculating the voronoi component
+//     (reference) A ------- B
+//                  \       /
+//                   \     /
+//                    \   /
+//                     \ /
+//                      C
+//  this would return a scalar
+//********************************************************************************* //
+double getLaplaceBeltramiOnMeanCurvature(double A[],double B[], double C[], double curvatureDiffBA,double curvatureDiffCA){ 
+    // getting the vector
+    double CA[3] = {A[0]- C[0],A[1]- C[1],A[2]- C[2]};
+    double CB[3] = {B[0]- C[0],B[1]- C[1],B[2]- C[2]};
+    double BA[3] = {A[0]- B[0],A[1]- B[1],A[2]- B[2]};
+    double BC[3] = {-1*CB[0],-1*CB[1],-1*CB[2]};
+    // Getting anlge on the either side of triangle (angle B, angle C)
+    double angleC = acos(getVectorDotProduct(CB,CA)/(getVectorNorm(CB)*getVectorNorm(CA)));
+    double angleB = acos(getVectorDotProduct(BA,BC)/(getVectorNorm(BA)*getVectorNorm(BC)));
+    // Calculating half of cot(angles)
+    double cotC = getCot(angleC);
+    double cotB = getCot(angleB);
+    // calculating the Laplace-Beltrami Operator
+    return cotB*curvatureDiffCA + cotC*curvatureDiffBA;
+};
+//********************************************************************************* //
 void Cell::setMeanCurvature(){
   Face * face;
   Edge * edge1,*edge2;
@@ -1046,21 +1072,149 @@ void Cell::setMeanCurvature(){
           LBOperator[1] /= (2.*areaMixed);
           LBOperator[2] /= (2.*areaMixed);
           //calculating guassian curvature
+          double tempNorm[3];
+          double LBOnorm = getVectorNorm(LBOperator);
+          tempNorm[0] = 1./LBOnorm*LBOperator[0];
+          tempNorm[1] = 1./LBOnorm*LBOperator[1];
+          tempNorm[2] = 1./LBOnorm*LBOperator[2];
           //std::cout<<"area mixed :"<<(areaMixed)<<std::endl;
           //std::cout<<"Gaussian curvature :"<<(M_2PI - sumAngle)/(areaMixed)<<std::endl;
           referenceVertex->setGaussianCurvature((M_2PI - sumAngle)/(areaMixed));
           //now setting the LBOperator value for this vertex (which is face for this case)
           referenceVertex->setLBOperator(LBOperator);
           //Calcuating Mean curvature = 0.5*norm(LBO)
-          referenceVertex->setMeanCurvature((0.5*getVectorNorm(LBOperator)));
+          referenceVertex->setMeanCurvature((0.5*LBOnorm));
           //saving the areaMixed for the centroid of this face
           referenceVertex->setAreaMixed(areaMixed);
+          // saving the normal to the vertex
+          double * pntnorm = tempNorm;
+          referenceVertex->setNormal(pntnorm);
       }
   this->totalAreaMixed = totalAreaMixed;
   // Now Calculate Bending Energy :: on newly calculated mean curvature
   this->calculateBendingEnergy();
 }
+//********************************************************************************* //
+void Cell::calculateBendingForce(){
+  Face * face;
+  Edge * edge1,*edge2;
+  Vertex * vertex1,*vertex2, *vertex3; 
+  // First iterating through all the faces to set areaMixed for the centroid of faces
+  CellFaceIterator faces(this);
+  while((face = faces.next()) != 0){
+      if (face->getID() == 1) continue; // not calculating for the external face
+                                        // imagine this is constant
+      FaceEdgeIterator edges(face);
+      double centroid[3] = {face->getXCentralised(),
+                            face->getYCentralised(),
+                            face->getZCentralised()};
+      double LBOperator(0.);
+      while ((edge1 = edges.next())!= 0){
+              //getting vertices
+              /*          centroid
+                          /     \ 
+                         /       \
+                      v1 --------v2
 
+              */
+              vertex1 = edge1->Org();
+              vertex2 = edge1->Dest();
+              double vertex1coordinate[3] =  {vertex1->getXcoordinate(),
+                                              vertex1->getYcoordinate(),
+                                              vertex1->getZcoordinate()};
+              double vertex2coordinate[3] =  {vertex2->getXcoordinate(),
+                                              vertex2->getYcoordinate(),
+                                              vertex2->getZcoordinate()};
+              //std::cout<<"Face Sum Angle :"<<sumAngle<<std::endl;
+              /*if (face->getID() == 113){
+                std::cout<<std::endl<<"113  areaMixed component  :v1 =  "<< vertex1->getID()<<" v2 = "<< vertex2->getID()<<" AM = "<< calculateAreaMixedComponent(centroid,vertex1coordinate,vertex2coordinate) << std::endl;
+              }*/
+              // calculating the Laplace Beltrami operator for this vector on this triangle
+              double tempLBOperator;
+              // curvatureDiff = H_i - H_j 
+              double curvatureDiffBA = (face->getMeanCurvature() - vertex1->getMeanCurvature());
+              double curvatureDiffCA = (face->getMeanCurvature() - vertex2->getMeanCurvature());
+              tempLBOperator = getLaplaceBeltramiOnMeanCurvature(centroid, vertex1coordinate, vertex2coordinate,curvatureDiffBA, curvatureDiffCA);
+              // value is stored in LBO operator
+              LBOperator += tempLBOperator;
+            }
+      // dividing the LB-Operator by 2*(AreaMixed of this vertex) as final step of its calculation
+      double areaMixed = face->getAreaMixed();
+      // Computing the LBOperator for this face
+      LBOperator /= (2.*areaMixed);
+      // saving hte LBOpertor on Mean Curvature
+      face->setLBOperatorOnMeanCurvature(LBOperator);
+      face->calculateBendingForce();
+      }
+  // with this all the faces are iterated over and the areaMixed for all the centroid of faces are summed on areaMixed
+  //  =============================================================================================================
+  // Now iterating over all the vertices on the Structure
+  CellVertexIterator vertices(this);
+  Vertex * referenceVertex;
+  Face * right, *left;
+  while((referenceVertex = vertices.next()) != 0){
+      // iterating around all the edges from this vertex
+      VertexEdgeIterator edges(referenceVertex);
+      //referenceVertex is the centroid of its vertex orbit, similar to centroid for face above
+      double centroid[3] = {referenceVertex->getXcoordinate(),
+                            referenceVertex->getYcoordinate(),
+                            referenceVertex->getZcoordinate()};
+      double LBOperator(0.);
+      //std::cout<<"Vertex ID :" << referenceVertex->getID()<<" Sum Angle :"<<sumAngle<<std::endl;
+      while ((edge1 = edges.next())!= 0){
+          //getting vertices
+          /*           refVert
+                      /  |   \ 
+                left /   |e   \ right
+                    /    |     \
+                  v1 ----v2-----v3
+                  where: v1,v3 = face Centroid left and right, respectively
+                          e : iterated edge
+                          v2 : e->Dest()
+
+          */
+          right = edge1->Right();
+          left = edge1->Left();
+          vertex2 = edge1->Dest();
+          double vertex1coordinate[3] =   {left->getXCentralised(),
+                                           left->getYCentralised(),
+                                           left->getZCentralised()};
+          double vertex2coordinate[3] =  {vertex2->getXcoordinate(),
+                                          vertex2->getYcoordinate(),
+                                          vertex2->getZcoordinate()};
+          double vertex3coordinate[3] =  {right->getXCentralised(),
+                                          right->getYCentralised(),
+                                          right->getZCentralised()};
+
+          // first areaMixedComponent for refVert-v1-v2
+          if (left->getID() != 1){// Keeping a check to not calculate the outer face
+                // curvatureDiff = H_i - H_j 
+                double curvatureDiffBA = (referenceVertex->getMeanCurvature() - left->getMeanCurvature());
+                double curvatureDiffCA = (referenceVertex->getMeanCurvature() - vertex2->getMeanCurvature());
+                double tempLBOperator = getLaplaceBeltramiOnMeanCurvature(centroid, vertex1coordinate, vertex2coordinate,curvatureDiffBA, curvatureDiffCA);
+                // value is stored in LBO operator
+                LBOperator += tempLBOperator;
+              }
+          
+          // second areaMixedComponent for refVert-v2-v3
+          if (right->getID() != 1){
+                // curvatureDiff = H_i - H_j 
+                double curvatureDiffBA = (referenceVertex->getMeanCurvature() - vertex2->getMeanCurvature());
+                double curvatureDiffCA = (referenceVertex->getMeanCurvature() - right->getMeanCurvature());
+                double tempLBOperator = getLaplaceBeltramiOnMeanCurvature(centroid, vertex2coordinate, vertex3coordinate,curvatureDiffBA, curvatureDiffCA);
+                // value is stored in LBO operator
+                LBOperator += tempLBOperator;
+              }
+          
+            }  
+          double areaMixed = referenceVertex->getAreaMixed();
+          // dividing the LB-Operator by 2*(AreaMixed of this vertex) as final step of its calculation
+          LBOperator /= (2.*areaMixed);
+          // saving LBOperator on Mixed Area
+          referenceVertex->setLBOperatorOnMeanCurvature(LBOperator);
+          referenceVertex->calculateBendingForce();
+      }
+}
  //********************************************************************************* //
  double Cell::getSumEdgeLength(){
   CellFaceIterator faces(this);

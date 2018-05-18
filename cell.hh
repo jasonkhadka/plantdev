@@ -544,6 +544,10 @@ public:
     * calculate bending energy
   */
   void calculateBendingEnergy();
+  /*
+    * Calcualte bending force
+  */
+  void calculateBendingForce();
   /**
    * Function to set Bending threshold to find cell is convex or not
    */

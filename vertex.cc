@@ -104,6 +104,32 @@ double Vertex::getNonCentralisedProjectedZcoordinate(unsigned int faceid){
   return this->NonCentralisedProjectedZcoordinate[faceid];
 }
 
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+void Vertex::setNormal(double * tempnormal){
+   for (int i = 0; i<3; i++){
+      normal[i] = tempnormal[i];
+   }
+}
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double * Vertex::getBendingForce(){
+  double * pntbendingforce = bendingForce;
+  return pntbendingforce;
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double *Vertex::getNormal(){
+   double * pntnormal = normal;
+   return pntnormal;
+}
+// *************************************************************** //
+ void Vertex::calculateBendingForce(){
+      double omega = (this->getCell())->getOmega();
+      double bendingForceCoefficient = areaMixed*(2.*omega)*
+                            (2.*meanCurvature*(pow(meanCurvature,2.) - gaussianCurvature) + LBOperatorOnMeanCurvature);
+      this->bendingForce[0] = bendingForceCoefficient*normal[0];
+      this->bendingForce[1] = bendingForceCoefficient*normal[1];
+      this->bendingForce[2] = bendingForceCoefficient*normal[2];
+ }
 ///////////////////////////////////////////////////////////////////////
 double * Vertex::getCartesianForce(){
     double * pnt = this->cartesianForce;
@@ -156,6 +182,12 @@ Vertex::Vertex(Cell *cell)
   this->Xcoordinate = 0.0;
   this->Ycoordinate = 0.0;
   this->Zcoordinate = 0.0;
+  this->bendingForce[0] = 0;
+  this->bendingForce[1] = 0;
+  this->bendingForce[2] = 0;
+  this->normal[0] = 0;
+  this->normal[1] = 0;
+  this->normal[2] = 0;
   cell->addVertex(this);
   this->initialMeanCurvature = 0.;
   this->domePosition = true;//seting position to dome as True in default

@@ -241,6 +241,10 @@ class Vertex
       */
      double LBOperator[3];
      /**
+      * Laplace beltrami operator on mean curvature
+      */
+     double LBOperatorOnMeanCurvature;
+     /**
       * mean Curvature at the centroid of this face
       */
      double meanCurvature;
@@ -287,6 +291,13 @@ class Vertex
      * Fz = dE/dz
      */
      double cartesianForce[3];
+      // Bending Force
+     double bendingForce[3];
+    /**
+     * normal of this vertex
+     * array stores x,y,z component of the normal
+     */
+     double normal[3];
   /* -- public instance methods -------------------------------------------- */
 
   public:
@@ -303,6 +314,12 @@ class Vertex
    */
   void calculateCartesianForce();
   double * getCartesianForce();
+  /*
+  * Calculating the Bending Force
+  */
+  void calculateBendingForce();
+  double * getBendingForce();
+  //
   /**
    * Function to set the Cylindrical Coordinates from Cartesian Coordinates
    */
@@ -732,6 +749,11 @@ class Vertex
     */
     void setLBOperator(double tempLBO[]);
     double * getLBOperator();
+    /*
+    *setting and getting Laplace-Beltrami Operator on Mean Curvature
+    */
+    void setLBOperatorOnMeanCurvature(double tempLBO);
+    double getLBOperatorOnMeanCurvature();
 
     // **************************************************************//
     // Single Function that sets all paramenters need for calculation//
@@ -742,7 +764,9 @@ class Vertex
     // **************************************************************//
     void setDerivatives();
 
-    
+    // Setting and getting the normal
+    void setNormal(double *);
+    double * getNormal();
     
     // **************************************************************//
 ///////////////////////////////////////////////////////////////////////
@@ -827,6 +851,12 @@ class Vertex
 };
 
 /* -- inline instance methods ---------------------------------------------- */
+inline void Vertex::setLBOperatorOnMeanCurvature(double lbo){
+    this->LBOperatorOnMeanCurvature = lbo;
+}
+inline double Vertex::getLBOperatorOnMeanCurvature(){
+    return this->LBOperatorOnMeanCurvature;
+}
 inline void Vertex::setGaussianCurvature(double gaus){
     this->gaussianCurvature = gaus;
 }

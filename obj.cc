@@ -523,6 +523,7 @@ void check_closed(Array<Tvert> verts) {
 		    << verts[i].no << endl;
 	    else if (!verts[i].done)
 		cerr << "\nERROR in OBJ file: vertex " << verts[i].no
+        << verts[i].p[0] <<verts[i].p[1] <<verts[i].p[2]
 		    << " is not surrounded by polygons" << endl;
 	    else
 		cerr << "\nERROR in OBJ file: repeated face: " <<
@@ -635,15 +636,15 @@ static Cell *objReadCell(istream &s, const char *streamname) {
 	    faces.append(f);
 	    int n;
 	    for (n=0; s.peek()!='\n'; n++) {
-		int v;
-		// cout << "  peek='" << (char)s.peek() << "' ";
-		s >> v;
-		// cout << "  got " << v << endl;
-		v--;		// we start numbering at 0, not 1
-		f->vlist.append(&verts[v]);
-	    }
+      		int v;
+      		// cout << "  peek='" << (char)s.peek() << "' ";
+      		s >> v;
+      		//cout << "  got " << v << endl;
+      		v--;		// we start numbering at 0, not 1
+      		f->vlist.append(&verts[v]);
+      	}
 	    // cout << "done gobbling" << endl;
-	    // cout << "f " << f->vlist;
+	    //cout << "f " << f->vlist;
 	    add_arcs(f->vlist, f);		// add the topological info in face f
 	}
 	else if (!strcmp(tok, "#")) {

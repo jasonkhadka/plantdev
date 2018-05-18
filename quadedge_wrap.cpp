@@ -4684,6 +4684,27 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_calculateBendingForce(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_calculateBendingForce",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_calculateBendingForce" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  (arg1)->calculateBendingForce();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_setBendingThreshold(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -6522,6 +6543,49 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_calculateBendingForce(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_calculateBendingForce",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_calculateBendingForce" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->calculateBendingForce();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getBendingForce(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getBendingForce",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getBendingForce" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double *)(arg1)->getBendingForce();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_setGaussianCurvature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -6724,6 +6788,58 @@ SWIGINTERN PyObject *_wrap_Face_getLBOperator(PyObject *SWIGUNUSEDPARM(self), Py
   arg1 = reinterpret_cast< Face * >(argp1);
   result = (double *)(arg1)->getLBOperator();
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setLBOperatorOnMeanCurvature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_setLBOperatorOnMeanCurvature",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setLBOperatorOnMeanCurvature" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Face_setLBOperatorOnMeanCurvature" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setLBOperatorOnMeanCurvature(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getLBOperatorOnMeanCurvature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getLBOperatorOnMeanCurvature",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getLBOperatorOnMeanCurvature" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getLBOperatorOnMeanCurvature();
+  resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
   return NULL;
@@ -10941,6 +11057,124 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Vertex_bendingForce_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  double *arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_bendingForce_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_bendingForce_set" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Vertex_bendingForce_set" "', argument " "2"" of type '" "double [3]""'"); 
+  } 
+  arg2 = reinterpret_cast< double * >(argp2);
+  {
+    if (arg2) {
+      size_t ii = 0;
+      for (; ii < (size_t)3; ++ii) *(double *)&arg1->bendingForce[ii] = *((double *)arg2 + ii);
+    } else {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in variable '""bendingForce""' of type '""double [3]""'");
+    }
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_bendingForce_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_bendingForce_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_bendingForce_get" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  result = (double *)(double *) ((arg1)->bendingForce);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_normal_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  double *arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_normal_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_normal_set" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Vertex_normal_set" "', argument " "2"" of type '" "double [3]""'"); 
+  } 
+  arg2 = reinterpret_cast< double * >(argp2);
+  {
+    if (arg2) {
+      size_t ii = 0;
+      for (; ii < (size_t)3; ++ii) *(double *)&arg1->normal[ii] = *((double *)arg2 + ii);
+    } else {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in variable '""normal""' of type '""double [3]""'");
+    }
+  }
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_normal_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_normal_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_normal_get" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  result = (double *)(double *) ((arg1)->normal);
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Vertex_getCell(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Vertex *arg1 = (Vertex *) 0 ;
@@ -10999,6 +11233,49 @@ SWIGINTERN PyObject *_wrap_Vertex_getCartesianForce(PyObject *SWIGUNUSEDPARM(sel
   }
   arg1 = reinterpret_cast< Vertex * >(argp1);
   result = (double *)(arg1)->getCartesianForce();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_calculateBendingForce(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_calculateBendingForce",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_calculateBendingForce" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->calculateBendingForce();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getBendingForce(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_getBendingForce",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getBendingForce" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  result = (double *)(arg1)->getBendingForce();
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
   return resultobj;
 fail:
@@ -13504,6 +13781,58 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Vertex_setLBOperatorOnMeanCurvature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_setLBOperatorOnMeanCurvature",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setLBOperatorOnMeanCurvature" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_setLBOperatorOnMeanCurvature" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setLBOperatorOnMeanCurvature(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getLBOperatorOnMeanCurvature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_getLBOperatorOnMeanCurvature",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getLBOperatorOnMeanCurvature" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  result = (double)(arg1)->getLBOperatorOnMeanCurvature();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Vertex_setparameters(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Vertex *arg1 = (Vertex *) 0 ;
@@ -13540,6 +13869,58 @@ SWIGINTERN PyObject *_wrap_Vertex_setDerivatives(PyObject *SWIGUNUSEDPARM(self),
   arg1 = reinterpret_cast< Vertex * >(argp1);
   (arg1)->setDerivatives();
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setNormal(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  double *arg2 = (double *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_setNormal",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setNormal" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Vertex_setNormal" "', argument " "2"" of type '" "double *""'"); 
+  }
+  arg2 = reinterpret_cast< double * >(argp2);
+  (arg1)->setNormal(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_getNormal(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_getNormal",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getNormal" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  result = (double *)(arg1)->getNormal();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -18774,6 +19155,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_getInitialStrain", _wrap_Cell_getInitialStrain, METH_VARARGS, NULL},
 	 { (char *)"Cell_getBendingEnergy", _wrap_Cell_getBendingEnergy, METH_VARARGS, NULL},
 	 { (char *)"Cell_calculateBendingEnergy", _wrap_Cell_calculateBendingEnergy, METH_VARARGS, NULL},
+	 { (char *)"Cell_calculateBendingForce", _wrap_Cell_calculateBendingForce, METH_VARARGS, NULL},
 	 { (char *)"Cell_setBendingThreshold", _wrap_Cell_setBendingThreshold, METH_VARARGS, NULL},
 	 { (char *)"Cell_getBendingThreshold", _wrap_Cell_getBendingThreshold, METH_VARARGS, NULL},
 	 { (char *)"Cell_setConvexAngleThreshold", _wrap_Cell_setConvexAngleThreshold, METH_VARARGS, NULL},
@@ -18851,6 +19233,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getEdge", _wrap_Face_getEdge, METH_VARARGS, NULL},
 	 { (char *)"Face_addEdge", _wrap_Face_addEdge, METH_VARARGS, NULL},
 	 { (char *)"Face_removeEdge", _wrap_Face_removeEdge, METH_VARARGS, NULL},
+	 { (char *)"Face_calculateBendingForce", _wrap_Face_calculateBendingForce, METH_VARARGS, NULL},
+	 { (char *)"Face_getBendingForce", _wrap_Face_getBendingForce, METH_VARARGS, NULL},
 	 { (char *)"Face_setGaussianCurvature", _wrap_Face_setGaussianCurvature, METH_VARARGS, NULL},
 	 { (char *)"Face_getGaussianCurvature", _wrap_Face_getGaussianCurvature, METH_VARARGS, NULL},
 	 { (char *)"Face_setMeanCurvature", _wrap_Face_setMeanCurvature, METH_VARARGS, NULL},
@@ -18859,6 +19243,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getInitialMeanCurvature", _wrap_Face_getInitialMeanCurvature, METH_VARARGS, NULL},
 	 { (char *)"Face_setLBOperator", _wrap_Face_setLBOperator, METH_VARARGS, NULL},
 	 { (char *)"Face_getLBOperator", _wrap_Face_getLBOperator, METH_VARARGS, NULL},
+	 { (char *)"Face_setLBOperatorOnMeanCurvature", _wrap_Face_setLBOperatorOnMeanCurvature, METH_VARARGS, NULL},
+	 { (char *)"Face_getLBOperatorOnMeanCurvature", _wrap_Face_getLBOperatorOnMeanCurvature, METH_VARARGS, NULL},
 	 { (char *)"Face_getAreaMixed", _wrap_Face_getAreaMixed, METH_VARARGS, NULL},
 	 { (char *)"Face_setAreaMixed", _wrap_Face_setAreaMixed, METH_VARARGS, NULL},
 	 { (char *)"Face_getFaceVolume", _wrap_Face_getFaceVolume, METH_VARARGS, NULL},
@@ -19029,9 +19415,15 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Vertex_data_get", _wrap_Vertex_data_get, METH_VARARGS, NULL},
 	 { (char *)"Vertex_cartesianForce_set", _wrap_Vertex_cartesianForce_set, METH_VARARGS, NULL},
 	 { (char *)"Vertex_cartesianForce_get", _wrap_Vertex_cartesianForce_get, METH_VARARGS, NULL},
+	 { (char *)"Vertex_bendingForce_set", _wrap_Vertex_bendingForce_set, METH_VARARGS, NULL},
+	 { (char *)"Vertex_bendingForce_get", _wrap_Vertex_bendingForce_get, METH_VARARGS, NULL},
+	 { (char *)"Vertex_normal_set", _wrap_Vertex_normal_set, METH_VARARGS, NULL},
+	 { (char *)"Vertex_normal_get", _wrap_Vertex_normal_get, METH_VARARGS, NULL},
 	 { (char *)"Vertex_getCell", _wrap_Vertex_getCell, METH_VARARGS, NULL},
 	 { (char *)"Vertex_calculateCartesianForce", _wrap_Vertex_calculateCartesianForce, METH_VARARGS, NULL},
 	 { (char *)"Vertex_getCartesianForce", _wrap_Vertex_getCartesianForce, METH_VARARGS, NULL},
+	 { (char *)"Vertex_calculateBendingForce", _wrap_Vertex_calculateBendingForce, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getBendingForce", _wrap_Vertex_getBendingForce, METH_VARARGS, NULL},
 	 { (char *)"Vertex_setCylindrical", _wrap_Vertex_setCylindrical, METH_VARARGS, NULL},
 	 { (char *)"Vertex_setCartesian", _wrap_Vertex_setCartesian, METH_VARARGS, NULL},
 	 { (char *)"Vertex_setRcoordinate", _wrap_Vertex_setRcoordinate, METH_VARARGS, NULL},
@@ -19122,8 +19514,12 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Vertex_getInitialMeanCurvature", _wrap_Vertex_getInitialMeanCurvature, METH_VARARGS, NULL},
 	 { (char *)"Vertex_setLBOperator", _wrap_Vertex_setLBOperator, METH_VARARGS, NULL},
 	 { (char *)"Vertex_getLBOperator", _wrap_Vertex_getLBOperator, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setLBOperatorOnMeanCurvature", _wrap_Vertex_setLBOperatorOnMeanCurvature, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getLBOperatorOnMeanCurvature", _wrap_Vertex_getLBOperatorOnMeanCurvature, METH_VARARGS, NULL},
 	 { (char *)"Vertex_setparameters", _wrap_Vertex_setparameters, METH_VARARGS, NULL},
 	 { (char *)"Vertex_setDerivatives", _wrap_Vertex_setDerivatives, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setNormal", _wrap_Vertex_setNormal, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getNormal", _wrap_Vertex_getNormal, METH_VARARGS, NULL},
 	 { (char *)"Vertex_getEdge", _wrap_Vertex_getEdge, METH_VARARGS, NULL},
 	 { (char *)"Vertex_addEdge", _wrap_Vertex_addEdge, METH_VARARGS, NULL},
 	 { (char *)"Vertex_removeEdge", _wrap_Vertex_removeEdge, METH_VARARGS, NULL},

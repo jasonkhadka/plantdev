@@ -478,7 +478,11 @@ bool Face::isConvex(){
   return true;
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
-
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double * Face::getBendingForce(){
+  double * pntbendingforce = bendingForce;
+  return pntbendingforce;
+}
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
 void Face::setNormal(double * tempnormal){
    for (int i = 0; i<3; i++){
@@ -961,6 +965,15 @@ void Face::setTempTargetFormMatrixIdentity(){
     this->sumEdgeLength = tempsumlength;
  }
  // *************************************************************** //
+ void Face::calculateBendingForce(){
+      double omega = (this->getCell())->getOmega();
+      double bendingForceCoefficient = areaMixed*(2.*omega)*
+                            (2.*meanCurvature*(pow(meanCurvature,2.) - gaussianCurvature) + LBOperatorOnMeanCurvature);
+      this->bendingForce[0] = bendingForceCoefficient*normal[0];
+      this->bendingForce[1] = bendingForceCoefficient*normal[1];
+      this->bendingForce[2] = bendingForceCoefficient*normal[2];
+ }
+ // *************************************************************** //
  void Face::calculateStress(){
     if (this->getID() == 1){
     this->stress << 0.,0.,
@@ -1376,17 +1389,17 @@ if (this->alpha == 0){//means not update directly to face
 Eigen::Matrix2d stressMatrix = cellalpha*(this->getAreaOfFace())*(this->strain);
 //getting traceless deviatoric matrix
 Eigen::Matrix2d deviatoric = (stressMatrix) - 0.5*(stressMatrix.trace())*Eigen::Matrix2d::Identity();
-//current Form Matrix
-Eigen::Matrix2d M0;
-M0 << this->targetFormMatrix[0][0],this->targetFormMatrix[0][1],
-      this->targetFormMatrix[1][0],this->targetFormMatrix[1][1];
+//growth rate of faces : randomized number between (kappa-0.5 to kappa + 0.5)
+double growthfactor = this->getGrowthRandomNumber();
 //Strain Matrix 
-Eigen::Matrix2d proportionalStrain;
-proportionalStrain << this->strain(0,0)*M0(0,0), this->strain(0,1)*M0(0,1),
-                this->strain(1,0)*M0(1,0), this->strain(1,1)*M0(1,1);
-
+Eigen::Matrix2d strainOfCell;
+strainOfCell << this->strain(0,0), this->strain(0,1),
+                this->strain(1,0), this->strain(1,1);
+//strainOfCell * trace :: to make growth proportional to strain and M0
+double traceofTargetForm = (this->targetFormMatrix[0][0]+ this->targetFormMatrix[1][1]);
+strainOfCell = growthfactor*traceofTargetForm*strainOfCell;
 //get the feedback matrix:: Feedback is dependent on the direct growth equation 
-Eigen::Matrix2d feedback = deviatoric*proportionalStrain +proportionalStrain*deviatoric;
+Eigen::Matrix2d feedback = deviatoric*strainOfCell + strainOfCell*deviatoric;
 //printing Feed back matrix
 /*
 std::cout<<"-------------------------face id "<<this->getID()<< "---------------------------"<<
@@ -1414,18 +1427,16 @@ std::cout<<"-------------------------face id "<<this->getID()<< "---------------
 "\n"<<feedback(0,0)<<"  "<<feedback(0,1)<<
 "\n"<<feedback(1,0)<<"  "<<feedback(1,1)<<std::endl;
 */
-//growth rate of faces : randomized number between (kappa-0.5 to kappa + 0.5)
-double growthfactor = this->getGrowthRandomNumber();
-lastGrowthRate = growthfactor; //saving growth rate for plotting
+this->lastGrowthRate = growthfactor; //saving growth rate for plotting
 //std::cout<<"Kappa : "<< kappa <<"/n Actual Growth Var  : "<<growthvar <<std::endl;
 Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
 // Growth Matrix
 Eigen::Matrix2d growthMatrix;
 // dM0/dt = kappa*STRAIN - n/2*feedback
-growthMatrix<< growthfactor*(this->strain(0,0))*M0(0,0) - eta/2.*feedback(0,0),
-               growthfactor*(this->strain(0,1))*M0(0,1) - eta/2.*feedback(0,1),
-               growthfactor*(this->strain(1,0))*M0(1,0) - eta/2.*feedback(1,0),
-               growthfactor*(this->strain(1,1))*M0(1,1) - eta/2.*feedback(1,1); 
+growthMatrix<< strainOfCell(0,0) - eta/2.*feedback(0,0),
+               strainOfCell(0,1) - eta/2.*feedback(0,1),
+               strainOfCell(1,0) - eta/2.*feedback(1,0),
+               strainOfCell(1,1) - eta/2.*feedback(1,1); 
 eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
 //to calculate the individual growth eigen direction
   Eigen::Matrix2d eigen1;
@@ -1927,6 +1938,12 @@ Face::Face(Cell *cell):gaussianWidth(0.125), randomNumberGeneratorType(gsl_rng_d
   this->unitz[0] = 0;
   this->unitz[1] = 0;
   this->unitz[2] = 0;
+  this->bendingForce[0] = 0;
+  this->bendingForce[1] = 0;
+  this->bendingForce[2] = 0;
+  this->normal[0] = 0;
+  this->normal[1] = 0;
+  this->normal[2] = 0;
   // ************************************************************************ //
   this->vertices = new Vertex*[8];
   this->vertexCount = 0;
