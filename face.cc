@@ -208,6 +208,14 @@ void Face::setProjectedCoordinate(){
           vector2[0] = xcood[(counter+1)%numOfVertex]-xCentroid;
           vector2[1] = ycood[(counter+1)%numOfVertex]-yCentroid;             
           vector2[2] = zcood[(counter+1)%numOfVertex]-zCentroid;
+          // Need to check if the two vertices have overlapped
+          if (((vector1[0]-vector2[0])<0.00001)&&
+              ((vector1[1]-vector2[1])<0.00001)&&
+              ((vector1[2]-vector2[2])<0.00001))
+            {
+                currentEdge = faceEdges1.next();
+                continue;
+            };
           //cross product of the two vectors
           crossProductVector[0] = vector1[1]*vector2[2] - vector1[2]*vector2[1];//also definition of alpha
           crossProductVector[1] = vector1[2]*vector2[0] - vector1[0]*vector2[2];//also definition of beta
@@ -1448,10 +1456,10 @@ Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
 // Growth Matrix
 Eigen::Matrix2d growthMatrix;
 // dM0/dt = kappa*STRAIN - n/2*feedback
-growthMatrix<< strainOfCell(0,0) - eta/2.*feedback(0,0),
-               strainOfCell(0,1) - eta/2.*feedback(0,1),
-               strainOfCell(1,0) - eta/2.*feedback(1,0),
-               strainOfCell(1,1) - eta/2.*feedback(1,1); 
+growthMatrix<< strainOfCell(0,0) - celleta/2.*feedback(0,0),
+               strainOfCell(0,1) - celleta/2.*feedback(0,1),
+               strainOfCell(1,0) - celleta/2.*feedback(1,0),
+               strainOfCell(1,1) - celleta/2.*feedback(1,1); 
 eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
 //to calculate the individual growth eigen direction
   Eigen::Matrix2d eigen1;
@@ -1603,10 +1611,10 @@ Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
 // Growth Matrix
 Eigen::Matrix2d growthMatrix;
 // dM0/dt = kappa*M0 - n/2*feedback
-growthMatrix<< growthfactor*(this->targetFormMatrix[0][0]) - eta/2.*feedback(0,0),
-               growthfactor*(this->targetFormMatrix[0][1]) - eta/2.*feedback(0,1),
-               growthfactor*(this->targetFormMatrix[1][0]) - eta/2.*feedback(1,0),
-               growthfactor*(this->targetFormMatrix[1][1]) - eta/2.*feedback(1,1); 
+growthMatrix<< growthfactor*(this->targetFormMatrix[0][0]) - celleta/2.*feedback(0,0),
+               growthfactor*(this->targetFormMatrix[0][1]) - celleta/2.*feedback(0,1),
+               growthfactor*(this->targetFormMatrix[1][0]) - celleta/2.*feedback(1,0),
+               growthfactor*(this->targetFormMatrix[1][1]) - celleta/2.*feedback(1,1); 
 eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
 //to calculate the individual growth eigen direction
   Eigen::Matrix2d eigen1;
@@ -1659,12 +1667,31 @@ if (externalPosition){
 
 //getting traceless deviatoric matrix
 Eigen::Matrix2d deviatoric = (this->stress) - 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity();
-// Constant Growth Matrix
-Eigen::Matrix2d MG;
-MG << this->constantGrowthMatrix[0][0],this->constantGrowthMatrix[0][1],
-      this->constantGrowthMatrix[1][0],this->constantGrowthMatrix[1][1];
+// Constant Growth Matrix Growth
+//current Form Matrix
+Eigen::Matrix2d M0;
+M0 << this->targetFormMatrix[0][0],this->targetFormMatrix[0][1],
+      this->targetFormMatrix[1][0],this->targetFormMatrix[1][1];
 //get the feedback matrix
-Eigen::Matrix2d feedback = deviatoric*MG + MG*deviatoric;
+/*
+std::cout<<"Kappa :: "<< kappa <<"\n Actual Growth Var  : "<<growthvar <<std::endl;
+std::cout<<"Feedback parameter : Eta :: " << eta <<std::endl;
+*/
+Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
+// Growth Matrix
+eigensolver.compute(M0);//computing the eigenvalues of growthMatrix, to make sure it is always growing
+//to calculate the individual growth eigen direction
+Eigen::Matrix2d eigen1;
+Eigen::Matrix2d eigen2;
+// the growth  = [eigenvalue+randomnumber(0.5lamda, 1.5lamda)]
+// (b-a)*U + a
+double rand1 = (eigensolver.eigenvalues()[0]*1.5 - eigensolver.eigenvalues()[0]*0.5)*cell->getRandomNumber() + eigensolver.eigenvalues()[0]*0.5;
+double rand2 = (eigensolver.eigenvalues()[1]*1.5 - eigensolver.eigenvalues()[1]*0.5)*cell->getRandomNumber() + eigensolver.eigenvalues()[1]*0.5;
+eigen1 = (rand1)*((eigensolver.eigenvectors().col(0))*(eigensolver.eigenvectors().col(0)).transpose());
+eigen2 = (rand2)*((eigensolver.eigenvectors().col(1))*(eigensolver.eigenvectors().col(1)).transpose());
+Eigen::Matrix2d baseGrowthMatrix;
+baseGrowthMatrix = eigen1 + eigen2;
+Eigen::Matrix2d feedback = deviatoric*baseGrowthMatrix+ baseGrowthMatrix*deviatoric;
 //printing Feed back matrix
 /*
 std::cout<<"-------------------------face id "<<this->getID()<< "---------------------------"<<
@@ -1695,18 +1722,18 @@ this->lastGrowthRate = growthfactor; //saving growth rate for plotting
 std::cout<<"Kappa :: "<< kappa <<"\n Actual Growth Var  : "<<growthvar <<std::endl;
 std::cout<<"Feedback parameter : Eta :: " << eta <<std::endl;
 */
-Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
+//Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
 // Growth Matrix
 Eigen::Matrix2d growthMatrix;
 // dM0/dt = kappa*M0 - n/2*feedback
-growthMatrix<< growthfactor*(MG(0,0)) - eta/2.*feedback(0,0),
-               growthfactor*(MG(0,1)) - eta/2.*feedback(0,1),
-               growthfactor*(MG(1,0)) - eta/2.*feedback(1,0),
-               growthfactor*(MG(1,1)) - eta/2.*feedback(1,1); 
+growthMatrix<< growthfactor*(baseGrowthMatrix(0,0)) - celleta/2.*feedback(0,0),
+               growthfactor*(baseGrowthMatrix(0,1)) - celleta/2.*feedback(0,1),
+               growthfactor*(baseGrowthMatrix(1,0)) - celleta/2.*feedback(1,0),
+               growthfactor*(baseGrowthMatrix(1,1)) - celleta/2.*feedback(1,1); 
 eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
 //to calculate the individual growth eigen direction
-  Eigen::Matrix2d eigen1;
-  Eigen::Matrix2d eigen2;
+  //Eigen::Matrix2d eigen1;
+  //Eigen::Matrix2d eigen2;
   eigen1 = std::max(eigensolver.eigenvalues()[0]-cell->thresholdMatrix[0][0],0.0)*
                       ((eigensolver.eigenvectors().col(0))*(eigensolver.eigenvectors().col(0)).transpose());
   eigen2 = std::max(eigensolver.eigenvalues()[1]-cell->thresholdMatrix[1][1],0.0)*
