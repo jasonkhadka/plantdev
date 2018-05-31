@@ -710,7 +710,7 @@ class Face
      * values of mu1, mu2, mu3, mu4
      * Needed to calculate the analytic jacobian
      */
-     double mu1= 0.;
+     double mu1 = 0.;
      double mu2 = 0.;
      double mu3 = 0.;
      double mu4 = 0.;

@@ -1411,16 +1411,12 @@ if (this->alpha == 0){//means not update directly to face
       }
 Eigen::Matrix2d stressMatrix = cellalpha*(this->getAreaOfFace())*(this->strain);
 //getting traceless deviatoric matrix
-Eigen::Matrix2d deviatoric = (stressMatrix) - 0.5*(stressMatrix.trace())*Eigen::Matrix2d::Identity();
+Eigen::Matrix2d deviatoric = stressMatrix - 0.5*(stressMatrix.trace())*Eigen::Matrix2d::Identity();
 //growth rate of faces : randomized number between (kappa-0.5 to kappa + 0.5)
 double growthfactor = this->getGrowthRandomNumber();
-//Strain Matrix 
+//Strain Matrix that is not strain normalised
 Eigen::Matrix2d strainOfCell;
-strainOfCell << this->strain(0,0), this->strain(0,1),
-                this->strain(1,0), this->strain(1,1);
-//strainOfCell * trace :: to make growth proportional to strain and M0
-double traceofTargetForm = (this->targetFormMatrix[0][0]+ this->targetFormMatrix[1][1]);
-strainOfCell = growthfactor*traceofTargetForm*strainOfCell;
+strainOfCell << growthfactor*(this->mu1), growthfactor*(this->mu2), growthfactor*(this->mu3), growthfactor*(this->mu4);
 //get the feedback matrix:: Feedback is dependent on the direct growth equation 
 Eigen::Matrix2d feedback = deviatoric*strainOfCell + strainOfCell*deviatoric;
 //printing Feed back matrix
