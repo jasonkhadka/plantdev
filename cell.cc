@@ -2058,6 +2058,7 @@ Cell::~Cell()
   //release the randomNumberGenerator
   gsl_rng_free(randomNumberGenerator);
   gsl_rng_free(cellDivisionRandomNumberGenerator);
+  gsl_rng_free(seedRandomNumberGenerator);
 
 }
 
