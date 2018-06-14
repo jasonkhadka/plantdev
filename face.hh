@@ -269,6 +269,10 @@ class Face
      double strainEigenVector2[3];
      double strainEigenValue1, strainEigenValue2;
      /**
+      * Major Eigenvector for Current Form Matrix
+      */
+     double cfmEigenVector[2];
+     /**
       * Normal Force on this Face
       */
      double normalForce[3];

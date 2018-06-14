@@ -710,9 +710,7 @@ public:
   double getSigma();
   void setSigma(double);
   /**
-   * Get a GAUSSIAN RANDOM NUMBER with width 
-   *    Standard Deviation = GaussianWidth (set in Cell initializer) from the random number generator of this cell
-   * in range [0,1) exclusive 1
+   * Get uniform random number [0,1)
    */
   double getRandomNumber();
   /**

@@ -358,7 +358,8 @@ void Face::setProjectedCoordinate(){
         }
     // Rotating target form matrix after computing the new set of unit vectors
     //if ((pow(this->unitx[0],2)+pow(this->unitx[1],2)+pow(this->unitx[2],2))>0.){
-    if (false){
+      /*
+        if (false){
         //std::cout<< " rotating the targetfomr" <<std::endl;
         Eigen::Matrix2d rotationMatrix;
         // dot product of two vectors //
@@ -371,13 +372,13 @@ void Face::setProjectedCoordinate(){
                                     (this->unitx[1]*unitx1[1])+
                                     (this->unitx[2]*unitx1[2]))
                                     );
-        */
+        //* \/
         //std::cout<< " face id "<<this->getID()<<"    "<<rotationAngle <<std::endl;
         //std:: cout<< "old Ux "<< this->unitx[0]<<"    "<< this->unitx[1]<<"    "<< this->unitx[2] <<std::endl;
         //std:: cout<< "new Ux "<< unitx1[0]<<"    "<< unitx1[1]<<"    "<< unitx1[2] <<std::endl;
         // rotation in opposite direction to compensate of axis rotation
-        rotationMatrix<< cos(rotationAngle), sin(rotationAngle),
-                         -1.*sin(rotationAngle), cos(rotationAngle);
+        rotationMatrix<< cos(rotationAngle), -1*sin(rotationAngle),
+                         sin(rotationAngle), cos(rotationAngle);
         Eigen::Matrix2d M0;
         M0 << this->targetFormMatrix[0][0],this->targetFormMatrix[0][1],
               this->targetFormMatrix[1][0],this->targetFormMatrix[1][1];
@@ -388,7 +389,8 @@ void Face::setProjectedCoordinate(){
         this->targetFormMatrix[0][1] = M0(0,1);
         this->targetFormMatrix[1][0] = M0(1,0);
         this->targetFormMatrix[1][1] = M0(1,1);
-    }
+        }
+      */
     //saving unit vectors
    {
     double * pntunitx = unitx1;
@@ -761,7 +763,45 @@ double * Face::getLBOperator(){
       this->currentFormMatrix[0][1] = term12;
       this->currentFormMatrix[1][0] = term12;
       this->currentFormMatrix[1][1] = term22;
-      //setting mu
+      // ***************************************************************************************************** //
+      // Rotation of TargetFormMatrix
+      // ***************************************************************************************************** //
+      // Angle change :: Compare the orientation (angle) change here for M - matrix and rotate M0 too with this.
+      // Compute the eigenvector of currentFormMatrix
+       Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
+      // cfm matrix
+       Eigen::Matrix2d cfmMatrix;
+       cfmMatrix << term11, term12, 
+                    term12, term22;
+      // solving for eigenvectors :: Eigenvalues are sorted in ascending order 
+      eigensolver.compute(cfmMatrix);
+      // getting the larger Eigenvalue (last-one) and corresponding eigenvector
+      double newcfmEigenVector[2] = {eigensolver.eigenvectors().col(1)[0], eigensolver.eigenvectors().col(1)[1]};
+      // now calculating the ccw-angle between the [oldvec, newvec]
+      double dot = this->cfmEigenVector[0]*newcfmEigenVector[0]+this->cfmEigenVector[1]*newcfmEigenVector[1];
+      double det = this->cfmEigenVector[0]*newcfmEigenVector[1]-this->cfmEigenVector[1]*newcfmEigenVector[0];
+      double angle = atan2(det,dot);
+      // building the rotation matrixx
+      Eigen::Matrix2d rotationMatrix;
+      rotationMatrix << cos(angle), -1.*sin(angle), 
+                        sin(angle), cos(angle);
+      // calculating the rotation
+      Eigen::Matrix2d tfmMatrix;
+      tfmMatrix << this->targetFormMatrix[0][0], this->targetFormMatrix[1][0],
+                   this->targetFormMatrix[1][0], this->targetFormMatrix[1][1];
+      // rotation of the tfmMatrix  = R*tfm*RT
+      tfmMatrix = rotationMatrix*
+                    tfmMatrix*
+                    rotationMatrix.transpose();
+      // now updating the targetFormMatrix 
+      this->targetFormMatrix[0][0] = tfmMatrix(0,0);
+      this->targetFormMatrix[0][1] = tfmMatrix(0,1);
+      this->targetFormMatrix[1][0] = tfmMatrix(1,0);
+      this->targetFormMatrix[1][1] = tfmMatrix(1,1);
+      // setting the newcfmEigenVector to cfmEigenVector
+      this->cfmEigenVector[0] = newcfmEigenVector[0];
+      this->cfmEigenVector[1] = newcfmEigenVector[1];      
+      //setting mu now with all udpates to CFM and TFM matrix
       this->mu1 = term11 - targetFormMatrix[0][0];
       this->mu2 = term12 - targetFormMatrix[0][1];
       this->mu3 = term12 - targetFormMatrix[1][0];//this->mu2;//as mu2 and mu3 are equal
@@ -1681,8 +1721,10 @@ Eigen::Matrix2d eigen1;
 Eigen::Matrix2d eigen2;
 // the growth  = [eigenvalue+randomnumber(0.5lamda, 1.5lamda)]
 // (b-a)*U + a
-double rand1 = (eigensolver.eigenvalues()[0]*1.5 - eigensolver.eigenvalues()[0]*0.5)*cell->getRandomNumber() + eigensolver.eigenvalues()[0]*0.5;
-double rand2 = (eigensolver.eigenvalues()[1]*1.5 - eigensolver.eigenvalues()[1]*0.5)*cell->getRandomNumber() + eigensolver.eigenvalues()[1]*0.5;
+//growth rate of faces : randomized number between (kappa-0.5 to kappa + 0.5)
+//double growthfactor = this->getGrowthRandomNumber();
+double rand1 = this->getGrowthRandomNumber();
+double rand2 = this->getGrowthRandomNumber();
 eigen1 = (rand1)*((eigensolver.eigenvectors().col(0))*(eigensolver.eigenvectors().col(0)).transpose());
 eigen2 = (rand2)*((eigensolver.eigenvectors().col(1))*(eigensolver.eigenvectors().col(1)).transpose());
 Eigen::Matrix2d baseGrowthMatrix;
@@ -1712,7 +1754,7 @@ std::cout<<"-------------------------face id "<<this->getID()<< "---------------
 "\n"<<feedback(1,0)<<"  "<<feedback(1,1)<<std::endl;
 */
 //growth rate of faces : randomized number between (kappa-0.5 to kappa + 0.5)
-double growthfactor = this->getGrowthRandomNumber();
+double growthfactor = (rand1 + rand2)/2.;
 this->lastGrowthRate = growthfactor; //saving growth rate for plotting
 /*
 std::cout<<"Kappa :: "<< kappa <<"\n Actual Growth Var  : "<<growthvar <<std::endl;
@@ -1722,20 +1764,10 @@ std::cout<<"Feedback parameter : Eta :: " << eta <<std::endl;
 // Growth Matrix
 Eigen::Matrix2d growthMatrix;
 // dM0/dt = kappa*M0 - n/2*feedback
-growthMatrix<< growthfactor*(baseGrowthMatrix(0,0)) - celleta/2.*feedback(0,0),
-               growthfactor*(baseGrowthMatrix(0,1)) - celleta/2.*feedback(0,1),
-               growthfactor*(baseGrowthMatrix(1,0)) - celleta/2.*feedback(1,0),
-               growthfactor*(baseGrowthMatrix(1,1)) - celleta/2.*feedback(1,1); 
-eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
-//to calculate the individual growth eigen direction
-  //Eigen::Matrix2d eigen1;
-  //Eigen::Matrix2d eigen2;
-  eigen1 = std::max(eigensolver.eigenvalues()[0]-cell->thresholdMatrix[0][0],0.0)*
-                      ((eigensolver.eigenvectors().col(0))*(eigensolver.eigenvectors().col(0)).transpose());
-  eigen2 = std::max(eigensolver.eigenvalues()[1]-cell->thresholdMatrix[1][1],0.0)*
-                      ((eigensolver.eigenvectors().col(1))*(eigensolver.eigenvectors().col(1)).transpose());
-// Now combining growth in both direction
-  growthMatrix = eigen1 + eigen2;
+growthMatrix<< (baseGrowthMatrix(0,0)) - celleta/2.*feedback(0,0),
+               (baseGrowthMatrix(0,1)) - celleta/2.*feedback(0,1),
+               (baseGrowthMatrix(1,0)) - celleta/2.*feedback(1,0),
+               (baseGrowthMatrix(1,1)) - celleta/2.*feedback(1,1); 
 //now setting the new targetFormMatrix with feedback matrix
 this->targetFormMatrix[0][0] += growthMatrix(0,0);
 this->targetFormMatrix[1][0] += growthMatrix(1,0);
@@ -1994,6 +2026,8 @@ Face::Face(Cell *cell):gaussianWidth(0.125), randomNumberGeneratorType(gsl_rng_d
   this->normal[0] = 0;
   this->normal[1] = 0;
   this->normal[2] = 0;
+  this->cfmEigenVector[0] = 0;
+  this->cfmEigenVector[1] = 0;
   // ************************************************************************ //
   this->vertices = new Vertex*[8];
   this->vertexCount = 0;

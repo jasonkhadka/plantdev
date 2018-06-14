@@ -1560,7 +1560,8 @@ void Cell::setParameters(){
       vertex->setparameters();
     } 
   }
-  /////////////////////////////////////////
+  /*
+  ////////////////////////////////////////
   {
     CellFaceIterator faces(this);
     while((face = faces.next())!= 0){
@@ -1568,7 +1569,8 @@ void Cell::setParameters(){
           face->setSumEdgeLength();
     }
   }
-  /////////////////////////////////////////
+  ////////////////////////////////////////
+  */
   this->setMeanCurvature();
   //////////////////////////////////
   {
