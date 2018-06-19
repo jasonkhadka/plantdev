@@ -1086,14 +1086,9 @@ void Face::setTempTargetFormMatrixIdentity(){
       this->stress << sxx, sxy,
                       sxy, syy;
     */
-this->calculateStrain();
+//this->calculateStrain();
 Cell * cell = this->getCell();
-double cellalpha,celleta;
-if (externalPosition){
-  celleta = 0.;
-}else{
-  celleta = cell->getEta();
-}
+double cellalpha;
 
 if (this->alpha == 0){//means not update directly to face
           cellalpha = cell->getAlpha();
@@ -1223,17 +1218,17 @@ if (this->eta == 0){//means not update directly to face
       else{
           celleta = this->eta;
       }
-Eigen::Matrix2d stressMatrix = cellalpha*(this->getAreaOfFace())*(this->strain);
+//Eigen::Matrix2d stressMatrix = cellalpha*(this->getAreaOfFace())*(this->strain);
 //getting traceless deviatoric matrix
-Eigen::Matrix2d deviatoric = (stressMatrix) - 0.5*(stressMatrix.trace())*Eigen::Matrix2d::Identity();
+Eigen::Matrix2d deviatoric = (this->stress) - 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity();
 //current Form Matrix
 Eigen::Matrix2d M0;
 M0 << this->targetFormMatrix[0][0],this->targetFormMatrix[0][1],
       this->targetFormMatrix[1][0],this->targetFormMatrix[1][1];
 //Strain Matrix 
 Eigen::Matrix2d strainOfCell;
-strainOfCell << growthfactor*this->strain(0,0), growthfactor*this->strain(0,1),
-                growthfactor*this->strain(1,0), growthfactor*this->strain(1,1);
+strainOfCell << this->strain(0,0), this->strain(0,1),
+                this->strain(1,0), this->strain(1,1);
 
 //get the feedback matrix:: Feedback is dependent on the direct growth equation 
 Eigen::Matrix2d feedback = deviatoric*strainOfCell + strainOfCell*deviatoric;
@@ -1272,10 +1267,10 @@ Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
 // Growth Matrix
 Eigen::Matrix2d growthMatrix;
 // dM0/dt = kappa*STRAIN - n/2*feedback
-growthMatrix<< growthfactor*(this->strain(0,0)) - celleta/2.*feedback(0,0),
-               growthfactor*(this->strain(0,1)) - celleta/2.*feedback(0,1),
-               growthfactor*(this->strain(1,0)) - celleta/2.*feedback(1,0),
-               growthfactor*(this->strain(1,1)) - celleta/2.*feedback(1,1); 
+growthMatrix<< growthfactor*(this->strain(0,0) - celleta/2.*feedback(0,0)),
+               growthfactor*(this->strain(0,1) - celleta/2.*feedback(0,1)),
+               growthfactor*(this->strain(1,0) - celleta/2.*feedback(1,0)),
+               growthfactor*(this->strain(1,1) - celleta/2.*feedback(1,1)); 
 eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
 //to calculate the individual growth eigen direction
   Eigen::Matrix2d eigen1;
@@ -1334,9 +1329,9 @@ if (this->alpha == 0){//means not update directly to face
       else{
           cellalpha = this->alpha;
       }
-Eigen::Matrix2d stressMatrix = cellalpha*(this->getAreaOfFace())*(this->strain);
+//Eigen::Matrix2d stressMatrix = cellalpha*(this->getAreaOfFace())*(this->strain);
 //getting traceless deviatoric matrix
-Eigen::Matrix2d deviatoric = (stressMatrix) - 0.5*(stressMatrix.trace())*Eigen::Matrix2d::Identity();
+Eigen::Matrix2d deviatoric = (this->stress) - 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity();
 // Removing the term with lower stress direction
 // So that this does not add growth to the lower stress direction
 deviatoric << std::max(deviatoric(0,0),0.),deviatoric(0,1),
@@ -1347,8 +1342,8 @@ M0 << this->targetFormMatrix[0][0],this->targetFormMatrix[0][1],
       this->targetFormMatrix[1][0],this->targetFormMatrix[1][1];
 //Strain Matrix 
 Eigen::Matrix2d strainOfCell;
-strainOfCell << growthfactor*this->strain(0,0), growthfactor*this->strain(0,1),
-                growthfactor*this->strain(1,0), growthfactor*this->strain(1,1);
+strainOfCell << this->strain(0,0), this->strain(0,1),
+                this->strain(1,0), this->strain(1,1);
 
 //get the feedback matrix:: Feedback is dependent on the direct growth equation 
 Eigen::Matrix2d feedback = deviatoric*strainOfCell + strainOfCell*deviatoric;
@@ -1387,10 +1382,10 @@ Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
 // Growth Matrix
 Eigen::Matrix2d growthMatrix;
 // dM0/dt = kappa*STRAIN - n/2*feedback
-growthMatrix<< growthfactor*(this->strain(0,0)) - celleta/2.*feedback(0,0),
-               growthfactor*(this->strain(0,1)) - celleta/2.*feedback(0,1),
-               growthfactor*(this->strain(1,0)) - celleta/2.*feedback(1,0),
-               growthfactor*(this->strain(1,1)) - celleta/2.*feedback(1,1); 
+growthMatrix<< growthfactor*(this->strain(0,0) - celleta/2.*feedback(0,0)),
+               growthfactor*(this->strain(0,1) - celleta/2.*feedback(0,1)),
+               growthfactor*(this->strain(1,0) - celleta/2.*feedback(1,0)),
+               growthfactor*(this->strain(1,1) - celleta/2.*feedback(1,1)); 
 eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
 //to calculate the individual growth eigen direction
   Eigen::Matrix2d eigen1;
@@ -1449,14 +1444,15 @@ if (this->alpha == 0){//means not update directly to face
       else{
           cellalpha = this->alpha;
       }
-Eigen::Matrix2d stressMatrix = cellalpha*(this->getAreaOfFace())*(this->strain);
+//Eigen::Matrix2d stressMatrix = cellalpha*(this->getAreaOfFace())*(this->strain);
 //getting traceless deviatoric matrix
-Eigen::Matrix2d deviatoric = stressMatrix - 0.5*(stressMatrix.trace())*Eigen::Matrix2d::Identity();
+Eigen::Matrix2d deviatoric = (this->stress) - 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity();
 //growth rate of faces : randomized number between (kappa-0.5 to kappa + 0.5)
 double growthfactor = this->getGrowthRandomNumber();
 //Strain Matrix that is not strain normalised
 Eigen::Matrix2d strainOfCell;
-strainOfCell << growthfactor*(this->mu1), growthfactor*(this->mu2), growthfactor*(this->mu3), growthfactor*(this->mu4);
+strainOfCell <<(this->mu1), (this->mu2), 
+                (this->mu3), (this->mu4);
 //get the feedback matrix:: Feedback is dependent on the direct growth equation 
 Eigen::Matrix2d feedback = deviatoric*strainOfCell + strainOfCell*deviatoric;
 //printing Feed back matrix
@@ -1492,10 +1488,10 @@ Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
 // Growth Matrix
 Eigen::Matrix2d growthMatrix;
 // dM0/dt = kappa*STRAIN - n/2*feedback
-growthMatrix<< strainOfCell(0,0) - celleta/2.*feedback(0,0),
-               strainOfCell(0,1) - celleta/2.*feedback(0,1),
-               strainOfCell(1,0) - celleta/2.*feedback(1,0),
-               strainOfCell(1,1) - celleta/2.*feedback(1,1); 
+growthMatrix<< growthfactor*(strainOfCell(0,0) - celleta/2.*feedback(0,0)),
+               growthfactor*(strainOfCell(0,1) - celleta/2.*feedback(0,1)),
+               growthfactor*(strainOfCell(1,0) - celleta/2.*feedback(1,0)),
+               growthfactor*(strainOfCell(1,1) - celleta/2.*feedback(1,1)); 
 eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
 //to calculate the individual growth eigen direction
   Eigen::Matrix2d eigen1;
@@ -1604,7 +1600,7 @@ if (externalPosition){
 }else{
   celleta = cell->getEta();
 }
-
+//Eigen::Matrix2d stressMatrix = cellalpha*(this->getAreaOfFace())*(this->strain);
 //getting traceless deviatoric matrix
 Eigen::Matrix2d deviatoric = (this->stress) - 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity();
 //current Form Matrix
@@ -1647,10 +1643,10 @@ Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
 // Growth Matrix
 Eigen::Matrix2d growthMatrix;
 // dM0/dt = kappa*M0 - n/2*feedback
-growthMatrix<< growthfactor*(this->targetFormMatrix[0][0]) - celleta/2.*feedback(0,0),
-               growthfactor*(this->targetFormMatrix[0][1]) - celleta/2.*feedback(0,1),
-               growthfactor*(this->targetFormMatrix[1][0]) - celleta/2.*feedback(1,0),
-               growthfactor*(this->targetFormMatrix[1][1]) - celleta/2.*feedback(1,1); 
+growthMatrix<< growthfactor*(this->targetFormMatrix[0][0] - celleta/2.*feedback(0,0)),
+               growthfactor*(this->targetFormMatrix[0][1] - celleta/2.*feedback(0,1)),
+               growthfactor*(this->targetFormMatrix[1][0] - celleta/2.*feedback(1,0)),
+               growthfactor*(this->targetFormMatrix[1][1] - celleta/2.*feedback(1,1)); 
 eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
 //to calculate the individual growth eigen direction
   Eigen::Matrix2d eigen1;
@@ -1768,6 +1764,14 @@ growthMatrix<< (baseGrowthMatrix(0,0)) - celleta/2.*feedback(0,0),
                (baseGrowthMatrix(0,1)) - celleta/2.*feedback(0,1),
                (baseGrowthMatrix(1,0)) - celleta/2.*feedback(1,0),
                (baseGrowthMatrix(1,1)) - celleta/2.*feedback(1,1); 
+// computing the eigenvec/val of the growthMatrix to make sure growth is positive
+eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
+  eigen1 = std::max(eigensolver.eigenvalues()[0]-cell->thresholdMatrix[0][0],0.0)*
+                      ((eigensolver.eigenvectors().col(0))*(eigensolver.eigenvectors().col(0)).transpose());
+  eigen2 = std::max(eigensolver.eigenvalues()[1]-cell->thresholdMatrix[1][1],0.0)*
+                      ((eigensolver.eigenvectors().col(1))*(eigensolver.eigenvectors().col(1)).transpose());
+// Now combining growth in both direction
+  growthMatrix = eigen1 + eigen2;
 //now setting the new targetFormMatrix with feedback matrix
 this->targetFormMatrix[0][0] += growthMatrix(0,0);
 this->targetFormMatrix[1][0] += growthMatrix(1,0);
