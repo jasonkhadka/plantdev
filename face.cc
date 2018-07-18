@@ -800,7 +800,7 @@ double * Face::getLBOperator(){
       this->targetFormMatrix[1][1] = tfmMatrix(1,1);
       // setting the newcfmEigenVector to cfmEigenVector
       this->cfmEigenVector[0] = newcfmEigenVector[0];
-      this->cfmEigenVector[1] = newcfmEigenVector[1];      
+      this->cfmEigenVector[1] = newcfmEigenVector[1];    
       //setting mu now with all udpates to CFM and TFM matrix
       this->mu1 = term11 - targetFormMatrix[0][0];
       this->mu2 = term12 - targetFormMatrix[0][1];
@@ -1014,8 +1014,13 @@ void Face::setTempTargetFormMatrixIdentity(){
  }
  // *************************************************************** //
  void Face::calculateBendingForce(){
-      double omega = (this->getCell())->getOmega();
-      double bendingForceCoefficient = areaMixed*(2.*omega)*
+      double faceomega;
+      if (this->getOmega() == 0.){
+          faceomega = this->getCell()->getOmega();
+      }else{
+        faceomega = this->getOmega();
+      }
+      double bendingForceCoefficient = areaMixed*(2.*faceomega)*
                             (2.*meanCurvature*(pow(meanCurvature,2.) - gaussianCurvature) + LBOperatorOnMeanCurvature);
       this->bendingForce[0] = bendingForceCoefficient*normal[0];
       this->bendingForce[1] = bendingForceCoefficient*normal[1];
@@ -1267,10 +1272,10 @@ Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
 // Growth Matrix
 Eigen::Matrix2d growthMatrix;
 // dM0/dt = kappa*STRAIN - n/2*feedback
-growthMatrix<< growthfactor*(this->strain(0,0) - celleta/2.*feedback(0,0)),
-               growthfactor*(this->strain(0,1) - celleta/2.*feedback(0,1)),
-               growthfactor*(this->strain(1,0) - celleta/2.*feedback(1,0)),
-               growthfactor*(this->strain(1,1) - celleta/2.*feedback(1,1)); 
+growthMatrix<< growthfactor*(this->strain(0,0)) - celleta/2.*feedback(0,0),
+               growthfactor*(this->strain(0,1)) - celleta/2.*feedback(0,1),
+               growthfactor*(this->strain(1,0)) - celleta/2.*feedback(1,0),
+               growthfactor*(this->strain(1,1)) - celleta/2.*feedback(1,1); 
 eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
 //to calculate the individual growth eigen direction
   Eigen::Matrix2d eigen1;
@@ -1382,10 +1387,10 @@ Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
 // Growth Matrix
 Eigen::Matrix2d growthMatrix;
 // dM0/dt = kappa*STRAIN - n/2*feedback
-growthMatrix<< growthfactor*(this->strain(0,0) - celleta/2.*feedback(0,0)),
-               growthfactor*(this->strain(0,1) - celleta/2.*feedback(0,1)),
-               growthfactor*(this->strain(1,0) - celleta/2.*feedback(1,0)),
-               growthfactor*(this->strain(1,1) - celleta/2.*feedback(1,1)); 
+growthMatrix<< growthfactor*(this->strain(0,0)) - celleta/2.*feedback(0,0),
+               growthfactor*(this->strain(0,1)) - celleta/2.*feedback(0,1),
+               growthfactor*(this->strain(1,0)) - celleta/2.*feedback(1,0),
+               growthfactor*(this->strain(1,1)) - celleta/2.*feedback(1,1); 
 eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
 //to calculate the individual growth eigen direction
   Eigen::Matrix2d eigen1;
@@ -1488,10 +1493,10 @@ Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
 // Growth Matrix
 Eigen::Matrix2d growthMatrix;
 // dM0/dt = kappa*STRAIN - n/2*feedback
-growthMatrix<< growthfactor*(strainOfCell(0,0) - celleta/2.*feedback(0,0)),
-               growthfactor*(strainOfCell(0,1) - celleta/2.*feedback(0,1)),
-               growthfactor*(strainOfCell(1,0) - celleta/2.*feedback(1,0)),
-               growthfactor*(strainOfCell(1,1) - celleta/2.*feedback(1,1)); 
+growthMatrix<< growthfactor*(strainOfCell(0,0)) - celleta/2.*feedback(0,0),
+               growthfactor*(strainOfCell(0,1)) - celleta/2.*feedback(0,1),
+               growthfactor*(strainOfCell(1,0)) - celleta/2.*feedback(1,0),
+               growthfactor*(strainOfCell(1,1)) - celleta/2.*feedback(1,1); 
 eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
 //to calculate the individual growth eigen direction
   Eigen::Matrix2d eigen1;
@@ -1643,10 +1648,10 @@ Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
 // Growth Matrix
 Eigen::Matrix2d growthMatrix;
 // dM0/dt = kappa*M0 - n/2*feedback
-growthMatrix<< growthfactor*(this->targetFormMatrix[0][0] - celleta/2.*feedback(0,0)),
-               growthfactor*(this->targetFormMatrix[0][1] - celleta/2.*feedback(0,1)),
-               growthfactor*(this->targetFormMatrix[1][0] - celleta/2.*feedback(1,0)),
-               growthfactor*(this->targetFormMatrix[1][1] - celleta/2.*feedback(1,1)); 
+growthMatrix<< growthfactor*(this->targetFormMatrix[0][0]) - celleta/2.*feedback(0,0),
+               growthfactor*(this->targetFormMatrix[0][1]) - celleta/2.*feedback(0,1),
+               growthfactor*(this->targetFormMatrix[1][0]) - celleta/2.*feedback(1,0),
+               growthfactor*(this->targetFormMatrix[1][1]) - celleta/2.*feedback(1,1); 
 eigensolver.compute(growthMatrix);//computing the eigenvalues of growthMatrix, to make sure it is always growing
 //to calculate the individual growth eigen direction
   Eigen::Matrix2d eigen1;
@@ -2024,6 +2029,7 @@ Face::Face(Cell *cell):gaussianWidth(0.125), randomNumberGeneratorType(gsl_rng_d
   this->unitz[0] = 0;
   this->unitz[1] = 0;
   this->unitz[2] = 0;
+  this->omega = 0.;
   this->bendingForce[0] = 0;
   this->bendingForce[1] = 0;
   this->bendingForce[2] = 0;

@@ -255,6 +255,11 @@ class Vertex
      // Intial mean curvature for the centroid of this face
      double initialMeanCurvature;
 
+     /**
+        * Omega for this vertex ( bending coefficient for vertex)
+        */
+       double omega;
+
   /* -- public class methods ----------------------------------------------- */
   public:
   /*
@@ -731,6 +736,9 @@ class Vertex
     */
     double getAreaMixed();
     void setAreaMixed(double);
+      /**function to manupulate omega**/
+    double getOmega();
+    void setOmega(double);
     /*
       * setting and getting mean curvature
      */
@@ -851,6 +859,12 @@ class Vertex
 };
 
 /* -- inline instance methods ---------------------------------------------- */
+inline double Vertex::getOmega(){
+  return this->omega;
+}
+inline void Vertex::setOmega(double newomega){
+  this->omega = newomega;
+}
 inline void Vertex::setLBOperatorOnMeanCurvature(double lbo){
     this->LBOperatorOnMeanCurvature = lbo;
 }

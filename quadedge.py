@@ -581,6 +581,12 @@ class Face(_object):
     def setAlpha(self, arg2):
         return _quadedge.Face_setAlpha(self, arg2)
 
+    def getOmega(self):
+        return _quadedge.Face_getOmega(self)
+
+    def setOmega(self, arg2):
+        return _quadedge.Face_setOmega(self, arg2)
+
     def getEta(self):
         return _quadedge.Face_getEta(self)
 
@@ -1329,6 +1335,12 @@ class Vertex(_object):
 
     def setAreaMixed(self, arg2):
         return _quadedge.Vertex_setAreaMixed(self, arg2)
+
+    def getOmega(self):
+        return _quadedge.Vertex_getOmega(self)
+
+    def setOmega(self, arg2):
+        return _quadedge.Vertex_setOmega(self, arg2)
 
     def setMeanCurvature(self, arg2):
         return _quadedge.Vertex_setMeanCurvature(self, arg2)

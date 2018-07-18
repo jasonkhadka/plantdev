@@ -7238,6 +7238,58 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_getOmega(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getOmega",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getOmega" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getOmega();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setOmega(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_setOmega",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setOmega" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Face_setOmega" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setOmega(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_getEta(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -13639,6 +13691,58 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Vertex_getOmega(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_getOmega",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_getOmega" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  result = (double)(arg1)->getOmega();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Vertex_setOmega(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Vertex_setOmega",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setOmega" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Vertex_setOmega" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setOmega(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Vertex_setMeanCurvature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Vertex *arg1 = (Vertex *) 0 ;
@@ -19326,6 +19430,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getLastGrowthRate", _wrap_Face_getLastGrowthRate, METH_VARARGS, NULL},
 	 { (char *)"Face_getAlpha", _wrap_Face_getAlpha, METH_VARARGS, NULL},
 	 { (char *)"Face_setAlpha", _wrap_Face_setAlpha, METH_VARARGS, NULL},
+	 { (char *)"Face_getOmega", _wrap_Face_getOmega, METH_VARARGS, NULL},
+	 { (char *)"Face_setOmega", _wrap_Face_setOmega, METH_VARARGS, NULL},
 	 { (char *)"Face_getEta", _wrap_Face_getEta, METH_VARARGS, NULL},
 	 { (char *)"Face_setEta", _wrap_Face_setEta, METH_VARARGS, NULL},
 	 { (char *)"Face_getStressEigenVector1", _wrap_Face_getStressEigenVector1, METH_VARARGS, NULL},
@@ -19574,6 +19680,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Vertex_getMu4", _wrap_Vertex_getMu4, METH_VARARGS, NULL},
 	 { (char *)"Vertex_getAreaMixed", _wrap_Vertex_getAreaMixed, METH_VARARGS, NULL},
 	 { (char *)"Vertex_setAreaMixed", _wrap_Vertex_setAreaMixed, METH_VARARGS, NULL},
+	 { (char *)"Vertex_getOmega", _wrap_Vertex_getOmega, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setOmega", _wrap_Vertex_setOmega, METH_VARARGS, NULL},
 	 { (char *)"Vertex_setMeanCurvature", _wrap_Vertex_setMeanCurvature, METH_VARARGS, NULL},
 	 { (char *)"Vertex_getMeanCurvature", _wrap_Vertex_getMeanCurvature, METH_VARARGS, NULL},
 	 { (char *)"Vertex_setGaussianCurvature", _wrap_Vertex_setGaussianCurvature, METH_VARARGS, NULL},

@@ -747,23 +747,32 @@ void Cell::calculateBendingEnergy(){
     Face * face;
     Vertex * vertex;
     double bending = 0.;
+    double faceomega;
+    double vertexomega;
     {
       CellFaceIterator faces(this);
       while((face = faces.next())!= 0){
             if (face->getID() == 1) continue;
-            
-            bending += (face->getAreaMixed())*pow((face->getMeanCurvature() - face->getInitialMeanCurvature()),2);
+            if (face->getOmega() == 0.){
+                faceomega = this->getOmega();
+             }else{
+               faceomega = face->getOmega();
+             }
+            bending += 2.*faceomega*(face->getAreaMixed())*pow((face->getMeanCurvature() - face->getInitialMeanCurvature()),2);
         }
     }
     // on all the vertices
     {
       CellVertexIterator vertices(this);
       while ((vertex = vertices.next())!= 0){
-            bending += (vertex->getAreaMixed())*pow((vertex->getMeanCurvature() - vertex->getInitialMeanCurvature()),2);
+             if (vertex->getOmega() == 0.){
+                vertexomega = this->getOmega();
+             }else{
+               vertexomega = vertex->getOmega();
+             }
+            bending += 2.*vertexomega*(vertex->getAreaMixed())*pow((vertex->getMeanCurvature() - vertex->getInitialMeanCurvature()),2);
         }
     }
-    // now final calculation with bending stifness
-    bending *= 2.*(this->omega);
     //setting bending
     this->bendingEnergy = bending;
 }

@@ -123,8 +123,13 @@ double *Vertex::getNormal(){
 }
 // *************************************************************** //
  void Vertex::calculateBendingForce(){
-      double omega = (this->getCell())->getOmega();
-      double bendingForceCoefficient = areaMixed*(2.*omega)*
+      double vertomega;
+      if (this->getOmega() == 0.){
+          vertomega = this->getCell()->getOmega();
+      }else{
+        vertomega = this->getOmega();
+      }
+      double bendingForceCoefficient = areaMixed*(2.*vertomega)*
                             (2.*meanCurvature*(pow(meanCurvature,2.) - gaussianCurvature) + LBOperatorOnMeanCurvature);
       this->bendingForce[0] = bendingForceCoefficient*normal[0];
       this->bendingForce[1] = bendingForceCoefficient*normal[1];
@@ -179,6 +184,7 @@ Vertex::Vertex(Cell *cell)
   this->id     = cell->makeVertexID();
   this->data   = 0;
   this->edge   = 0;
+  this->omega = 0.;
   this->Xcoordinate = 0.0;
   this->Ycoordinate = 0.0;
   this->Zcoordinate = 0.0;

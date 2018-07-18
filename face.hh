@@ -311,6 +311,10 @@ class Face
         */
        double alpha;
        /**
+        * Omega for this face ( bending coefficient for face)
+        */
+       double omega;
+       /**
         * Eta for this face
         */
        double eta;
@@ -439,6 +443,10 @@ class Face
       /**function to manupulate alpha**/
     double getAlpha();
     void setAlpha(double);
+      /**function to manupulate omega**/
+    double getOmega();
+    void setOmega(double);
+    
        /**function to manupulate eta**/
     double getEta();
     void setEta(double);
@@ -952,6 +960,12 @@ inline double Face::getAlpha(){
 }
 inline void Face::setAlpha(double newalpha){
   this->alpha = newalpha;
+}
+inline double Face::getOmega(){
+  return this->omega;
+}
+inline void Face::setOmega(double newomega){
+  this->omega = newomega;
 }
 inline double Face::getEta(){
   return this->eta;
