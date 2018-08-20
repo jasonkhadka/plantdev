@@ -358,7 +358,7 @@ class Face
       */
      double meanCurvature;
      /**
-      * gaussioan Curvature at the centroid of this face
+      * gaussian Curvature at the centroid of this face
       */
      double gaussianCurvature;
      
@@ -579,6 +579,15 @@ class Face
    * the strain on the cell
    */
    void feedbackStrainProportionalGrow();
+    /**
+   * target form matrix growth rate function with base growth proportional
+   * to the strain with Randomized direction 
+   * grows with the Feedback from the stress acting on the cell
+   * (mimicing microtubles re-enforcing)
+   * thus, bigger cells still grow faster but proportionally to 
+   * the strain on the cell
+   */
+   void feedbackRandomStrainProportionalGrow();
    /**
    * target form matrix growth function with base growth proportional
    * to a constant matrix : Cell have intrinsic rate of adding material
@@ -660,6 +669,8 @@ class Face
     * **for now this is jsut the form matrix of current shape
     */
     double targetFormMatrix[2][2] = {{0.,0.},{0.,0.}};
+    /* random growth matrix */
+    Eigen::Matrix2d randomGrowthMatrix;
     /**
      * constant Growth Matrix : Intrisic rate for cells to grow in case of
      * growth being driven by a constant growth equation

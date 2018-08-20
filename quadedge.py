@@ -701,6 +701,9 @@ class Face(_object):
     def feedbackStrainProportionalGrow(self):
         return _quadedge.Face_feedbackStrainProportionalGrow(self)
 
+    def feedbackRandomStrainProportionalGrow(self):
+        return _quadedge.Face_feedbackRandomStrainProportionalGrow(self)
+
     def feedbackConstantGrow(self):
         return _quadedge.Face_feedbackConstantGrow(self)
     __swig_setmethods__["divisionThreshold"] = _quadedge.Face_divisionThreshold_set
@@ -748,6 +751,10 @@ class Face(_object):
     __swig_getmethods__["targetFormMatrix"] = _quadedge.Face_targetFormMatrix_get
     if _newclass:
         targetFormMatrix = _swig_property(_quadedge.Face_targetFormMatrix_get, _quadedge.Face_targetFormMatrix_set)
+    __swig_setmethods__["randomGrowthMatrix"] = _quadedge.Face_randomGrowthMatrix_set
+    __swig_getmethods__["randomGrowthMatrix"] = _quadedge.Face_randomGrowthMatrix_get
+    if _newclass:
+        randomGrowthMatrix = _swig_property(_quadedge.Face_randomGrowthMatrix_get, _quadedge.Face_randomGrowthMatrix_set)
     __swig_setmethods__["constantGrowthMatrix"] = _quadedge.Face_constantGrowthMatrix_set
     __swig_getmethods__["constantGrowthMatrix"] = _quadedge.Face_constantGrowthMatrix_get
     if _newclass:
