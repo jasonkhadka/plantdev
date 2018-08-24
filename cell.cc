@@ -1142,6 +1142,19 @@ void Cell::setMeanCurvature(){
   this->calculateBendingEnergy();
 }
 //********************************************************************************* //
+void Cell::setRandomInitialMeanCurvature(){
+  CellFaceIterator faces(this);
+  Face * face;
+  Vertex * vertex;
+  while((face= faces.next()) != 0 ){
+      face->setRandomInitialMeanCurvature();
+  }
+  CellVertexIterator vertices(this);
+  while((vertex = vertices.next())!= 0){
+      vertex->setRandomInitialMeanCurvature();
+  }
+}
+//********************************************************************************* //
 void Cell::calculateBendingForce(){
   Face * face;
   Edge * edge1,*edge2;
@@ -2029,6 +2042,7 @@ Cell::Cell():gaussianWidth(0.125), //initialising the Standard Deviaton of Gauss
   convexAngleThreshold = 180.;
   this->sigma = 0.;
   this->omega = 0.;
+  this->meanCurvatureWidth = 0.1;
   //setting the random number generator
   // intialised in Initialising list :-> randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm
   randomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
@@ -2041,6 +2055,9 @@ Cell::Cell():gaussianWidth(0.125), //initialising the Standard Deviaton of Gauss
   cellDivisionRandomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
   //gsl_rng_set(cellDivisionRandomNumberGenerator, random_seed());//using /dev/urandom to seed this generator
   gsl_rng_set(cellDivisionRandomNumberGenerator, 123194);
+  // RANDOM number generator for spontaneous (initial mean) curvature
+  meanCurvatureRandomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
+  gsl_rng_set(meanCurvatureRandomNumberGenerator, 902913);
   //calculating the square root of epsilon
   sqrtEpsilon = sqrt(std::numeric_limits<double>::epsilon());
   //sqrtEpsilon = pow(10.,-12.);
@@ -2070,6 +2087,7 @@ Cell::~Cell()
   gsl_rng_free(randomNumberGenerator);
   gsl_rng_free(cellDivisionRandomNumberGenerator);
   gsl_rng_free(seedRandomNumberGenerator);
+  gsl_rng_free(meanCurvatureRandomNumberGenerator);
 
 }
 

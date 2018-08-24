@@ -729,6 +729,9 @@ void Vertex::setAlphaBetaGamma(){
     }
 }
 // ******************************************************* //
+void Vertex::setRandomInitialMeanCurvature(){
+  this->initialMeanCurvature = ((this->cell)->getRandomInitialMeanCurvature());
+}
 // ******************************************************* //
 void Vertex::calculateCartesianForce(){
     // getting a derivative instance

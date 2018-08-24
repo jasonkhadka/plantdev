@@ -4472,6 +4472,101 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_getRandomInitialMeanCurvature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getRandomInitialMeanCurvature",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getRandomInitialMeanCurvature" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getRandomInitialMeanCurvature();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_setRandomInitialMeanCurvature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_setRandomInitialMeanCurvature",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setRandomInitialMeanCurvature" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  (arg1)->setRandomInitialMeanCurvature();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getMeanCurvatureWidth(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getMeanCurvatureWidth",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getMeanCurvatureWidth" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getMeanCurvatureWidth();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_setMeanCurvatureWidth(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Cell_setMeanCurvatureWidth",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setMeanCurvatureWidth" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Cell_setMeanCurvatureWidth" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setMeanCurvatureWidth(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_getTotalAreaMixed(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -6750,6 +6845,27 @@ SWIGINTERN PyObject *_wrap_Face_getInitialMeanCurvature(PyObject *SWIGUNUSEDPARM
   arg1 = reinterpret_cast< Face * >(argp1);
   result = (double)(arg1)->getInitialMeanCurvature();
   resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setRandomInitialMeanCurvature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_setRandomInitialMeanCurvature",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setRandomInitialMeanCurvature" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->setRandomInitialMeanCurvature();
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -13980,6 +14096,27 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Vertex_setRandomInitialMeanCurvature(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Vertex *arg1 = (Vertex *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Vertex_setRandomInitialMeanCurvature",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Vertex, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Vertex_setRandomInitialMeanCurvature" "', argument " "1"" of type '" "Vertex *""'"); 
+  }
+  arg1 = reinterpret_cast< Vertex * >(argp1);
+  (arg1)->setRandomInitialMeanCurvature();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Vertex_setLBOperator(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Vertex *arg1 = (Vertex *) 0 ;
@@ -19396,6 +19533,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_getMeanStrainDeterminant", _wrap_Cell_getMeanStrainDeterminant, METH_VARARGS, NULL},
 	 { (char *)"Cell_setMeanCurvature", _wrap_Cell_setMeanCurvature, METH_VARARGS, NULL},
 	 { (char *)"Cell_setInitialMeanCurvature", _wrap_Cell_setInitialMeanCurvature, METH_VARARGS, NULL},
+	 { (char *)"Cell_getRandomInitialMeanCurvature", _wrap_Cell_getRandomInitialMeanCurvature, METH_VARARGS, NULL},
+	 { (char *)"Cell_setRandomInitialMeanCurvature", _wrap_Cell_setRandomInitialMeanCurvature, METH_VARARGS, NULL},
+	 { (char *)"Cell_getMeanCurvatureWidth", _wrap_Cell_getMeanCurvatureWidth, METH_VARARGS, NULL},
+	 { (char *)"Cell_setMeanCurvatureWidth", _wrap_Cell_setMeanCurvatureWidth, METH_VARARGS, NULL},
 	 { (char *)"Cell_getTotalAreaMixed", _wrap_Cell_getTotalAreaMixed, METH_VARARGS, NULL},
 	 { (char *)"Cell_getInitialVolume", _wrap_Cell_getInitialVolume, METH_VARARGS, NULL},
 	 { (char *)"Cell_getInitialFourthTerm", _wrap_Cell_getInitialFourthTerm, METH_VARARGS, NULL},
@@ -19492,6 +19633,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getMeanCurvature", _wrap_Face_getMeanCurvature, METH_VARARGS, NULL},
 	 { (char *)"Face_setInitialMeanCurvature", _wrap_Face_setInitialMeanCurvature, METH_VARARGS, NULL},
 	 { (char *)"Face_getInitialMeanCurvature", _wrap_Face_getInitialMeanCurvature, METH_VARARGS, NULL},
+	 { (char *)"Face_setRandomInitialMeanCurvature", _wrap_Face_setRandomInitialMeanCurvature, METH_VARARGS, NULL},
 	 { (char *)"Face_setLBOperator", _wrap_Face_setLBOperator, METH_VARARGS, NULL},
 	 { (char *)"Face_getLBOperator", _wrap_Face_getLBOperator, METH_VARARGS, NULL},
 	 { (char *)"Face_setLBOperatorOnMeanCurvature", _wrap_Face_setLBOperatorOnMeanCurvature, METH_VARARGS, NULL},
@@ -19772,6 +19914,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Vertex_getGaussianCurvature", _wrap_Vertex_getGaussianCurvature, METH_VARARGS, NULL},
 	 { (char *)"Vertex_setInitialMeanCurvature", _wrap_Vertex_setInitialMeanCurvature, METH_VARARGS, NULL},
 	 { (char *)"Vertex_getInitialMeanCurvature", _wrap_Vertex_getInitialMeanCurvature, METH_VARARGS, NULL},
+	 { (char *)"Vertex_setRandomInitialMeanCurvature", _wrap_Vertex_setRandomInitialMeanCurvature, METH_VARARGS, NULL},
 	 { (char *)"Vertex_setLBOperator", _wrap_Vertex_setLBOperator, METH_VARARGS, NULL},
 	 { (char *)"Vertex_getLBOperator", _wrap_Vertex_getLBOperator, METH_VARARGS, NULL},
 	 { (char *)"Vertex_setLBOperatorOnMeanCurvature", _wrap_Vertex_setLBOperatorOnMeanCurvature, METH_VARARGS, NULL},

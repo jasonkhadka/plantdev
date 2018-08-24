@@ -396,6 +396,7 @@ class Face
 // setting and getting initial mean curvature
   void setInitialMeanCurvature(double);
   double getInitialMeanCurvature();
+  void setRandomInitialMeanCurvature();
   /*
     *setting and getting Laplace-Beltrami Operator
   */

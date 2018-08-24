@@ -1556,6 +1556,18 @@ if (this->alpha == 0){//means not update directly to face
           cellalpha = this->alpha;
       }
 //Eigen::Matrix2d stressMatrix = cellalpha*(this->getAreaOfFace())*(this->strain);
+/* random growth matrix */
+Eigen::Matrix2d randomGrowthMatrix; 
+// Setting the randomGrowthMatrix 
+randomGrowthMatrix(0,0) = cell->getRandomNumber();
+randomGrowthMatrix(0,1) = cell->getRandomNumber();
+randomGrowthMatrix(1,0) = randomGrowthMatrix(0,1);
+randomGrowthMatrix(1,1) = cell->getRandomNumber();
+{
+  double meanTraceRandomGrowth = (randomGrowthMatrix.trace())/2.;
+  randomGrowthMatrix(0,0) -= meanTraceRandomGrowth;
+  randomGrowthMatrix(1,1) -= meanTraceRandomGrowth;
+}
 //getting traceless deviatoric matrix
 Eigen::Matrix2d deviatoric = (this->stress) - 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity();
 //growth rate of faces : randomized number between (kappa-0.5 to kappa + 0.5)
@@ -1565,7 +1577,7 @@ Eigen::Matrix2d strainOfCell;
 strainOfCell <<(this->mu1), (this->mu2), 
                 (this->mu3), (this->mu4);
 // base growth matrix 
-Eigen::Matrix2d baseGrowthMatrix = (this->randomGrowthMatrix)*strainOfCell +strainOfCell*(this->randomGrowthMatrix);
+Eigen::Matrix2d baseGrowthMatrix = strainOfCell - 0.5*((randomGrowthMatrix)*strainOfCell + strainOfCell*(randomGrowthMatrix));
 //get the feedback matrix:: Feedback is dependent on the direct growth equation 
 Eigen::Matrix2d feedback = deviatoric*baseGrowthMatrix + strainOfCell*baseGrowthMatrix;
 //printing Feed back matrix
@@ -1932,9 +1944,10 @@ lastGrowthRate = growthfactor; //saving growth rate for plotting
   //now setting tracesq of Target Form Matrix
   this->setTraceSquaredTargetFormMatrix();
  }
-
-
-
+// *************************************************************** //
+void Face::setRandomInitialMeanCurvature(){
+  this->initialMeanCurvature = ((this->cell)->getRandomInitialMeanCurvature());
+}
 
 // *************************************************************** //
  void Face::setDivisionThreshold(){
@@ -2168,14 +2181,7 @@ Face::Face(Cell *cell):gaussianWidth(0.125), randomNumberGeneratorType(gsl_rng_d
   this->thirdTerm = 0;
   this->energy = 0;
   this->growthVar = 0.5;
-  // Setting the randomGrowthMatrix 
-  this->randomGrowthMatrix(0,0) = cell->getRandomNumber();
-  this->randomGrowthMatrix(0,1) = cell->getRandomNumber()/10.;
-  this->randomGrowthMatrix(1,0) = this->randomGrowthMatrix(0,1);
-  this->randomGrowthMatrix(1,1) = cell->getRandomNumber();
-  double meanTraceRandomGrowth = (this->randomGrowthMatrix.trace())/2.;
-  this->randomGrowthMatrix(0,0) -= meanTraceRandomGrowth;
-  this->randomGrowthMatrix(1,1) -= meanTraceRandomGrowth;
+ 
   //setting the random number generator
   // intialised in Initialising list :-> randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm
   randomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
@@ -2199,8 +2205,8 @@ Face::~Face()
   }
   delete[] vertices;
   //release the randomNumberGenerator
-  gsl_rng_free(randomNumberGenerator);
-  gsl_rng_free(cellDivisionRandomNumberGenerator);
+  gsl_rng_free(this->randomNumberGenerator);
+  gsl_rng_free(this->cellDivisionRandomNumberGenerator);
   //***************end added features*************************************//
   cell->removeFace(this);
 }

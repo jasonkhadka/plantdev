@@ -752,6 +752,9 @@ class Vertex
     // setting and getting initial mean curvature
     void setInitialMeanCurvature(double);
     double getInitialMeanCurvature();
+    // setting initial mean curvature to random value definied by 
+    // cell->meanCurvatureRandomNumberGenerator
+    void setRandomInitialMeanCurvature();
     /*
       *setting and getting Laplace-Beltrami Operator
     */

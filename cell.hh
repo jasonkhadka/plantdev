@@ -280,11 +280,20 @@ class Cell
    */
   void setInitialMeanCurvature();
     /**
-   * Functioin to set the intiail mean curvature to a given value 
+   * Function to set the intiail mean curvature to a given value 
    * on all the vertex and face of this structure
    */
   void setInitialMeanCurvature(double);
-  
+  /**
+   * get a random number to feed to face/vertex initial meancurvature
+   * return : uniform random number in [-meanCurvatureWidth,meanCurvatureWidth)
+   */
+  double getRandomInitialMeanCurvature();
+  /**
+   * function to set random number for initial mean curvature for 
+   * all vertices and faces
+   */
+  void setRandomInitialMeanCurvature();
   /* -- protected instance methods ----------------------------------------- */
 
   protected:
@@ -512,7 +521,16 @@ class Cell
    gsl_rng * seedRandomNumberGenerator;
    const gsl_rng_type * seedNumberGeneratorType;
 
+   // for spontaneous (intial) Mean curvature of surface
+   double meanCurvatureWidth;
+   gsl_rng * meanCurvatureRandomNumberGenerator;
+
 public:
+  /**
+   * Set/Get mean curvature width
+   */
+  double getMeanCurvatureWidth();
+  void setMeanCurvatureWidth(double);
   /*
     * get total area mixed
     */
@@ -792,6 +810,15 @@ public:
 };
 
 /* -- inline instance methods ---------------------------------------------- */
+inline double Cell::getMeanCurvatureWidth(){
+    return meanCurvatureWidth;
+};
+inline void Cell::setMeanCurvatureWidth(double newcurve){
+    this->meanCurvatureWidth = newcurve;
+};
+inline double Cell::getRandomInitialMeanCurvature(){
+  return gsl_ran_flat(meanCurvatureRandomNumberGenerator,-1.*(this->meanCurvatureWidth),this->meanCurvatureWidth);
+}
 inline double Cell::getBendingEnergy(){
   return bendingEnergy;
 }

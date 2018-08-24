@@ -203,6 +203,18 @@ class Cell(_object):
     def setInitialMeanCurvature(self, *args):
         return _quadedge.Cell_setInitialMeanCurvature(self, *args)
 
+    def getRandomInitialMeanCurvature(self):
+        return _quadedge.Cell_getRandomInitialMeanCurvature(self)
+
+    def setRandomInitialMeanCurvature(self):
+        return _quadedge.Cell_setRandomInitialMeanCurvature(self)
+
+    def getMeanCurvatureWidth(self):
+        return _quadedge.Cell_getMeanCurvatureWidth(self)
+
+    def setMeanCurvatureWidth(self, arg2):
+        return _quadedge.Cell_setMeanCurvatureWidth(self, arg2)
+
     def getTotalAreaMixed(self):
         return _quadedge.Cell_getTotalAreaMixed(self)
 
@@ -523,6 +535,9 @@ class Face(_object):
 
     def getInitialMeanCurvature(self):
         return _quadedge.Face_getInitialMeanCurvature(self)
+
+    def setRandomInitialMeanCurvature(self):
+        return _quadedge.Face_setRandomInitialMeanCurvature(self)
 
     def setLBOperator(self, tempLBO):
         return _quadedge.Face_setLBOperator(self, tempLBO)
@@ -1366,6 +1381,9 @@ class Vertex(_object):
 
     def getInitialMeanCurvature(self):
         return _quadedge.Vertex_getInitialMeanCurvature(self)
+
+    def setRandomInitialMeanCurvature(self):
+        return _quadedge.Vertex_setRandomInitialMeanCurvature(self)
 
     def setLBOperator(self, tempLBO):
         return _quadedge.Vertex_setLBOperator(self, tempLBO)
