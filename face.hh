@@ -670,8 +670,7 @@ class Face
     * **for now this is jsut the form matrix of current shape
     */
     double targetFormMatrix[2][2] = {{0.,0.},{0.,0.}};
-    /* random growth matrix */
-    Eigen::Matrix2d randomGrowthMatrix;
+
     /**
      * constant Growth Matrix : Intrisic rate for cells to grow in case of
      * growth being driven by a constant growth equation
