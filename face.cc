@@ -1557,17 +1557,21 @@ if (this->alpha == 0){//means not update directly to face
       }
 //Eigen::Matrix2d stressMatrix = cellalpha*(this->getAreaOfFace())*(this->strain);
 /* random growth matrix */
-Eigen::Matrix2d randomGrowthMatrix; 
-// Setting the randomGrowthMatrix 
-randomGrowthMatrix(0,0) = cell->getRandomNumber();
-randomGrowthMatrix(0,1) = cell->getRandomNumber();
-randomGrowthMatrix(1,0) = randomGrowthMatrix(0,1);
-randomGrowthMatrix(1,1) = cell->getRandomNumber();
-{
-  double meanTraceRandomGrowth = (randomGrowthMatrix.trace())/2.;
-  randomGrowthMatrix(0,0) -= meanTraceRandomGrowth;
-  randomGrowthMatrix(1,1) -= meanTraceRandomGrowth;
-}
+Eigen::Matrix2d randomGrowthMatrix, matA,matB; 
+randomGrowthAngleDirection += cell->getRandomAngleGaussianVariance();
+double cosT = cos(randomGrowthAngleDirection);
+double sinT = sin(randomGrowthAngleDirection);
+double sincosT = cosT*sinT;
+double cosT2 = pow(cosT,2);
+double sinT2 = pow(sinT,2);
+matA<<cosT2, sincosT,
+      sincosT, sinT2;
+matB<<sinT2, -1.*sincosT,
+      -1.*sincosT, cosT2;
+// randomgrowthmatrix : property : tr(RGM) = 0
+randomGrowthMatrix = (cell->getLambda())*matA + (-1.)*(cell->getLambda())*matB;
+//std::cout<<"Random Growth Matrix: \n"<<randomGrowthMatrix<<std::endl;
+// ****************************************************** //
 //getting traceless deviatoric matrix
 Eigen::Matrix2d deviatoric = (this->stress) - 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity();
 //growth rate of faces : randomized number between (kappa-0.5 to kappa + 0.5)
@@ -2181,7 +2185,7 @@ Face::Face(Cell *cell):gaussianWidth(0.125), randomNumberGeneratorType(gsl_rng_d
   this->thirdTerm = 0;
   this->energy = 0;
   this->growthVar = 0.5;
- 
+  this->randomGrowthAngleDirection = cell->getRandomGrowthDirectionAngle();
   //setting the random number generator
   // intialised in Initialising list :-> randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm
   randomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);

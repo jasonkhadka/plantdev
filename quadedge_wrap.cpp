@@ -3092,6 +3092,9 @@ namespace swig {
 #include "cell.hh"
 
 
+  #define SWIG_From_double   PyFloat_FromDouble 
+
+
 SWIGINTERNINLINE PyObject*
   SWIG_From_unsigned_SS_int  (unsigned int value)
 {
@@ -3262,9 +3265,6 @@ SWIG_AsVal_unsigned_SS_int (PyObject * obj, unsigned int *val)
   }  
   return res;
 }
-
-
-  #define SWIG_From_double   PyFloat_FromDouble 
 
 
 SWIGINTERN int
@@ -3522,6 +3522,17 @@ double getEigenMatrix(Eigen::Matrix2d matrix, int i, int j){
 #ifdef __cplusplus
 extern "C" {
 #endif
+SWIGINTERN PyObject *SQRT_M_PI_5degree_swigconstant(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *module;
+  PyObject *d;
+  if (!PyArg_ParseTuple(args,(char*)"O:swigconstant", &module)) return NULL;
+  d = PyModule_GetDict(module);
+  if (!d) return NULL;
+  SWIG_Python_SetConstant(d, "SQRT_M_PI_5degree",SWIG_From_double(static_cast< double >(0.295408975150919337883027913890190863799591576020397854702)));
+  return SWIG_Py_Void();
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_make(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *result = 0 ;
@@ -4515,6 +4526,58 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_getLambda(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getLambda",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getLambda" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getLambda();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_setLambda(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Cell_setLambda",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setLambda" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Cell_setLambda" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setLambda(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_getMeanCurvatureWidth(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -4561,6 +4624,50 @@ SWIGINTERN PyObject *_wrap_Cell_setMeanCurvatureWidth(PyObject *SWIGUNUSEDPARM(s
   arg2 = static_cast< double >(val2);
   (arg1)->setMeanCurvatureWidth(arg2);
   resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getRandomAngleGaussianVariance(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getRandomAngleGaussianVariance",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getRandomAngleGaussianVariance" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getRandomAngleGaussianVariance();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_getRandomGrowthDirectionAngle(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getRandomGrowthDirectionAngle",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getRandomGrowthDirectionAngle" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getRandomGrowthDirectionAngle();
+  resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
   return NULL;
@@ -6645,6 +6752,58 @@ SWIGINTERN PyObject *_wrap_Face_removeEdge(PyObject *SWIGUNUSEDPARM(self), PyObj
   }
   arg2 = reinterpret_cast< Edge * >(argp2);
   (arg1)->removeEdge(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getRandomGrowthAngleDirection(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getRandomGrowthAngleDirection",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getRandomGrowthAngleDirection" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getRandomGrowthAngleDirection();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setRandomGrowthAngleDirection(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_setRandomGrowthAngleDirection",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setRandomGrowthAngleDirection" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Face_setRandomGrowthAngleDirection" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setRandomGrowthAngleDirection(arg2);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -8868,66 +9027,6 @@ SWIGINTERN PyObject *_wrap_Face_targetFormMatrix_get(PyObject *SWIGUNUSEDPARM(se
   arg1 = reinterpret_cast< Face * >(argp1);
   result = (double (*)[2])(double (*)[2]) ((arg1)->targetFormMatrix);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_a_2__double, 0 |  0 );
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Face_randomGrowthMatrix_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Face *arg1 = (Face *) 0 ;
-  Eigen::Matrix2d arg2 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 ;
-  int res2 = 0 ;
-  PyObject * obj0 = 0 ;
-  PyObject * obj1 = 0 ;
-  
-  if (!PyArg_ParseTuple(args,(char *)"OO:Face_randomGrowthMatrix_set",&obj0,&obj1)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_randomGrowthMatrix_set" "', argument " "1"" of type '" "Face *""'"); 
-  }
-  arg1 = reinterpret_cast< Face * >(argp1);
-  {
-    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Eigen__Matrix2d,  0  | 0);
-    if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Face_randomGrowthMatrix_set" "', argument " "2"" of type '" "Eigen::Matrix2d""'"); 
-    }  
-    if (!argp2) {
-      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Face_randomGrowthMatrix_set" "', argument " "2"" of type '" "Eigen::Matrix2d""'");
-    } else {
-      Eigen::Matrix2d * temp = reinterpret_cast< Eigen::Matrix2d * >(argp2);
-      arg2 = *temp;
-      if (SWIG_IsNewObj(res2)) delete temp;
-    }
-  }
-  if (arg1) (arg1)->randomGrowthMatrix = arg2;
-  resultobj = SWIG_Py_Void();
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_Face_randomGrowthMatrix_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
-  PyObject *resultobj = 0;
-  Face *arg1 = (Face *) 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  PyObject * obj0 = 0 ;
-  Eigen::Matrix2d result;
-  
-  if (!PyArg_ParseTuple(args,(char *)"O:Face_randomGrowthMatrix_get",&obj0)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_randomGrowthMatrix_get" "', argument " "1"" of type '" "Face *""'"); 
-  }
-  arg1 = reinterpret_cast< Face * >(argp1);
-  result =  ((arg1)->randomGrowthMatrix);
-  resultobj = SWIG_NewPointerObj((new Eigen::Matrix2d(static_cast< const Eigen::Matrix2d& >(result))), SWIGTYPE_p_Eigen__Matrix2d, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -19498,6 +19597,7 @@ fail:
 
 static PyMethodDef SwigMethods[] = {
 	 { (char *)"SWIG_PyInstanceMethod_New", (PyCFunction)SWIG_PyInstanceMethod_New, METH_O, NULL},
+	 { (char *)"SQRT_M_PI_5degree_swigconstant", SQRT_M_PI_5degree_swigconstant, METH_VARARGS, NULL},
 	 { (char *)"Cell_make", _wrap_Cell_make, METH_VARARGS, NULL},
 	 { (char *)"Cell_makeTetrahedron", _wrap_Cell_makeTetrahedron, METH_VARARGS, NULL},
 	 { (char *)"Cell_kill", _wrap_Cell_kill, METH_VARARGS, NULL},
@@ -19535,8 +19635,12 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_setInitialMeanCurvature", _wrap_Cell_setInitialMeanCurvature, METH_VARARGS, NULL},
 	 { (char *)"Cell_getRandomInitialMeanCurvature", _wrap_Cell_getRandomInitialMeanCurvature, METH_VARARGS, NULL},
 	 { (char *)"Cell_setRandomInitialMeanCurvature", _wrap_Cell_setRandomInitialMeanCurvature, METH_VARARGS, NULL},
+	 { (char *)"Cell_getLambda", _wrap_Cell_getLambda, METH_VARARGS, NULL},
+	 { (char *)"Cell_setLambda", _wrap_Cell_setLambda, METH_VARARGS, NULL},
 	 { (char *)"Cell_getMeanCurvatureWidth", _wrap_Cell_getMeanCurvatureWidth, METH_VARARGS, NULL},
 	 { (char *)"Cell_setMeanCurvatureWidth", _wrap_Cell_setMeanCurvatureWidth, METH_VARARGS, NULL},
+	 { (char *)"Cell_getRandomAngleGaussianVariance", _wrap_Cell_getRandomAngleGaussianVariance, METH_VARARGS, NULL},
+	 { (char *)"Cell_getRandomGrowthDirectionAngle", _wrap_Cell_getRandomGrowthDirectionAngle, METH_VARARGS, NULL},
 	 { (char *)"Cell_getTotalAreaMixed", _wrap_Cell_getTotalAreaMixed, METH_VARARGS, NULL},
 	 { (char *)"Cell_getInitialVolume", _wrap_Cell_getInitialVolume, METH_VARARGS, NULL},
 	 { (char *)"Cell_getInitialFourthTerm", _wrap_Cell_getInitialFourthTerm, METH_VARARGS, NULL},
@@ -19625,6 +19729,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getEdge", _wrap_Face_getEdge, METH_VARARGS, NULL},
 	 { (char *)"Face_addEdge", _wrap_Face_addEdge, METH_VARARGS, NULL},
 	 { (char *)"Face_removeEdge", _wrap_Face_removeEdge, METH_VARARGS, NULL},
+	 { (char *)"Face_getRandomGrowthAngleDirection", _wrap_Face_getRandomGrowthAngleDirection, METH_VARARGS, NULL},
+	 { (char *)"Face_setRandomGrowthAngleDirection", _wrap_Face_setRandomGrowthAngleDirection, METH_VARARGS, NULL},
 	 { (char *)"Face_calculateBendingForce", _wrap_Face_calculateBendingForce, METH_VARARGS, NULL},
 	 { (char *)"Face_getBendingForce", _wrap_Face_getBendingForce, METH_VARARGS, NULL},
 	 { (char *)"Face_setGaussianCurvature", _wrap_Face_setGaussianCurvature, METH_VARARGS, NULL},
@@ -19712,8 +19818,6 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_isConvex", _wrap_Face_isConvex, METH_VARARGS, NULL},
 	 { (char *)"Face_targetFormMatrix_set", _wrap_Face_targetFormMatrix_set, METH_VARARGS, NULL},
 	 { (char *)"Face_targetFormMatrix_get", _wrap_Face_targetFormMatrix_get, METH_VARARGS, NULL},
-	 { (char *)"Face_randomGrowthMatrix_set", _wrap_Face_randomGrowthMatrix_set, METH_VARARGS, NULL},
-	 { (char *)"Face_randomGrowthMatrix_get", _wrap_Face_randomGrowthMatrix_get, METH_VARARGS, NULL},
 	 { (char *)"Face_constantGrowthMatrix_set", _wrap_Face_constantGrowthMatrix_set, METH_VARARGS, NULL},
 	 { (char *)"Face_constantGrowthMatrix_get", _wrap_Face_constantGrowthMatrix_get, METH_VARARGS, NULL},
 	 { (char *)"Face_targetArea_set", _wrap_Face_targetArea_set, METH_VARARGS, NULL},

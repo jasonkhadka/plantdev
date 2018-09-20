@@ -364,7 +364,8 @@ class Face
      
      // Intial mean curvature for the centroid of this face
      double initialMeanCurvature;
-
+     // Polarity angle for random growth direction (randomStrainProportionalGrowth)
+     double randomGrowthAngleDirection;
      
      // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
       //    Random Number Generator : seeded with *some* seed 
@@ -378,6 +379,9 @@ class Face
   /* ----------Public instance methods ---------*/
  /* -- public instance methods ----------------------------------------- */
     public:
+      // set and get randomAngleDirection
+      double getRandomGrowthAngleDirection();
+      void setRandomGrowthAngleDirection(double);
       /*
       * Calculating the Bending Force
       */
@@ -894,6 +898,14 @@ class Face
   friend class CentralisedDerivative;
 };
 /* ----- inline instance methods --------------------------------*/
+inline double Face::getRandomGrowthAngleDirection(){
+  return this->randomGrowthAngleDirection;
+};
+
+inline void Face::setRandomGrowthAngleDirection(double fa){
+    this->randomGrowthAngleDirection = fa;
+};
+
 inline void Face::setLBOperatorOnMeanCurvature(double lbo){
     this->LBOperatorOnMeanCurvature = lbo;
 }

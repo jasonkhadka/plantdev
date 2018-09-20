@@ -90,6 +90,9 @@ except AttributeError:
     _newclass = 0
 
 
+
+_quadedge.SQRT_M_PI_5degree_swigconstant(_quadedge)
+SQRT_M_PI_5degree = _quadedge.SQRT_M_PI_5degree
 class Cell(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Cell, name, value)
@@ -209,11 +212,23 @@ class Cell(_object):
     def setRandomInitialMeanCurvature(self):
         return _quadedge.Cell_setRandomInitialMeanCurvature(self)
 
+    def getLambda(self):
+        return _quadedge.Cell_getLambda(self)
+
+    def setLambda(self, arg2):
+        return _quadedge.Cell_setLambda(self, arg2)
+
     def getMeanCurvatureWidth(self):
         return _quadedge.Cell_getMeanCurvatureWidth(self)
 
     def setMeanCurvatureWidth(self, arg2):
         return _quadedge.Cell_setMeanCurvatureWidth(self, arg2)
+
+    def getRandomAngleGaussianVariance(self):
+        return _quadedge.Cell_getRandomAngleGaussianVariance(self)
+
+    def getRandomGrowthDirectionAngle(self):
+        return _quadedge.Cell_getRandomGrowthDirectionAngle(self)
 
     def getTotalAreaMixed(self):
         return _quadedge.Cell_getTotalAreaMixed(self)
@@ -512,6 +527,12 @@ class Face(_object):
     def removeEdge(self, edge):
         return _quadedge.Face_removeEdge(self, edge)
 
+    def getRandomGrowthAngleDirection(self):
+        return _quadedge.Face_getRandomGrowthAngleDirection(self)
+
+    def setRandomGrowthAngleDirection(self, arg2):
+        return _quadedge.Face_setRandomGrowthAngleDirection(self, arg2)
+
     def calculateBendingForce(self):
         return _quadedge.Face_calculateBendingForce(self)
 
@@ -766,10 +787,6 @@ class Face(_object):
     __swig_getmethods__["targetFormMatrix"] = _quadedge.Face_targetFormMatrix_get
     if _newclass:
         targetFormMatrix = _swig_property(_quadedge.Face_targetFormMatrix_get, _quadedge.Face_targetFormMatrix_set)
-    __swig_setmethods__["randomGrowthMatrix"] = _quadedge.Face_randomGrowthMatrix_set
-    __swig_getmethods__["randomGrowthMatrix"] = _quadedge.Face_randomGrowthMatrix_get
-    if _newclass:
-        randomGrowthMatrix = _swig_property(_quadedge.Face_randomGrowthMatrix_get, _quadedge.Face_randomGrowthMatrix_set)
     __swig_setmethods__["constantGrowthMatrix"] = _quadedge.Face_constantGrowthMatrix_set
     __swig_getmethods__["constantGrowthMatrix"] = _quadedge.Face_constantGrowthMatrix_get
     if _newclass:

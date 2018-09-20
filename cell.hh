@@ -8,7 +8,7 @@
 
 #include <iostream>
 #include <set>
-
+#include <math.h>
 //random number generating
 #include <gsl/gsl_math.h>
 #include <gsl/gsl_rng.h>
@@ -23,6 +23,10 @@
 #include "edge.hh"
 #include "face.hh"
 #include "vertex.hh"
+
+// SQRT_M_PI_5degree  = sqrt(pi/36)
+#define SQRT_M_PI_5degree 0.295408975150919337883027913890190863799591576020397854702
+
 
 class CellVertexIterator;
 class CellFaceIterator;
@@ -449,6 +453,11 @@ class Cell
     */
    double omega;
    /**
+    * lambda : the magnitude of major eigenvalue for random matrix 
+    * for growth reorganisation
+    */
+   double lambda;
+   /**
     * initialStrain : The strain to assign as Initial Condition
     *                 In fraction of intial shape 
     */
@@ -525,12 +534,31 @@ class Cell
    double meanCurvatureWidth;
    gsl_rng * meanCurvatureRandomNumberGenerator;
 
+    // randomized angle for random growth of face
+   gsl_rng * randomAngleGenerator;
+
+   // random number for changing angle of Growth of face
+   gsl_rng * randomAngleGaussianVarianceGenerator;
+
 public:
+  /**getting/setting lambda */
+  double getLambda();
+  void setLambda(double);
   /**
    * Set/Get mean curvature width
    */
   double getMeanCurvatureWidth();
   void setMeanCurvatureWidth(double);
+
+  /**
+   * get random number (guassian) for varying 
+   * random angle of growth for face
+   */
+  double getRandomAngleGaussianVariance();
+  /**
+   * get randomAngle for growth
+   */
+  double getRandomGrowthDirectionAngle();
   /*
     * get total area mixed
     */
@@ -810,6 +838,19 @@ public:
 };
 
 /* -- inline instance methods ---------------------------------------------- */
+inline double Cell::getLambda(){
+  return this->lambda;
+};
+inline void Cell::setLambda(double tl){
+  this->lambda = tl;
+};
+inline double Cell::getRandomAngleGaussianVariance(){//(generator, STDEV)
+    return gsl_ran_gaussian_ziggurat(randomAngleGaussianVarianceGenerator, SQRT_M_PI_5degree);
+};
+inline double Cell::getRandomGrowthDirectionAngle(){
+    return gsl_ran_flat(randomAngleGenerator,0.,M_PI);
+};
+
 inline double Cell::getMeanCurvatureWidth(){
     return meanCurvatureWidth;
 };

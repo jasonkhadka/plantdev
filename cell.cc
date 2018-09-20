@@ -646,8 +646,9 @@ return localVolume*(sumArea/counter);
   CellFaceIterator faces(this);
   Face * face;
   while ((face = faces.next())!= 0){
-      face->calculateStress();
       face->calculateStrain();
+      face->calculateStress();
+      
   }
  }
  // ****************************************************************************** //
@@ -2043,6 +2044,7 @@ Cell::Cell():gaussianWidth(0.125), //initialising the Standard Deviaton of Gauss
   this->sigma = 0.;
   this->omega = 0.;
   this->meanCurvatureWidth = 0.1;
+  this->lambda = 0.0;
   //setting the random number generator
   // intialised in Initialising list :-> randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm
   randomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
@@ -2055,9 +2057,19 @@ Cell::Cell():gaussianWidth(0.125), //initialising the Standard Deviaton of Gauss
   cellDivisionRandomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
   //gsl_rng_set(cellDivisionRandomNumberGenerator, random_seed());//using /dev/urandom to seed this generator
   gsl_rng_set(cellDivisionRandomNumberGenerator, 123194);
+
   // RANDOM number generator for spontaneous (initial mean) curvature
   meanCurvatureRandomNumberGenerator = gsl_rng_alloc(randomNumberGeneratorType);
   gsl_rng_set(meanCurvatureRandomNumberGenerator, 902913);
+  
+  // RANDOM Number for RANDOM ANGLE GENERATOR OF FACE
+  randomAngleGenerator = gsl_rng_alloc(randomNumberGeneratorType);
+  gsl_rng_set(randomAngleGenerator, 33210);
+
+  // Random Number (GAUSSIAN) for varying Angle of growth for FACE
+  randomAngleGaussianVarianceGenerator = gsl_rng_alloc(randomNumberGeneratorType);
+  gsl_rng_set(randomAngleGaussianVarianceGenerator, 64201);
+
   //calculating the square root of epsilon
   sqrtEpsilon = sqrt(std::numeric_limits<double>::epsilon());
   //sqrtEpsilon = pow(10.,-12.);
@@ -2088,6 +2100,8 @@ Cell::~Cell()
   gsl_rng_free(cellDivisionRandomNumberGenerator);
   gsl_rng_free(seedRandomNumberGenerator);
   gsl_rng_free(meanCurvatureRandomNumberGenerator);
+  gsl_rng_free(randomAngleGenerator);
+  gsl_rng_free(randomAngleGaussianVarianceGenerator);
 
 }
 
