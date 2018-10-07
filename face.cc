@@ -2211,6 +2211,8 @@ Face::~Face()
   //release the randomNumberGenerator
   gsl_rng_free(this->randomNumberGenerator);
   gsl_rng_free(this->cellDivisionRandomNumberGenerator);
+  // eigen resizing
+  this->stress.resize(0,0);
   //***************end added features*************************************//
   cell->removeFace(this);
 }
