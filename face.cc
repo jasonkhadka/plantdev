@@ -861,16 +861,16 @@ void Face::getRotatedGrowthMatrix(Face * newface){
   cfmMatrixnew = rotationMatrix*
                 cfmMatrixnew*
                 rotationMatrix.transpose();
-  /*//storing the rot cfm
-  this->rotGrowth(0,0) = cfmMatrix(0,0);
-  this->rotGrowth(0,1)= cfmMatrix(0,1);
-  this->rotGrowth(1,0)= cfmMatrix(1,0);
-  this->rotGrowth(1,1)= cfmMatrix(1,1);*/
   // ==================================================================================== //
   // getting the growth matrix
   // G = R(M_{j+1}) - M_{j}
   // ==================================================================================== //
   cfmMatrix = cfmMatrixnew - cfmMatrix;
+  //storing the rot cfm
+  this->rotGrowth(0,0) = cfmMatrix(0,0);
+  this->rotGrowth(0,1) = cfmMatrix(0,1);
+  this->rotGrowth(1,0) = cfmMatrix(1,0);
+  this->rotGrowth(1,1) = cfmMatrix(1,1);
   // ==================================================================================== //
   // Compute the eigenvector of currentFormMatrix
    Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
