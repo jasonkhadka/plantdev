@@ -574,8 +574,23 @@ double * Face::getStressEigenVector2(){
   return pntunit;
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double * Face::getRotGrowthEigenVector1(){
+  double * pntunit = this->rotGrowthEigenVector1;
+  return pntunit;
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double * Face::getRotGrowthEigenVector2(){
+  double * pntunit = this->rotGrowthEigenVector2;
+  return pntunit;
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
 double * Face::getStrainEigenVector1(){
   double * pntunit = this->strainEigenVector1;
+  return pntunit;
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double * Face::getCfmEigenVector(){
+  double * pntunit = this->cfmEigenVector;
   return pntunit;
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
@@ -809,6 +824,81 @@ double * Face::getLBOperator(){
       //Also calculating the area of this face
       this->setAreaOfFace();
   }
+void Face::getRotatedGrowthMatrix(Face * newface){
+  // newface : t = i+1
+  // ***************************************************************************************************** //
+  // Rotation of TargetFormMatrix
+  // ***************************************************************************************************** //
+  // Angle change :: Compare the orientation (angle) change here for M - matrix and rotate M0 too with this.
+  // cfm matrix
+   Eigen::Matrix2d cfmMatrixnew;
+   cfmMatrixnew << newface->currentFormMatrix[0][0],newface->currentFormMatrix[0][1],
+                  newface->currentFormMatrix[1][0],newface->currentFormMatrix[1][1];
+  // unit-x of newFace
+  double *newUnitX = newface->getUnitx();
+  // Transform unit-x_{i+1} -> to the basis of {i}
+  double newUnitXTransformed[2] = {0.,0.};
+  newUnitXTransformed[0] = (newUnitX[0]*(this->unitx[0])+
+                            newUnitX[1]*(this->unitx[1]));
+  newUnitXTransformed[1] = (newUnitX[0]*(this->unity[0])+
+                            newUnitX[1]*(this->unity[1]));
+  // CCW-angle between the [unitx{i+1}, unitx{i}] => between the [oldvec, newvec]
+  double unitXTransformed[2] = {1.0,0.};
+  double dot = newUnitXTransformed[0]*unitXTransformed[0]+
+               newUnitXTransformed[1]*unitXTransformed[1];
+  double det = newUnitXTransformed[0]*unitXTransformed[1]-
+               newUnitXTransformed[1]*unitXTransformed[0];
+  double angle = atan2(det,dot);
+  // building the rotation matrixx
+  Eigen::Matrix2d rotationMatrix;
+  rotationMatrix << cos(angle), -1.*sin(angle), 
+                    sin(angle), cos(angle);
+  // calculating the rotation
+  Eigen::Matrix2d cfmMatrix;
+  cfmMatrix << this->currentFormMatrix[0][0], this->currentFormMatrix[1][0],
+               this->currentFormMatrix[1][0], this->currentFormMatrix[1][1];
+  // rotation of the tfmMatrix  = R*tfm*RT
+  cfmMatrixnew = rotationMatrix*
+                cfmMatrixnew*
+                rotationMatrix.transpose();
+  /*//storing the rot cfm
+  this->rotGrowth(0,0) = cfmMatrix(0,0);
+  this->rotGrowth(0,1)= cfmMatrix(0,1);
+  this->rotGrowth(1,0)= cfmMatrix(1,0);
+  this->rotGrowth(1,1)= cfmMatrix(1,1);*/
+  // ==================================================================================== //
+  // getting the growth matrix
+  // G = R(M_{j+1}) - M_{j}
+  // ==================================================================================== //
+  cfmMatrix = cfmMatrixnew - cfmMatrix;
+  // ==================================================================================== //
+  // Compute the eigenvector of currentFormMatrix
+   Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
+  //Transformation Matrix
+  Eigen::Matrix3d transformationMatrix;
+  Eigen::Vector3d forces1;
+  Eigen::Vector3d forces2;
+  transformationMatrix << this->unitx[0] , this->unitx[1], this->unitx[2],
+                            this->unity[0] , this->unity[1], this->unity[2],
+                            this->unitz[0] , this->unitz[1], this->unitz[2];
+  //storing the eigen vec and value of rotated cfm
+  eigensolver.compute(cfmMatrix);//computing the eigenvalues of stress
+  // Converting EigenVector in intrinsic coordinate to the back to cartesian
+  forces1 << eigensolver.eigenvectors().col(0)[0], eigensolver.eigenvectors().col(0)[1], 0.;
+  forces1 = (transformationMatrix.transpose())*forces1;
+  forces2 << eigensolver.eigenvectors().col(1)[0], eigensolver.eigenvectors().col(1)[1], 0.;
+  forces2 = (transformationMatrix.transpose())*forces2;
+  //saving the eigen values 
+  this->rotGrowthEigenValue1 = eigensolver.eigenvalues()[0];
+  this->rotGrowthEigenValue2 = eigensolver.eigenvalues()[1];
+  this->rotGrowthEigenVector1[0] = forces1[0];
+  this->rotGrowthEigenVector1[1] = forces1[1];
+  this->rotGrowthEigenVector1[2] = forces1[2];
+  this->rotGrowthEigenVector2[0] = forces2[0];
+  this->rotGrowthEigenVector2[1] = forces2[1];
+  this->rotGrowthEigenVector2[2] = forces2[2];
+  // ************************************************************//
+}
 void Face::setTargetFormMatrix(){
   if (this->getID() == 1){
     return;
@@ -2213,6 +2303,7 @@ Face::~Face()
   gsl_rng_free(this->cellDivisionRandomNumberGenerator);
   // eigen resizing
   this->stress.resize(0,0);
+  this->strain.resize(0,0);
   //***************end added features*************************************//
   cell->removeFace(this);
 }

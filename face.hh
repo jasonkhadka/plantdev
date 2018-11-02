@@ -262,6 +262,13 @@ class Face
      double stressEigenVector1[3];
      double stressEigenVector2[3];
      double stressEigenValue1, stressEigenValue2;
+
+     /**
+      * Rotated CFM Eigen Directions & Eigen values
+      */
+     double rotGrowthEigenVector1[3];
+     double rotGrowthEigenVector2[3];
+     double rotGrowthEigenValue1, rotGrowthEigenValue2;
     /**
       * Strain Eigen Directions & Eigen values
       */
@@ -379,6 +386,8 @@ class Face
   /* ----------Public instance methods ---------*/
  /* -- public instance methods ----------------------------------------- */
     public:
+      // get the cfm eigen vector
+      double * getCfmEigenVector();
       // set and get randomAngleDirection
       double getRandomGrowthAngleDirection();
       void setRandomGrowthAngleDirection(double);
@@ -463,6 +472,12 @@ class Face
     double * getNormalForce();
     double getStressEigenValue1();
     double getStressEigenValue2();    
+
+    // getting the rotGrowth eigen vec & value
+     double * getRotGrowthEigenVector1();
+    double * getRotGrowthEigenVector2();
+    double getRotGrowthEigenValue1();
+    double getRotGrowthEigenValue2();   
     /**
      * function to get strain Eigen Vectors & values
      */
@@ -698,6 +713,10 @@ class Face
      */
     Eigen::Matrix2d strain;
     /**
+     * rotated eigen storage
+     */
+    Eigen::Matrix2d rotGrowth;
+    /**
      * Function to calculate intrinsic stress matrix
      */
     void calculateStress();
@@ -890,7 +909,10 @@ class Face
       * get sum of edge Length
       */
      double getSumEdgeLength();
-
+     /* Function to calculate the rotate cfm from input and
+        store it in rotGrowth
+     */
+     void getRotatedGrowthMatrix(Face* );
 
   // **********************************************************************// 
   /* -- friend classes ----------------------------------------------------- */
@@ -1005,6 +1027,12 @@ inline double Face::getStressEigenValue1(){
 };
 inline double Face::getStressEigenValue2(){
   return this->stressEigenValue2;
+};
+inline double Face::getRotGrowthEigenValue1(){
+  return this->rotGrowthEigenValue1;
+};
+inline double Face::getRotGrowthEigenValue2(){
+  return this->rotGrowthEigenValue2;
 };
 inline double Face::getStrainEigenValue1(){
   return this->strainEigenValue1;

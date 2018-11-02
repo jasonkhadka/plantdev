@@ -629,6 +629,7 @@ return localVolume*(sumArea/counter);
       if (face->getID()==1) continue;
       areaofface += face->getAreaOfFace();
   }
+  this->surfaceArea = areaofface;
   this->averageFaceArea = areaofface/facecount;
  }
 //******************************************************************************* //

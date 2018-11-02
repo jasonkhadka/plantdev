@@ -4783,6 +4783,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_getSurfaceArea(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_getSurfaceArea",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_getSurfaceArea" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  result = (double)(arg1)->getSurfaceArea();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_getGaussianWidth(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -6759,6 +6781,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_getCfmEigenVector(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getCfmEigenVector",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getCfmEigenVector" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double *)(arg1)->getCfmEigenVector();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_getRandomGrowthAngleDirection(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -7720,6 +7764,94 @@ SWIGINTERN PyObject *_wrap_Face_getStressEigenValue2(PyObject *SWIGUNUSEDPARM(se
   }
   arg1 = reinterpret_cast< Face * >(argp1);
   result = (double)(arg1)->getStressEigenValue2();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getRotGrowthEigenVector1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getRotGrowthEigenVector1",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getRotGrowthEigenVector1" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double *)(arg1)->getRotGrowthEigenVector1();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getRotGrowthEigenVector2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getRotGrowthEigenVector2",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getRotGrowthEigenVector2" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double *)(arg1)->getRotGrowthEigenVector2();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getRotGrowthEigenValue1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getRotGrowthEigenValue1",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getRotGrowthEigenValue1" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getRotGrowthEigenValue1();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getRotGrowthEigenValue2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getRotGrowthEigenValue2",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getRotGrowthEigenValue2" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getRotGrowthEigenValue2();
   resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
@@ -9337,6 +9469,66 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_rotGrowth_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  Eigen::Matrix2d arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_rotGrowth_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_rotGrowth_set" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Eigen__Matrix2d,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Face_rotGrowth_set" "', argument " "2"" of type '" "Eigen::Matrix2d""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Face_rotGrowth_set" "', argument " "2"" of type '" "Eigen::Matrix2d""'");
+    } else {
+      Eigen::Matrix2d * temp = reinterpret_cast< Eigen::Matrix2d * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  if (arg1) (arg1)->rotGrowth = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_rotGrowth_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  Eigen::Matrix2d result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_rotGrowth_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_rotGrowth_get" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result =  ((arg1)->rotGrowth);
+  resultobj = SWIG_NewPointerObj((new Eigen::Matrix2d(static_cast< const Eigen::Matrix2d& >(result))), SWIGTYPE_p_Eigen__Matrix2d, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_calculateStress(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -10551,6 +10743,36 @@ SWIGINTERN PyObject *_wrap_Face_getSumEdgeLength(PyObject *SWIGUNUSEDPARM(self),
   arg1 = reinterpret_cast< Face * >(argp1);
   result = (double)(arg1)->getSumEdgeLength();
   resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getRotatedGrowthMatrix(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  Face *arg2 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_getRotatedGrowthMatrix",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getRotatedGrowthMatrix" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Face_getRotatedGrowthMatrix" "', argument " "2"" of type '" "Face *""'"); 
+  }
+  arg2 = reinterpret_cast< Face * >(argp2);
+  (arg1)->getRotatedGrowthMatrix(arg2);
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -19646,6 +19868,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_getInitialFourthTerm", _wrap_Cell_getInitialFourthTerm, METH_VARARGS, NULL},
 	 { (char *)"Cell_setAverageFaceArea", _wrap_Cell_setAverageFaceArea, METH_VARARGS, NULL},
 	 { (char *)"Cell_getAverageFaceArea", _wrap_Cell_getAverageFaceArea, METH_VARARGS, NULL},
+	 { (char *)"Cell_getSurfaceArea", _wrap_Cell_getSurfaceArea, METH_VARARGS, NULL},
 	 { (char *)"Cell_getGaussianWidth", _wrap_Cell_getGaussianWidth, METH_VARARGS, NULL},
 	 { (char *)"Cell_setInitialStrain", _wrap_Cell_setInitialStrain, METH_VARARGS, NULL},
 	 { (char *)"Cell_getInitialStrain", _wrap_Cell_getInitialStrain, METH_VARARGS, NULL},
@@ -19729,6 +19952,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getEdge", _wrap_Face_getEdge, METH_VARARGS, NULL},
 	 { (char *)"Face_addEdge", _wrap_Face_addEdge, METH_VARARGS, NULL},
 	 { (char *)"Face_removeEdge", _wrap_Face_removeEdge, METH_VARARGS, NULL},
+	 { (char *)"Face_getCfmEigenVector", _wrap_Face_getCfmEigenVector, METH_VARARGS, NULL},
 	 { (char *)"Face_getRandomGrowthAngleDirection", _wrap_Face_getRandomGrowthAngleDirection, METH_VARARGS, NULL},
 	 { (char *)"Face_setRandomGrowthAngleDirection", _wrap_Face_setRandomGrowthAngleDirection, METH_VARARGS, NULL},
 	 { (char *)"Face_calculateBendingForce", _wrap_Face_calculateBendingForce, METH_VARARGS, NULL},
@@ -19768,6 +19992,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getNormalForce", _wrap_Face_getNormalForce, METH_VARARGS, NULL},
 	 { (char *)"Face_getStressEigenValue1", _wrap_Face_getStressEigenValue1, METH_VARARGS, NULL},
 	 { (char *)"Face_getStressEigenValue2", _wrap_Face_getStressEigenValue2, METH_VARARGS, NULL},
+	 { (char *)"Face_getRotGrowthEigenVector1", _wrap_Face_getRotGrowthEigenVector1, METH_VARARGS, NULL},
+	 { (char *)"Face_getRotGrowthEigenVector2", _wrap_Face_getRotGrowthEigenVector2, METH_VARARGS, NULL},
+	 { (char *)"Face_getRotGrowthEigenValue1", _wrap_Face_getRotGrowthEigenValue1, METH_VARARGS, NULL},
+	 { (char *)"Face_getRotGrowthEigenValue2", _wrap_Face_getRotGrowthEigenValue2, METH_VARARGS, NULL},
 	 { (char *)"Face_getStrainEigenVector1", _wrap_Face_getStrainEigenVector1, METH_VARARGS, NULL},
 	 { (char *)"Face_getStrainEigenVector2", _wrap_Face_getStrainEigenVector2, METH_VARARGS, NULL},
 	 { (char *)"Face_getStrainEigenValue1", _wrap_Face_getStrainEigenValue1, METH_VARARGS, NULL},
@@ -19828,6 +20056,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_stress_get", _wrap_Face_stress_get, METH_VARARGS, NULL},
 	 { (char *)"Face_strain_set", _wrap_Face_strain_set, METH_VARARGS, NULL},
 	 { (char *)"Face_strain_get", _wrap_Face_strain_get, METH_VARARGS, NULL},
+	 { (char *)"Face_rotGrowth_set", _wrap_Face_rotGrowth_set, METH_VARARGS, NULL},
+	 { (char *)"Face_rotGrowth_get", _wrap_Face_rotGrowth_get, METH_VARARGS, NULL},
 	 { (char *)"Face_calculateStress", _wrap_Face_calculateStress, METH_VARARGS, NULL},
 	 { (char *)"Face_calculateStrain", _wrap_Face_calculateStrain, METH_VARARGS, NULL},
 	 { (char *)"Face_getStrainDeterminant", _wrap_Face_getStrainDeterminant, METH_VARARGS, NULL},
@@ -19879,6 +20109,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_setEnergyTerms", _wrap_Face_setEnergyTerms, METH_VARARGS, NULL},
 	 { (char *)"Face_setSumEdgeLength", _wrap_Face_setSumEdgeLength, METH_VARARGS, NULL},
 	 { (char *)"Face_getSumEdgeLength", _wrap_Face_getSumEdgeLength, METH_VARARGS, NULL},
+	 { (char *)"Face_getRotatedGrowthMatrix", _wrap_Face_getRotatedGrowthMatrix, METH_VARARGS, NULL},
 	 { (char *)"Face_swigregister", Face_swigregister, METH_VARARGS, NULL},
 	 { (char *)"new_FaceEdgeIterator", _wrap_new_FaceEdgeIterator, METH_VARARGS, NULL},
 	 { (char *)"delete_FaceEdgeIterator", _wrap_delete_FaceEdgeIterator, METH_VARARGS, NULL},

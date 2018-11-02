@@ -467,6 +467,10 @@ class Cell
     */
    double averageFaceArea;
    /*
+      Surface Area of total tissue
+    */
+   double surfaceArea;
+   /*
     * total Area Mixed calcualted
     */
    double totalAreaMixed;
@@ -573,6 +577,8 @@ public:
   //Functions to calculate average area of face in this cell and get  it
   void setAverageFaceArea();
   double getAverageFaceArea();
+  // functions to get the surface area of tissue
+  double getSurfaceArea();
   /**
    * Getting guassianwidth of growthRandomNumber
    */
@@ -883,6 +889,9 @@ inline double Cell::getAverageFaceArea(){
 }
 inline double Cell::getGaussianWidth(){
   return this->gaussianWidth;
+}
+inline double Cell::getSurfaceArea(){
+  return this->surfaceArea;
 }
 inline void Cell::setInitialStrain(double initial){
   this->initialStrain = initial;

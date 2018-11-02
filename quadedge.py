@@ -245,6 +245,9 @@ class Cell(_object):
     def getAverageFaceArea(self):
         return _quadedge.Cell_getAverageFaceArea(self)
 
+    def getSurfaceArea(self):
+        return _quadedge.Cell_getSurfaceArea(self)
+
     def getGaussianWidth(self):
         return _quadedge.Cell_getGaussianWidth(self)
 
@@ -527,6 +530,9 @@ class Face(_object):
     def removeEdge(self, edge):
         return _quadedge.Face_removeEdge(self, edge)
 
+    def getCfmEigenVector(self):
+        return _quadedge.Face_getCfmEigenVector(self)
+
     def getRandomGrowthAngleDirection(self):
         return _quadedge.Face_getRandomGrowthAngleDirection(self)
 
@@ -643,6 +649,18 @@ class Face(_object):
 
     def getStressEigenValue2(self):
         return _quadedge.Face_getStressEigenValue2(self)
+
+    def getRotGrowthEigenVector1(self):
+        return _quadedge.Face_getRotGrowthEigenVector1(self)
+
+    def getRotGrowthEigenVector2(self):
+        return _quadedge.Face_getRotGrowthEigenVector2(self)
+
+    def getRotGrowthEigenValue1(self):
+        return _quadedge.Face_getRotGrowthEigenValue1(self)
+
+    def getRotGrowthEigenValue2(self):
+        return _quadedge.Face_getRotGrowthEigenValue2(self)
 
     def getStrainEigenVector1(self):
         return _quadedge.Face_getStrainEigenVector1(self)
@@ -807,6 +825,10 @@ class Face(_object):
     __swig_getmethods__["strain"] = _quadedge.Face_strain_get
     if _newclass:
         strain = _swig_property(_quadedge.Face_strain_get, _quadedge.Face_strain_set)
+    __swig_setmethods__["rotGrowth"] = _quadedge.Face_rotGrowth_set
+    __swig_getmethods__["rotGrowth"] = _quadedge.Face_rotGrowth_get
+    if _newclass:
+        rotGrowth = _swig_property(_quadedge.Face_rotGrowth_get, _quadedge.Face_rotGrowth_set)
 
     def calculateStress(self):
         return _quadedge.Face_calculateStress(self)
@@ -946,6 +968,9 @@ class Face(_object):
 
     def getSumEdgeLength(self):
         return _quadedge.Face_getSumEdgeLength(self)
+
+    def getRotatedGrowthMatrix(self, arg2):
+        return _quadedge.Face_getRotatedGrowthMatrix(self, arg2)
 Face_swigregister = _quadedge.Face_swigregister
 Face_swigregister(Face)
 
