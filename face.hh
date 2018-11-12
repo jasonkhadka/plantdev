@@ -250,6 +250,18 @@ class Face
      * unit vector in Z direction
      */
      double unitz[3]; 
+
+     /**
+     * unit vector in radial direction & orthoradial direction 
+     * with respect to the primordia growth centroid
+     * unitRadial/unitOrthoradial -> 3D vector
+     * projectedUnitRadial/projectedUnitOrthoradial -> projected on face plane
+     */
+     double unitRadial[3];
+     double unitOrthoradial[3];
+     double projectedUnitRadial[2];
+     double projectedUnitOrthoradial[2];
+
      /**
       * Unit Vector with respect to cartesian coordinate
       */
@@ -269,6 +281,10 @@ class Face
      double rotGrowthEigenVector1[3];
      double rotGrowthEigenVector2[3];
      double rotGrowthEigenValue1, rotGrowthEigenValue2;
+
+     //radial and orthoradial component of growth and stress
+     double radialGrowth, orthoradialGrowth;
+     double radialStress, orthoradialStress;
     /**
       * Strain Eigen Directions & Eigen values
       */
@@ -475,9 +491,14 @@ class Face
 
     // getting the rotGrowth eigen vec & value
      double * getRotGrowthEigenVector1();
-    double * getRotGrowthEigenVector2();
+    double * getRotGrowthEigenVector2();  // Orthoradial vector  = cross(radialvec, normal)
+
     double getRotGrowthEigenValue1();
     double getRotGrowthEigenValue2();   
+
+
+    // Setting the radial and orthoradial vector
+    void setRadialOrthoradialVector(Face * primordialFace);
     /**
      * function to get strain Eigen Vectors & values
      */

@@ -7859,6 +7859,36 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_setRadialOrthoradialVector(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  Face *arg2 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_setRadialOrthoradialVector",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setRadialOrthoradialVector" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  res2 = SWIG_ConvertPtr(obj1, &argp2,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Face_setRadialOrthoradialVector" "', argument " "2"" of type '" "Face *""'"); 
+  }
+  arg2 = reinterpret_cast< Face * >(argp2);
+  (arg1)->setRadialOrthoradialVector(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_getStrainEigenVector1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -19996,6 +20026,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getRotGrowthEigenVector2", _wrap_Face_getRotGrowthEigenVector2, METH_VARARGS, NULL},
 	 { (char *)"Face_getRotGrowthEigenValue1", _wrap_Face_getRotGrowthEigenValue1, METH_VARARGS, NULL},
 	 { (char *)"Face_getRotGrowthEigenValue2", _wrap_Face_getRotGrowthEigenValue2, METH_VARARGS, NULL},
+	 { (char *)"Face_setRadialOrthoradialVector", _wrap_Face_setRadialOrthoradialVector, METH_VARARGS, NULL},
 	 { (char *)"Face_getStrainEigenVector1", _wrap_Face_getStrainEigenVector1, METH_VARARGS, NULL},
 	 { (char *)"Face_getStrainEigenVector2", _wrap_Face_getStrainEigenVector2, METH_VARARGS, NULL},
 	 { (char *)"Face_getStrainEigenValue1", _wrap_Face_getStrainEigenValue1, METH_VARARGS, NULL},

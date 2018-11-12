@@ -21,7 +21,7 @@
 //for eigenvalue conputation
 #include "./eigen/Eigen/Dense"
 #include "./eigen/Eigen/Eigenvalues"
-
+#include "./eigen/Eigen/Geometry"
 //define 2pi
 #define M_2PI 6.283185307179586476925286766559005768394338798750211641949
 //struct to store verticies
@@ -824,6 +824,45 @@ double * Face::getLBOperator(){
       //Also calculating the area of this face
       this->setAreaOfFace();
   }
+// ***************************************************************************************************** //
+void Face::setRadialOrthoradialVector(Face * primordialFace){
+  // checking if this face is the primordial face, then all vectors are zero
+  if ((primordialFace->getID())==this->getID()) {
+    return;
+  }
+ // getting the radial vector
+  Eigen::Vector3d thisNormal(this->normal[0], this->normal[1],this->normal[2]);
+  Eigen::Vector3d thisCentroid(this->xCentralised, this->yCentralised, this->zCentralised);
+  Eigen::Vector3d primordialCentroid(primordialFace->getXCentralised(), 
+                                  primordialFace->getYCentralised(), 
+                                  primordialFace->getZCentralised());
+  primordialCentroid -= thisCentroid;
+
+  Eigen::Vector3d radialVec = primordialCentroid - thisNormal.dot(primordialCentroid)*thisNormal;
+  radialVec.normalize();//inplace normalisation
+
+  Eigen::Vector3d orthoradialVec = radialVec.cross(thisNormal);
+  orthoradialVec.normalize();
+
+  //setting it to the properties
+  this->unitRadial[0] = radialVec[0];
+  this->unitRadial[1] = radialVec[1];
+  this->unitRadial[2] = radialVec[2];
+
+  this->unitOrthoradial[0] = orthoradialVec[0];
+  this->unitOrthoradial[1] = orthoradialVec[1];
+  this->unitOrthoradial[2] = orthoradialVec[2];
+
+  //Calculating the projections :: proj{v} = \sum_i <u_i,v> u_i
+  this->projectedUnitRadial[0] = (this->unitx[0]*radialVec[0])+(this->unitx[1]*radialVec[1])+(this->unitx[2]*radialVec[2]);
+  this->projectedUnitRadial[1] = (this->unity[0]*radialVec[0])+(this->unity[1]*radialVec[1])+(this->unity[2]*radialVec[2]);
+
+
+  this->projectedUnitOrthoradial[0] = (this->unitx[0]*orthoradialVec[0])+(this->unitx[1]*orthoradialVec[1])+(this->unitx[2]*orthoradialVec[2]);
+  this->projectedUnitOrthoradial[1] = (this->unity[0]*orthoradialVec[0])+(this->unity[1]*orthoradialVec[1])+(this->unity[2]*orthoradialVec[2]);
+
+}
+// ***************************************************************************************************** //
 void Face::getRotatedGrowthMatrix(Face * newface){
   // newface : t = i+1
   // ***************************************************************************************************** //
@@ -865,6 +904,9 @@ void Face::getRotatedGrowthMatrix(Face * newface){
   // getting the growth matrix
   // G = R(M_{j+1}) - M_{j}
   // ==================================================================================== //
+  //std::cout<<"====================================================================="<<std::endl;
+  //std::cout<<"CFM NEW:"<<std::endl<< cfmMatrixnew<<std::endl;
+  //std::cout<<"CFM OLD:"<<std::endl<< cfmMatrix<<std::endl;
   cfmMatrix = cfmMatrixnew - cfmMatrix;
   //storing the rot cfm
   this->rotGrowth(0,0) = cfmMatrix(0,0);
@@ -872,6 +914,7 @@ void Face::getRotatedGrowthMatrix(Face * newface){
   this->rotGrowth(1,0) = cfmMatrix(1,0);
   this->rotGrowth(1,1) = cfmMatrix(1,1);
   // ==================================================================================== //
+  //std::cout<<"Growth matrix:"<<std::endl<< cfmMatrix<<std::endl;
   // Compute the eigenvector of currentFormMatrix
    Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
   //Transformation Matrix
@@ -897,8 +940,26 @@ void Face::getRotatedGrowthMatrix(Face * newface){
   this->rotGrowthEigenVector2[0] = forces2[0];
   this->rotGrowthEigenVector2[1] = forces2[1];
   this->rotGrowthEigenVector2[2] = forces2[2];
-  // ************************************************************//
+
+
+  // getting radial and orthoradial component of growth and stress
+  Eigen::Vector2d radialVec(this->projectedUnitRadial[0],this->projectedUnitRadial[1]);
+  Eigen::Vector2d orthoradialVec(this->projectedUnitOrthoradial[0],this->projectedUnitOrthoradial[1]);
+
+  // stressmatrix 
+  Eigen::Matrix2d thisStress;
+  thisStress = this->stress;
+
+  //projecting stress and growth onto radial and orthoradial direction
+
+  this->radialGrowth = radialVec.transpose()*cfmMatrix*radialVec;
+  this->orthoradialGrowth = orthoradialVec.transpose()*cfmMatrix*orthoradialVec;
+
+  this->radialStress = radialVec.transpose()*thisStress*radialVec;
+  this->orthoradialStress = orthoradialVec.transpose()*thisStress*orthoradialVec;
 }
+
+// ************************************************************//
 void Face::setTargetFormMatrix(){
   if (this->getID() == 1){
     return;
@@ -2253,6 +2314,26 @@ Face::Face(Cell *cell):gaussianWidth(0.125), randomNumberGeneratorType(gsl_rng_d
   this->normal[2] = 0;
   this->cfmEigenVector[0] = 0;
   this->cfmEigenVector[1] = 0;
+
+  this->unitRadial[0] = 0.;
+  this->unitRadial[1] = 0.;
+  this->unitRadial[2] = 0.;
+
+  this->unitOrthoradial[0] = 0.;
+  this->unitOrthoradial[1] = 0.;
+  this->unitOrthoradial[2] = 0.;
+
+  this->projectedUnitRadial[0] = 0.;
+  this->projectedUnitRadial[1] = 0.;
+  this->projectedUnitRadial[2] = 0.;
+
+  this->projectedUnitOrthoradial[0] = 0.;
+  this->projectedUnitOrthoradial[1] = 0.;
+  this->projectedUnitOrthoradial[2] = 0.;
+  this->radialGrowth = 0.;
+  this->orthoradialGrowth = 0.;
+  this->radialStress = 0.;
+  this->orthoradialStress = 0.;
   // ************************************************************************ //
   this->vertices = new Vertex*[8];
   this->vertexCount = 0;

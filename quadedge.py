@@ -662,6 +662,9 @@ class Face(_object):
     def getRotGrowthEigenValue2(self):
         return _quadedge.Face_getRotGrowthEigenValue2(self)
 
+    def setRadialOrthoradialVector(self, primordialFace):
+        return _quadedge.Face_setRadialOrthoradialVector(self, primordialFace)
+
     def getStrainEigenVector1(self):
         return _quadedge.Face_getStrainEigenVector1(self)
 
