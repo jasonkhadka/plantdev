@@ -578,6 +578,18 @@ double * Face::getRotGrowthEigenVector1(){
   double * pntunit = this->rotGrowthEigenVector1;
   return pntunit;
 }
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double * Face::getRadialVector(){
+  double * pntunit = this->unitRadial;
+  return pntunit;
+}
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double * Face::getOrthoradialVector(){
+  double * pntunit = this->unitOrthoradial;
+  return pntunit;
+}
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
 double * Face::getRotGrowthEigenVector2(){
   double * pntunit = this->rotGrowthEigenVector2;
@@ -854,12 +866,18 @@ void Face::setRadialOrthoradialVector(Face * primordialFace){
   this->unitOrthoradial[2] = orthoradialVec[2];
 
   //Calculating the projections :: proj{v} = \sum_i <u_i,v> u_i
-  this->projectedUnitRadial[0] = (this->unitx[0]*radialVec[0])+(this->unitx[1]*radialVec[1])+(this->unitx[2]*radialVec[2]);
-  this->projectedUnitRadial[1] = (this->unity[0]*radialVec[0])+(this->unity[1]*radialVec[1])+(this->unity[2]*radialVec[2]);
+  Eigen::Vector2d projectedunit(((this->unitx[0]*radialVec[0])+(this->unitx[1]*radialVec[1])+(this->unitx[2]*radialVec[2])),
+                                     (this->unity[0]*radialVec[0])+(this->unity[1]*radialVec[1])+(this->unity[2]*radialVec[2]));
+  projectedunit.normalize();//inplace normalisation
+  this->projectedUnitRadial[0] = projectedunit[0];
+  this->projectedUnitRadial[1] = projectedunit[1];
 
+  projectedunit[0] = (this->unitx[0]*orthoradialVec[0])+(this->unitx[1]*orthoradialVec[1])+(this->unitx[2]*orthoradialVec[2]);
+  projectedunit[1] = (this->unity[0]*orthoradialVec[0])+(this->unity[1]*orthoradialVec[1])+(this->unity[2]*orthoradialVec[2]);
+  projectedunit.normalize();//inplace normalisation
 
-  this->projectedUnitOrthoradial[0] = (this->unitx[0]*orthoradialVec[0])+(this->unitx[1]*orthoradialVec[1])+(this->unitx[2]*orthoradialVec[2]);
-  this->projectedUnitOrthoradial[1] = (this->unity[0]*orthoradialVec[0])+(this->unity[1]*orthoradialVec[1])+(this->unity[2]*orthoradialVec[2]);
+  this->projectedUnitOrthoradial[0] = projectedunit[0];
+  this->projectedUnitOrthoradial[1] = projectedunit[1];
 
 }
 // ***************************************************************************************************** //
@@ -946,15 +964,40 @@ void Face::getRotatedGrowthMatrix(Face * newface){
   Eigen::Vector2d radialVec(this->projectedUnitRadial[0],this->projectedUnitRadial[1]);
   Eigen::Vector2d orthoradialVec(this->projectedUnitOrthoradial[0],this->projectedUnitOrthoradial[1]);
 
+
+  //projecting growth onto radial and orthoradial direction
+
+  this->radialGrowth = radialVec.transpose()*cfmMatrix*radialVec;
+  this->orthoradialGrowth = orthoradialVec.transpose()*cfmMatrix*orthoradialVec;
+  /*
+  std::cout<<"===================================="<<
+  std::endl<< "Growth Matrix"<<std::endl<<
+  "===================================="<<std::endl;
+  std::cout<<"eigen values :"<<std::endl;
+  std::cout<<this->rotGrowthEigenValue1<<"        "<< this->rotGrowthEigenValue2<<
+  "     sum ="<< this->rotGrowthEigenValue1+this->rotGrowthEigenValue2<<std::endl;
+  std::cout<<this->getRotGrowthEigenValue1()<<"        "<< this->getRotGrowthEigenValue2()<<
+  "     sum ="<< this->getRotGrowthEigenValue1() + this->getRotGrowthEigenValue2()<<std::endl;
+  std::cout<<"radial orthoradial :"<<std::endl;
+  std::cout<<this->radialGrowth<<"        "<< this->orthoradialGrowth<<
+  "     sum = "<<this->orthoradialGrowth+this->radialGrowth<<std::endl;
+  std::cout<<this->getRadialGrowth()<<"        "<< this->getOrthoradialGrowth()<<
+  "     sum = "<<this->getRadialGrowth()+this->getOrthoradialGrowth()<<std::endl;
+  */
+}
+
+// ***************************************************************************************************** //
+void Face::setRadialOrthoradialStress(){
+
+  // getting radial and orthoradial component of growth and stress
+  Eigen::Vector2d radialVec(this->projectedUnitRadial[0],this->projectedUnitRadial[1]);
+  Eigen::Vector2d orthoradialVec(this->projectedUnitOrthoradial[0],this->projectedUnitOrthoradial[1]);
+
   // stressmatrix 
   Eigen::Matrix2d thisStress;
   thisStress = this->stress;
 
-  //projecting stress and growth onto radial and orthoradial direction
-
-  this->radialGrowth = radialVec.transpose()*cfmMatrix*radialVec;
-  this->orthoradialGrowth = orthoradialVec.transpose()*cfmMatrix*orthoradialVec;
-
+  //projecting stress onto radial and orthoradial direction
   this->radialStress = radialVec.transpose()*thisStress*radialVec;
   this->orthoradialStress = orthoradialVec.transpose()*thisStress*orthoradialVec;
 }

@@ -497,17 +497,35 @@ class Face
     double getRotGrowthEigenValue2();   
 
 
+    // getting radial and orthoradial stress and growth
+    double getRadialStress();
+    double getOrthoradialStress();
+
+
+    double getRadialGrowth();
+    double getOrthoradialGrowth();
+
+
     // Setting the radial and orthoradial vector
     void setRadialOrthoradialVector(Face * primordialFace);
+
+    // Setting the radial and orthoradial vector
+    void setRadialOrthoradialStress();
     /**
      * function to get strain Eigen Vectors & values
      */
     
     double * getStrainEigenVector1();
     double * getStrainEigenVector2();
+
     double getStrainEigenValue1();
     double getStrainEigenValue2();    
     double getStrainValue(int, int);
+    // get radial and orthoradia vectors
+
+    double * getRadialVector();
+    double * getOrthoradialVector();
+    
     /**
      * setting the number of vertices in this face
      */
@@ -941,6 +959,18 @@ class Face
   friend class CentralisedDerivative;
 };
 /* ----- inline instance methods --------------------------------*/
+inline double Face::getRadialStress(){
+  return this->radialStress;
+};
+inline  double Face::getOrthoradialStress(){
+  return this->orthoradialStress;
+};
+inline double Face::getRadialGrowth(){
+  return this->radialGrowth;
+};
+inline double Face::getOrthoradialGrowth(){
+  return this->orthoradialGrowth;
+};
 inline double Face::getRandomGrowthAngleDirection(){
   return this->randomGrowthAngleDirection;
 };

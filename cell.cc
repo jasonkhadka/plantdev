@@ -1563,7 +1563,27 @@ void Cell::setFaceGrowthVar(){
     }
   }
 }
- //********************************************************************************* //
+//********************************************************************************* //
+void Cell::setRadialOrthoradialVector(Face * primordialFace){ 
+  Face * face;
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          face->setRadialOrthoradialVector(primordialFace);
+    }
+  }
+}
+
+void Cell::setRadialOrthoradialStress(){
+Face * face;
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          face->setRadialOrthoradialStress();
+    }
+  }
+}
+//********************************************************************************* //
  
 void Cell::setParameters(){
   Face * face;

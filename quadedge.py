@@ -325,6 +325,12 @@ class Cell(_object):
     def getSumEdgeLength(self):
         return _quadedge.Cell_getSumEdgeLength(self)
 
+    def setRadialOrthoradialVector(self, primordialFace):
+        return _quadedge.Cell_setRadialOrthoradialVector(self, primordialFace)
+
+    def setRadialOrthoradialStress(self):
+        return _quadedge.Cell_setRadialOrthoradialStress(self)
+
     def setLayer(self, arg2):
         return _quadedge.Cell_setLayer(self, arg2)
 
@@ -662,8 +668,23 @@ class Face(_object):
     def getRotGrowthEigenValue2(self):
         return _quadedge.Face_getRotGrowthEigenValue2(self)
 
+    def getRadialStress(self):
+        return _quadedge.Face_getRadialStress(self)
+
+    def getOrthoradialStress(self):
+        return _quadedge.Face_getOrthoradialStress(self)
+
+    def getRadialGrowth(self):
+        return _quadedge.Face_getRadialGrowth(self)
+
+    def getOrthoradialGrowth(self):
+        return _quadedge.Face_getOrthoradialGrowth(self)
+
     def setRadialOrthoradialVector(self, primordialFace):
         return _quadedge.Face_setRadialOrthoradialVector(self, primordialFace)
+
+    def setRadialOrthoradialStress(self):
+        return _quadedge.Face_setRadialOrthoradialStress(self)
 
     def getStrainEigenVector1(self):
         return _quadedge.Face_getStrainEigenVector1(self)
@@ -679,6 +700,12 @@ class Face(_object):
 
     def getStrainValue(self, arg2, arg3):
         return _quadedge.Face_getStrainValue(self, arg2, arg3)
+
+    def getRadialVector(self):
+        return _quadedge.Face_getRadialVector(self)
+
+    def getOrthoradialVector(self):
+        return _quadedge.Face_getOrthoradialVector(self)
 
     def setVertexCount(self):
         return _quadedge.Face_setVertexCount(self)

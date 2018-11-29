@@ -685,7 +685,14 @@ public:
     * Get Sum of all edge length of this structure
     */
     double getSumEdgeLength();
-
+    /*
+      * set radial orthoradial vector on faces
+    */
+    void setRadialOrthoradialVector(Face * primordialFace);
+    /*
+      * set radial and orthoradial stresses on faces
+    */
+    void setRadialOrthoradialStress();
   // **************************************************************** //
   // Public instance method //
 public:
