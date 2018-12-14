@@ -778,6 +778,9 @@ public:
   double getCellDivisionRandomNumber();
   //Function to get Random Integer for seeds
   unsigned long int getSeedRandomInteger();
+
+  //Function to set random number generator for seeding the face growth rate
+  void setRandomNumberSeed(double newseed);
   /**
    * get the growth variation
    */
@@ -962,6 +965,9 @@ inline double Cell::getRandomNumber(){
       //using 
      //return gsl_ran_gaussian_ziggurat(randomNumberGenerator, this->gaussianWidth);
     return gsl_rng_uniform(randomNumberGenerator);
+}
+inline void Cell::setRandomNumberSeed(double newseed){
+    gsl_rng_set(this->seedRandomNumberGenerator,newseed);
 }
 inline unsigned long int Cell::getSeedRandomInteger(){//get a Random integer (to act as a seed)
   return gsl_rng_get(seedRandomNumberGenerator);

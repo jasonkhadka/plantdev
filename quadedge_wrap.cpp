@@ -6095,6 +6095,36 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_setRandomNumberSeed(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Cell_setRandomNumberSeed",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setRandomNumberSeed" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Cell_setRandomNumberSeed" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setRandomNumberSeed(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_getGrowthVar(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -20155,6 +20185,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_getRandomNumber", _wrap_Cell_getRandomNumber, METH_VARARGS, NULL},
 	 { (char *)"Cell_getCellDivisionRandomNumber", _wrap_Cell_getCellDivisionRandomNumber, METH_VARARGS, NULL},
 	 { (char *)"Cell_getSeedRandomInteger", _wrap_Cell_getSeedRandomInteger, METH_VARARGS, NULL},
+	 { (char *)"Cell_setRandomNumberSeed", _wrap_Cell_setRandomNumberSeed, METH_VARARGS, NULL},
 	 { (char *)"Cell_getGrowthVar", _wrap_Cell_getGrowthVar, METH_VARARGS, NULL},
 	 { (char *)"Cell_setFaceGrowthVar", _wrap_Cell_setFaceGrowthVar, METH_VARARGS, NULL},
 	 { (char *)"Cell_setGrowthVar", _wrap_Cell_setGrowthVar, METH_VARARGS, NULL},

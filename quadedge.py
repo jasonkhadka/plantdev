@@ -400,6 +400,9 @@ class Cell(_object):
     def getSeedRandomInteger(self):
         return _quadedge.Cell_getSeedRandomInteger(self)
 
+    def setRandomNumberSeed(self, newseed):
+        return _quadedge.Cell_setRandomNumberSeed(self, newseed)
+
     def getGrowthVar(self):
         return _quadedge.Cell_getGrowthVar(self)
 
