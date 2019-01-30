@@ -275,6 +275,9 @@ class Face
      double stressEigenVector2[3];
      double stressEigenValue1, stressEigenValue2;
 
+     double projectedStressEigenVector1[2];
+     double projectedStressEigenVector2[2];
+
      /**
       * Rotated CFM Eigen Directions & Eigen values
       */
@@ -295,6 +298,9 @@ class Face
       * Major Eigenvector for Current Form Matrix
       */
      double cfmEigenVector[2];
+     /**short/minor eigenvector for current form matrix
+     */
+     double cfmShortEigenVector[2];
      /**
       * Normal Force on this Face
       */
@@ -404,6 +410,7 @@ class Face
     public:
       // get the cfm eigen vector
       double * getCfmEigenVector();
+      double * getCfmShortEigenVector();
       // set and get randomAngleDirection
       double getRandomGrowthAngleDirection();
       void setRandomGrowthAngleDirection(double);
@@ -683,6 +690,14 @@ class Face
      * function to divide this face in a random axis
      */
      void divideRandom();
+  //function to divide in orthoradial direction 
+     void divideOrthoradial();
+  // function to divide in radial direction
+     void divideRadial();
+  // function to divide in maximal stress direction
+     void divideMaximalStress();
+  // function to divide on shortest axis
+     void divideShortAxis();
   /**
    * function to set the Form Matrix after the division 
    * need to set the form matrix of 

@@ -542,6 +542,9 @@ class Face(_object):
     def getCfmEigenVector(self):
         return _quadedge.Face_getCfmEigenVector(self)
 
+    def getCfmShortEigenVector(self):
+        return _quadedge.Face_getCfmShortEigenVector(self)
+
     def getRandomGrowthAngleDirection(self):
         return _quadedge.Face_getRandomGrowthAngleDirection(self)
 
@@ -813,6 +816,18 @@ class Face(_object):
 
     def divideRandom(self):
         return _quadedge.Face_divideRandom(self)
+
+    def divideOrthoradial(self):
+        return _quadedge.Face_divideOrthoradial(self)
+
+    def divideRadial(self):
+        return _quadedge.Face_divideRadial(self)
+
+    def divideMaximalStress(self):
+        return _quadedge.Face_divideMaximalStress(self)
+
+    def divideShortAxis(self):
+        return _quadedge.Face_divideShortAxis(self)
 
     def setDivideFormMatrix(self):
         return _quadedge.Face_setDivideFormMatrix(self)

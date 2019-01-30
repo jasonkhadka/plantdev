@@ -6884,6 +6884,28 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_getCfmShortEigenVector(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getCfmShortEigenVector",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getCfmShortEigenVector" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double *)(arg1)->getCfmShortEigenVector();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_getRandomGrowthAngleDirection(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -9197,6 +9219,90 @@ SWIGINTERN PyObject *_wrap_Face_divideRandom(PyObject *SWIGUNUSEDPARM(self), PyO
   }
   arg1 = reinterpret_cast< Face * >(argp1);
   (arg1)->divideRandom();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_divideOrthoradial(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_divideOrthoradial",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_divideOrthoradial" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->divideOrthoradial();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_divideRadial(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_divideRadial",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_divideRadial" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->divideRadial();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_divideMaximalStress(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_divideMaximalStress",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_divideMaximalStress" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->divideMaximalStress();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_divideShortAxis(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_divideShortAxis",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_divideShortAxis" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->divideShortAxis();
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -20220,6 +20326,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_addEdge", _wrap_Face_addEdge, METH_VARARGS, NULL},
 	 { (char *)"Face_removeEdge", _wrap_Face_removeEdge, METH_VARARGS, NULL},
 	 { (char *)"Face_getCfmEigenVector", _wrap_Face_getCfmEigenVector, METH_VARARGS, NULL},
+	 { (char *)"Face_getCfmShortEigenVector", _wrap_Face_getCfmShortEigenVector, METH_VARARGS, NULL},
 	 { (char *)"Face_getRandomGrowthAngleDirection", _wrap_Face_getRandomGrowthAngleDirection, METH_VARARGS, NULL},
 	 { (char *)"Face_setRandomGrowthAngleDirection", _wrap_Face_setRandomGrowthAngleDirection, METH_VARARGS, NULL},
 	 { (char *)"Face_calculateBendingForce", _wrap_Face_calculateBendingForce, METH_VARARGS, NULL},
@@ -20312,6 +20419,10 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getDivisionThreshold", _wrap_Face_getDivisionThreshold, METH_VARARGS, NULL},
 	 { (char *)"Face_setDivisionThreshold", _wrap_Face_setDivisionThreshold, METH_VARARGS, NULL},
 	 { (char *)"Face_divideRandom", _wrap_Face_divideRandom, METH_VARARGS, NULL},
+	 { (char *)"Face_divideOrthoradial", _wrap_Face_divideOrthoradial, METH_VARARGS, NULL},
+	 { (char *)"Face_divideRadial", _wrap_Face_divideRadial, METH_VARARGS, NULL},
+	 { (char *)"Face_divideMaximalStress", _wrap_Face_divideMaximalStress, METH_VARARGS, NULL},
+	 { (char *)"Face_divideShortAxis", _wrap_Face_divideShortAxis, METH_VARARGS, NULL},
 	 { (char *)"Face_setDivideFormMatrix", _wrap_Face_setDivideFormMatrix, METH_VARARGS, NULL},
 	 { (char *)"Face_positionToCylinder", _wrap_Face_positionToCylinder, METH_VARARGS, NULL},
 	 { (char *)"Face_positionToDome", _wrap_Face_positionToDome, METH_VARARGS, NULL},

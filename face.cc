@@ -606,6 +606,11 @@ double * Face::getCfmEigenVector(){
   return pntunit;
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double * Face::getCfmShortEigenVector(){
+  double * pntunit = this->cfmShortEigenVector;
+  return pntunit;
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
 double * Face::getStrainEigenVector2(){
   double * pntunit = this->strainEigenVector2;
   return pntunit;
@@ -827,7 +832,17 @@ double * Face::getLBOperator(){
       this->targetFormMatrix[1][1] = tfmMatrix(1,1);
       // setting the newcfmEigenVector to cfmEigenVector
       this->cfmEigenVector[0] = newcfmEigenVector[0];
-      this->cfmEigenVector[1] = newcfmEigenVector[1];    
+      this->cfmEigenVector[1] = newcfmEigenVector[1];   
+      // setting short cfm eigen vector
+      this->cfmShortEigenVector[0] = eigensolver.eigenvectors().col(0)[0]; 
+      this->cfmShortEigenVector[1] = eigensolver.eigenvectors().col(0)[1];
+      /*
+      std::cout<<"============================================================"<<std::endl;
+      std::cout<<"face id : "<<this->getID()<<std::endl;
+      std::cout<<"============================================================"<<std::endl;
+      std::cout<<this->cfmShortEigenVector[0]<<this->cfmShortEigenVector[1]<<std::endl;
+      std::cout<<this->cfmEigenVector[0]<<this->cfmEigenVector[1]<<std::endl;
+      */
       //setting mu now with all udpates to CFM and TFM matrix
       this->mu1 = term11 - targetFormMatrix[0][0];
       this->mu2 = term12 - targetFormMatrix[0][1];
@@ -1315,13 +1330,23 @@ this->stress<<stressMatrix(0,0),stressMatrix(0,1),
     Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
     eigensolver.compute(this->stress);//computing the eigenvalues of stress
     // Converting EigenVector in intrinsic coordinate to the back to cartesian
+
+    // !! IMPORTANT : Eigen values/vectors are sorted in increasing order, hence
+    //              Eigenvalue[1]>Eigenvalue[0] and hence Eigenvector.col(1) is main Eigenvector
     forces1 << eigensolver.eigenvectors().col(0)[0], eigensolver.eigenvectors().col(0)[1], 0.;
     forces1 = (transformationMatrix.transpose())*forces1;
     forces2 << eigensolver.eigenvectors().col(1)[0], eigensolver.eigenvectors().col(1)[1], 0.;
     forces2 = (transformationMatrix.transpose())*forces2;
     //saving the eigen values 
+    this->projectedStressEigenVector1[0] = eigensolver.eigenvectors().col(0)[0];
+    this->projectedStressEigenVector1[1] = eigensolver.eigenvectors().col(0)[1];
+
+    this->projectedStressEigenVector2[0] = eigensolver.eigenvectors().col(1)[0];
+    this->projectedStressEigenVector2[1] = eigensolver.eigenvectors().col(1)[1];
+
     this->stressEigenValue1 = eigensolver.eigenvalues()[0];
     this->stressEigenValue2 = eigensolver.eigenvalues()[1];
+
     this->stressEigenVector1[0] = forces1[0];
     this->stressEigenVector1[1] = forces1[1];
     this->stressEigenVector1[2] = forces1[2];
@@ -2289,6 +2314,595 @@ void Face::setRandomInitialMeanCurvature(){
     cell->countCellDivision();
 
  }
+
+
+ // ************************************************************** //
+ void Face::divideRadial(){
+    if (this->id == 1){
+      return;
+    };
+    // Checking if the Area of Face has crossed the division Threshold or not
+    // If the Area is greater than threshold then the cell can divide
+    if (this->getAreaOfFace() < this->divisionThreshold){
+        return;
+    }
+    //getting cell of this face
+    Cell * cell = this->getCell();
+    unsigned int faceid = this->getID();
+    // get the direction for division : radial unit vec
+    double vdirect[2] = {this->projectedUnitRadial[0], this->projectedUnitRadial[1]};
+    Edge * edge;
+    Edge * intersectedEdge[2];
+    Vertex * vertexA;
+    Vertex * vertexB;
+    double Cx(0.), Cy(0.), Ax,Ay,Bx,By,s;
+    double xintersect, yintersect, zintersect;
+    int counter;
+    vertex_coordinate intersection_points[2];
+    {//iterating through the edge to see the division
+      FaceEdgeIterator edges(this);
+      counter = 0;
+      while ((edge = edges.next())!= 0){
+            vertexA = edge->Org();
+            vertexB = edge->Dest();
+            //getting coordinates of A and B
+            Ax = vertexA->getProjectedXcoordinate(faceid);
+            Ay = vertexA->getProjectedYcoordinate(faceid);
+            Bx = vertexB->getProjectedXcoordinate(faceid);
+            By = vertexB->getProjectedYcoordinate(faceid);
+            //now calculating the intersection of the old walls to new walls
+            //calculating the denominator
+            double denominator = (By-Ay)*vdirect[0]-(Bx-Ax)*vdirect[1];
+            s = ((Cy-Ay)*vdirect[0]-(Cx-Ax)*vdirect[1])/denominator;
+            // now checking if the new cellwall intersects the current edge
+            if ((s>0) && (s<1)){
+                assert(counter<2);
+                intersectedEdge[counter] = edge;
+                xintersect = vertexA->getXcoordinate() + s*(vertexB->getXcoordinate()-vertexA->getXcoordinate());
+                yintersect = vertexA->getYcoordinate() + s*(vertexB->getYcoordinate()-vertexA->getYcoordinate());
+                zintersect = vertexA->getZcoordinate() + s*(vertexB->getZcoordinate()-vertexA->getZcoordinate());
+                //assinging the intersection points to the intertion_points array
+                intersection_points[counter].x = xintersect;
+                intersection_points[counter].y = yintersect;
+                intersection_points[counter].z = zintersect;
+                counter += 1;
+            }
+        }
+      }
+    //now we have two edges that are taking part in division
+    Face * left, * right;
+    Vertex * origin;
+    Vertex * addedVertex[2];
+    for (int i = 0; i <2 ; i++){
+        left = intersectedEdge[i]->Left();
+        right = intersectedEdge[i]->Right();
+        origin = intersectedEdge[i]->Org();
+        //making new edge on the origin of this edge
+        edge =cell->makeVertexEdge(origin, left,right);
+        origin = edge->Dest();
+        origin->setXcoordinate(intersection_points[i].x);
+        origin->setYcoordinate(intersection_points[i].y);
+        origin->setZcoordinate(intersection_points[i].z);
+        addedVertex[i] = origin;
+        }
+    // Now making the connecting vertex for new wall
+    //                   v2
+    //    left = this     |    right = new face
+    //                    v1
+    edge = cell->makeFaceEdge(this, addedVertex[0], addedVertex[1]); 
+    right = edge->Right();//new face created
+    vertexA = edge->Org();
+    vertexB = edge->Dest();
+    //making the new vertex on the wall now.
+    edge =  cell->makeVertexEdge(vertexA, edge->Left(), edge->Right());
+    origin = edge->Dest();
+    //now setting the vertex of this new vertex
+    origin->setXcoordinate((vertexA->getXcoordinate()+vertexB->getXcoordinate())/2.);
+    origin->setYcoordinate((vertexA->getYcoordinate()+vertexB->getYcoordinate())/2.);
+    origin->setZcoordinate((vertexA->getZcoordinate()+vertexB->getZcoordinate())/2.);
+    /*
+      * setting initial Mean curvature for all the vertices of 
+      * this face and new face
+      * And also this face and new face store the mean curvature for respective centroid
+    */
+    cell->setMeanCurvature();
+    this->setInitialMeanCurvature(this->getInitialMeanCurvature());
+    right->setInitialMeanCurvature(right->getInitialMeanCurvature());
+    vertexA->setInitialMeanCurvature(vertexA->getInitialMeanCurvature());
+    vertexB->setInitialMeanCurvature(vertexB->getInitialMeanCurvature());
+    origin->setInitialMeanCurvature(origin->getInitialMeanCurvature());
+    //
+    // saving the needed quantitites for the calculation of new Form Matrix of daugther cells
+    // Daughter cells share same quantities, inherited from Mother cell
+    // Newest Daughter cell (new face created above) inherits the same properties from Mother cell 
+    // Daughter cell 2
+    right->mu1 = this->mu1;
+    right->mu2 = this->mu2;
+    right->mu3 = this->mu3;
+    right->mu4 = this->mu4;
+    right->currentFormMatrix[0][0] = this->currentFormMatrix[0][0];
+    right->currentFormMatrix[0][1] = this->currentFormMatrix[0][1];
+    right->currentFormMatrix[1][0] = this->currentFormMatrix[1][0];
+    right->currentFormMatrix[1][1] = this->currentFormMatrix[1][1];
+    //Also updating the division threshold and target Area for the new daughter cell to be same as mother cells
+    right->setDivisionThreshold(this->divisionThreshold);
+    right->setTargetArea(this->getAreaOfFace());
+    right->setKappa(this->getKappa()); // Updating the Daughter cell with same growth rate as  Mother cell
+    right->setGrowthVar(this->getGrowthVar());
+    // Updating this cell's terms for Form Matrix calcualtion
+    this->oldMuMatrix[0][0] = this->mu1;
+    this->oldMuMatrix[0][1] = this->mu2;
+    this->oldMuMatrix[1][0] = this->mu3;
+    this->oldMuMatrix[1][1] = this->mu4;
+    this->oldcurrentFormMatrixTrace = this->currentFormMatrix[0][0]+this->currentFormMatrix[1][1];
+    // Now updating this cells neighbours to calculate the Form Matrix 
+    {
+      FaceEdgeIterator edges(this);
+      while ((edge = edges.next())!= 0 ){
+            right = edge->Right();//getting the right face
+            if (right->getID() == 1) continue;// continue if the right face is the external face
+            right->oldMuMatrix[0][0] = right->mu1;
+            right->oldMuMatrix[0][1] = right->mu2;
+            right->oldMuMatrix[1][0] = right->mu3;
+            right->oldMuMatrix[1][1] = right->mu4;
+            right->oldcurrentFormMatrixTrace = right->currentFormMatrix[0][0]+right->currentFormMatrix[1][1];
+      }
+    }
+    // now as all the needed old need measures are stored 
+    //we update the parameters for this face and the neighbouring cells
+    this->setDivideFormMatrix();
+    cell->countCellDivision();
+ }
+
+ // ************************************************************** //
+ void Face::divideOrthoradial(){
+    if (this->id == 1){
+      return;
+    };
+    // Checking if the Area of Face has crossed the division Threshold or not
+    // If the Area is greater than threshold then the cell can divide
+    if (this->getAreaOfFace() < this->divisionThreshold){
+        return;
+    }
+    //getting cell of this face
+    Cell * cell = this->getCell();
+    unsigned int faceid = this->getID();
+    // get the direction for division : orthoradial
+    double vdirect[2] = {this->projectedUnitOrthoradial[0], this->projectedUnitOrthoradial[1]};
+    Edge * edge;
+    Edge * intersectedEdge[2];
+    Vertex * vertexA;
+    Vertex * vertexB;
+    double Cx(0.), Cy(0.), Ax,Ay,Bx,By,s;
+    double xintersect, yintersect, zintersect;
+    int counter;
+    vertex_coordinate intersection_points[2];
+    {//iterating through the edge to see the division
+      FaceEdgeIterator edges(this);
+      counter = 0;
+      while ((edge = edges.next())!= 0){
+            vertexA = edge->Org();
+            vertexB = edge->Dest();
+            //getting coordinates of A and B
+            Ax = vertexA->getProjectedXcoordinate(faceid);
+            Ay = vertexA->getProjectedYcoordinate(faceid);
+            Bx = vertexB->getProjectedXcoordinate(faceid);
+            By = vertexB->getProjectedYcoordinate(faceid);
+            //now calculating the intersection of the old walls to new walls
+            //calculating the denominator
+            double denominator = (By-Ay)*vdirect[0]-(Bx-Ax)*vdirect[1];
+            s = ((Cy-Ay)*vdirect[0]-(Cx-Ax)*vdirect[1])/denominator;
+            // now checking if the new cellwall intersects the current edge
+            if ((s>0) && (s<1)){
+                assert(counter<2);
+                intersectedEdge[counter] = edge;
+                xintersect = vertexA->getXcoordinate() + s*(vertexB->getXcoordinate()-vertexA->getXcoordinate());
+                yintersect = vertexA->getYcoordinate() + s*(vertexB->getYcoordinate()-vertexA->getYcoordinate());
+                zintersect = vertexA->getZcoordinate() + s*(vertexB->getZcoordinate()-vertexA->getZcoordinate());
+                //assinging the intersection points to the intertion_points array
+                intersection_points[counter].x = xintersect;
+                intersection_points[counter].y = yintersect;
+                intersection_points[counter].z = zintersect;
+                counter += 1;
+            }
+        }
+      }
+    //now we have two edges that are taking part in division
+    Face * left, * right;
+    Vertex * origin;
+    Vertex * addedVertex[2];
+    for (int i = 0; i <2 ; i++){
+        left = intersectedEdge[i]->Left();
+        right = intersectedEdge[i]->Right();
+        origin = intersectedEdge[i]->Org();
+        //making new edge on the origin of this edge
+        edge =cell->makeVertexEdge(origin, left,right);
+        origin = edge->Dest();
+        origin->setXcoordinate(intersection_points[i].x);
+        origin->setYcoordinate(intersection_points[i].y);
+        origin->setZcoordinate(intersection_points[i].z);
+        addedVertex[i] = origin;
+        }
+    // Now making the connecting vertex for new wall
+    //                   v2
+    //    left = this     |    right = new face
+    //                    v1
+    edge = cell->makeFaceEdge(this, addedVertex[0], addedVertex[1]); 
+    right = edge->Right();//new face created
+    vertexA = edge->Org();
+    vertexB = edge->Dest();
+    //making the new vertex on the wall now.
+    edge =  cell->makeVertexEdge(vertexA, edge->Left(), edge->Right());
+    origin = edge->Dest();
+    //now setting the vertex of this new vertex
+    origin->setXcoordinate((vertexA->getXcoordinate()+vertexB->getXcoordinate())/2.);
+    origin->setYcoordinate((vertexA->getYcoordinate()+vertexB->getYcoordinate())/2.);
+    origin->setZcoordinate((vertexA->getZcoordinate()+vertexB->getZcoordinate())/2.);
+    /*
+      * setting initial Mean curvature for all the vertices of 
+      * this face and new face
+      * And also this face and new face store the mean curvature for respective centroid
+    */
+    cell->setMeanCurvature();
+    this->setInitialMeanCurvature(this->getInitialMeanCurvature());
+    right->setInitialMeanCurvature(right->getInitialMeanCurvature());
+    vertexA->setInitialMeanCurvature(vertexA->getInitialMeanCurvature());
+    vertexB->setInitialMeanCurvature(vertexB->getInitialMeanCurvature());
+    origin->setInitialMeanCurvature(origin->getInitialMeanCurvature());
+    //
+    // saving the needed quantitites for the calculation of new Form Matrix of daugther cells
+    // Daughter cells share same quantities, inherited from Mother cell
+    // Newest Daughter cell (new face created above) inherits the same properties from Mother cell 
+    // Daughter cell 2
+    right->mu1 = this->mu1;
+    right->mu2 = this->mu2;
+    right->mu3 = this->mu3;
+    right->mu4 = this->mu4;
+    right->currentFormMatrix[0][0] = this->currentFormMatrix[0][0];
+    right->currentFormMatrix[0][1] = this->currentFormMatrix[0][1];
+    right->currentFormMatrix[1][0] = this->currentFormMatrix[1][0];
+    right->currentFormMatrix[1][1] = this->currentFormMatrix[1][1];
+    //Also updating the division threshold and target Area for the new daughter cell to be same as mother cells
+    right->setDivisionThreshold(this->divisionThreshold);
+    right->setTargetArea(this->getAreaOfFace());
+    right->setKappa(this->getKappa()); // Updating the Daughter cell with same growth rate as  Mother cell
+    right->setGrowthVar(this->getGrowthVar());
+    // Updating this cell's terms for Form Matrix calcualtion
+    this->oldMuMatrix[0][0] = this->mu1;
+    this->oldMuMatrix[0][1] = this->mu2;
+    this->oldMuMatrix[1][0] = this->mu3;
+    this->oldMuMatrix[1][1] = this->mu4;
+    this->oldcurrentFormMatrixTrace = this->currentFormMatrix[0][0]+this->currentFormMatrix[1][1];
+    // Now updating this cells neighbours to calculate the Form Matrix 
+    {
+      FaceEdgeIterator edges(this);
+      while ((edge = edges.next())!= 0 ){
+            right = edge->Right();//getting the right face
+            if (right->getID() == 1) continue;// continue if the right face is the external face
+            right->oldMuMatrix[0][0] = right->mu1;
+            right->oldMuMatrix[0][1] = right->mu2;
+            right->oldMuMatrix[1][0] = right->mu3;
+            right->oldMuMatrix[1][1] = right->mu4;
+            right->oldcurrentFormMatrixTrace = right->currentFormMatrix[0][0]+right->currentFormMatrix[1][1];
+      }
+    }
+    // now as all the needed old need measures are stored 
+    //we update the parameters for this face and the neighbouring cells
+    this->setDivideFormMatrix();
+    cell->countCellDivision();
+ }
+ // ************************************************************** //
+ void Face::divideMaximalStress(){
+    if (this->id == 1){
+      return;
+    };
+    // Checking if the Area of Face has crossed the division Threshold or not
+    // If the Area is greater than threshold then the cell can divide
+    if (this->getAreaOfFace() < this->divisionThreshold){
+        return;
+    }
+    //getting cell of this face
+    Cell * cell = this->getCell();
+    unsigned int faceid = this->getID();
+    // get the direction for division : High stress direction
+    double vdirect[2] = {this->projectedStressEigenVector2[0], this->projectedStressEigenVector2[1]};
+    Edge * edge;
+    Edge * intersectedEdge[2];
+    Vertex * vertexA;
+    Vertex * vertexB;
+    double Cx(0.), Cy(0.), Ax,Ay,Bx,By,s;
+    double xintersect, yintersect, zintersect;
+    int counter;
+    vertex_coordinate intersection_points[2];
+    {//iterating through the edge to see the division
+      FaceEdgeIterator edges(this);
+      counter = 0;
+      while ((edge = edges.next())!= 0){
+            vertexA = edge->Org();
+            vertexB = edge->Dest();
+            //getting coordinates of A and B
+            Ax = vertexA->getProjectedXcoordinate(faceid);
+            Ay = vertexA->getProjectedYcoordinate(faceid);
+            Bx = vertexB->getProjectedXcoordinate(faceid);
+            By = vertexB->getProjectedYcoordinate(faceid);
+            //now calculating the intersection of the old walls to new walls
+            //calculating the denominator
+            double denominator = (By-Ay)*vdirect[0]-(Bx-Ax)*vdirect[1];
+            s = ((Cy-Ay)*vdirect[0]-(Cx-Ax)*vdirect[1])/denominator;
+            // now checking if the new cellwall intersects the current edge
+            if ((s>0) && (s<1)){
+                assert(counter<2);
+                intersectedEdge[counter] = edge;
+                xintersect = vertexA->getXcoordinate() + s*(vertexB->getXcoordinate()-vertexA->getXcoordinate());
+                yintersect = vertexA->getYcoordinate() + s*(vertexB->getYcoordinate()-vertexA->getYcoordinate());
+                zintersect = vertexA->getZcoordinate() + s*(vertexB->getZcoordinate()-vertexA->getZcoordinate());
+                //assinging the intersection points to the intertion_points array
+                intersection_points[counter].x = xintersect;
+                intersection_points[counter].y = yintersect;
+                intersection_points[counter].z = zintersect;
+                counter += 1;
+            }
+        }
+      }
+    //now we have two edges that are taking part in division
+    Face * left, * right;
+    Vertex * origin;
+    Vertex * addedVertex[2];
+    for (int i = 0; i <2 ; i++){
+        left = intersectedEdge[i]->Left();
+        right = intersectedEdge[i]->Right();
+        origin = intersectedEdge[i]->Org();
+        //making new edge on the origin of this edge
+        edge =cell->makeVertexEdge(origin, left,right);
+        origin = edge->Dest();
+        origin->setXcoordinate(intersection_points[i].x);
+        origin->setYcoordinate(intersection_points[i].y);
+        origin->setZcoordinate(intersection_points[i].z);
+        addedVertex[i] = origin;
+        }
+    // Now making the connecting vertex for new wall
+    //                   v2
+    //    left = this     |    right = new face
+    //                    v1
+    edge = cell->makeFaceEdge(this, addedVertex[0], addedVertex[1]); 
+    right = edge->Right();//new face created
+    vertexA = edge->Org();
+    vertexB = edge->Dest();
+    //making the new vertex on the wall now.
+    edge =  cell->makeVertexEdge(vertexA, edge->Left(), edge->Right());
+    origin = edge->Dest();
+    //now setting the vertex of this new vertex
+    origin->setXcoordinate((vertexA->getXcoordinate()+vertexB->getXcoordinate())/2.);
+    origin->setYcoordinate((vertexA->getYcoordinate()+vertexB->getYcoordinate())/2.);
+    origin->setZcoordinate((vertexA->getZcoordinate()+vertexB->getZcoordinate())/2.);
+    /*
+      * setting initial Mean curvature for all the vertices of 
+      * this face and new face
+      * And also this face and new face store the mean curvature for respective centroid
+    */
+    cell->setMeanCurvature();
+    this->setInitialMeanCurvature(this->getInitialMeanCurvature());
+    right->setInitialMeanCurvature(right->getInitialMeanCurvature());
+    vertexA->setInitialMeanCurvature(vertexA->getInitialMeanCurvature());
+    vertexB->setInitialMeanCurvature(vertexB->getInitialMeanCurvature());
+    origin->setInitialMeanCurvature(origin->getInitialMeanCurvature());
+    //
+    // saving the needed quantitites for the calculation of new Form Matrix of daugther cells
+    // Daughter cells share same quantities, inherited from Mother cell
+    // Newest Daughter cell (new face created above) inherits the same properties from Mother cell 
+    // Daughter cell 2
+    right->mu1 = this->mu1;
+    right->mu2 = this->mu2;
+    right->mu3 = this->mu3;
+    right->mu4 = this->mu4;
+    right->currentFormMatrix[0][0] = this->currentFormMatrix[0][0];
+    right->currentFormMatrix[0][1] = this->currentFormMatrix[0][1];
+    right->currentFormMatrix[1][0] = this->currentFormMatrix[1][0];
+    right->currentFormMatrix[1][1] = this->currentFormMatrix[1][1];
+    //Also updating the division threshold and target Area for the new daughter cell to be same as mother cells
+    right->setDivisionThreshold(this->divisionThreshold);
+    right->setTargetArea(this->getAreaOfFace());
+    right->setKappa(this->getKappa()); // Updating the Daughter cell with same growth rate as  Mother cell
+    right->setGrowthVar(this->getGrowthVar());
+    // Updating this cell's terms for Form Matrix calcualtion
+    this->oldMuMatrix[0][0] = this->mu1;
+    this->oldMuMatrix[0][1] = this->mu2;
+    this->oldMuMatrix[1][0] = this->mu3;
+    this->oldMuMatrix[1][1] = this->mu4;
+    this->oldcurrentFormMatrixTrace = this->currentFormMatrix[0][0]+this->currentFormMatrix[1][1];
+    // Now updating this cells neighbours to calculate the Form Matrix 
+    {
+      FaceEdgeIterator edges(this);
+      while ((edge = edges.next())!= 0 ){
+            right = edge->Right();//getting the right face
+            if (right->getID() == 1) continue;// continue if the right face is the external face
+            right->oldMuMatrix[0][0] = right->mu1;
+            right->oldMuMatrix[0][1] = right->mu2;
+            right->oldMuMatrix[1][0] = right->mu3;
+            right->oldMuMatrix[1][1] = right->mu4;
+            right->oldcurrentFormMatrixTrace = right->currentFormMatrix[0][0]+right->currentFormMatrix[1][1];
+      }
+    }
+    // now as all the needed old need measures are stored 
+    //we update the parameters for this face and the neighbouring cells
+    this->setDivideFormMatrix();
+    cell->countCellDivision();
+ }
+ // ************************************************************** //
+ void Face::divideShortAxis(){
+    if (this->id == 1){
+      return;
+    };
+    // Checking if the Area of Face has crossed the division Threshold or not
+    // If the Area is greater than threshold then the cell can divide
+    if (this->getAreaOfFace() < this->divisionThreshold){
+        return;
+    }
+    //getting cell of this face
+    Cell * cell = this->getCell();
+    unsigned int faceid = this->getID();
+    // get the direction for division : short cfm eigen vector direction
+    double vdirect[2] = {this->cfmShortEigenVector[0], this->cfmShortEigenVector[1]};
+    Edge * edge;
+    Edge * intersectedEdge[2];
+    Vertex * vertexA;
+    Vertex * vertexB;
+    double Cx(0.), Cy(0.), Ax,Ay,Bx,By,s;
+    double xintersect, yintersect, zintersect;
+    int counter;
+    vertex_coordinate intersection_points[2];
+    {//iterating through the edge to see the division
+      FaceEdgeIterator edges(this);
+      counter = 0;
+      while ((edge = edges.next())!= 0){
+            vertexA = edge->Org();
+            vertexB = edge->Dest();
+            //getting coordinates of A and B
+            Ax = vertexA->getProjectedXcoordinate(faceid);
+            Ay = vertexA->getProjectedYcoordinate(faceid);
+            Bx = vertexB->getProjectedXcoordinate(faceid);
+            By = vertexB->getProjectedYcoordinate(faceid);
+            //now calculating the intersection of the old walls to new walls
+            //calculating the denominator
+            double denominator = (By-Ay)*vdirect[0]-(Bx-Ax)*vdirect[1];
+            //std::cout<<"faceid :"<<this->getID()<<"     denominator :"<<denominator<<std::endl;
+            s = ((Cy-Ay)*vdirect[0]-(Cx-Ax)*vdirect[1])/denominator;
+            //std::cout<<"faceid :"<<this->getID()<<"     s :"<<s<<std::endl;
+            // now checking if the new cellwall intersects the current edge
+            if ((s>0) && (s<1)){
+                assert(counter<2);
+              //std::cout<<"Adding this :"<< vertexA->getID()<<s<<std::endl;
+                intersectedEdge[counter] = edge;
+                xintersect = vertexA->getXcoordinate() + s*(vertexB->getXcoordinate()-vertexA->getXcoordinate());
+                yintersect = vertexA->getYcoordinate() + s*(vertexB->getYcoordinate()-vertexA->getYcoordinate());
+                zintersect = vertexA->getZcoordinate() + s*(vertexB->getZcoordinate()-vertexA->getZcoordinate());
+                //assinging the intersection points to the intertion_points array
+                intersection_points[counter].x = xintersect;
+                intersection_points[counter].y = yintersect;
+                intersection_points[counter].z = zintersect;
+                counter += 1;
+            }//for the case when the two points overlap
+            else if ((abs(s)<(std::numeric_limits<double>::epsilon()))&&(counter<2)){
+              assert(counter<2);
+              //std::cout<<"Adding this (negative):"<< vertexA->getID()<<"   "<<(std::numeric_limits<double>::epsilon())<<s<<std::endl;
+                intersectedEdge[counter] = edge;
+                xintersect = vertexA->getXcoordinate() + (s+0.00001)*(vertexB->getXcoordinate()-vertexA->getXcoordinate());
+                yintersect = vertexA->getYcoordinate() + (s+0.00001)*(vertexB->getYcoordinate()-vertexA->getYcoordinate());
+                zintersect = vertexA->getZcoordinate() + (s+0.00001)*(vertexB->getZcoordinate()-vertexA->getZcoordinate());
+                //assinging the intersection points to the intertion_points array
+                intersection_points[counter].x = xintersect;
+                intersection_points[counter].y = yintersect;
+                intersection_points[counter].z = zintersect;
+                counter += 1;
+            }
+            /*else if ((abs(s-1.)<(std::numeric_limits<double>::epsilon()))&&(counter<2)){
+              assert(counter<2);
+              std::cout<<"Adding this (positive) :"<< vertexA->getID()<<s<<std::endl;
+                intersectedEdge[counter] = edge;
+                xintersect = vertexA->getXcoordinate() + (s-0.00001)*(vertexB->getXcoordinate()-vertexA->getXcoordinate());
+                yintersect = vertexA->getYcoordinate() + (s-0.00001)*(vertexB->getYcoordinate()-vertexA->getYcoordinate());
+                zintersect = vertexA->getZcoordinate() + (s-0.00001)*(vertexB->getZcoordinate()-vertexA->getZcoordinate());
+                //assinging the intersection points to the intertion_points array
+                intersection_points[counter].x = xintersect;
+                intersection_points[counter].y = yintersect;
+                intersection_points[counter].z = zintersect;
+                counter += 1;
+            }
+            std::cout<<"counter :"<<counter<<std::endl;
+            std::cout<<"vert ORG :"<<vertexA->getID()<<std::endl;
+            std::cout<<"============================================="<<std::endl;*/
+        }
+      }
+    //now we have two edges that are taking part in division
+    Face * left, * right;
+    Vertex * origin;
+    Vertex * addedVertex[2];
+    for (int i = 0; i <2 ; i++){
+        left = intersectedEdge[i]->Left();
+        right = intersectedEdge[i]->Right();
+        origin = intersectedEdge[i]->Org();
+        //making new edge on the origin of this edge
+        //std::cout<<"left :"<<left->getID()<<"   right :"<<right->getID()<<std::endl;
+        edge =cell->makeVertexEdge(origin, left,right);
+        //std::cout<<"left :"<<left->getID()<<"   right :"<<right->getID()<<std::endl;
+        origin = edge->Dest();
+        //std::cout<<"left :"<<left->getID()<<"   right :"<<right->getID()<<std::endl;
+        origin->setXcoordinate(intersection_points[i].x);
+        origin->setYcoordinate(intersection_points[i].y);
+        origin->setZcoordinate(intersection_points[i].z);
+        //std::cout<<"left :"<<left->getID()<<"   right :"<<right->getID()<<std::endl;
+        addedVertex[i] = origin;
+        //std::cout<<"i = "<<i<<"   origin :"<<origin->getID()<<std::endl;
+        }
+    // Now making the connecting vertex for new wall
+    //                   v2
+    //    left = this     |    right = new face
+    //                    v1
+    edge = cell->makeFaceEdge(this, addedVertex[0], addedVertex[1]); 
+    right = edge->Right();//new face created
+    vertexA = edge->Org();
+    vertexB = edge->Dest();
+    //making the new vertex on the wall now.
+    //std::cout<<"faceid :"<<this->getID()<<"     here, rightID :"<<right->getID()<<std::endl;
+    edge =  cell->makeVertexEdge(vertexA, edge->Left(), edge->Right());
+    origin = edge->Dest();
+    //now setting the vertex of this new vertex
+    origin->setXcoordinate((vertexA->getXcoordinate()+vertexB->getXcoordinate())/2.);
+    origin->setYcoordinate((vertexA->getYcoordinate()+vertexB->getYcoordinate())/2.);
+    origin->setZcoordinate((vertexA->getZcoordinate()+vertexB->getZcoordinate())/2.);
+    /*
+      * setting initial Mean curvature for all the vertices of 
+      * this face and new face
+      * And also this face and new face store the mean curvature for respective centroid
+    */
+    cell->setMeanCurvature();
+    this->setInitialMeanCurvature(this->getInitialMeanCurvature());
+    right->setInitialMeanCurvature(right->getInitialMeanCurvature());
+    vertexA->setInitialMeanCurvature(vertexA->getInitialMeanCurvature());
+    vertexB->setInitialMeanCurvature(vertexB->getInitialMeanCurvature());
+    origin->setInitialMeanCurvature(origin->getInitialMeanCurvature());
+    //
+    // saving the needed quantitites for the calculation of new Form Matrix of daugther cells
+    // Daughter cells share same quantities, inherited from Mother cell
+    // Newest Daughter cell (new face created above) inherits the same properties from Mother cell 
+    // Daughter cell 2
+    right->mu1 = this->mu1;
+    right->mu2 = this->mu2;
+    right->mu3 = this->mu3;
+    right->mu4 = this->mu4;
+    right->currentFormMatrix[0][0] = this->currentFormMatrix[0][0];
+    right->currentFormMatrix[0][1] = this->currentFormMatrix[0][1];
+    right->currentFormMatrix[1][0] = this->currentFormMatrix[1][0];
+    right->currentFormMatrix[1][1] = this->currentFormMatrix[1][1];
+    //Also updating the division threshold and target Area for the new daughter cell to be same as mother cells
+    right->setDivisionThreshold(this->divisionThreshold);
+    right->setTargetArea(this->getAreaOfFace());
+    right->setKappa(this->getKappa()); // Updating the Daughter cell with same growth rate as  Mother cell
+    right->setGrowthVar(this->getGrowthVar());
+    // Updating this cell's terms for Form Matrix calcualtion
+    this->oldMuMatrix[0][0] = this->mu1;
+    this->oldMuMatrix[0][1] = this->mu2;
+    this->oldMuMatrix[1][0] = this->mu3;
+    this->oldMuMatrix[1][1] = this->mu4;
+    this->oldcurrentFormMatrixTrace = this->currentFormMatrix[0][0]+this->currentFormMatrix[1][1];
+    // Now updating this cells neighbours to calculate the Form Matrix 
+    {
+      FaceEdgeIterator edges(this);
+      while ((edge = edges.next())!= 0 ){
+            right = edge->Right();//getting the right face
+            if (right->getID() == 1) continue;// continue if the right face is the external face
+            right->oldMuMatrix[0][0] = right->mu1;
+            right->oldMuMatrix[0][1] = right->mu2;
+            right->oldMuMatrix[1][0] = right->mu3;
+            right->oldMuMatrix[1][1] = right->mu4;
+            right->oldcurrentFormMatrixTrace = right->currentFormMatrix[0][0]+right->currentFormMatrix[1][1];
+      }
+    }
+    // now as all the needed old need measures are stored 
+    //we update the parameters for this face and the neighbouring cells
+    this->setDivideFormMatrix();
+    cell->countCellDivision();
+ }
  // *************************************************************** // 
  void Face::setDivideFormMatrix(){
   // update the parameters of all vertex and faces of this cell
@@ -2358,6 +2972,9 @@ Face::Face(Cell *cell):gaussianWidth(0.125), randomNumberGeneratorType(gsl_rng_d
   this->cfmEigenVector[0] = 0;
   this->cfmEigenVector[1] = 0;
 
+  this->cfmShortEigenVector[0] = 0;
+  this->cfmShortEigenVector[1] = 0;
+
   this->unitRadial[0] = 0.;
   this->unitRadial[1] = 0.;
   this->unitRadial[2] = 0.;
@@ -2368,11 +2985,16 @@ Face::Face(Cell *cell):gaussianWidth(0.125), randomNumberGeneratorType(gsl_rng_d
 
   this->projectedUnitRadial[0] = 0.;
   this->projectedUnitRadial[1] = 0.;
-  this->projectedUnitRadial[2] = 0.;
 
   this->projectedUnitOrthoradial[0] = 0.;
   this->projectedUnitOrthoradial[1] = 0.;
-  this->projectedUnitOrthoradial[2] = 0.;
+  
+  this->projectedStressEigenVector1[0] = 0.;
+  this->projectedStressEigenVector1[1] = 0.;
+
+  this->projectedStressEigenVector2[0] = 0.;
+  this->projectedStressEigenVector2[1] = 0.;
+
   this->radialGrowth = 0.;
   this->orthoradialGrowth = 0.;
   this->radialStress = 0.;
