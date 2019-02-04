@@ -2289,6 +2289,7 @@ void Face::setRandomInitialMeanCurvature(){
     right->setTargetArea(this->getAreaOfFace());
     right->setKappa(this->getKappa()); // Updating the Daughter cell with same growth rate as  Mother cell
     right->setGrowthVar(this->getGrowthVar());
+    right->setParentID(this->getID());
     // Updating this cell's terms for Form Matrix calcualtion
     this->oldMuMatrix[0][0] = this->mu1;
     this->oldMuMatrix[0][1] = this->mu2;
@@ -2429,6 +2430,7 @@ void Face::setRandomInitialMeanCurvature(){
     right->setTargetArea(this->getAreaOfFace());
     right->setKappa(this->getKappa()); // Updating the Daughter cell with same growth rate as  Mother cell
     right->setGrowthVar(this->getGrowthVar());
+    right->setParentID(this->getID());
     // Updating this cell's terms for Form Matrix calcualtion
     this->oldMuMatrix[0][0] = this->mu1;
     this->oldMuMatrix[0][1] = this->mu2;
@@ -2567,6 +2569,7 @@ void Face::setRandomInitialMeanCurvature(){
     right->setTargetArea(this->getAreaOfFace());
     right->setKappa(this->getKappa()); // Updating the Daughter cell with same growth rate as  Mother cell
     right->setGrowthVar(this->getGrowthVar());
+    right->setParentID(this->getID());
     // Updating this cell's terms for Form Matrix calcualtion
     this->oldMuMatrix[0][0] = this->mu1;
     this->oldMuMatrix[0][1] = this->mu2;
@@ -2704,6 +2707,7 @@ void Face::setRandomInitialMeanCurvature(){
     right->setTargetArea(this->getAreaOfFace());
     right->setKappa(this->getKappa()); // Updating the Daughter cell with same growth rate as  Mother cell
     right->setGrowthVar(this->getGrowthVar());
+    right->setParentID(this->getID());
     // Updating this cell's terms for Form Matrix calcualtion
     this->oldMuMatrix[0][0] = this->mu1;
     this->oldMuMatrix[0][1] = this->mu2;
@@ -2879,6 +2883,7 @@ void Face::setRandomInitialMeanCurvature(){
     right->setTargetArea(this->getAreaOfFace());
     right->setKappa(this->getKappa()); // Updating the Daughter cell with same growth rate as  Mother cell
     right->setGrowthVar(this->getGrowthVar());
+    right->setParentID(this->getID());
     // Updating this cell's terms for Form Matrix calcualtion
     this->oldMuMatrix[0][0] = this->mu1;
     this->oldMuMatrix[0][1] = this->mu2;
@@ -3003,6 +3008,9 @@ Face::Face(Cell *cell):gaussianWidth(0.125), randomNumberGeneratorType(gsl_rng_d
   this->vertices = new Vertex*[8];
   this->vertexCount = 0;
   this->vertexSize = 8;
+  // parents data : 
+  this->parent = this->id;
+
   this->divisionFactor = cell->getDivisionFactor();
   this->domePosition = true;//seting position to dome as True in default
   this->externalPosition = false; // default position false for external 

@@ -527,6 +527,12 @@ class Face(_object):
     def getID(self):
         return _quadedge.Face_getID(self)
 
+    def getParentID(self):
+        return _quadedge.Face_getParentID(self)
+
+    def setParentID(self, tid):
+        return _quadedge.Face_setParentID(self, tid)
+
     def setID(self, id):
         return _quadedge.Face_setID(self, id)
 

@@ -38,6 +38,8 @@ struct Tface {			// a (temporary) face
     Vlist vlist;		// the vertices of this face, in ccw order
     int   no;                   // face number
     Face *face;                 // final face in cell, null if not inst. yet
+    int id;                     // id read from the file
+    int parentid;               // id of parent read from the file
     // need anything else in here??
 };
 
@@ -433,7 +435,8 @@ static void makeFace(Cell *cell, Tface *f)
 
   f->face = face;
 
-  face->setID(f->no);
+  face->setID(f->id);
+  face->setParentID(f->parentid);
   face->data = f;
 }
 
@@ -594,6 +597,8 @@ static Cell *build_quadedge(Array<Tvert> verts, List<Tface> faces) {
     while ((face = iterator.next())!=0)
       face->data = 0;
   }
+  // reset the face id so that it matches the id before saving
+
 
   return cell;
 }
@@ -609,12 +614,14 @@ static Cell *objReadCell(istream &s, const char *streamname) {
     Array<Tvert> verts;		// all the vertices
     int nvert = 0;		// current vertex number (counts up)
     int nface = 0;		// current face number (counts up)
-
+    int nids = 0;     // current id number (counts up)
     List<Tface> faces;		// all the faces
+    Array<Tface*> Afaces; //array of faces
 
     while (s >> setw(sizeof tok) >> tok) {
         // cout << "(" << tok << ")" << endl;
-	if (!strcmp(tok, "v")) {		// vertex command
+      //strcmp returns 0 if tok and v are equal
+	if (!strcmp(tok, "v")) {		// vertex command 
 	    nvert++;
 	    double x, y, z;
 	    s >> x >> y >> z;
@@ -634,6 +641,7 @@ static Cell *objReadCell(istream &s, const char *streamname) {
 	    f->no   = nface;
 	    assert(f);
 	    faces.append(f);
+      Afaces[nface-1] = f;//added for tha rray
 	    int n;
 	    for (n=0; s.peek()!='\n'; n++) {
       		int v;
@@ -647,6 +655,16 @@ static Cell *objReadCell(istream &s, const char *streamname) {
 	    //cout << "f " << f->vlist;
 	    add_arcs(f->vlist, f);		// add the topological info in face f
 	}
+  else if (!strcmp(tok, "cd")) { // faceid and parent id command
+    // storage of this is in same order as for face detail from above
+      nids++;
+      Tface *f = Afaces[nids-1];
+      int i, p;
+      //first the faceid, second the parent id
+      s>>i>>p;
+      f->id = i;
+      f->parentid = p;
+  }
 	else if (!strcmp(tok, "#")) {
 	    // gobble comment
 	    s.ignore(1000, '\n');
@@ -738,6 +756,20 @@ static void objWriteCell(Cell *cell, ostream &s, const char *streamname)
 	s << " " << edge->Org()->getID();
 
       s << "\n";
+    }
+  }
+
+  // write face ids and parent ids in same order as above
+
+  s << "# "<<cell->getDivisionCounter() << " Cell-Divisions store faceID And ParentID\n";
+  {
+    CellFaceIterator faces(cell);
+
+    Face *face;
+
+    while ((face = faces.next())!=0)
+    {
+      s << "cd " << face->getID()<<" "<< face->getParentID()<<"\n";
     }
   }
 }

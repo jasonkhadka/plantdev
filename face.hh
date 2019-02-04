@@ -79,7 +79,14 @@ class Face
    *    will be positive
    */
   unsigned int getID();
-
+  /*  
+    * return id of parent for this face
+  */
+  unsigned int getParentID();
+  /*  
+    * set the id of the parent for this face
+  */
+  void setParentID(unsigned int tid);
   /*
    * Change the ID of this face.
    * id -> the new id for this face;
@@ -224,6 +231,22 @@ class Face
      * Greater than or equal to _vertexCount_.
      */
     unsigned int vertexSize;
+    /**
+     * parent of cell :
+     *                initialsed with this->getID(); so initially face is its own parent 
+     *                This is updated when cell divide with daughters getting this->faceid 
+     * 
+     * under cell division : 1 new face is created
+     *                thisface 
+     *                    |
+     *              ---------------
+     *              |             |
+     *            thisface      newface
+     *              |             |   
+     *            no change     newface->setParentID(thisface->getID())
+     */ 
+    unsigned int parent;
+
     /**
      * normal of this face [n^c_x,n^c_y,n^c_z]
      * array stores x,y,z component of the normal
@@ -1179,6 +1202,12 @@ inline Edge *Face::getEdge()
   return edge;
 }
 //************added features***************************************//
+inline unsigned int Face::getParentID(){
+  return parent;
+}
+inline void Face::setParentID(unsigned int tid){
+  this->parent = tid;
+}
 /*
 inline Vertex *Face::getVertex()
 {
