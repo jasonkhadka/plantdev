@@ -435,7 +435,7 @@ class Cell
    /**
     * Zeta : penalty for the bending of cells off the projection plane
     */
-   double zeta = 1.;
+   double zeta = 0.;
    /**
     * Sigma : line tension on the walls
     */

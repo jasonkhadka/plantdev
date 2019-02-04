@@ -138,7 +138,7 @@ bool checkExternalFace(Face * face)
           totalenergy += face->getEnergy();
       }
       totalenergy -= this->getGamma()*this->getCartesianVolumeWOCentroid();
-      totalenergy +=  this->getZeta()*this->getFourthTerm();//subtracting the fourth term : z_proj penalty
+      //totalenergy +=  this->getZeta()*this->getFourthTerm();//subtracting the fourth term : z_proj penalty
       return totalenergy ;
  }
 
@@ -152,11 +152,11 @@ bool checkExternalFace(Face * face)
       //iterating the faces
       //double fourthterm = this->getFourthTerm();
       // First : check if the cell is convex or not
+      /*
       if (!(this->isConvex())){ //if the cell is not convex then return HIGHVALUE
           //std::cout<<"Cell Is not Convex ! isConvex -> "<<this->isConvex()<<std::endl;
           return std::numeric_limits<double>::max();
       }
-      /*
       // Second : check if the cell has bent than threshold
       if (fourthterm > (this->getBendingThreshold())){
         //std::cout<<"Bending Threshold Reached"<<std::endl;
@@ -2061,7 +2061,7 @@ Cell::Cell():gaussianWidth(0.125), //initialising the Standard Deviaton of Gauss
   faceID    = 1;
   divisionCounter = 0;
   divisionFactor = 1.5;
-  convexAngleThreshold = 180.;
+  convexAngleThreshold = 360.;//2 pi
   this->sigma = 0.;
   this->omega = 0.;
   this->meanCurvatureWidth = 0.1;
