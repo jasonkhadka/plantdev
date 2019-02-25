@@ -79,6 +79,14 @@ class Face
    *    will be positive
    */
   unsigned int getID();
+  /*
+   * Return the zone of this face.
+   */
+  unsigned int getZone();
+  /*
+   * Return the zone of this face.
+   */
+  void setZone(unsigned int nz);
   /*  
     * return id of parent for this face
   */
@@ -176,6 +184,10 @@ class Face
    * Positive.
    */
   unsigned int id;
+  /*
+    * the zone of this face on the SAM
+  */
+  unsigned int zone;
   /**
    * Rank of the Face in Tissue
    * 1 is the top most cell, 
@@ -1082,6 +1094,12 @@ inline double Face::getStrainDeterminant(){
 };
 inline double Face::getStrainTrace(){
   return this->strainTrace;
+}
+inline unsigned int Face::getZone(){
+      return this->zone;
+}
+inline void Face::setZone(unsigned int newzone){
+      this->zone = newzone;
 }
 inline unsigned int Face::getFaceRank(){
       return this->faceRank;

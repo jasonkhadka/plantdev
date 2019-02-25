@@ -5047,6 +5047,36 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_setDivisionThreshold(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  double arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Cell_setDivisionThreshold",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setDivisionThreshold" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  ecode2 = SWIG_AsVal_double(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Cell_setDivisionThreshold" "', argument " "2"" of type '" "double""'");
+  } 
+  arg2 = static_cast< double >(val2);
+  (arg1)->setDivisionThreshold(arg2);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_setDivisionFactor(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -6744,6 +6774,58 @@ SWIGINTERN PyObject *_wrap_Face_getID(PyObject *SWIGUNUSEDPARM(self), PyObject *
   arg1 = reinterpret_cast< Face * >(argp1);
   result = (unsigned int)(arg1)->getID();
   resultobj = SWIG_From_unsigned_SS_int(static_cast< unsigned int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getZone(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  unsigned int result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getZone",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getZone" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (unsigned int)(arg1)->getZone();
+  resultobj = SWIG_From_unsigned_SS_int(static_cast< unsigned int >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setZone(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  unsigned int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  unsigned int val2 ;
+  int ecode2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_setZone",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setZone" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  ecode2 = SWIG_AsVal_unsigned_SS_int(obj1, &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), "in method '" "Face_setZone" "', argument " "2"" of type '" "unsigned int""'");
+  } 
+  arg2 = static_cast< unsigned int >(val2);
+  (arg1)->setZone(arg2);
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
@@ -20301,6 +20383,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_getBendingThreshold", _wrap_Cell_getBendingThreshold, METH_VARARGS, NULL},
 	 { (char *)"Cell_setConvexAngleThreshold", _wrap_Cell_setConvexAngleThreshold, METH_VARARGS, NULL},
 	 { (char *)"Cell_getConvexAngleThreshold", _wrap_Cell_getConvexAngleThreshold, METH_VARARGS, NULL},
+	 { (char *)"Cell_setDivisionThreshold", _wrap_Cell_setDivisionThreshold, METH_VARARGS, NULL},
 	 { (char *)"Cell_setDivisionFactor", _wrap_Cell_setDivisionFactor, METH_VARARGS, NULL},
 	 { (char *)"Cell_getDivisionFactor", _wrap_Cell_getDivisionFactor, METH_VARARGS, NULL},
 	 { (char *)"Cell_countCellDivision", _wrap_Cell_countCellDivision, METH_VARARGS, NULL},
@@ -20373,6 +20456,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_data_get", _wrap_Face_data_get, METH_VARARGS, NULL},
 	 { (char *)"Face_getCell", _wrap_Face_getCell, METH_VARARGS, NULL},
 	 { (char *)"Face_getID", _wrap_Face_getID, METH_VARARGS, NULL},
+	 { (char *)"Face_getZone", _wrap_Face_getZone, METH_VARARGS, NULL},
+	 { (char *)"Face_setZone", _wrap_Face_setZone, METH_VARARGS, NULL},
 	 { (char *)"Face_getParentID", _wrap_Face_getParentID, METH_VARARGS, NULL},
 	 { (char *)"Face_setParentID", _wrap_Face_setParentID, METH_VARARGS, NULL},
 	 { (char *)"Face_setID", _wrap_Face_setID, METH_VARARGS, NULL},

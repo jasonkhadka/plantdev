@@ -278,6 +278,9 @@ class Cell(_object):
     def getConvexAngleThreshold(self):
         return _quadedge.Cell_getConvexAngleThreshold(self)
 
+    def setDivisionThreshold(self, arg2):
+        return _quadedge.Cell_setDivisionThreshold(self, arg2)
+
     def setDivisionFactor(self, arg2):
         return _quadedge.Cell_setDivisionFactor(self, arg2)
 
@@ -526,6 +529,12 @@ class Face(_object):
 
     def getID(self):
         return _quadedge.Face_getID(self)
+
+    def getZone(self):
+        return _quadedge.Face_getZone(self)
+
+    def setZone(self, nz):
+        return _quadedge.Face_setZone(self, nz)
 
     def getParentID(self):
         return _quadedge.Face_getParentID(self)

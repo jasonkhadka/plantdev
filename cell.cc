@@ -1670,7 +1670,14 @@ bool Cell::isConvex(){
   return true; // if non of the face return isConvex() == False, then all are convex, hence cell is Convex
 }
  //********************************************************************************* //
-
+void Cell::setDivisionThreshold(double newthreshold){
+  CellFaceIterator faces(this);
+  Face * face;
+  while ((face = faces.next())!=0){
+        if (face->getID() == 1) continue;
+        face->setDivisionThreshold(newthreshold);
+      }
+}
 
  /*------------------------------------------------------------------------- */
 /* -- public class methods ------------------------------------------------- */

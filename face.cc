@@ -853,8 +853,15 @@ double * Face::getLBOperator(){
   }
 // ***************************************************************************************************** //
 void Face::setRadialOrthoradialVector(Face * primordialFace){
-  // checking if this face is the primordial face, then all vectors are zero
+  // checking if this face is the primordial face, 
+  // then just using short axis vectors 
   if ((primordialFace->getID())==this->getID()) {
+
+    this->projectedUnitRadial[0] = this->cfmShortEigenVector[0];
+    this->projectedUnitRadial[1] = this->cfmShortEigenVector[1];
+
+    this->projectedUnitOrthoradial[0] = this->cfmShortEigenVector[0];
+    this->projectedUnitOrthoradial[1] = this->cfmShortEigenVector[1];
     return;
   }
  // getting the radial vector

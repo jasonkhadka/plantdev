@@ -434,9 +434,14 @@ static void makeFace(Cell *cell, Tface *f)
   // the face is now instantiated
 
   f->face = face;
-
-  face->setID(f->id);
-  face->setParentID(f->parentid);
+  if ((f->id)==0){//incase no id is given, face number is the face id
+  face->setID(f->no);
+  face->setParentID(f->no);
+}
+  else{
+    face->setID(f->id);
+    face->setParentID(f->parentid);
+  }
   face->data = f;
 }
 
@@ -639,6 +644,10 @@ static Cell *objReadCell(istream &s, const char *streamname) {
 	    Tface *f = new Tface;
 	    f->face = 0;
 	    f->no   = nface;
+      // added to fix missread of faceid, in the case of missing cell-division info
+      f->id = 0;
+      f->parentid = 0;
+      // end of fix
 	    assert(f);
 	    faces.append(f);
       Afaces[nface-1] = f;//added for tha rray

@@ -619,6 +619,10 @@ public:
   /**
    * change division Factor for cell division threshold in this cell
    */
+  void setDivisionThreshold(double);
+  /**
+   * change division Factor for cell division threshold in this cell
+   */
   void setDivisionFactor(double);
   /**
    * get the division factor
