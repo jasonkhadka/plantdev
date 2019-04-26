@@ -2224,10 +2224,24 @@ void Face::setRandomInitialMeanCurvature(){
             // now checking if the new cellwall intersects the current edge
             if ((s>0) && (s<1)){
                 assert(counter<2);
+              //std::cout<<"Adding this :"<< vertexA->getID()<<s<<std::endl;
                 intersectedEdge[counter] = edge;
                 xintersect = vertexA->getXcoordinate() + s*(vertexB->getXcoordinate()-vertexA->getXcoordinate());
                 yintersect = vertexA->getYcoordinate() + s*(vertexB->getYcoordinate()-vertexA->getYcoordinate());
                 zintersect = vertexA->getZcoordinate() + s*(vertexB->getZcoordinate()-vertexA->getZcoordinate());
+                //assinging the intersection points to the intertion_points array
+                intersection_points[counter].x = xintersect;
+                intersection_points[counter].y = yintersect;
+                intersection_points[counter].z = zintersect;
+                counter += 1;
+            }//for the case when the two points overlap
+            else if ((abs(s)<(std::numeric_limits<double>::epsilon()))&&(counter<2)){
+              assert(counter<2);
+              //std::cout<<"Adding this (negative):"<< vertexA->getID()<<"   "<<(std::numeric_limits<double>::epsilon())<<s<<std::endl;
+                intersectedEdge[counter] = edge;
+                xintersect = vertexA->getXcoordinate() + (s+0.00001)*(vertexB->getXcoordinate()-vertexA->getXcoordinate());
+                yintersect = vertexA->getYcoordinate() + (s+0.00001)*(vertexB->getYcoordinate()-vertexA->getYcoordinate());
+                zintersect = vertexA->getZcoordinate() + (s+0.00001)*(vertexB->getZcoordinate()-vertexA->getZcoordinate());
                 //assinging the intersection points to the intertion_points array
                 intersection_points[counter].x = xintersect;
                 intersection_points[counter].y = yintersect;
@@ -2365,10 +2379,24 @@ void Face::setRandomInitialMeanCurvature(){
             // now checking if the new cellwall intersects the current edge
             if ((s>0) && (s<1)){
                 assert(counter<2);
+              //std::cout<<"Adding this :"<< vertexA->getID()<<s<<std::endl;
                 intersectedEdge[counter] = edge;
                 xintersect = vertexA->getXcoordinate() + s*(vertexB->getXcoordinate()-vertexA->getXcoordinate());
                 yintersect = vertexA->getYcoordinate() + s*(vertexB->getYcoordinate()-vertexA->getYcoordinate());
                 zintersect = vertexA->getZcoordinate() + s*(vertexB->getZcoordinate()-vertexA->getZcoordinate());
+                //assinging the intersection points to the intertion_points array
+                intersection_points[counter].x = xintersect;
+                intersection_points[counter].y = yintersect;
+                intersection_points[counter].z = zintersect;
+                counter += 1;
+            }//for the case when the two points overlap
+            else if ((abs(s)<(std::numeric_limits<double>::epsilon()))&&(counter<2)){
+              assert(counter<2);
+              //std::cout<<"Adding this (negative):"<< vertexA->getID()<<"   "<<(std::numeric_limits<double>::epsilon())<<s<<std::endl;
+                intersectedEdge[counter] = edge;
+                xintersect = vertexA->getXcoordinate() + (s+0.00001)*(vertexB->getXcoordinate()-vertexA->getXcoordinate());
+                yintersect = vertexA->getYcoordinate() + (s+0.00001)*(vertexB->getYcoordinate()-vertexA->getYcoordinate());
+                zintersect = vertexA->getZcoordinate() + (s+0.00001)*(vertexB->getZcoordinate()-vertexA->getZcoordinate());
                 //assinging the intersection points to the intertion_points array
                 intersection_points[counter].x = xintersect;
                 intersection_points[counter].y = yintersect;
@@ -2504,10 +2532,24 @@ void Face::setRandomInitialMeanCurvature(){
             // now checking if the new cellwall intersects the current edge
             if ((s>0) && (s<1)){
                 assert(counter<2);
+              //std::cout<<"Adding this :"<< vertexA->getID()<<s<<std::endl;
                 intersectedEdge[counter] = edge;
                 xintersect = vertexA->getXcoordinate() + s*(vertexB->getXcoordinate()-vertexA->getXcoordinate());
                 yintersect = vertexA->getYcoordinate() + s*(vertexB->getYcoordinate()-vertexA->getYcoordinate());
                 zintersect = vertexA->getZcoordinate() + s*(vertexB->getZcoordinate()-vertexA->getZcoordinate());
+                //assinging the intersection points to the intertion_points array
+                intersection_points[counter].x = xintersect;
+                intersection_points[counter].y = yintersect;
+                intersection_points[counter].z = zintersect;
+                counter += 1;
+            }//for the case when the two points overlap
+            else if ((abs(s)<(std::numeric_limits<double>::epsilon()))&&(counter<2)){
+              assert(counter<2);
+              //std::cout<<"Adding this (negative):"<< vertexA->getID()<<"   "<<(std::numeric_limits<double>::epsilon())<<s<<std::endl;
+                intersectedEdge[counter] = edge;
+                xintersect = vertexA->getXcoordinate() + (s+0.00001)*(vertexB->getXcoordinate()-vertexA->getXcoordinate());
+                yintersect = vertexA->getYcoordinate() + (s+0.00001)*(vertexB->getYcoordinate()-vertexA->getYcoordinate());
+                zintersect = vertexA->getZcoordinate() + (s+0.00001)*(vertexB->getZcoordinate()-vertexA->getZcoordinate());
                 //assinging the intersection points to the intertion_points array
                 intersection_points[counter].x = xintersect;
                 intersection_points[counter].y = yintersect;
@@ -2642,10 +2684,24 @@ void Face::setRandomInitialMeanCurvature(){
             // now checking if the new cellwall intersects the current edge
             if ((s>0) && (s<1)){
                 assert(counter<2);
+              //std::cout<<"Adding this :"<< vertexA->getID()<<s<<std::endl;
                 intersectedEdge[counter] = edge;
                 xintersect = vertexA->getXcoordinate() + s*(vertexB->getXcoordinate()-vertexA->getXcoordinate());
                 yintersect = vertexA->getYcoordinate() + s*(vertexB->getYcoordinate()-vertexA->getYcoordinate());
                 zintersect = vertexA->getZcoordinate() + s*(vertexB->getZcoordinate()-vertexA->getZcoordinate());
+                //assinging the intersection points to the intertion_points array
+                intersection_points[counter].x = xintersect;
+                intersection_points[counter].y = yintersect;
+                intersection_points[counter].z = zintersect;
+                counter += 1;
+            }//for the case when the two points overlap
+            else if ((abs(s)<(std::numeric_limits<double>::epsilon()))&&(counter<2)){
+              assert(counter<2);
+              //std::cout<<"Adding this (negative):"<< vertexA->getID()<<"   "<<(std::numeric_limits<double>::epsilon())<<s<<std::endl;
+                intersectedEdge[counter] = edge;
+                xintersect = vertexA->getXcoordinate() + (s+0.00001)*(vertexB->getXcoordinate()-vertexA->getXcoordinate());
+                yintersect = vertexA->getYcoordinate() + (s+0.00001)*(vertexB->getYcoordinate()-vertexA->getYcoordinate());
+                zintersect = vertexA->getZcoordinate() + (s+0.00001)*(vertexB->getZcoordinate()-vertexA->getZcoordinate());
                 //assinging the intersection points to the intertion_points array
                 intersection_points[counter].x = xintersect;
                 intersection_points[counter].y = yintersect;
