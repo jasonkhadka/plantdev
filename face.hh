@@ -320,9 +320,10 @@ class Face
      double rotGrowthEigenVector2[3];
      double rotGrowthEigenValue1, rotGrowthEigenValue2;
 
-     //radial and orthoradial component of growth and stress
+     //radial and orthoradial component of growth, stress, feedbackcorrection
      double radialGrowth, orthoradialGrowth;
      double radialStress, orthoradialStress;
+     double radialFeedbackCorrection, orthoradialFeedbackCorrection;
     /**
       * Strain Eigen Directions & Eigen values
       */
@@ -539,11 +540,15 @@ class Face
     double getRotGrowthEigenValue2();   
 
 
-    // getting radial and orthoradial stress and growth
+    // getting radial and orthoradial stress
     double getRadialStress();
     double getOrthoradialStress();
 
+    // getting radial and orthoradial FeedbackCorrection 
+    double getRadialFeedbackCorrection();
+    double getOrthoradialFeedbackCorrection();
 
+    // getting radial and orthoradial growth
     double getRadialGrowth();
     double getOrthoradialGrowth();
 
@@ -553,6 +558,12 @@ class Face
 
     // Setting the radial and orthoradial vector
     void setRadialOrthoradialStress();
+
+    // Setting the radial and orthoradial FeedbackCorrection
+    // computing rad/orthorad component of growth correction term
+    void setRadialOrthoradialFeedbackCorrection();
+
+
     /**
      * function to get strain Eigen Vectors & values
      */
@@ -1009,6 +1020,12 @@ class Face
   friend class CentralisedDerivative;
 };
 /* ----- inline instance methods --------------------------------*/
+inline double Face::getRadialFeedbackCorrection(){
+    return this->radialFeedbackCorrection;
+};
+inline double Face::getOrthoradialFeedbackCorrection(){
+      return this->orthoradialFeedbackCorrection;
+};
 inline double Face::getRadialStress(){
   return this->radialStress;
 };

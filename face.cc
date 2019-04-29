@@ -1024,6 +1024,28 @@ void Face::setRadialOrthoradialStress(){
   this->orthoradialStress = orthoradialVec.transpose()*thisStress*orthoradialVec;
 }
 
+// ***************************************************************************************************** //
+void Face::setRadialOrthoradialFeedbackCorrection(){
+
+  // getting radial and orthoradial component of growth and stress
+  Eigen::Vector2d radialVec(this->projectedUnitRadial[0],this->projectedUnitRadial[1]);
+  Eigen::Vector2d orthoradialVec(this->projectedUnitOrthoradial[0],this->projectedUnitOrthoradial[1]);
+
+  //Deformation Matrix
+  Eigen::Matrix2d muMatrix;
+  muMatrix<< this->mu1, this->mu2, this->mu3, this->mu4; 
+  // deviatoric
+  Eigen::Matrix2d deviatoric = (this->stress) - 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity();
+  // Feedback correction matrix = (D(M-M0)+(M-M0)D)
+  Eigen::Matrix2d feedbackmatrix = deviatoric*muMatrix+muMatrix*deviatoric;
+
+
+
+  //projecting stress onto radial and orthoradial direction
+  this->radialFeedbackCorrection = radialVec.transpose()*feedbackmatrix*radialVec;
+  this->orthoradialFeedbackCorrection = orthoradialVec.transpose()*feedbackmatrix*orthoradialVec;
+}
+
 // ************************************************************//
 void Face::setTargetFormMatrix(){
   if (this->getID() == 1){
@@ -2274,6 +2296,8 @@ void Face::setRandomInitialMeanCurvature(){
     right = edge->Right();//new face created
     vertexA = edge->Org();
     vertexB = edge->Dest();
+    // ================================================================= //
+    /*
     //making the new vertex on the wall now.
     edge =  cell->makeVertexEdge(vertexA, edge->Left(), edge->Right());
     origin = edge->Dest();
@@ -2281,6 +2305,8 @@ void Face::setRandomInitialMeanCurvature(){
     origin->setXcoordinate((vertexA->getXcoordinate()+vertexB->getXcoordinate())/2.);
     origin->setYcoordinate((vertexA->getYcoordinate()+vertexB->getYcoordinate())/2.);
     origin->setZcoordinate((vertexA->getZcoordinate()+vertexB->getZcoordinate())/2.);
+    */
+    // ================================================================= //
     /*
       * setting initial Mean curvature for all the vertices of 
       * this face and new face
@@ -2429,13 +2455,17 @@ void Face::setRandomInitialMeanCurvature(){
     right = edge->Right();//new face created
     vertexA = edge->Org();
     vertexB = edge->Dest();
+    // ================================================================= //
     //making the new vertex on the wall now.
+    /*
     edge =  cell->makeVertexEdge(vertexA, edge->Left(), edge->Right());
     origin = edge->Dest();
     //now setting the vertex of this new vertex
     origin->setXcoordinate((vertexA->getXcoordinate()+vertexB->getXcoordinate())/2.);
     origin->setYcoordinate((vertexA->getYcoordinate()+vertexB->getYcoordinate())/2.);
     origin->setZcoordinate((vertexA->getZcoordinate()+vertexB->getZcoordinate())/2.);
+    // ================================================================= //
+    */
     /*
       * setting initial Mean curvature for all the vertices of 
       * this face and new face
@@ -2582,6 +2612,8 @@ void Face::setRandomInitialMeanCurvature(){
     right = edge->Right();//new face created
     vertexA = edge->Org();
     vertexB = edge->Dest();
+    // ================================================================= //
+    /*
     //making the new vertex on the wall now.
     edge =  cell->makeVertexEdge(vertexA, edge->Left(), edge->Right());
     origin = edge->Dest();
@@ -2589,6 +2621,8 @@ void Face::setRandomInitialMeanCurvature(){
     origin->setXcoordinate((vertexA->getXcoordinate()+vertexB->getXcoordinate())/2.);
     origin->setYcoordinate((vertexA->getYcoordinate()+vertexB->getYcoordinate())/2.);
     origin->setZcoordinate((vertexA->getZcoordinate()+vertexB->getZcoordinate())/2.);
+    */
+    // ================================================================= //
     /*
       * setting initial Mean curvature for all the vertices of 
       * this face and new face
@@ -2734,13 +2768,17 @@ void Face::setRandomInitialMeanCurvature(){
     right = edge->Right();//new face created
     vertexA = edge->Org();
     vertexB = edge->Dest();
+    // ================================================================= //
     //making the new vertex on the wall now.
+    /*
     edge =  cell->makeVertexEdge(vertexA, edge->Left(), edge->Right());
     origin = edge->Dest();
     //now setting the vertex of this new vertex
     origin->setXcoordinate((vertexA->getXcoordinate()+vertexB->getXcoordinate())/2.);
     origin->setYcoordinate((vertexA->getYcoordinate()+vertexB->getYcoordinate())/2.);
     origin->setZcoordinate((vertexA->getZcoordinate()+vertexB->getZcoordinate())/2.);
+    */
+    // ================================================================= //
     /*
       * setting initial Mean curvature for all the vertices of 
       * this face and new face
@@ -2909,7 +2947,9 @@ void Face::setRandomInitialMeanCurvature(){
     right = edge->Right();//new face created
     vertexA = edge->Org();
     vertexB = edge->Dest();
+    // ================================================================= //
     //making the new vertex on the wall now.
+    /*
     //std::cout<<"faceid :"<<this->getID()<<"     here, rightID :"<<right->getID()<<std::endl;
     edge =  cell->makeVertexEdge(vertexA, edge->Left(), edge->Right());
     origin = edge->Dest();
@@ -2917,6 +2957,8 @@ void Face::setRandomInitialMeanCurvature(){
     origin->setXcoordinate((vertexA->getXcoordinate()+vertexB->getXcoordinate())/2.);
     origin->setYcoordinate((vertexA->getYcoordinate()+vertexB->getYcoordinate())/2.);
     origin->setZcoordinate((vertexA->getZcoordinate()+vertexB->getZcoordinate())/2.);
+    */
+    // ================================================================= //
     /*
       * setting initial Mean curvature for all the vertices of 
       * this face and new face
@@ -3067,6 +3109,9 @@ Face::Face(Cell *cell):gaussianWidth(0.125), randomNumberGeneratorType(gsl_rng_d
   this->orthoradialGrowth = 0.;
   this->radialStress = 0.;
   this->orthoradialStress = 0.;
+
+  this->radialFeedbackCorrection = 0.;
+  this->orthoradialFeedbackCorrection = 0.;
   // ************************************************************************ //
   this->vertices = new Vertex*[8];
   this->vertexCount = 0;

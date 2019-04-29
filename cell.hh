@@ -694,6 +694,10 @@ public:
     */
     void setRadialOrthoradialVector(Face * primordialFace);
     /*
+      * set radial orthoradial Feedback correction on faces
+    */
+    void setRadialOrthoradialFeedbackCorrection();
+    /*
       * set radial and orthoradial stresses on faces
     */
     void setRadialOrthoradialStress();

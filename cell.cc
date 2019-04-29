@@ -1583,6 +1583,16 @@ Face * face;
     }
   }
 }
+
+void Cell::setRadialOrthoradialFeedbackCorrection(){
+Face * face;
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          face->setRadialOrthoradialFeedbackCorrection();
+    }
+  }
+}
 //********************************************************************************* //
  
 void Cell::setParameters(){

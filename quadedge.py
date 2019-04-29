@@ -331,6 +331,9 @@ class Cell(_object):
     def setRadialOrthoradialVector(self, primordialFace):
         return _quadedge.Cell_setRadialOrthoradialVector(self, primordialFace)
 
+    def setRadialOrthoradialFeedbackCorrection(self):
+        return _quadedge.Cell_setRadialOrthoradialFeedbackCorrection(self)
+
     def setRadialOrthoradialStress(self):
         return _quadedge.Cell_setRadialOrthoradialStress(self)
 
@@ -695,6 +698,12 @@ class Face(_object):
     def getOrthoradialStress(self):
         return _quadedge.Face_getOrthoradialStress(self)
 
+    def getRadialFeedbackCorrection(self):
+        return _quadedge.Face_getRadialFeedbackCorrection(self)
+
+    def getOrthoradialFeedbackCorrection(self):
+        return _quadedge.Face_getOrthoradialFeedbackCorrection(self)
+
     def getRadialGrowth(self):
         return _quadedge.Face_getRadialGrowth(self)
 
@@ -706,6 +715,9 @@ class Face(_object):
 
     def setRadialOrthoradialStress(self):
         return _quadedge.Face_setRadialOrthoradialStress(self)
+
+    def setRadialOrthoradialFeedbackCorrection(self):
+        return _quadedge.Face_setRadialOrthoradialFeedbackCorrection(self)
 
     def getStrainEigenVector1(self):
         return _quadedge.Face_getStrainEigenVector1(self)

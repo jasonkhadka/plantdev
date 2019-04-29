@@ -5518,6 +5518,27 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_setRadialOrthoradialFeedbackCorrection(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_setRadialOrthoradialFeedbackCorrection",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setRadialOrthoradialFeedbackCorrection" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  (arg1)->setRadialOrthoradialFeedbackCorrection();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_setRadialOrthoradialStress(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -8140,6 +8161,50 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_getRadialFeedbackCorrection(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getRadialFeedbackCorrection",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getRadialFeedbackCorrection" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getRadialFeedbackCorrection();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getOrthoradialFeedbackCorrection(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getOrthoradialFeedbackCorrection",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getOrthoradialFeedbackCorrection" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getOrthoradialFeedbackCorrection();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_getRadialGrowth(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -8228,6 +8293,27 @@ SWIGINTERN PyObject *_wrap_Face_setRadialOrthoradialStress(PyObject *SWIGUNUSEDP
   }
   arg1 = reinterpret_cast< Face * >(argp1);
   (arg1)->setRadialOrthoradialStress();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setRadialOrthoradialFeedbackCorrection(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_setRadialOrthoradialFeedbackCorrection",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setRadialOrthoradialFeedbackCorrection" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->setRadialOrthoradialFeedbackCorrection();
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -20402,6 +20488,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_getFourthTerm", _wrap_Cell_getFourthTerm, METH_VARARGS, NULL},
 	 { (char *)"Cell_getSumEdgeLength", _wrap_Cell_getSumEdgeLength, METH_VARARGS, NULL},
 	 { (char *)"Cell_setRadialOrthoradialVector", _wrap_Cell_setRadialOrthoradialVector, METH_VARARGS, NULL},
+	 { (char *)"Cell_setRadialOrthoradialFeedbackCorrection", _wrap_Cell_setRadialOrthoradialFeedbackCorrection, METH_VARARGS, NULL},
 	 { (char *)"Cell_setRadialOrthoradialStress", _wrap_Cell_setRadialOrthoradialStress, METH_VARARGS, NULL},
 	 { (char *)"Cell_setLayer", _wrap_Cell_setLayer, METH_VARARGS, NULL},
 	 { (char *)"Cell_getLayer", _wrap_Cell_getLayer, METH_VARARGS, NULL},
@@ -20511,10 +20598,13 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getRotGrowthEigenValue2", _wrap_Face_getRotGrowthEigenValue2, METH_VARARGS, NULL},
 	 { (char *)"Face_getRadialStress", _wrap_Face_getRadialStress, METH_VARARGS, NULL},
 	 { (char *)"Face_getOrthoradialStress", _wrap_Face_getOrthoradialStress, METH_VARARGS, NULL},
+	 { (char *)"Face_getRadialFeedbackCorrection", _wrap_Face_getRadialFeedbackCorrection, METH_VARARGS, NULL},
+	 { (char *)"Face_getOrthoradialFeedbackCorrection", _wrap_Face_getOrthoradialFeedbackCorrection, METH_VARARGS, NULL},
 	 { (char *)"Face_getRadialGrowth", _wrap_Face_getRadialGrowth, METH_VARARGS, NULL},
 	 { (char *)"Face_getOrthoradialGrowth", _wrap_Face_getOrthoradialGrowth, METH_VARARGS, NULL},
 	 { (char *)"Face_setRadialOrthoradialVector", _wrap_Face_setRadialOrthoradialVector, METH_VARARGS, NULL},
 	 { (char *)"Face_setRadialOrthoradialStress", _wrap_Face_setRadialOrthoradialStress, METH_VARARGS, NULL},
+	 { (char *)"Face_setRadialOrthoradialFeedbackCorrection", _wrap_Face_setRadialOrthoradialFeedbackCorrection, METH_VARARGS, NULL},
 	 { (char *)"Face_getStrainEigenVector1", _wrap_Face_getStrainEigenVector1, METH_VARARGS, NULL},
 	 { (char *)"Face_getStrainEigenVector2", _wrap_Face_getStrainEigenVector2, METH_VARARGS, NULL},
 	 { (char *)"Face_getStrainEigenValue1", _wrap_Face_getStrainEigenValue1, METH_VARARGS, NULL},
