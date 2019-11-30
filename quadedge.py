@@ -331,8 +331,23 @@ class Cell(_object):
     def setRadialOrthoradialVector(self, primordialFace):
         return _quadedge.Cell_setRadialOrthoradialVector(self, primordialFace)
 
+    def setRadialOrthoradialDeformation(self):
+        return _quadedge.Cell_setRadialOrthoradialDeformation(self)
+
+    def setRadialOrthoradialGrowth(self):
+        return _quadedge.Cell_setRadialOrthoradialGrowth(self)
+
     def setRadialOrthoradialFeedbackCorrection(self):
         return _quadedge.Cell_setRadialOrthoradialFeedbackCorrection(self)
+
+    def setPrincipalDeformationFeedbackCorrection(self):
+        return _quadedge.Cell_setPrincipalDeformationFeedbackCorrection(self)
+
+    def setPrincipalDeformationGrowth(self):
+        return _quadedge.Cell_setPrincipalDeformationGrowth(self)
+
+    def setPrincipalDeformationVector(self):
+        return _quadedge.Cell_setPrincipalDeformationVector(self)
 
     def setRadialOrthoradialStress(self):
         return _quadedge.Cell_setRadialOrthoradialStress(self)
@@ -680,6 +695,18 @@ class Face(_object):
     def getStressEigenValue2(self):
         return _quadedge.Face_getStressEigenValue2(self)
 
+    def getDeformationEigenVector1(self):
+        return _quadedge.Face_getDeformationEigenVector1(self)
+
+    def getDeformationEigenVector2(self):
+        return _quadedge.Face_getDeformationEigenVector2(self)
+
+    def getDeformationEigenValue1(self):
+        return _quadedge.Face_getDeformationEigenValue1(self)
+
+    def getDeformationEigenValue2(self):
+        return _quadedge.Face_getDeformationEigenValue2(self)
+
     def getRotGrowthEigenVector1(self):
         return _quadedge.Face_getRotGrowthEigenVector1(self)
 
@@ -698,11 +725,35 @@ class Face(_object):
     def getOrthoradialStress(self):
         return _quadedge.Face_getOrthoradialStress(self)
 
+    def getRadialDeformation(self):
+        return _quadedge.Face_getRadialDeformation(self)
+
+    def getOrthoradialDeformation(self):
+        return _quadedge.Face_getOrthoradialDeformation(self)
+
     def getRadialFeedbackCorrection(self):
         return _quadedge.Face_getRadialFeedbackCorrection(self)
 
     def getOrthoradialFeedbackCorrection(self):
         return _quadedge.Face_getOrthoradialFeedbackCorrection(self)
+
+    def getPrincipalDeformationDirection1FeedbackCorrection(self):
+        return _quadedge.Face_getPrincipalDeformationDirection1FeedbackCorrection(self)
+
+    def getPrincipalDeformationDirection2FeedbackCorrection(self):
+        return _quadedge.Face_getPrincipalDeformationDirection2FeedbackCorrection(self)
+
+    def getRadialDeformationGrowthFeedback(self):
+        return _quadedge.Face_getRadialDeformationGrowthFeedback(self)
+
+    def getOrthoradialDeformationGrowthFeedback(self):
+        return _quadedge.Face_getOrthoradialDeformationGrowthFeedback(self)
+
+    def getPrincipalDeformationDirectionGrowth1(self):
+        return _quadedge.Face_getPrincipalDeformationDirectionGrowth1(self)
+
+    def getPrincipalDeformationDirectionGrowth2(self):
+        return _quadedge.Face_getPrincipalDeformationDirectionGrowth2(self)
 
     def getRadialGrowth(self):
         return _quadedge.Face_getRadialGrowth(self)
@@ -718,6 +769,21 @@ class Face(_object):
 
     def setRadialOrthoradialFeedbackCorrection(self):
         return _quadedge.Face_setRadialOrthoradialFeedbackCorrection(self)
+
+    def setRadialOrthoradialDeformation(self):
+        return _quadedge.Face_setRadialOrthoradialDeformation(self)
+
+    def setRadialOrthoradialGrowth(self):
+        return _quadedge.Face_setRadialOrthoradialGrowth(self)
+
+    def setPrincipalDeformationVector(self):
+        return _quadedge.Face_setPrincipalDeformationVector(self)
+
+    def setPrincipalDeformationFeedbackCorrection(self):
+        return _quadedge.Face_setPrincipalDeformationFeedbackCorrection(self)
+
+    def setPrincipalDeformationGrowth(self):
+        return _quadedge.Face_setPrincipalDeformationGrowth(self)
 
     def getStrainEigenVector1(self):
         return _quadedge.Face_getStrainEigenVector1(self)
@@ -892,6 +958,10 @@ class Face(_object):
     __swig_getmethods__["currentFormMatrix"] = _quadedge.Face_currentFormMatrix_get
     if _newclass:
         currentFormMatrix = _swig_property(_quadedge.Face_currentFormMatrix_get, _quadedge.Face_currentFormMatrix_set)
+    __swig_setmethods__["feedbackGrowthMatrix"] = _quadedge.Face_feedbackGrowthMatrix_set
+    __swig_getmethods__["feedbackGrowthMatrix"] = _quadedge.Face_feedbackGrowthMatrix_get
+    if _newclass:
+        feedbackGrowthMatrix = _swig_property(_quadedge.Face_feedbackGrowthMatrix_get, _quadedge.Face_feedbackGrowthMatrix_set)
     __swig_setmethods__["stress"] = _quadedge.Face_stress_set
     __swig_getmethods__["stress"] = _quadedge.Face_stress_get
     if _newclass:

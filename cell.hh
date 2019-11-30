@@ -693,10 +693,24 @@ public:
       * set radial orthoradial vector on faces
     */
     void setRadialOrthoradialVector(Face * primordialFace);
+    //setting the radial orthoradial deformation
+    void setRadialOrthoradialDeformation();
+
+    //setting radial orthoradial growth after feedback
+    void setRadialOrthoradialGrowth();
     /*
       * set radial orthoradial Feedback correction on faces
     */
     void setRadialOrthoradialFeedbackCorrection();
+
+    /*
+      * set principal deformation Feedback correction on faces
+    */
+    void setPrincipalDeformationFeedbackCorrection();
+    // to set the principal deformation growth in faces
+    void setPrincipalDeformationGrowth();
+    // set the deformation directions
+    void setPrincipalDeformationVector();
     /*
       * set radial and orthoradial stresses on faces
     */

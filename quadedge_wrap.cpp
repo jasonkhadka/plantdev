@@ -5518,6 +5518,48 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Cell_setRadialOrthoradialDeformation(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_setRadialOrthoradialDeformation",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setRadialOrthoradialDeformation" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  (arg1)->setRadialOrthoradialDeformation();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_setRadialOrthoradialGrowth(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_setRadialOrthoradialGrowth",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setRadialOrthoradialGrowth" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  (arg1)->setRadialOrthoradialGrowth();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Cell_setRadialOrthoradialFeedbackCorrection(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Cell *arg1 = (Cell *) 0 ;
@@ -5532,6 +5574,69 @@ SWIGINTERN PyObject *_wrap_Cell_setRadialOrthoradialFeedbackCorrection(PyObject 
   }
   arg1 = reinterpret_cast< Cell * >(argp1);
   (arg1)->setRadialOrthoradialFeedbackCorrection();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_setPrincipalDeformationFeedbackCorrection(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_setPrincipalDeformationFeedbackCorrection",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setPrincipalDeformationFeedbackCorrection" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  (arg1)->setPrincipalDeformationFeedbackCorrection();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_setPrincipalDeformationGrowth(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_setPrincipalDeformationGrowth",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setPrincipalDeformationGrowth" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  (arg1)->setPrincipalDeformationGrowth();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Cell_setPrincipalDeformationVector(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Cell *arg1 = (Cell *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Cell_setPrincipalDeformationVector",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Cell, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Cell_setPrincipalDeformationVector" "', argument " "1"" of type '" "Cell *""'"); 
+  }
+  arg1 = reinterpret_cast< Cell * >(argp1);
+  (arg1)->setPrincipalDeformationVector();
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -8029,6 +8134,94 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_getDeformationEigenVector1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getDeformationEigenVector1",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getDeformationEigenVector1" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double *)(arg1)->getDeformationEigenVector1();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getDeformationEigenVector2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double *result = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getDeformationEigenVector2",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getDeformationEigenVector2" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double *)(arg1)->getDeformationEigenVector2();
+  resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getDeformationEigenValue1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getDeformationEigenValue1",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getDeformationEigenValue1" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getDeformationEigenValue1();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getDeformationEigenValue2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getDeformationEigenValue2",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getDeformationEigenValue2" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getDeformationEigenValue2();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_getRotGrowthEigenVector1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -8161,6 +8354,50 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_Face_getRadialDeformation(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getRadialDeformation",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getRadialDeformation" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getRadialDeformation();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getOrthoradialDeformation(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getOrthoradialDeformation",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getOrthoradialDeformation" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getOrthoradialDeformation();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_Face_getRadialFeedbackCorrection(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
   Face *arg1 = (Face *) 0 ;
@@ -8198,6 +8435,138 @@ SWIGINTERN PyObject *_wrap_Face_getOrthoradialFeedbackCorrection(PyObject *SWIGU
   }
   arg1 = reinterpret_cast< Face * >(argp1);
   result = (double)(arg1)->getOrthoradialFeedbackCorrection();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getPrincipalDeformationDirection1FeedbackCorrection(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getPrincipalDeformationDirection1FeedbackCorrection",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getPrincipalDeformationDirection1FeedbackCorrection" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getPrincipalDeformationDirection1FeedbackCorrection();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getPrincipalDeformationDirection2FeedbackCorrection(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getPrincipalDeformationDirection2FeedbackCorrection",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getPrincipalDeformationDirection2FeedbackCorrection" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getPrincipalDeformationDirection2FeedbackCorrection();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getRadialDeformationGrowthFeedback(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getRadialDeformationGrowthFeedback",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getRadialDeformationGrowthFeedback" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getRadialDeformationGrowthFeedback();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getOrthoradialDeformationGrowthFeedback(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getOrthoradialDeformationGrowthFeedback",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getOrthoradialDeformationGrowthFeedback" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getOrthoradialDeformationGrowthFeedback();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getPrincipalDeformationDirectionGrowth1(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getPrincipalDeformationDirectionGrowth1",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getPrincipalDeformationDirectionGrowth1" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getPrincipalDeformationDirectionGrowth1();
+  resultobj = SWIG_From_double(static_cast< double >(result));
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_getPrincipalDeformationDirectionGrowth2(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  double result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_getPrincipalDeformationDirectionGrowth2",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_getPrincipalDeformationDirectionGrowth2" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result = (double)(arg1)->getPrincipalDeformationDirectionGrowth2();
   resultobj = SWIG_From_double(static_cast< double >(result));
   return resultobj;
 fail:
@@ -8314,6 +8683,111 @@ SWIGINTERN PyObject *_wrap_Face_setRadialOrthoradialFeedbackCorrection(PyObject 
   }
   arg1 = reinterpret_cast< Face * >(argp1);
   (arg1)->setRadialOrthoradialFeedbackCorrection();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setRadialOrthoradialDeformation(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_setRadialOrthoradialDeformation",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setRadialOrthoradialDeformation" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->setRadialOrthoradialDeformation();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setRadialOrthoradialGrowth(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_setRadialOrthoradialGrowth",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setRadialOrthoradialGrowth" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->setRadialOrthoradialGrowth();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setPrincipalDeformationVector(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_setPrincipalDeformationVector",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setPrincipalDeformationVector" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->setPrincipalDeformationVector();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setPrincipalDeformationFeedbackCorrection(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_setPrincipalDeformationFeedbackCorrection",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setPrincipalDeformationFeedbackCorrection" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->setPrincipalDeformationFeedbackCorrection();
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_setPrincipalDeformationGrowth(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_setPrincipalDeformationGrowth",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_setPrincipalDeformationGrowth" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  (arg1)->setPrincipalDeformationGrowth();
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
@@ -9933,6 +10407,66 @@ SWIGINTERN PyObject *_wrap_Face_currentFormMatrix_get(PyObject *SWIGUNUSEDPARM(s
   arg1 = reinterpret_cast< Face * >(argp1);
   result = (double (*)[2])(double (*)[2]) ((arg1)->currentFormMatrix);
   resultobj = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_a_2__double, 0 |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_feedbackGrowthMatrix_set(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  Eigen::Matrix2d arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  
+  if (!PyArg_ParseTuple(args,(char *)"OO:Face_feedbackGrowthMatrix_set",&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_feedbackGrowthMatrix_set" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  {
+    res2 = SWIG_ConvertPtr(obj1, &argp2, SWIGTYPE_p_Eigen__Matrix2d,  0  | 0);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "Face_feedbackGrowthMatrix_set" "', argument " "2"" of type '" "Eigen::Matrix2d""'"); 
+    }  
+    if (!argp2) {
+      SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "Face_feedbackGrowthMatrix_set" "', argument " "2"" of type '" "Eigen::Matrix2d""'");
+    } else {
+      Eigen::Matrix2d * temp = reinterpret_cast< Eigen::Matrix2d * >(argp2);
+      arg2 = *temp;
+      if (SWIG_IsNewObj(res2)) delete temp;
+    }
+  }
+  if (arg1) (arg1)->feedbackGrowthMatrix = arg2;
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_Face_feedbackGrowthMatrix_get(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  Face *arg1 = (Face *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject * obj0 = 0 ;
+  Eigen::Matrix2d result;
+  
+  if (!PyArg_ParseTuple(args,(char *)"O:Face_feedbackGrowthMatrix_get",&obj0)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_Face, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "Face_feedbackGrowthMatrix_get" "', argument " "1"" of type '" "Face *""'"); 
+  }
+  arg1 = reinterpret_cast< Face * >(argp1);
+  result =  ((arg1)->feedbackGrowthMatrix);
+  resultobj = SWIG_NewPointerObj((new Eigen::Matrix2d(static_cast< const Eigen::Matrix2d& >(result))), SWIGTYPE_p_Eigen__Matrix2d, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -20488,7 +21022,12 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Cell_getFourthTerm", _wrap_Cell_getFourthTerm, METH_VARARGS, NULL},
 	 { (char *)"Cell_getSumEdgeLength", _wrap_Cell_getSumEdgeLength, METH_VARARGS, NULL},
 	 { (char *)"Cell_setRadialOrthoradialVector", _wrap_Cell_setRadialOrthoradialVector, METH_VARARGS, NULL},
+	 { (char *)"Cell_setRadialOrthoradialDeformation", _wrap_Cell_setRadialOrthoradialDeformation, METH_VARARGS, NULL},
+	 { (char *)"Cell_setRadialOrthoradialGrowth", _wrap_Cell_setRadialOrthoradialGrowth, METH_VARARGS, NULL},
 	 { (char *)"Cell_setRadialOrthoradialFeedbackCorrection", _wrap_Cell_setRadialOrthoradialFeedbackCorrection, METH_VARARGS, NULL},
+	 { (char *)"Cell_setPrincipalDeformationFeedbackCorrection", _wrap_Cell_setPrincipalDeformationFeedbackCorrection, METH_VARARGS, NULL},
+	 { (char *)"Cell_setPrincipalDeformationGrowth", _wrap_Cell_setPrincipalDeformationGrowth, METH_VARARGS, NULL},
+	 { (char *)"Cell_setPrincipalDeformationVector", _wrap_Cell_setPrincipalDeformationVector, METH_VARARGS, NULL},
 	 { (char *)"Cell_setRadialOrthoradialStress", _wrap_Cell_setRadialOrthoradialStress, METH_VARARGS, NULL},
 	 { (char *)"Cell_setLayer", _wrap_Cell_setLayer, METH_VARARGS, NULL},
 	 { (char *)"Cell_getLayer", _wrap_Cell_getLayer, METH_VARARGS, NULL},
@@ -20592,19 +21131,36 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_getNormalForce", _wrap_Face_getNormalForce, METH_VARARGS, NULL},
 	 { (char *)"Face_getStressEigenValue1", _wrap_Face_getStressEigenValue1, METH_VARARGS, NULL},
 	 { (char *)"Face_getStressEigenValue2", _wrap_Face_getStressEigenValue2, METH_VARARGS, NULL},
+	 { (char *)"Face_getDeformationEigenVector1", _wrap_Face_getDeformationEigenVector1, METH_VARARGS, NULL},
+	 { (char *)"Face_getDeformationEigenVector2", _wrap_Face_getDeformationEigenVector2, METH_VARARGS, NULL},
+	 { (char *)"Face_getDeformationEigenValue1", _wrap_Face_getDeformationEigenValue1, METH_VARARGS, NULL},
+	 { (char *)"Face_getDeformationEigenValue2", _wrap_Face_getDeformationEigenValue2, METH_VARARGS, NULL},
 	 { (char *)"Face_getRotGrowthEigenVector1", _wrap_Face_getRotGrowthEigenVector1, METH_VARARGS, NULL},
 	 { (char *)"Face_getRotGrowthEigenVector2", _wrap_Face_getRotGrowthEigenVector2, METH_VARARGS, NULL},
 	 { (char *)"Face_getRotGrowthEigenValue1", _wrap_Face_getRotGrowthEigenValue1, METH_VARARGS, NULL},
 	 { (char *)"Face_getRotGrowthEigenValue2", _wrap_Face_getRotGrowthEigenValue2, METH_VARARGS, NULL},
 	 { (char *)"Face_getRadialStress", _wrap_Face_getRadialStress, METH_VARARGS, NULL},
 	 { (char *)"Face_getOrthoradialStress", _wrap_Face_getOrthoradialStress, METH_VARARGS, NULL},
+	 { (char *)"Face_getRadialDeformation", _wrap_Face_getRadialDeformation, METH_VARARGS, NULL},
+	 { (char *)"Face_getOrthoradialDeformation", _wrap_Face_getOrthoradialDeformation, METH_VARARGS, NULL},
 	 { (char *)"Face_getRadialFeedbackCorrection", _wrap_Face_getRadialFeedbackCorrection, METH_VARARGS, NULL},
 	 { (char *)"Face_getOrthoradialFeedbackCorrection", _wrap_Face_getOrthoradialFeedbackCorrection, METH_VARARGS, NULL},
+	 { (char *)"Face_getPrincipalDeformationDirection1FeedbackCorrection", _wrap_Face_getPrincipalDeformationDirection1FeedbackCorrection, METH_VARARGS, NULL},
+	 { (char *)"Face_getPrincipalDeformationDirection2FeedbackCorrection", _wrap_Face_getPrincipalDeformationDirection2FeedbackCorrection, METH_VARARGS, NULL},
+	 { (char *)"Face_getRadialDeformationGrowthFeedback", _wrap_Face_getRadialDeformationGrowthFeedback, METH_VARARGS, NULL},
+	 { (char *)"Face_getOrthoradialDeformationGrowthFeedback", _wrap_Face_getOrthoradialDeformationGrowthFeedback, METH_VARARGS, NULL},
+	 { (char *)"Face_getPrincipalDeformationDirectionGrowth1", _wrap_Face_getPrincipalDeformationDirectionGrowth1, METH_VARARGS, NULL},
+	 { (char *)"Face_getPrincipalDeformationDirectionGrowth2", _wrap_Face_getPrincipalDeformationDirectionGrowth2, METH_VARARGS, NULL},
 	 { (char *)"Face_getRadialGrowth", _wrap_Face_getRadialGrowth, METH_VARARGS, NULL},
 	 { (char *)"Face_getOrthoradialGrowth", _wrap_Face_getOrthoradialGrowth, METH_VARARGS, NULL},
 	 { (char *)"Face_setRadialOrthoradialVector", _wrap_Face_setRadialOrthoradialVector, METH_VARARGS, NULL},
 	 { (char *)"Face_setRadialOrthoradialStress", _wrap_Face_setRadialOrthoradialStress, METH_VARARGS, NULL},
 	 { (char *)"Face_setRadialOrthoradialFeedbackCorrection", _wrap_Face_setRadialOrthoradialFeedbackCorrection, METH_VARARGS, NULL},
+	 { (char *)"Face_setRadialOrthoradialDeformation", _wrap_Face_setRadialOrthoradialDeformation, METH_VARARGS, NULL},
+	 { (char *)"Face_setRadialOrthoradialGrowth", _wrap_Face_setRadialOrthoradialGrowth, METH_VARARGS, NULL},
+	 { (char *)"Face_setPrincipalDeformationVector", _wrap_Face_setPrincipalDeformationVector, METH_VARARGS, NULL},
+	 { (char *)"Face_setPrincipalDeformationFeedbackCorrection", _wrap_Face_setPrincipalDeformationFeedbackCorrection, METH_VARARGS, NULL},
+	 { (char *)"Face_setPrincipalDeformationGrowth", _wrap_Face_setPrincipalDeformationGrowth, METH_VARARGS, NULL},
 	 { (char *)"Face_getStrainEigenVector1", _wrap_Face_getStrainEigenVector1, METH_VARARGS, NULL},
 	 { (char *)"Face_getStrainEigenVector2", _wrap_Face_getStrainEigenVector2, METH_VARARGS, NULL},
 	 { (char *)"Face_getStrainEigenValue1", _wrap_Face_getStrainEigenValue1, METH_VARARGS, NULL},
@@ -20667,6 +21223,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"Face_targetArea_get", _wrap_Face_targetArea_get, METH_VARARGS, NULL},
 	 { (char *)"Face_currentFormMatrix_set", _wrap_Face_currentFormMatrix_set, METH_VARARGS, NULL},
 	 { (char *)"Face_currentFormMatrix_get", _wrap_Face_currentFormMatrix_get, METH_VARARGS, NULL},
+	 { (char *)"Face_feedbackGrowthMatrix_set", _wrap_Face_feedbackGrowthMatrix_set, METH_VARARGS, NULL},
+	 { (char *)"Face_feedbackGrowthMatrix_get", _wrap_Face_feedbackGrowthMatrix_get, METH_VARARGS, NULL},
 	 { (char *)"Face_stress_set", _wrap_Face_stress_set, METH_VARARGS, NULL},
 	 { (char *)"Face_stress_get", _wrap_Face_stress_get, METH_VARARGS, NULL},
 	 { (char *)"Face_strain_set", _wrap_Face_strain_set, METH_VARARGS, NULL},

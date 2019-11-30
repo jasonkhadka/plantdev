@@ -313,6 +313,20 @@ class Face
      double projectedStressEigenVector1[2];
      double projectedStressEigenVector2[2];
 
+     // principal directions of deformation
+     double deformationEigenVector1[3];
+     double deformationEigenVector2[3];
+
+     // Eigen values or deformation
+     double deformationEigenValue1,deformationEigenValue2;
+
+     double projectedDeformationEigenVector1[2];
+     double projectedDeformationEigenVector2[2];
+     
+
+     //radial orthoradial component of Deformation 
+     double radialDeformation,  orthoradialDeformation;
+
      /**
       * Rotated CFM Eigen Directions & Eigen values
       */
@@ -324,6 +338,15 @@ class Face
      double radialGrowth, orthoradialGrowth;
      double radialStress, orthoradialStress;
      double radialFeedbackCorrection, orthoradialFeedbackCorrection;
+
+     //feedback correction in direction of principal deformation
+     double principalDeformationDirection1FeedbackCorrection, principalDeformationDirection2FeedbackCorrection;
+
+     // growth after feedback in principal direction of deformation
+     double principalDeformationDirectionGrowth1, principalDeformationDirectionGrowth2;
+
+     // growth after feedback in radial orthoradial direction
+     double radialDeformationGrowthFeedback, orthoradialDeformationGrowthFeedback;
     /**
       * Strain Eigen Directions & Eigen values
       */
@@ -532,6 +555,13 @@ class Face
     double getStressEigenValue1();
     double getStressEigenValue2();    
 
+    //function to get eigen vectors of deformation
+    double * getDeformationEigenVector1();
+    double * getDeformationEigenVector2();
+
+    double getDeformationEigenValue1();
+    double getDeformationEigenValue2();
+
     // getting the rotGrowth eigen vec & value
      double * getRotGrowthEigenVector1();
     double * getRotGrowthEigenVector2();  // Orthoradial vector  = cross(radialvec, normal)
@@ -544,9 +574,27 @@ class Face
     double getRadialStress();
     double getOrthoradialStress();
 
+    //getting radial and orthoradial deformation
+    double getRadialDeformation();
+    double getOrthoradialDeformation();
+
+
     // getting radial and orthoradial FeedbackCorrection 
     double getRadialFeedbackCorrection();
     double getOrthoradialFeedbackCorrection();
+
+    // getting principal deformation direction FeedbackCorrection 
+    double getPrincipalDeformationDirection1FeedbackCorrection();
+    double getPrincipalDeformationDirection2FeedbackCorrection();
+
+
+    //getting raidal orthoradial deformation direction after feedback
+    double getRadialDeformationGrowthFeedback();
+    double getOrthoradialDeformationGrowthFeedback();
+
+    // get growth after feedback in principal direciton of deformation
+    double getPrincipalDeformationDirectionGrowth1();
+    double getPrincipalDeformationDirectionGrowth2();
 
     // getting radial and orthoradial growth
     double getRadialGrowth();
@@ -563,6 +611,14 @@ class Face
     // computing rad/orthorad component of growth correction term
     void setRadialOrthoradialFeedbackCorrection();
 
+    void setRadialOrthoradialDeformation();
+
+    void setRadialOrthoradialGrowth();
+
+    // Setting the principal direction FeedbackCorrection
+    void setPrincipalDeformationVector();
+    void setPrincipalDeformationFeedbackCorrection();
+    void setPrincipalDeformationGrowth();
 
     /**
      * function to get strain Eigen Vectors & values
@@ -795,6 +851,7 @@ class Face
      * growth being driven by a constant growth equation
      */
     double constantGrowthMatrix[2][2];
+
     /**
      * target Area: the ideal area of this cell (area from target Form)
      */
@@ -804,6 +861,13 @@ class Face
      *  current form of the cell
      */
     double currentFormMatrix[2][2]= {{0.,0.},{0.,0.}};
+    /**
+     * feedback growth Matrix : this is second term of the growth equation (feedback part)
+     *            = D(M-M0) + (M-M0)D 
+     */
+    Eigen::Matrix2d feedbackGrowthMatrix;
+
+
     /**
      * Intrinsic Stress Matrix of Face 
      */
@@ -1020,6 +1084,30 @@ class Face
   friend class CentralisedDerivative;
 };
 /* ----- inline instance methods --------------------------------*/
+inline double Face::getRadialDeformation(){
+  return this->radialDeformation;
+};
+inline double Face::getOrthoradialDeformation(){
+  return this->orthoradialDeformation;
+};
+inline double Face::getRadialDeformationGrowthFeedback(){
+  return this->radialDeformationGrowthFeedback;
+};
+inline double Face::getOrthoradialDeformationGrowthFeedback(){
+  return this->orthoradialDeformationGrowthFeedback;
+}
+inline double Face::getPrincipalDeformationDirectionGrowth1(){
+    return this->principalDeformationDirectionGrowth1;
+};
+inline double Face::getPrincipalDeformationDirectionGrowth2(){
+    return this->principalDeformationDirectionGrowth2;
+};
+inline double Face::getPrincipalDeformationDirection1FeedbackCorrection(){
+    return this->principalDeformationDirection1FeedbackCorrection;
+};
+inline double Face::getPrincipalDeformationDirection2FeedbackCorrection(){
+    return this->principalDeformationDirection2FeedbackCorrection;
+};
 inline double Face::getRadialFeedbackCorrection(){
     return this->radialFeedbackCorrection;
 };
@@ -1152,6 +1240,12 @@ inline double Face::getStressEigenValue1(){
 inline double Face::getStressEigenValue2(){
   return this->stressEigenValue2;
 };
+inline double Face::getDeformationEigenValue1(){
+  return this->deformationEigenValue1;
+}
+inline double Face::getDeformationEigenValue2(){
+  return this->deformationEigenValue2;
+}
 inline double Face::getRotGrowthEigenValue1(){
   return this->rotGrowthEigenValue1;
 };

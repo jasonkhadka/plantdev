@@ -1574,6 +1574,8 @@ void Cell::setRadialOrthoradialVector(Face * primordialFace){
   }
 }
 
+
+
 void Cell::setRadialOrthoradialStress(){
 Face * face;
   {
@@ -1590,6 +1592,52 @@ Face * face;
     CellFaceIterator faces(this);
     while((face = faces.next())!= 0){
           face->setRadialOrthoradialFeedbackCorrection();
+    }
+  }
+}
+void Cell::setPrincipalDeformationFeedbackCorrection(){
+Face * face;
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          face->setPrincipalDeformationFeedbackCorrection();
+    }
+  }
+}
+
+void Cell::setRadialOrthoradialGrowth(){
+  Face * face;
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          face->setRadialOrthoradialGrowth();
+    }
+  }
+}
+void Cell::setRadialOrthoradialDeformation(){
+  Face * face;
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          face->setRadialOrthoradialDeformation();
+    }
+  }
+}
+void Cell::setPrincipalDeformationGrowth(){
+ Face * face;
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          face->setPrincipalDeformationGrowth();
+    }
+  }
+}
+void Cell::setPrincipalDeformationVector(){
+Face * face;
+  {
+    CellFaceIterator faces(this);
+    while((face = faces.next())!= 0){
+          face->setPrincipalDeformationVector();
     }
   }
 }

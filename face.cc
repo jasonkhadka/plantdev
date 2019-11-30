@@ -33,6 +33,8 @@ struct vertex_coordinate {
  * Face
  * ------------------------------------------------------------------------- */
 
+
+
 /* -- public class methods ------------------------------------------------- */
 
 Face *Face::make(Cell *cell)
@@ -574,6 +576,16 @@ double * Face::getStressEigenVector2(){
   return pntunit;
 }
 //%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double * Face::getDeformationEigenVector1(){
+  double * pntunit = this->deformationEigenVector1;
+  return pntunit;
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
+double * Face::getDeformationEigenVector2(){
+  double * pntunit = this->deformationEigenVector2;
+  return pntunit;
+}
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% //
 double * Face::getRotGrowthEigenVector1(){
   double * pntunit = this->rotGrowthEigenVector1;
   return pntunit;
@@ -902,6 +914,60 @@ void Face::setRadialOrthoradialVector(Face * primordialFace){
   this->projectedUnitOrthoradial[1] = projectedunit[1];
 
 }
+
+// ***************************************************************************************************** //
+void Face::setPrincipalDeformationVector(){
+  // get deformation matrix
+  Eigen::Matrix2d muMatrix;
+  muMatrix<< this->mu1, this->mu2, this->mu3, this->mu4; 
+  
+  //rescaling with growth rate
+  muMatrix = this->kappa*muMatrix;
+
+  // Decompose the deformation matrix
+  Eigen::SelfAdjointEigenSolver<Eigen::Matrix2d> eigensolver;
+  eigensolver.compute(muMatrix);
+
+  //Transformation Matrix
+  Eigen::Matrix3d transformationMatrix;
+  Eigen::Vector3d muVector1;
+  Eigen::Vector3d muVector2;
+  transformationMatrix << this->unitx[0] , this->unitx[1], this->unitx[2],
+                            this->unity[0] , this->unity[1], this->unity[2],
+                            this->unitz[0] , this->unitz[1], this->unitz[2];
+  //saving the projected deformation vectors
+  this->projectedDeformationEigenVector1[0] = eigensolver.eigenvectors().col(0)[0];
+  this->projectedDeformationEigenVector1[1] = eigensolver.eigenvectors().col(0)[1];
+
+  this->projectedDeformationEigenVector2[0] = eigensolver.eigenvectors().col(1)[0];
+  this->projectedDeformationEigenVector2[1] = eigensolver.eigenvectors().col(1)[1];
+
+  this->deformationEigenValue1 = eigensolver.eigenvalues()[0];
+  this->deformationEigenValue2 = eigensolver.eigenvalues()[1];
+
+  // Converting EigenVector in intrinsic coordinate to the back to cartesian
+  muVector1 << eigensolver.eigenvectors().col(0)[0], eigensolver.eigenvectors().col(0)[1], 0.;
+  muVector1 = (transformationMatrix.transpose())*muVector1;
+  muVector2 << eigensolver.eigenvectors().col(1)[0], eigensolver.eigenvectors().col(1)[1], 0.;
+  muVector2 = (transformationMatrix.transpose())*muVector2;
+  
+  // normalising
+  muVector1.normalize();
+  muVector2.normalize();
+
+  // Converting EigenVector in intrinsic coordinate to the back to cartesian
+
+  // !! IMPORTANT : Eigen values/vectors are sorted in increasing order, hence
+  //              Eigenvalue[1]>Eigenvalue[0] and hence Eigenvector.col(1) is main Eigenvector
+  //saving the deformation eigen vectors
+  this->deformationEigenVector1[0] = muVector1[0];
+  this->deformationEigenVector1[1] = muVector1[1];
+  this->deformationEigenVector1[2] = muVector1[2];
+
+  this->deformationEigenVector2[0] = muVector2[0];
+  this->deformationEigenVector2[1] = muVector2[1];
+  this->deformationEigenVector2[2] = muVector2[2];
+}
 // ***************************************************************************************************** //
 void Face::getRotatedGrowthMatrix(Face * newface){
   // newface : t = i+1
@@ -1039,12 +1105,138 @@ void Face::setRadialOrthoradialFeedbackCorrection(){
   // Feedback correction matrix = (D(M-M0)+(M-M0)D)
   Eigen::Matrix2d feedbackmatrix = deviatoric*muMatrix+muMatrix*deviatoric;
 
-
-
+  //saving feedbackmatrix
+  this->feedbackGrowthMatrix<< feedbackmatrix(0,0),feedbackmatrix(0,1),
+                                feedbackmatrix(1,0),feedbackmatrix(1,1);
   //projecting stress onto radial and orthoradial direction
   this->radialFeedbackCorrection = radialVec.transpose()*feedbackmatrix*radialVec;
   this->orthoradialFeedbackCorrection = orthoradialVec.transpose()*feedbackmatrix*orthoradialVec;
 }
+
+// ***************************************************************************************************** //
+void Face::setRadialOrthoradialDeformation(){
+
+  // getting radial and orthoradial component of growth and stress
+  Eigen::Vector2d radialVec(this->projectedUnitRadial[0],this->projectedUnitRadial[1]);
+  Eigen::Vector2d orthoradialVec(this->projectedUnitOrthoradial[0],this->projectedUnitOrthoradial[1]);
+
+  //Deformation Matrix
+  Eigen::Matrix2d muMatrix;
+  muMatrix<< this->mu1, this->mu2, this->mu3, this->mu4; 
+  
+  //Deformation Matrix rescaled with kappa
+  muMatrix = this->kappa*muMatrix;
+
+  //putting radial orthoradial deformation
+  this->radialDeformation = radialVec.transpose()*muMatrix*radialVec;
+  this->orthoradialDeformation = orthoradialVec.transpose()*muMatrix*orthoradialVec;
+}
+
+
+// ***************************************************************************************************** //
+void Face::setPrincipalDeformationFeedbackCorrection(){
+
+  // getting radial and orthoradial component of growth and stress
+  Eigen::Vector2d muDirection1(this->projectedDeformationEigenVector1[0],
+                                this->projectedDeformationEigenVector1[1]);
+  Eigen::Vector2d muDirection2(this->projectedDeformationEigenVector2[0],
+                                this->projectedDeformationEigenVector2[1]);
+
+  //Deformation Matrix
+  Eigen::Matrix2d muMatrix;
+  muMatrix<< this->mu1, this->mu2, this->mu3, this->mu4; 
+  
+  // deviatoric
+  Eigen::Matrix2d deviatoric = (this->stress) - 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity();
+  
+  // Feedback correction matrix = (D(M-M0)+(M-M0)D)
+  Eigen::Matrix2d feedbackmatrix = deviatoric*muMatrix+muMatrix*deviatoric;
+
+  //saving feedbackmatrix
+  this->feedbackGrowthMatrix<< feedbackmatrix(0,0),feedbackmatrix(0,1),
+                                feedbackmatrix(1,0),feedbackmatrix(1,1);
+  //projecting stress onto radial and orthoradial direction
+  this->principalDeformationDirection1FeedbackCorrection = muDirection1.transpose()*feedbackmatrix*muDirection1;
+  this->principalDeformationDirection2FeedbackCorrection = muDirection2.transpose()*feedbackmatrix*muDirection2;
+}
+
+// ***************************************************************************************************** //
+void Face::setPrincipalDeformationGrowth(){
+
+  // getting radial and orthoradial component of growth and stress
+  Eigen::Vector2d muDirection1(this->projectedDeformationEigenVector1[0],
+                                this->projectedDeformationEigenVector1[1]);
+  Eigen::Vector2d muDirection2(this->projectedDeformationEigenVector2[0],
+                                this->projectedDeformationEigenVector2[1]);
+
+  //Deformation Matrix
+  Eigen::Matrix2d muMatrix;
+  muMatrix<< this->mu1, this->mu2, this->mu3, this->mu4; 
+  // deviatoric
+  Eigen::Matrix2d deviatoric = (this->stress) - 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity();
+  
+  // Feedback correction matrix = (D(M-M0)+(M-M0)D)
+  Eigen::Matrix2d feedbackmatrix = deviatoric*muMatrix+muMatrix*deviatoric;
+
+  //saving feedbackmatrix
+  this->feedbackGrowthMatrix<< feedbackmatrix(0,0),feedbackmatrix(0,1),
+                                feedbackmatrix(1,0),feedbackmatrix(1,1);
+
+
+  double celleta;
+  if (externalPosition){
+    celleta = 0.;
+  }
+  else{
+    celleta = cell->getEta();
+  }
+  // growth when feedback is considered
+  Eigen::Matrix2d growthMatrix = this->kappa*muMatrix -  celleta/2.*(feedbackmatrix);
+  
+  //projecting stress onto radial and orthoradial direction
+  this->principalDeformationDirectionGrowth1 = muDirection1.transpose()*growthMatrix*muDirection1;
+  this->principalDeformationDirectionGrowth2 = muDirection2.transpose()*growthMatrix*muDirection2;
+}
+
+// ***************************************************************************************************** //
+void Face::setRadialOrthoradialGrowth(){
+
+  //setting radial orthoradial part of it
+   // getting radial and orthoradial component of growth and stress
+  Eigen::Vector2d radialVec(this->projectedUnitRadial[0],
+                            this->projectedUnitRadial[1]);
+  Eigen::Vector2d orthoradialVec(this->projectedUnitOrthoradial[0],
+                                this->projectedUnitOrthoradial[1]);
+  //Deformation Matrix
+  Eigen::Matrix2d muMatrix;
+  muMatrix<< this->mu1, this->mu2, this->mu3, this->mu4; 
+  // deviatoric
+  Eigen::Matrix2d deviatoric = (this->stress) - 0.5*((this->stress).trace())*Eigen::Matrix2d::Identity();
+  
+  // Feedback correction matrix = (D(M-M0)+(M-M0)D)
+  Eigen::Matrix2d feedbackmatrix = deviatoric*muMatrix+muMatrix*deviatoric;
+
+  //saving feedbackmatrix
+  this->feedbackGrowthMatrix<< feedbackmatrix(0,0),feedbackmatrix(0,1),
+                                feedbackmatrix(1,0),feedbackmatrix(1,1);
+
+
+  double celleta;
+  if (externalPosition){
+    celleta = 0.;
+  }
+  else{
+    celleta = cell->getEta();
+  }
+  // growth when feedback is considered
+  Eigen::Matrix2d growthMatrix = this->kappa*muMatrix - celleta/2.*(feedbackmatrix);
+  
+  //putting radial orthoradial deformation
+  this->radialDeformationGrowthFeedback = radialVec.transpose()*growthMatrix*radialVec;
+  this->orthoradialDeformationGrowthFeedback = orthoradialVec.transpose()*growthMatrix*orthoradialVec;
+
+}
+
 
 // ************************************************************//
 void Face::setTargetFormMatrix(){
@@ -1348,6 +1540,7 @@ if (this->alpha == 0){//means not update directly to face
                             this->unity[0] , this->unity[1], this->unity[2],
                             this->unitz[0] , this->unitz[1], this->unitz[2];
 Eigen::Matrix2d stressMatrix = cellalpha*(this->getAreaOfFace())*(this->strain);
+//Eigen::Matrix2d stressMatrix = cellalpha*(this->strain);
 // Saving Stress Matrix
 this->stress<<stressMatrix(0,0),stressMatrix(0,1),
               stressMatrix(1,0),stressMatrix(1,1);
@@ -1678,7 +1871,6 @@ void Face::feedbackStrainProportionalGrow(){
    as, Stiffness = alpha*Area
    --------------------------------------------------------------------------------------
 */
-
 this->calculateStrain();
 this->calculateStress();
 Cell * cell = this->getCell();
@@ -3105,6 +3297,28 @@ Face::Face(Cell *cell):gaussianWidth(0.125), randomNumberGeneratorType(gsl_rng_d
   this->projectedStressEigenVector2[0] = 0.;
   this->projectedStressEigenVector2[1] = 0.;
 
+  this->projectedDeformationEigenVector1[0] = 0.;
+  this->projectedDeformationEigenVector1[1] = 0.;
+
+  this->projectedDeformationEigenVector2[0] = 0.;
+  this->projectedDeformationEigenVector2[1] = 0.;
+
+  this->deformationEigenVector1[0] = 0.;
+  this->deformationEigenVector1[1] = 0.;
+  this->deformationEigenVector1[2] = 0.;
+
+  this->deformationEigenVector2[0] = 0.;
+  this->deformationEigenVector2[1] = 0.;
+  this->deformationEigenVector2[2] = 0.;
+
+  //saving feedbackmatrix
+  this->feedbackGrowthMatrix<<0.,0.,0.,0.;
+
+  this->principalDeformationDirection1FeedbackCorrection = 0.;
+  this->principalDeformationDirection2FeedbackCorrection = 0.;
+
+  this->radialDeformation = 0.;
+  this->orthoradialDeformation = 0.;
   this->radialGrowth = 0.;
   this->orthoradialGrowth = 0.;
   this->radialStress = 0.;
@@ -3137,6 +3351,8 @@ Face::Face(Cell *cell):gaussianWidth(0.125), randomNumberGeneratorType(gsl_rng_d
   this->thirdTerm = 0;
   this->energy = 0;
   this->growthVar = 0.5;
+  this->principalDeformationDirectionGrowth1 = 0.;
+  this->principalDeformationDirectionGrowth2 = 0.;
   this->randomGrowthAngleDirection = cell->getRandomGrowthDirectionAngle();
   //setting the random number generator
   // intialised in Initialising list :-> randomNumberGeneratorType = gsl_rng_default;//this is Mersenne Twister algorithm

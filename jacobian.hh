@@ -46,7 +46,8 @@ public:
  * @param cell [description]
  */
 	double jacobianOfCell(Cell *cell);
-/**
+/*
+ *
  * Numerical Derivative Calculation of setProjectedCoordinate Fucntion
  * Calcualted at for each vertex
  * 
